@@ -1,6 +1,6 @@
 # 트라이얼 릴리스 작업 배분
 
-> 기반 문서: [Cross-Module-Defect-Index](Cross-Module-Defect-Index.md) · [Cross-Module-Defect-Axis-Candidates](Cross-Module-Defect-Axis-Candidates.md) · [Cross-Module-Defect-Menifest-Axis](Cross-Module-Defect-Menifest-Axis.md) · [Code-Map-User-Flow](Code-Map-User-Flow.md)
+> 기반 문서: [Cross-Module-Defect-Index](Cross-Module-Defect-Index.md) · [Cross-Module-Defect-Axis-Candidates](Cross-Module-Defect-Axis-Candidates.md) · [Cross-Module-Defect-Menifest-Axis](Cross-Module-Defect-Menifest-Axis.md) · [Code-Map-User-Flow](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/Code-Map-User-Flow)
 > 좌표 기준: 결함 건수는 색인 201건판(`cf44c25`), 공유 자원 건수는 206건판(재측정 안 됨 — 1절 주). 정적 근거만 — 빌드·실행 검증 없음
 > 성격: 배분안. 결함 건수는 기반 문서의 실측이고, 구간·자원·작업 배정은 본 문서가 부여한 것이다
 

@@ -6,7 +6,7 @@ DashOpti_GUI 코드 실측·설계 검토 문서 색인 — `Cross-Module-Defect
 
 | 페이지 | 요약 | 관련 Issue |
 |---|---|---|
-| [End-to-End User Flow](End-to-End-User-Flow.md) | 프로젝트 생성부터 Optimizer 까지 Phase 0\~7 사용자 동선 — 코드 역추적 재구성. 모듈별 탭·데이터 체인·우회 경로 포함 | — |
+| [End-to-End User Flow](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/End-to-End-User-Flow) | 프로젝트 생성부터 Optimizer 까지 Phase 0\~7 사용자 동선 — 코드 역추적 재구성. 모듈별 탭·데이터 체인·우회 경로 포함 | — |
 | [Preprocessor XML 생성 절차와 구성요소별 출처](Preprocessor-XML-Generation-And-Provenance.md) | DOE 스냅샷·결과 리더·DV 설정을 XML로 결합하는 절차, 항목별 원천, 특수 응답 및 추적·정합성 제약 | — |
 | [Model Builder XML 구성과 DeepOpt 학습 입출력](Model-Builder-XML-DeepOpt-Pipeline.md) | GUI와 DeepOpt 소스 대조. XML 스키마·Base64 tensor, 설정 JSON과 CLI, 1D X/y 구성·MLP 학습, ND 전처리·정규화, 모델·평가·VTU 출력 및 구현 간 차이 | — |
 
@@ -54,8 +54,8 @@ DashOpti_GUI 코드 실측·설계 검토 문서 색인 — `Cross-Module-Defect
 
 | 페이지 | 요약 | 관련 Issue |
 |---|---|---|
-| [도메인 구조도 ↔ 코드 매핑](Code-Map-Domain-Diagram.md) | 사내 6 도메인 구조도의 박스 전량을 실제 파일에 대응시킨 대조표. Domain 3↔4 모듈 12쌍의 View/ViewModel/Model 3단 분해, 구조도 화살표 3종(Set 생성·`setModel()` 바인딩·Plot request)의 실제 경로, DLL 6종·EXE 8종을 호출부 행 번호까지 대조. 불일치 8건 — 사문화 `DashModelRunnerMCU`(외부 참조 0건) · 구조도 미기재 `viewmodel/` 계층 · 미배선 AI Geometry Generation · `Extension Process` = 데몬/일회성 2 클래스. 192-1 경계 판정 보정(`DashGizmo*` 타입의 헤더 전이 노출) | — |
-| ★ [사용자 단 모듈 ↔ 크리티컬 패스 코드 동작 대조표](Code-Map-User-Flow.md) | **아래 9종의 부모 문서** — 11행(경로 분기 포함)마다 사용자가 실제로 하는 일 · 크리티컬 패스에서 도는 코드 · 남는 기술 문제 한 줄을 한 장에 모은 대조표. 모듈을 잇는 흐름은 [End-to-End User Flow](End-to-End-User-Flow.md) | — |
+| [도메인 구조도 ↔ 코드 매핑](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/Code-Map-Domain-Diagram) | 사내 6 도메인 구조도의 박스 전량을 실제 파일에 대응시킨 대조표. Domain 3↔4 모듈 12쌍의 View/ViewModel/Model 3단 분해, 구조도 화살표 3종(Set 생성·`setModel()` 바인딩·Plot request)의 실제 경로, DLL 6종·EXE 8종을 호출부 행 번호까지 대조. 불일치 8건 — 사문화 `DashModelRunnerMCU`(외부 참조 0건) · 구조도 미기재 `viewmodel/` 계층 · 미배선 AI Geometry Generation · `Extension Process` = 데몬/일회성 2 클래스. 192-1 경계 판정 보정(`DashGizmo*` 타입의 헤더 전이 노출) | — |
+| ★ [사용자 단 모듈 ↔ 크리티컬 패스 코드 동작 대조표](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/Code-Map-User-Flow) | **아래 9종의 부모 문서** — 11행(경로 분기 포함)마다 사용자가 실제로 하는 일 · 크리티컬 패스에서 도는 코드 · 남는 기술 문제 한 줄을 한 장에 모은 대조표. 모듈을 잇는 흐름은 [End-to-End User Flow](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/End-to-End-User-Flow) | — |
 | [Geometry Parameterization — Morphing](Code-Map-User-Flow-Geometry-Parameterization-Morphing.md) | 화면 3면(우측 dock · 렌더뷰 오버레이 툴바 · 팝업 설정 — 부모가 서로 달라 좌표를 코드로 맞춘다)과 클래스 8종이 polydata `m_handleGeometry` 하나를 공동 편집. 픽킹·드래그는 전부 표면 스칼라 `ConstraintsAndHandles`(0/1/2/3/-1) 하나에 기록되고 [Done] 의 `Finalize` 가 그것을 **핸들 배열 11종**으로 승격 — 이 묶음이 실질 도메인 모델이다. 프리뷰 중 스핀박스·기즈모 편집은 매번 모핑 DLL 을 GUI 스레드에서 동기 1회 실행, 영속화는 [Set Design Variable] 한 번뿐. 이 커밋에 `MorphingGate` 0건 — 배타 제어 없이 엔진 직접 호출 | — |
 | [Geometry Parameterization — CAD](Code-Map-User-Flow-Geometry-Parameterization-CAD.md) | 탭 4개 중 가운데 2개(Meshing · Match NSET)는 릴리스에서 런타임 제거되는 껍데기라 **실동선은 CAD Parameter → DV-Geometry** 2개다 — 메싱은 DOE 실행 시점의 GUI 밖 Journal 이 한다. `.prt` 등록은 NX 데몬 stdin 한 줄이고 응답은 두 채널로 갈라 도착(JSON→테이블 2종 · `[FINISHED]`→STEP 렌더). **DV 승격 본체가 모델이 아니라 뷰**(846줄 위젯의 `:561-644`)에 있고 모델 `saveSettings()` 는 no-op. 위젯에 OCCT 심볼 0건 — 렌더는 `DashMainWindow` 담당. 데몬 내부는 미확인 | — |
 | [Condition Parameterization](Code-Map-User-Flow-Condition-Parameterization.md) | 화면 1면(탭 2종)·클래스 11종. 도메인 모델은 `ParameterRow` 배열 하나 — RW 세션의 `DashFeConditionEntry` 를 1:1 로 옮기고 GUI 가 얹는 것은 체크 1비트뿐이며, `types::Set`·`Function` 은 액터 경계에서 전부 값으로 환산된다. **대상 deck 을 모듈이 고르지 않는다** — 전역 active context 1개이고 파싱 모듈은 확장자가 고른다(`.inp`→Abaqus · `.dat`→Ansys · 그 외 실패). Value 편집은 표가 아니라 deck 으로 먼저 간다(delegate → `editData` → 액터 스레드 `BlockingQueuedConnection`). `processEvents` 0곳 · `DASH_BUILD_*` 0곳 | — |

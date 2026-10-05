@@ -219,7 +219,7 @@ ID 는 `{모듈}-{원문서 ID}` 다 — `MOR` Morphing · `CAD` CAD · `CON` Co
 - **MCU 전용 파일 12개 5,128줄** — 저장소의 4.8%, ModelBuilder·ModelRunner 계열 16,856줄의 30%. 내역은 ModelBuilder 3,627 · ModelRunner 1,501.
 - **갈래를 아는 공유 파일** — `DashMainWindow.cpp` 81회 · `DashProject.cpp` 45회 · `DashResultsAnalyzerWidget` 14회 · `DashModelBuilderPresentationModel.h` 10회 · `DashExtensionProcess.h` 5회. `"-MCU"` 리터럴이 9파일 20곳.
 - **상속은 두 줄뿐** — `DashModelBuilderMCU : public DashModelBuilder` 와 `DashModelBuilderMCUWidget : public DashModelBuilderWidgetBase`.
-- **`DashModelRunnerMCU` 는 `QObject` 직접 상속에 자기 두 파일 밖 참조가 0건**이다. [Code-Map-Domain-Diagram](Code-Map-Domain-Diagram.md) 의 사문화 판정을 이 커밋에서 재확인했다.
+- **`DashModelRunnerMCU` 는 `QObject` 직접 상속에 자기 두 파일 밖 참조가 0건**이다. [Code-Map-Domain-Diagram](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/Code-Map-Domain-Diagram) 의 사문화 판정을 이 커밋에서 재확인했다.
 
 **201건 중 13건에만 영향이 있다 — 소멸 8 · 이관 3 · 완화 2.** 3장과 결정적으로 다른 항목이 "이관" 이다. **MCU 전용 코드 안의 결함은 갈래를 어디에 두든 사라지지 않고 MCU 브랜치로 옮겨갈 뿐이다.** 201건판에서 줄어든 1건은 RUN-D1 철회분이다 — 신설 8건 중 Sim/MCU 축에 걸리는 것은 없다.
 

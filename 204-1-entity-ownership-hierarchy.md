@@ -6,7 +6,7 @@
 > 상태: 로컬 드래프트 (GitHub Issue·Wiki 미생성 — 검토용)\
 > 연관 Issue: #64 (Crash Debug — 계층 역전·God-object가 재진입/파급의 배경)\
 > 자매 문서: [192-1-architecture-analysis-mvc-mvvm](192-1-architecture-analysis-mvc-mvvm.md) (MVC/MVVM 패턴 판정) · [206-1-w6-w10-thread-execution-design](206-1-w6-w10-thread-execution-design.md) (실행 모델) · [200-3-prioritized-backlog](200-3-prioritized-backlog.md) 5-2절 (W19\~W21 — 계층 역전·God-object 해소)\
-> 후속 문서: [Code-Map-Domain-Diagram](Code-Map-Domain-Diagram.md) — 같은 소유 계층을 **사내 6 도메인 구조도의 박스 이름에 맞춰** 다시 그린 축약본(5절) + 구조도 박스 ↔ 파일 전량 대조. 본 문서가 세운 "최상위는 셋" 구조는 유지되고, 구조도에 없는 `viewmodel/` 계층과 사문화 `DashModelRunnerMCU` 를 추가 보고\
+> 후속 문서: [Code-Map-Domain-Diagram](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/Code-Map-Domain-Diagram) — 같은 소유 계층을 **사내 6 도메인 구조도의 박스 이름에 맞춰** 다시 그린 축약본(5절) + 구조도 박스 ↔ 파일 전량 대조. 본 문서가 세운 "최상위는 셋" 구조는 유지되고, 구조도에 없는 `viewmodel/` 계층과 사문화 `DashModelRunnerMCU` 를 추가 보고\
 > 후속 문서: [246-1-singleton-inventory-and-dashmanager-decomposition](246-1-singleton-inventory-and-dashmanager-decomposition.md) — 싱글톤 4종 인벤토리 + `Mgr()` 호출 재측정(344 → 311)과 `DashManager` 분해 4단계. 본 문서 5절이 지목한 계층 역전을 W20 착수 순서로 구체화하고, `DashProjectManager` 는 pull 결합만 해소하고 싱글톤 형태는 유지하는 것으로 판정 조정\
 > 목적: "DashModelRunner·DashJobRunner가 엔티티 구조상 상위 레벨 개념인가"라는 질문에서 출발해, 프로젝트의 **엔티티 소유/참조 계층**을 코드 실측으로 도식화한다\
 > 분석 시점: 2026-07-20, 브랜치 `dev` — 소유 관계는 헤더 멤버 선언 실측 (라인 앵커는 분석 시점 기준, 유효기간 있음)

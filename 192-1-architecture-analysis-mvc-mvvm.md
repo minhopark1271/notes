@@ -7,7 +7,7 @@
 > 작성 목적: "MVVM 전면 리팩토링 vs MVC 유지" 논쟁에 대한 근거 기반 판단 + 안정성 리스크 정리\
 > 후속 문서: [198-1-improvement-roadmap](198-1-improvement-roadmap.md) — 외부 의존성 전체 인벤토리 + 4관점 통합 진단 + 실행 순서 로드맵 (본 문서 1절 "경계 규율 양호" 판정의 보정 — 모델→뷰 역전 — 포함)\
 > 후속 문서: [197-1-gui-restructure-mvvm-qml](197-1-gui-restructure-mvvm-qml.md) — GUI 재구성 논의 정리 (MVVM 개선점 + QML 전환 찬/반 + 현재 구조 내 대체 수단)\
-> 후속 문서: [Code-Map-Domain-Diagram](Code-Map-Domain-Diagram.md) — 사내 6 도메인 구조도 ↔ 코드 파일 대조표. 본 문서 1절 "뷰가 외부 SDK를 직접 호출 = 0건" 판정의 보정 6-1절 포함 (include 기준으로는 유지되나 `DashGizmo*` 타입이 컨트롤러 헤더 전이로 view 에 노출) + 본 문서가 지목한 Presentation Model 계층의 현재 도입 현황 8/12 모듈\
+> 후속 문서: [Code-Map-Domain-Diagram](https://github.com/NumeRealWorks/DashOpti_GUI/wiki/Code-Map-Domain-Diagram) — 사내 6 도메인 구조도 ↔ 코드 파일 대조표. 본 문서 1절 "뷰가 외부 SDK를 직접 호출 = 0건" 판정의 보정 6-1절 포함 (include 기준으로는 유지되나 `DashGizmo*` 타입이 컨트롤러 헤더 전이로 view 에 노출) + 본 문서가 지목한 Presentation Model 계층의 현재 도입 현황 8/12 모듈\
 > 개정 1: 2026-07-14 — 부록 C-6 신설 (Presenter vs ViewModel vs Presentation Model 판별 기준·계보·리트머스·도입 목적 8항) + 도입 대상 중간 계층 명칭을 **Presentation Model(바인딩 없는 ViewModel)**로 확정하고 D-4·부록 E·F 표기 반영 — 백로그 W21/R21 용어 통일(v1 개정 18 · v2 개정 1)과 동기화
 
 ---
