@@ -1,0 +1,8 @@
+{
+  "body": "## 목적\n\nQt 6 의 `QProperty` 바인딩을 쓰는 MVVM 구조를 도입한다. 첫 단계로 Model·ViewModel 공통 기반과 규칙 문서를 저장소에 넣는다.\n\n## 범위\n\n- `model/DashMvvmModelBase.h`: Model 공통 기반 (헤더 전용 템플릿, QObject 아님). `valid`·`snapshot`·`save`·`load` 공통 구현.\n- `viewmodel/DashMvvmViewModelBase.h/.cpp`: ViewModel 공통 기반 (`valid` 와 `validChanged`).\n- `tests/`: PoC 의 자가 검증을 ctest 테스트로 옮긴다. 예시 Model/ViewModel 은 테스트 픽스처로만 둔다.\n- `docs/`: 에이전트와 사람이 따를 MVVM 규칙 문서. 초안으로 넣고 첫 적용 작업에서 다듬는다.\n- 직렬화는 기존 `utils/DashGadgetCodec` 을 쓴다.\n\n## 범위 밖\n\n- 기존 `viewmodel/` PresentationModel 들의 이관.\n- 필드 목록을 생성하는 코드 생성기.\n\n## 참고\n\n- PoC: https://github.com/NumeRealWorks/DashMvvmPattern\n- 관련: #247\n",
+  "comments": [],
+  "number": 584,
+  "state": "CLOSED",
+  "title": "MVVM 도입 — Model·ViewModel 공통 기반과 규칙 문서",
+  "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/584"
+}

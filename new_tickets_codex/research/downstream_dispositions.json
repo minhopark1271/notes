@@ -1,0 +1,314 @@
+[
+  {
+    "issue": 305,
+    "disposition": "mapped",
+    "tasks": [
+      "ANA-05"
+    ],
+    "reason": "컨테이너 전환은 조건부·deferred. 원문도 독립 진행 비권장. 현재 Pearson/Std의 실제 계산은 보존하며 Eigen 제거 전체 프로젝트 목표를 재발행하지 않음."
+  },
+  {
+    "issue": 405,
+    "disposition": "mapped",
+    "tasks": [
+      "ANA-04"
+    ],
+    "reason": "프로덕션 legacy API 호출 없음은 유효. 현재 null/type guard 존재하고 reduceStd는 extractAllReducedValues에서 사용하므로 원문의 통째 삭제는 재작성."
+  },
+  {
+    "issue": 369,
+    "disposition": "mapped",
+    "tasks": [
+      "RUN-04"
+    ],
+    "reason": "NodeSet 경로 clear·비영속·empty fail 확인. 현재 Document API는 browsed source보다 기준 reference를 사용하므로 기존 경로 명세를 현 구현에 맞춰 적용."
+  },
+  {
+    "issue": 370,
+    "disposition": "partial",
+    "tasks": [
+      "RUN-01",
+      "RUN-02",
+      "RUN-03",
+      "RUN-10"
+    ],
+    "reason": "1D 무파일 거절·ND/1D busy 충돌·refresh DV/VTU 소실·source 첫 매치 판정은 남음. 부속 Condition generateDatFile 실패 무시 지적은 현재 bool 검사/실패 메시지로 해결."
+  },
+  {
+    "issue": 457,
+    "disposition": "partial",
+    "tasks": [
+      "OPT-02"
+    ],
+    "reason": "모핑 본체는 이미 service co_await이나 view processEvents 두 곳과 무태그 NX 완료·Set 요청 귀속은 남음. 새 워커를 중복 도입하지 않음."
+  },
+  {
+    "issue": 459,
+    "disposition": "needs_check",
+    "tasks": [
+      "ANA-01"
+    ],
+    "reason": "현재 MCU sensitivity 진입은 setModelBuilderBasePath에서 명시적으로 SHAP 제거. 지원 정책과 legacy CSV→XML 분기 충돌 확인이 선행되며 단순 콤보 복구로 확정 불가."
+  },
+  {
+    "issue": 474,
+    "disposition": "partial",
+    "tasks": [
+      "RUN-03",
+      "UI-06"
+    ],
+    "reason": "Runner case 값/행 결합은 영속 케이스 ID 작업. MCU Builder/Runner browse 행 캡처와 죽은 preview row는 #514 공통 UI-06에서 해결. DOE 분은 execution 담당."
+  },
+  {
+    "issue": 475,
+    "disposition": "mapped",
+    "tasks": [
+      "RUN-03"
+    ],
+    "reason": "m_predictionCount=0 시작 및 충돌방지 없는 Generate 파일명 확인. 케이스 저장/복원·삭제와 같은 데이터 소유 범위로 묶음."
+  },
+  {
+    "issue": 477,
+    "disposition": "mapped",
+    "tasks": [
+      "RUN-03"
+    ],
+    "reason": "relatedFilePathsForDeletion prefix+* 및 생성 VTU와 재조회 dat/inp 간 불일치 확인."
+  },
+  {
+    "issue": 513,
+    "disposition": "mapped",
+    "tasks": [
+      "RUN-06"
+    ],
+    "reason": "현재 folder→loadModelInfoFromFolder→UI population은 동기 경로. 공통 RW 적재(AST-003)와 구분해 메타데이터 스냅샷/중복 읽기/요청 세대 담당."
+  },
+  {
+    "issue": 519,
+    "disposition": "mapped",
+    "tasks": [
+      "ANA-02"
+    ],
+    "reason": "현재 SHAP callback에는 path empty 검사만 있음. exists/isFile로 ACL까지 해결된다고 과장하지 않고 재시도·선택 식별 정합 포함."
+  },
+  {
+    "issue": 653,
+    "disposition": "mapped",
+    "tasks": [
+      "RUN-08"
+    ],
+    "reason": "Direct Launch PR652와 실제 입력 prefill integration 후속. DIR-01 의존, 입력 생성이나 KPI 처리 추가하지 않음."
+  },
+  {
+    "issue": 368,
+    "disposition": "cross_owner",
+    "tasks": [
+      "PRJ-03"
+    ],
+    "reason": "PR530 OPEN head 0bbcc9c의 T22/T23로 Builder/Runner/Optimizer 조합 핀·model_info 전사·단일 geometryDeck 프리뷰 구현 중. root가 기존 PR 통합/검증 한 카드 소유; 중복 신규 구현 카드 없음."
+  },
+  {
+    "issue": 650,
+    "disposition": "partial",
+    "tasks": [
+      "BLD-01",
+      "RUN-05",
+      "OPT-01",
+      "ANA-03"
+    ],
+    "reason": "본 담당은 상류 Set/산출물 generation 소비자 적용. PRJ-03 공통 계약과 DOE-03, RES-12 생산자 식별을 함께 연결해야 전체 요구 완결."
+  },
+  {
+    "issue": 551,
+    "disposition": "cross_owner",
+    "tasks": [
+      "PRJ-01"
+    ],
+    "reason": "Builder Sim/MCU·Optimizer raw model pointer 확인. runner는 #549 QPointer 적용 완료. 공통 project lifetime 소유."
+  },
+  {
+    "issue": 514,
+    "disposition": "cross_owner",
+    "tasks": [
+      "UI-06"
+    ],
+    "reason": "MCU Builder addDatasetFileRow browse [this,row] 남음, Runner preview row는 미사용 인자. domain 케이스 저장 모델은 RUN-03에 별도 귀속."
+  },
+  {
+    "issue": 316,
+    "disposition": "cross_owner",
+    "tasks": [
+      "VIS-001"
+    ],
+    "reason": "Optimizer GetActors 전량 RemoveActor·setDisplayedContext·resetCamera 유지. 비파괴 overlay는 geometry agent VIS-001, 요청 수명은 OPT-02."
+  },
+  {
+    "issue": 458,
+    "disposition": "cross_owner",
+    "tasks": [
+      "AST-003"
+    ],
+    "reason": "폴더 메타데이터 scan(RUN-06)과 parser/read lane(AST-003)을 구분. 옛 RW actor 전용 스레드 계획을 현 Document API에 그대로 재적용하지 않음."
+  },
+  {
+    "issue": 432,
+    "disposition": "cross_owner",
+    "tasks": [
+      "PRJ-09",
+      "PRJ-06"
+    ],
+    "reason": "모델의 전역 ProjectManager 의존 정리는 root. downstream 사용처를 재목록화했으나 독립 중복 카드 없음."
+  },
+  {
+    "issue": 478,
+    "disposition": "partial",
+    "tasks": [
+      "RUN-03",
+      "RUN-05",
+      "OPT-05",
+      "BLD-04"
+    ],
+    "reason": "IO-04는 저장 서비스 adoption, 여기서는 도메인 필드/삭제/선택의 왕복 단절을 구체 작업으로 소유. 이미 고쳐진 Builder transformation/MCU Dataset array는 재발행하지 않음."
+  },
+  {
+    "issue": 487,
+    "disposition": "partial",
+    "tasks": [
+      "BLD-03",
+      "RUN-09",
+      "OPT-04"
+    ],
+    "reason": "현 코드에서 validator 없는 float/range·옵션 parse 실패 0·DV 0/상한 손상 확인. 기존 SpinBox 범위가 있는 필드를 미구현으로 계산하지 않음."
+  },
+  {
+    "issue": 460,
+    "disposition": "partial",
+    "tasks": [
+      "BLD-02",
+      "RUN-02",
+      "RUN-07",
+      "OPT-02",
+      "OPT-03"
+    ],
+    "reason": "공통 ASY-02 규약 하에 실제 모듈 busy/terminal/취소 적용을 분해."
+  },
+  {
+    "issue": 461,
+    "disposition": "partial",
+    "tasks": [
+      "BLD-02",
+      "OPT-03"
+    ],
+    "reason": "모델 m_currentJob guard만으로 UI 재실행 상태를 충족하지 않는 실제 경로 소유; execution 측 guard는 타 담당."
+  },
+  {
+    "issue": 466,
+    "disposition": "partial",
+    "tasks": [
+      "BLD-02",
+      "OPT-03",
+      "ANA-07"
+    ],
+    "reason": "무음 실패를 구체 학습 시작 실패·optimizationFailed 미연결·plot/export 실패에 배분. 정책만 새 발행하지 않음."
+  },
+  {
+    "issue": 281,
+    "disposition": "partial",
+    "tasks": [
+      "RUN-07",
+      "OPT-02",
+      "GEO-007"
+    ],
+    "reason": "#586 서비스로 morph 계산 워커·값 경계 구현은 dev 존재. 남은 요청 귀속/취소 및 설치 환경 수동 검증으로 재정의; 기존 워커화 전체 재발행 금지."
+  },
+  {
+    "issue": 548,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashModelBuilder::stopTraining virtual 및 MCU override 확인. 기존 중지 도달성 결함 해결; 현재 UI terminal 잔여는 BLD-02."
+  },
+  {
+    "issue": 549,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "Runner Sim/MCU model 멤버 QPointer 및 onRunAIPredictionClicked null guard 확인."
+  },
+  {
+    "issue": 436,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "Runner setModel detachDaemon 및 공유 host 수명 관리 존재. Set마다 restart하던 원 전제 해소."
+  },
+  {
+    "issue": 437,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "observeDaemonReady가 connect 후 현재값 전달, MCU/Runner 소비자 사용 확인."
+  },
+  {
+    "issue": 402,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashXmlParser 타입/shape 경계 검사·int32 지원과 TestXmlParser 존재. 옛 전량 decode 복사 계획 재발행하지 않음."
+  },
+  {
+    "issue": 409,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "extractVariablesFromXml metadata 캐시/선택 추출 및 extractAllReducedValues 경로 존재. SHAP view caller 별개는 ANA-02."
+  },
+  {
+    "issue": 410,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "TestAnalyzerUtilsCache/TestDataLoaderCache와 file resource registry 소비 경로 존재. 폴더 스캔 RUN-06과 혼동 금지."
+  },
+  {
+    "issue": 544,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "현재 XML/Reader async 실행층 사용과 TestAsyncJob 존재. OPT/RUN morph worker를 다시 신설하지 않음."
+  },
+  {
+    "issue": 258,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashAnalyzerPanelContext/Controls 기반 factory 타입 핸들이 존재. target combos의 findChild 잔여가 있어도 기존 완료 범위를 전면 미완으로 뒤집지 않음."
+  },
+  {
+    "issue": 245,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "factory의 Context/Controls 전달 경계 존재; old friend 제거 범위 완료 이력."
+  },
+  {
+    "issue": 244,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "W19 dead-code 정리 완료 이력. 별도로 현재 확인된 legacy XML API는 ANA-04."
+  },
+  {
+    "issue": 600,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "소스 접두 및 ModuleType이 DOE Sampler/Analysis Launcher 현재 명명으로 변경됨."
+  },
+  {
+    "issue": 412,
+    "disposition": "superseded",
+    "tasks": [],
+    "reason": "방향성 부모는 Done. 현 registry/metadata cache 구현과 남은 Set XML 포맷 RES-12/RES-13으로 대체; 원문 방향을 새 구현 카드로 중복하지 않음."
+  },
+  {
+    "issue": 413,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "XML 성능 통합 부모 Done. #402/#409/#410 완료와 #411/#643 후속 포맷 분리의 이력만 보존."
+  },
+  {
+    "issue": 476,
+    "disposition": "withdrawn",
+    "tasks": [],
+    "reason": "Done 상태이지만 최신 댓글은 범위 정리로 대장/목록 화면 철회. RUN-03은 결함 해결 내부 케이스 record만 사용하고 별도 대장 화면을 되살리지 않음."
+  }
+]

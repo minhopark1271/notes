@@ -1,0 +1,137 @@
+[
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "review_depth": "targeted",
+    "notes": "Store 8종 상태, Manifest 안내 및 폐기 기록을 확인. Index 전반의 내용 최신성은 root 담당."
+  },
+  {
+    "path": "Code-Map-Data-Ownership.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안."
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안."
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안."
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안."
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안."
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "full",
+    "notes": "85행 전문: 개정 완료/기존 개정 수록과 추가 팀 논의 계획을 구분. 10/08 현 정책 기준."
+  },
+  {
+    "path": "Model-Builder-XML-DeepOpt-Pipeline.md",
+    "review_depth": "targeted",
+    "notes": "2026-10-02 서로 다른 커밋의 조사임을 확인. XML model_info 위치·생략 조건·학습 시작 시 JSON 전사·DeepOpt 첫 root 자식 판독 대조; 독립된 새 설계 충돌 없음."
+  },
+  {
+    "path": "Preprocessor-XML-Generation-And-Provenance.md",
+    "review_depth": "targeted",
+    "notes": "2026-10-02 서로 다른 커밋의 조사임을 확인. XML model_info 위치·생략 조건·학습 시작 시 JSON 전사·DeepOpt 첫 root 자식 판독 대조; 독립된 새 설계 충돌 없음."
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음."
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음."
+  },
+  {
+    "path": "Project-Manifest-2-Active-Cursor-Data-Coupling.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음."
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음."
+  },
+  {
+    "path": "Project-Manifest-Set-Identity-And-Decision-Revisions.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음."
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Design-Definition-Version-Minimal.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Design-Dependency-State-Display.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Design-Entity-Model-Options.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Design-Rationale.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Design-Wiring-Project-To-Launcher.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님."
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "review_depth": "targeted",
+    "notes": "측정 커밋·검증 한계·파일/키/실행/상류 흐름 관련 조사 절. 현재 정책이 아닌 특정 커밋의 실측으로 분류."
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "review_depth": "targeted",
+    "notes": "측정 커밋·검증 한계·파일/키/실행/상류 흐름 관련 조사 절. 현재 정책이 아닌 특정 커밋의 실측으로 분류."
+  },
+  {
+    "path": "Project-Store-Survey-Reference-Entry-Upstream-Flows.md",
+    "review_depth": "targeted",
+    "notes": "측정 커밋·검증 한계·파일/키/실행/상류 흐름 관련 조사 절. 현재 정책이 아닌 특정 커밋의 실측으로 분류."
+  },
+  {
+    "path": "minhopark-Index.md",
+    "review_depth": "targeted",
+    "notes": "Store 8종 상태, Manifest 안내 및 폐기 기록을 확인. Index 전반의 내용 최신성은 root 담당."
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "DS-01": {
+    "append_evidence": [
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 1065,
+        "end_line": 1068,
+        "excerpt": "#### LCH-33 · Start 가 핀과 다른 조합 id 의 DOE Table 로 실행을 시작하지 못하게 거절한다\n- 종류: PR | 규모: S | 태그: C, A · bug\n- 목표: Start 가 `runDoeAsync` 를 부르기 전에 live DOE Table 의 `parameterizationId` 를 `AnalysisLauncher_<Set>.json` 의 핀과 대조해 다르면 실행을 시작하지 않고 D20 문구로 거절한다. 핀이 없으면(첫 실행·구 프로젝트) 종전처럼 통과시킨다 — 핀 기록은 PRE-32 몫. 판정은 `doeTableStaleReason` 과 같은 `std::optional<QString>` 반환으로 모델에 두고, `snapshotDoeTable` 이 핀과 다른 Table 로 스냅샷을 덮어쓰는 경로가 없어진다.\n- 완료 기준: (1) 핀이 박힌 Set 에서 DOE Sampler 의 조합을 바꿔 재샘플링한 뒤 Start → 모달에 거절 사유, `AnalysisLauncher_<Set>.json` 의 DOE Table 스냅샷·케이스 상태 무변경, `runDoeAsync` 미호출 (2) 핀과 같은 id · 핀 없음 → 종전처럼 실행되고 스냅샷이 갱신된다 (3) `snapshotDoeTable` 에 조합 id 대조 가드가 있고 쓰기 실패 가드(`cancelAllRuns`)와 문구가 구분된다",
+        "role": "LCH-33의 Start 시 조합 불일치 차단 요구"
+      }
+    ]
+  },
+  "DS-03": {
+    "summary": "별도 Set 원장 불도입은 2026-09-21 SI-2에서 이미 명시됐고 10월8일 #443 개정이 다시 확인한다. 따라서 Codex PRJ-04는 최신 변경으로만 낡은 것이 아니라 10월5일 작성 당시 기존 결정을 놓친 항목이다. 기존 발급·영속·역조회에 기반한 입력 참조 전환이 잔여 작업이다. referenceModels.json이라는 기준 deck 원장까지 폐기한다는 의미는 아니다.",
+    "append_evidence": [
+      {
+        "path": "Project-Manifest-Set-Identity-And-Decision-Revisions.md",
+        "line": 3,
+        "end_line": 5,
+        "excerpt": "> 작업 묶음: 프로젝트 매니페스트 도입과 모듈 의존성 관리\n> 관련 Issue: #239\n> 소관: 2026-09-21 결정 검토의 처분 정본 — setId 신규 결정(SI-1\\~SI-6a)과 기존 결정 개정(D15 · D16 · D20 · D21 · D26 · D27 · D28 · T18)의 원문·사유를 갖는다. 2026-09-22 구현 리뷰(PR #530)의 D21 부속 철회도 이 문서가 갖는다. [Project-Manifest-0-Work-Order](Project-Manifest-0-Work-Order.md) · [Project-Manifest-3-Module-Deck-Ownership](Project-Manifest-3-Module-Deck-Ownership.md) · [Project-Manifest-4-Ticket-Slicing](Project-Manifest-4-Ticket-Slicing.md) 의 해당 항목은 이 문서를 참조로 개정한다 — 종전 판은 각 문서의 git 이력이 갖는다.",
+        "role": "9월21일 결정 검토의 정본 지위"
+      }
+    ]
+  },
+  "DS-04": {
+    "summary": "Manifest의 산출물 폴더 식별과 이전 목록은 G9/PR530 전체 이행을 기준으로 묶여 있다. 최신 반영 기록에서 #368은 Builder model_info.json 생성까지, 소비 측은 #685이며 NodeSet 저장·결과 항목 조작은 독립이다. PR681의 머지 조건으로 #685를 두지 않는다는 것은 10행에 이미 수록됐지만, #368까지 제외한다는 #562 문구 정리는 36행의 아직 미반영 계획이다. 두 지위를 구분해 이전 일괄 선행 관계를 재검토해야 한다.",
+    "append_evidence": [
+      {
+        "path": "Issue-Revision-History.md",
+        "line": 25,
+        "end_line": 27,
+        "excerpt": "## 추가 개정 계획 — 2026-10-08\n\n[프로젝트 16의 By week 뷰](https://github.com/orgs/NumeRealWorks/projects/16/views/8)를 점검해 찾은 후속 개정 후보다. 아래는 **팀 논의용 계획이며 GitHub에 아직 반영하지 않았다.** 위의 개정 이력과 구분하며, 반영할 때에는 실제 변경 내용을 새 이력으로 남긴다.",
+        "role": "추가 개정 계획은 아직 미반영"
+      },
+      {
+        "path": "Issue-Revision-History.md",
+        "line": 36,
+        "end_line": 36,
+        "excerpt": "| 우선 | [#562](https://github.com/NumeRealWorks/DashOpti_GUI/issues/562) Set 개명 | #443을 원장 구축으로 설명하고 과거 G9 조합 스탬프를 선행으로 명시. 현재 PR #681이 재현되지 않는다고 정리한 항목도 남음 | 현재 개명 가능한 모듈과 실제 결함으로 범위를 갱신. 개명 오류 수정과 #685의 ID 참조 전환을 구분하고, #368·#685를 PR #681의 머지 조건으로 두지 않음 | PR #681의 현재 수정 범위와 이슈 완료 조건을 일치시킬 것. 경로 치환은 기존 구조의 오류 수정이며 최종 참조 체계는 ID라는 점 명시 |",
+        "role": "#368까지 포함한 #562 설명 갱신은 계획"
+      }
+    ]
+  },
+  "EXDC-01": {
+    "title": "Launcher 기록 책임 분리와 물리 파일 분할의 조건을 구분해야 한다",
+    "summary": "10월8일 #444 반영 내용은 갱신 비용·기존 구조 개선을 확인하고 필요한 경우에만 파일을 나눈다는 것이다. Codex AL-05는 기록 계약을 분리한다고 쓰므로 물리 파일 분할을 확정했다고 단정할 수 없다. Claude LCH-32는 현 단계 무분리를 결론으로 두되 두 대안의 효과와 로드 실측에 따른 재검토 조건을 명시한다. 양극단의 확정 설계 충돌이라기보다 최신 조건부 결정을 공유하고 논리적 책임 분리와 물리적 파일 분할을 구별하도록 문구를 정렬할 사안이다.",
+    "recommendation": "#444의 효과 검증→필요 시 파일 분리를 공통 조건으로 명시한다. AL-05는 기록 책임/행 갱신과 파일 수를 분리해 서술하고, LCH-32의 현재 결론과 재검토 조건을 보존한다. 어제 overlay에서 AL-05를 물리 분할 확정으로 읽은 표현도 후속 갱신에서 교정한다."
+  },
+  "EXDC-02": {
+    "classification": "document_drift",
+    "title": "취소 후 drainAll 즉시 반환 테스트의 적용 범위가 모호하다",
+    "summary": "EXE-02는 cancelAll 뒤 drainAll 즉시 반환 테스트와 비취소 SDK/prefetchXml 소비자를 함께 설명한다. 즉시 반환이 협조적인 테스트 fixture만을 뜻하면 양립 가능하다. 모든 실제 소비자의 수명 종료까지 무조건 즉시 반환한다는 뜻이면 한계 설명과 충돌한다. 현재 문구만으로 fixture 범위를 확정할 수 없어 실제 설계 모순으로 단정하지 않고 완료 조건의 범위 모호성으로 낮춰 기록한다.",
+    "recommendation": "테스트 fixture의 취소 가능성과 허용 대기시간을 명시하고, UI 취소 표시·논리적 종결·실제 작업 수명 종료를 구분한다. 비취소 SDK 구간을 포함한 전체 drain 즉시 반환을 보장하지 않는다."
+  },
+  "EXDC-03": {
+    "summary": "Codex RES-12/13과 Claude PRE-29의 PR530/D26 조합 스탬프 전제는 10월8일 출처 계약과 정렬해야 한다. 그러나 referenceModel.uuid와 tableId 자체가 폐기된 것은 아니며, 불일치 자료를 덮어쓰거나 섞지 않는 보호 규칙은 새 정책과 양립할 수 있다. #643 이어쓰기 기준과 #411 소유권 정리는 아직 추가 개정 계획이고 구체 새 포맷은 미확정이다.",
+    "recommendation": "출처 계약에서 폐기된 parameterizationId 전제만 갱신하고 deck uuid·DOE tableId의 실제 의미는 보존/재정의 여부를 따로 확인한다. #643에서 세 식별자 역할과 append 허용 조건을 결정하되 파일 포맷 선택을 출처 기록의 불필요한 하드 선행으로 만들지 않는다."
+  }
+}

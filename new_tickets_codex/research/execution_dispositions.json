@@ -1,0 +1,514 @@
+[
+  {
+    "issue": 210,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "STP 이벤트 구동은 완료. 현 solver TU 및 await 경로 확인. 재작성하지 않음."
+  },
+  {
+    "issue": 251,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 260,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 265,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 266,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 267,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 268,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 269,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashJobRunner solver별 TU 분해 현존. 이후 terminal 누락은 AL-03."
+  },
+  {
+    "issue": 277,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 282,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 367,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "조합/선택 저장의 완료 이력. 현재 pipeline stamp는 PRJ-03이 소유."
+  },
+  {
+    "issue": 368,
+    "disposition": "cross_owner",
+    "tasks": [
+      "PRJ-03"
+    ],
+    "reason": "PR530 pipeline stamp 생산·검증·통합은 root 소유. DOE/AL의 별도 스탬프 중복 카드는 제거했다."
+  },
+  {
+    "issue": 402,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "XML 파서 최적화 완료 이력. 포맷 변경 RES-12/13과 혼동하지 않음."
+  },
+  {
+    "issue": 409,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "선택적 XML 읽기 완료 이력. 신규 전량 파서 작업 없음."
+  },
+  {
+    "issue": 410,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "XML 캐시 완료 이력. 포맷 변경 시 RES-12에서 invalidation 회귀."
+  },
+  {
+    "issue": 411,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-13"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 412,
+    "disposition": "withdrawn",
+    "tasks": [],
+    "reason": "NOT_PLANNED로 닫힌 사이드카/축약값 독립 방향성을 되살리지 않음. 최신 #643 요구의 Set 포맷과 비교 근거로만 사용."
+  },
+  {
+    "issue": 413,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "단기 XML 성능 부모 완료. 장기 검토 #411은 RES-13에 연결."
+  },
+  {
+    "issue": 429,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashReaderSession/LoadedResult의 작업별 reader 소유와 폐기 경로 현존."
+  },
+  {
+    "issue": 433,
+    "disposition": "partial",
+    "tasks": [
+      "RES-04",
+      "RES-05",
+      "RES-09",
+      "RES-10",
+      "RES-11"
+    ],
+    "reason": "1~7단계 및 PR642 writer 공통화는 반영됨. 실제 파일 검증·시점/컴포넌트 공통화 잔여만 구체 카드로 반영."
+  },
+  {
+    "issue": 435,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashAnalysisLauncherKPI.cpp로 분리됨. KPI 결함은 RES-06/07."
+  },
+  {
+    "issue": 438,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-03",
+      "AL-04",
+      "AL-05",
+      "AL-06",
+      "DIR-01"
+    ],
+    "reason": "부모 자체는 실행 작업으로 세지 않음. terminal/취소/상태/복구/Direct 상태로 분해."
+  },
+  {
+    "issue": 439,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-04"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 440,
+    "disposition": "partial",
+    "tasks": [
+      "DIR-01"
+    ],
+    "reason": "정규 Launcher status 연결은 WidgetLauncher.cpp:205에 있음. 옛 Direct 결함은 미병합 PR652가 대체."
+  },
+  {
+    "issue": 441,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-05",
+      "AL-06"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 444,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-05"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 452,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "stli/wbpj/dfsxml solver TU가 현존. 갈래 추출 반복 없음."
+  },
+  {
+    "issue": 453,
+    "disposition": "historical",
+    "tasks": [],
+    "reason": "Won’t do/대체된 실행 구조 이력. 새 Job/게이트/상태 키 전체 재설계로 되살리지 않음; 유효한 현재 결함은 AL/RES 카드에 독립 반영."
+  },
+  {
+    "issue": 454,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-08",
+      "RES-09"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 456,
+    "disposition": "partial",
+    "tasks": [
+      "AL-12"
+    ],
+    "reason": "generateInputCases 동기 전체라는 구 전제는 사라졌고 모핑·export는 await한다. 동기 dat fallback/파일준비만 잔여."
+  },
+  {
+    "issue": 463,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-12",
+      "RES-08",
+      "RES-09"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 487,
+    "disposition": "partial",
+    "tasks": [
+      "DOE-04"
+    ],
+    "reason": "DOE/Launcher 적용분만 소유. 현재 샘플수/Level/core SpinBox 제한은 이미 있으며 관계·유한값·ROI 오류 표기가 잔여."
+  },
+  {
+    "issue": 491,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "복수 Condition Set 선택 및 source/columns 추적 현존. 자동 실행은 AL-14 결정 대기."
+  },
+  {
+    "issue": 494,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-01",
+      "RES-02",
+      "RES-11"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 502,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-14"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 522,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "구 Data Upload 그룹핑은 #640 resultFiles 기반으로 대체됨. 신규 스캐너 없음."
+  },
+  {
+    "issue": 523,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "Motion 단일 파일 카탈로그 Load 개선은 완료 이력. State/응답/Component 잔여는 RES-03/04."
+  },
+  {
+    "issue": 557,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-13"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 568,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "로드 진행 종료 보완 이력. 현재 비동기 전환 검증에서 성공/실패/취소 UI 회수 유지."
+  },
+  {
+    "issue": 573,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "작업별 reader·실패 후 폐기 정책 현존; RES-08/09에서 유지."
+  },
+  {
+    "issue": 580,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-03",
+      "DIR-01"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 581,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "OA Level 옵션이 UI/모델에 존재. DOE-04는 허용 조건 안내 잔여."
+  },
+  {
+    "issue": 589,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "빈 catalog의 다음 입력 탐색 보완 이력. 현재 resultFiles 선택 경로에서 실패 재시도 검증 유지."
+  },
+  {
+    "issue": 597,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "모듈 재구성 반영. DashDoeSampler/AnalysisLauncher/Executor 현존."
+  },
+  {
+    "issue": 598,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "현재 클래스명 변경 반영."
+  },
+  {
+    "issue": 599,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "Init/Resample 고정 정책 반영됐으나 #615가 ResampleN 추가로 일부 정책을 변경."
+  },
+  {
+    "issue": 600,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "현재 모듈/설정 접두 이름 변경 반영. 신규 구 프로젝트 자동 변환을 발명하지 않음."
+  },
+  {
+    "issue": 601,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "Launcher 탭 이관·Set별 executor·snapshot/resultFiles 구조 현존."
+  },
+  {
+    "issue": 604,
+    "disposition": "mapped",
+    "tasks": [
+      "DIR-01"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 605,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "runDoeBatchForSet 자유 코루틴으로 facade 이탈 반영."
+  },
+  {
+    "issue": 615,
+    "disposition": "partial",
+    "tasks": [
+      "DOE-01",
+      "DOE-02"
+    ],
+    "reason": "최대 ResampleN 선택은 DashDoeTableFile에 구현됨. Add Set과 old active 참조가 남음."
+  },
+  {
+    "issue": 616,
+    "disposition": "partial",
+    "tasks": [
+      "AL-09"
+    ],
+    "reason": "PR651 미병합. Launcher/fe-safe 연결은 AL-09; Assets 복사/원장/Condition 미생성은 geometry 담당 AST 카드로 추가 대응 필요."
+  },
+  {
+    "issue": 623,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "writer가 field_output_name으로 배열을 찾는 수정 현존. 질의의 이름 전달 잔여는 RES-03."
+  },
+  {
+    "issue": 630,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-03",
+      "RES-11"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 631,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-06",
+      "RES-11"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 633,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "Analysis Launcher↔DOE tableId 경고 구현 현존. #650 다른 모듈 적용만 후속."
+  },
+  {
+    "issue": 634,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-04",
+      "RES-11"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 635,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-04",
+      "RES-11"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 636,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-07"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 637,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-05",
+      "RES-11"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 638,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-02"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 639,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-01"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 640,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashLauncherRuns와 resultFiles/targetFile 저장 읽기 현존. 재실행 갱신만 AL-08."
+  },
+  {
+    "issue": 643,
+    "disposition": "mapped",
+    "tasks": [
+      "RES-12",
+      "RES-13"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 646,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-07",
+      "AL-08"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 647,
+    "disposition": "mapped",
+    "tasks": [
+      "AL-10"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  },
+  {
+    "issue": 648,
+    "disposition": "partial",
+    "tasks": [
+      "AL-09"
+    ],
+    "reason": "원본 ODB 경로의 주요 추정 원인은 PR651이 구현 중. 실제 fe-safe 잔여 원인은 실측으로 판정하며 별도 중복 구현 카드 없음."
+  },
+  {
+    "issue": 649,
+    "disposition": "mapped",
+    "tasks": [
+      "DOE-01",
+      "DOE-02",
+      "AL-01",
+      "AL-07",
+      "AL-08",
+      "AL-09",
+      "AL-10",
+      "DIR-01",
+      "RES-12",
+      "RES-13"
+    ],
+    "reason": "후속 부모. Project Assets AST/Condition 카드 및 PRJ-03·DOE-03·downstream #650와 함께 전수 커버."
+  },
+  {
+    "issue": 650,
+    "disposition": "mapped",
+    "tasks": [
+      "DOE-03"
+    ],
+    "reason": "현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드."
+  }
+]

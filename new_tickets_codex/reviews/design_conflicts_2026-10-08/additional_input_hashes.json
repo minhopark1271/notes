@@ -1,0 +1,30 @@
+[
+  {
+    "path": "new_tickets_claude/05-final/FINAL.md",
+    "sha256": "80e09cf298d686fde37fe1120dfdcd3302ebbb7d16c8c948bf45e425a53753f7"
+  },
+  {
+    "path": "new_tickets_claude/05-final/decisions.md",
+    "sha256": "fbfb6f779a41cc9614ef372dd1f5c3eec1b44409079963fb48f65c4ccd09cc96"
+  },
+  {
+    "path": "new_tickets_codex/03_TASK_CATALOG.md",
+    "sha256": "07beacbcac631507e021eafd6a80f9dcdd74c9d94c3973ffd552f44024f3b5d9"
+  },
+  {
+    "path": "new_tickets_codex/03_TASK_CATALOG.json",
+    "sha256": "35fb19ade520b13c13dabe7d74f6a27f0eae9dbe47f477c7de38781b5c1792c9"
+  },
+  {
+    "path": "new_tickets_codex/07_BOARD_OVERLAY.md",
+    "sha256": "fa568d1fd4846f843f68d6b6ea7a375347f5ed3e331dd39cfc8c3ffdc8338cf9"
+  },
+  {
+    "path": "dashopti_project_unit_v1.drawio",
+    "sha256": "f4c7efa3cd923f06741ae37fd179a6166f351ff8e3d7d1c158285a802979654a"
+  },
+  {
+    "path": "dashopti_project_data_flow_v1.drawio",
+    "sha256": "1a2844f8a1246309e46341175bf33778ceda675378254b615995209132dbceee"
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-10-05T14:02:10.516727+00:00",
+  "changes": [],
+  "result": "UNCHANGED",
+  "current": {
+    "repository": {
+      "ref": {
+        "target": {
+          "oid": "b08a91b39bbdb7c3b75796ff2cd7f663d53258ef"
+        }
+      },
+      "p530": {
+        "number": 530,
+        "state": "OPEN",
+        "headRefOid": "0bbcc9c63d544f4e1eeb4daa558fbfde46b24f5f",
+        "updatedAt": "2026-09-23T03:39:15Z"
+      },
+      "p651": {
+        "number": 651,
+        "state": "OPEN",
+        "headRefOid": "ae400222195f09c710f8df343402c20b3d72a858",
+        "updatedAt": "2026-10-02T11:09:11Z"
+      },
+      "p652": {
+        "number": 652,
+        "state": "OPEN",
+        "headRefOid": "27cedc6150984c5b43b05ae30fe8d4a235de93f3",
+        "updatedAt": "2026-10-03T03:52:23Z"
+      },
+      "p654": {
+        "number": 654,
+        "state": "OPEN",
+        "headRefOid": "ca68111a83190c0e7e18b9788333709703a22347",
+        "updatedAt": "2026-10-04T16:24:40Z"
+      }
+    },
+    "organization": {
+      "projectV2": {
+        "items": {
+          "totalCount": 207
+        },
+        "updatedAt": "2026-10-03T11:38:56Z"
+      }
+    }
+  }
+}

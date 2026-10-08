@@ -1,0 +1,125 @@
+$ rg -n "setFixedSize|setFixedWidth|setFixedHeight|screenChanged|devicePixelRatio|resizeEvent|moveEvent|Undo|Redo|QValidator|QDoubleValidator|QIntValidator" view
+exit=0
+view/analyzer/DashAnalyzerHelpers.cpp:133:void ZoomableScrollArea::resizeEvent(QResizeEvent* event)
+view/analyzer/DashAnalyzerHelpers.cpp:135:    QScrollArea::resizeEvent(event);
+view/analyzer/DashAnalyzerHelpers.cpp:186:    qreal dpr = widget->devicePixelRatioF();
+view/analyzer/DashAnalyzerHelpers.cpp:202:    qreal dpr = widget->devicePixelRatioF();
+view/analyzer/DashAnalyzerHelpers.cpp:244:    qreal dpr = widget->devicePixelRatioF();
+view/analyzer/DashPlotWidgetFactory.cpp:116:    table->setFixedHeight(tableContentHeight(table));
+view/analyzer/DashPlotWidgetFactory.cpp:1015:    histColorBtn->setFixedSize(50, 20);
+view/analyzer/DashPlotWidgetFactory.cpp:1079:    firstOrderBtn->setFixedSize(20, 20);
+view/analyzer/DashPlotWidgetFactory.cpp:1091:    interBtn->setFixedSize(20, 20);
+view/analyzer/DashPlotWidgetFactory.cpp:1122:    emptyWidget1->setFixedHeight(0);
+view/analyzer/DashPlotWidgetFactory.cpp:1124:    emptyWidget2->setFixedHeight(1);
+view/analyzer/DashAnalyzerHelpers.h:40:    void resizeEvent(QResizeEvent* event) override;
+view/analyzer/DashAnalyzerHelpers.h:60: * @param widget QOpenGLWidget or QWidget with devicePixelRatio
+view/analyzer/DashTimeSeriesWidget.cpp:425:    initButton->setFixedSize(32, 32);
+view/analyzer/DashTimeSeriesWidget.cpp:445:    saveButton->setFixedSize(60, 32);
+view/analyzer/DashTimeSeriesWidget.cpp:501:void DashTimeSeriesWidget::resizeEvent(QResizeEvent* event)
+view/analyzer/DashTimeSeriesWidget.cpp:503:    QWidget::resizeEvent(event);
+view/DashOptimizerWidget.cpp:86:    btn->setFixedSize(contentW + 2 * kValidationButtonMargin + 12,
+view/DashOptimizerWidget.cpp:401:    lgeSpringUploadBtn->setFixedWidth(24);
+view/DashOptimizerWidget.cpp:402:    lgeSpringUploadBtn->setFixedHeight(24);
+view/DashMainWindow.cpp:2436:    m_loadingLabel->setFixedSize(16, 16);
+view/DashMainWindow.cpp:2502:    m_iconToolBar->setFixedWidth(48);
+view/DashMainWindow.cpp:2533:        btn->setFixedSize(48, 48);
+view/DashMainWindow.cpp:4800:void DashMainWindow::onEditUndo()
+view/DashMainWindow.cpp:4802:    DASH_LOG_DEBUG(View) << "Edit -> Undo triggered";
+view/DashMainWindow.cpp:4806:void DashMainWindow::onEditRedo()
+view/DashMainWindow.cpp:4808:    DASH_LOG_DEBUG(View) << "Edit -> Redo triggered";
+view/DashMainWindow.cpp:5033:void DashMainWindow::resizeEvent(QResizeEvent* event)
+view/DashMainWindow.cpp:5035:    QMainWindow::resizeEvent(event);
+view/analyzer/DashScatter3DWidget.h:81:    void resizeEvent(QResizeEvent* event) override;
+view/DashGeometryParameterWidget.cpp:907:    m_addValuesRowWidget->setFixedHeight(addValuesRowHeight);
+view/DashGeometryParameterWidget.cpp:943:    m_applyAddValuesButton->setFixedWidth(80);
+view/DashGeometryParameterWidget.cpp:944:    m_applyAddValuesButton->setFixedHeight(addValuesRowHeight);
+view/DashGeometryParameterWidget.cpp:2496:        groupModeButton->setFixedSize(24, 20);
+view/DashTitleBar.cpp:15:    setFixedHeight(29);
+view/DashTitleBar.cpp:26:    m_iconLabel->setFixedSize(20, 20);
+view/DashTitleBar.cpp:47:    m_minimizeButton->setFixedSize(29, 29);
+view/DashTitleBar.cpp:53:    m_maximizeButton->setFixedSize(29, 29);
+view/DashTitleBar.cpp:58:    m_closeButton->setFixedSize(29, 29);
+view/DashResultsAnalyzerWidget.cpp:235:    textTable->setFixedHeight(textTable->verticalHeader()->length()
+view/DashResultsAnalyzerWidget.cpp:250:    btn->setFixedHeight(btn->fontMetrics().height() * 2);
+view/DashResultsAnalyzerWidget.cpp:3671:    initButton->setFixedSize(60, 30);
+view/DashResultsAnalyzerWidget.cpp:3701:    saveButton->setFixedSize(60, 30);
+view/DashModelRunnerWidget.cpp:2004:    previewButton->setFixedWidth(80);
+view/DashMainWindow.h:177:    void onEditUndo();
+view/DashMainWindow.h:178:    void onEditRedo();
+view/DashMainWindow.h:349:    void resizeEvent(QResizeEvent* event) override;
+view/analyzer/DashScatter3DWidget.cpp:244:    const float dpr = static_cast<float>(devicePixelRatioF());
+view/analyzer/DashScatter3DWidget.cpp:606:// resizeEvent / updateViewportMargins
+view/analyzer/DashScatter3DWidget.cpp:609:void DashScatter3DWidget::resizeEvent(QResizeEvent* event)
+view/analyzer/DashScatter3DWidget.cpp:611:    QVTKOpenGLNativeWidget::resizeEvent(event);
+view/analyzer/DashPareto3DWidget.cpp:328:    const float dpr = static_cast<float>(devicePixelRatioF());
+view/analyzer/DashPareto3DWidget.cpp:398:// resizeEvent
+view/analyzer/DashPareto3DWidget.cpp:401:void DashPareto3DWidget::resizeEvent(QResizeEvent* event)
+view/analyzer/DashPareto3DWidget.cpp:403:    QVTKOpenGLNativeWidget::resizeEvent(event);
+view/analyzer/DashAnalyzerUtils.cpp:118:        table->setFixedHeight(idealH);
+view/analyzer/DashTimeSeriesWidget.h:99:    void resizeEvent(QResizeEvent* event) override;
+view/analyzer/DashPareto3DWidget.h:48:    void resizeEvent(QResizeEvent* event) override;
+view/DashOcctViewWidget.cpp:443:void DashOcctViewWidget::resizeEvent(QResizeEvent* /*event*/)
+view/DashGeometryParameterCADWidget.cpp:145:        mUpperPreviewButton->setFixedHeight(30);
+view/DashGeometryParameterCADWidget.cpp:148:        mLowerPreviewButton->setFixedHeight(30);
+view/DashGeometryParameterCADWidget.cpp:162:    m_cadAddValuesRowWidget->setFixedHeight(40);
+view/DashGeometryParameterCADWidget.cpp:188:    m_cadApplyAddValuesButton->setFixedHeight(40);
+view/overlay/DashMorphingSettings.cpp:196:    m_closeButton->setFixedSize(24, 24);
+view/overlay/DashMorphingSettings.cpp:1599:        btn->setFixedSize(50, 22);
+view/DashModelRunnerMCUWidget.cpp:317:    browseButton->setFixedWidth(30);
+view/dialog/InfoIconLabel.cpp:45:        closeBtn->setFixedWidth(60);
+view/dialog/InfoIconLabel.cpp:66:        setFixedWidth(280);
+view/dialog/InfoIconLabel.cpp:96:    setFixedSize(18, 18);
+view/dialog/SolverSettingsDialog.cpp:51:        browseButton->setFixedSize(30, 22);
+view/dialog/MeshExportDialog.h:38:    void handleUndo();
+view/dialog/MeshExportDialog.h:39:    void handleRedo();
+view/dialog/ShortcutsDialog.cpp:31:    ui->menuTable->setFixedHeight(ui->menuTable->rowCount() * 26 + ui->menuTable->horizontalHeader()->height() + 2);
+view/dialog/ShortcutsDialog.cpp:38:    ui->morphTable->setFixedHeight(ui->morphTable->rowCount() * 26 + ui->morphTable->horizontalHeader()->height() + 2);
+view/dialog/PreprocessingWidget.cpp:166:    connect(ui->btnUndoPreprocessing, &QPushButton::clicked, this, &PreprocessingWidget::undoRequested);
+view/dialog/PreprocessingWidget.cpp:167:    connect(ui->btnRedoPreprocessing, &QPushButton::clicked, this, &PreprocessingWidget::redoRequested);
+view/dialog/PreprocessingWidget.cpp:170:    connect(ui->btnUndoSegmentation, &QPushButton::clicked, this, &PreprocessingWidget::undoRequested);
+view/dialog/PreprocessingWidget.cpp:171:    connect(ui->btnRedoSegmentation, &QPushButton::clicked, this, &PreprocessingWidget::redoRequested);
+view/dialog/MaterialSetupDialog.cpp:80:        uploadBtn->setFixedSize(24, 24);
+view/dialog/MaterialSetupDialog.cpp:298:    uploadBtn->setFixedSize(24, 24);
+view/dialog/SurfaceFittingWidget.cpp:116:    table->setFixedHeight(qMax(contentHeight, 120));
+view/dialog/SurfaceFittingWidget.cpp:206:    connect(ui->btnUndoSurfaceFitting, &QPushButton::clicked, this, &SurfaceFittingWidget::undoRequested);
+view/dialog/SurfaceFittingWidget.cpp:207:    connect(ui->btnRedoSurfaceFitting, &QPushButton::clicked, this, &SurfaceFittingWidget::redoRequested);
+view/dialog/SurfaceFittingWidget.cpp:355:    colorBtn->setFixedSize(20, 20);
+view/ai/blocks/DashAiTableBlock.cpp:100:    m_table->setFixedHeight(headerHeight + visibleRows * DashMetrics::ChipHeight + kFrameSlack);
+view/dialog/RulerTicksWidget.cpp:9:    setFixedHeight(10);
+view/dialog/TopOptPostprocessDialog.cpp:118:    femButton->setFixedWidth(24);
+view/dialog/TopOptPostprocessDialog.cpp:119:    femButton->setFixedHeight(24);
+view/dialog/TopOptPostprocessDialog.cpp:169:    shButton->setFixedWidth(24);
+view/dialog/TopOptPostprocessDialog.cpp:170:    shButton->setFixedHeight(24);
+view/dialog/TopOptPostprocessDialog.cpp:1136:    shButton->setFixedWidth(24);
+view/dialog/TopOptPostprocessDialog.cpp:1137:    shButton->setFixedHeight(24);
+view/dialog/MeshExportDialog.cpp:84:            this, &MeshExportDialog::handleUndo);
+view/dialog/MeshExportDialog.cpp:86:            this, &MeshExportDialog::handleRedo);
+view/dialog/MeshExportDialog.cpp:142:void MeshExportDialog::handleUndo()
+view/dialog/MeshExportDialog.cpp:147:void MeshExportDialog::handleRedo()
+view/dialog/DashMeshQualityDialog.cpp:57:    m_table->setFixedHeight(totalHeight);
+view/ai/blocks/DashAiToolCardBlock.cpp:68:    m_statusLabel->setFixedSize(kStatusIconSize, kStatusIconSize);
+view/common/DashSubButton.cpp:81:    setFixedHeight(m_compact ? kCompactHeight : kHeight);
+view/ai/blocks/DashAiSuggestionChipsBlock.cpp:66:        chip->setFixedHeight(DashMetrics::ChipHeight);
+view/ai/DashAiChatWidget.cpp:270:    m_scrollDownButton->setFixedSize(kScrollButtonSize, kScrollButtonSize);
+view/DashDoeSamplerDirectWidget.cpp:179:    browseButton->setFixedWidth(30);
+view/DashOcctViewWidget.h:58:    void resizeEvent(QResizeEvent* event) override;
+view/common/DashMainButton.cpp:169:    setFixedHeight(m_compact ? kCompactHeight : kHeight);
+view/ai/blocks/DashAiCodeBlock.cpp:100:    m_body->setFixedHeight(height);
+view/common/DashMiniButton.cpp:36:    setFixedHeight(kHeight);
+view/DashModelBuilderMCUWidget.cpp:1514:    browseButton->setFixedWidth(30);
+view/ai/blocks/DashAiSystemNoteBlock.cpp:24:    line->setFixedHeight(kHairlineHeight);
+view/ai/DashAiPlayerDialog.h:46:    void moveEvent(QMoveEvent* event) override;
+view/ai/DashAiPopupList.cpp:181:        row->setFixedHeight(kRowHeight);
+view/ai/DashAiPopupList.cpp:191:        icon->setFixedSize(kIconSize, kIconSize);
+view/ai/DashAiResultChip.cpp:63:    setFixedHeight(DashMetrics::ChipHeight + 4);
+view/delegate/DashFeConditionValueDelegate.cpp:6:#include <QDoubleValidator>
+view/delegate/DashFeConditionValueDelegate.cpp:102:        auto* validator = new QDoubleValidator(edit);
+view/delegate/DashFeConditionValueDelegate.cpp:103:        validator->setNotation(QDoubleValidator::ScientificNotation);
+view/ai/DashAiMessageBubble.cpp:88:    avatar->setFixedSize(kAvatarSize, kAvatarSize);
+view/ai/DashAiPlayerDialog.cpp:292:void DashAiPlayerDialog::moveEvent(QMoveEvent* event)
+view/ai/DashAiPlayerDialog.cpp:294:    QDialog::moveEvent(event);
+view/ai/DashAiComposerWidget.cpp:191:    m_attachButton->setFixedSize(kAttachButton, kAttachButton);
+view/ai/DashAiComposerWidget.cpp:379:    m_input->setFixedHeight(lines * metrics.lineSpacing() + margin);
+view/ai/DashAiComposerWidget.cpp:413:    chip->setFixedHeight(DashMetrics::ChipHeight);
+view/ai/DashAiComposerWidget.cpp:420:    iconLabel->setFixedSize(kChipIconSize, kChipIconSize);
+view/ai/DashAiComposerWidget.cpp:430:    closeLabel->setFixedSize(kChipCloseSize, kChipCloseSize);

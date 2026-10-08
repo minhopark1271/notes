@@ -1,0 +1,1370 @@
+{
+ "281": {
+  "number": 281,
+  "state": "OPEN",
+  "parent": {
+   "number": 427,
+   "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+  },
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 403,
+     "title": "모핑 엔진 소유권 분리 + 고정점 마커 영속화 — #281 결합 ⑴⑵⑶ 선행 해소",
+     "state": "CLOSED"
+    },
+    {
+     "number": 408,
+     "title": "Morphing 요청 서비스 — 레인 스케줄링·스레드 예산·결과 반환",
+     "state": "CLOSED"
+    }
+   ]
+  }
+ },
+ "249": {
+  "number": 249,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "368": {
+  "number": 368,
+  "state": "OPEN",
+  "parent": {
+   "number": 470,
+   "title": "실행 산출물의 유래 추적 — 스탬프와 대장"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "369": {
+  "number": 369,
+  "state": "OPEN",
+  "parent": {
+   "number": 443,
+   "title": "Set 에 식별자를 부여하고 원장으로 관리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "239": {
+  "number": 239,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "246": {
+  "number": 246,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 431,
+     "title": "모델 교체·세트 전환 시 위젯 정리 규칙 문서화",
+     "state": "OPEN"
+    },
+    {
+     "number": 432,
+     "title": "모델 계층이 프로젝트 관리자를 되부르는 의존 제거",
+     "state": "OPEN"
+    },
+    {
+     "number": 433,
+     "title": "데이터 처리 클래스 분해",
+     "state": "OPEN"
+    },
+    {
+     "number": 434,
+     "title": "전역 관리 객체 해체",
+     "state": "OPEN"
+    },
+    {
+     "number": 435,
+     "title": "고객사 전용 KPI 계산 코드 분리",
+     "state": "CLOSED"
+    }
+   ]
+  }
+ },
+ "247": {
+  "number": 247,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "318": {
+  "number": 318,
+  "state": "OPEN",
+  "parent": {
+   "number": 427,
+   "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "331": {
+  "number": 331,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "332": {
+  "number": 332,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "322": {
+  "number": 322,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "405": {
+  "number": 405,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "305": {
+  "number": 305,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "411": {
+  "number": 411,
+  "state": "OPEN",
+  "parent": {
+   "number": 413,
+   "title": "XML 접근 경로 성능 개선 통합 — 파싱 비용 · 선택적 로드 · 중복 파싱 · 포맷 (부모)"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "319": {
+  "number": 319,
+  "state": "OPEN",
+  "parent": {
+   "number": 427,
+   "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "320": {
+  "number": 320,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "386": {
+  "number": 386,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "372": {
+  "number": 372,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "336": {
+  "number": 336,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "335": {
+  "number": 335,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "330": {
+  "number": 330,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "423": {
+  "number": 423,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "427": {
+  "number": 427,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 428,
+     "title": "모핑 핸들 데이터와 표시 코드의 결합 절단 — 타입 신설 없이 단독 커밋 가능한 4건",
+     "state": "CLOSED"
+    },
+    {
+     "number": 429,
+     "title": "해석 결과 읽기 캐시의 화면·실행 공유 해소 — registry 소비 6곳을 실행 단위 소유로",
+     "state": "CLOSED"
+    },
+    {
+     "number": 430,
+     "title": "핸들 데이터 전용 타입 DashHandleData 신설 — VTP 읽기 5곳·쓰기 2곳 일원화",
+     "state": "OPEN"
+    },
+    {
+     "number": 318,
+     "title": "공유 VTK 씬에 모듈 소유권 도입 — 덮어쓰기 12곳 정리, 인수는 파괴가 아니라 숨김",
+     "state": "OPEN"
+    },
+    {
+     "number": 316,
+     "title": "Optimizer Preview 의 전체 actor 일괄 삭제 — 핸들 5종 복구 불가, 비파괴 오버레이로 전환",
+     "state": "OPEN"
+    },
+    {
+     "number": 319,
+     "title": "레이어 체계 밖 actor 의 수명·상태 결함 4건 — FE actor 숨김 방치 · 무조건 카메라 리셋 · clearAllLayers 누락 · 등록/해제 경로 불일치",
+     "state": "OPEN"
+    },
+    {
+     "number": 281,
+     "title": "단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b)",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "430": {
+  "number": 430,
+  "state": "OPEN",
+  "parent": {
+   "number": 427,
+   "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "432": {
+  "number": 432,
+  "state": "OPEN",
+  "parent": {
+   "number": 246,
+   "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "433": {
+  "number": 433,
+  "state": "OPEN",
+  "parent": {
+   "number": 246,
+   "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "434": {
+  "number": 434,
+  "state": "OPEN",
+  "parent": {
+   "number": 246,
+   "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+  },
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 586,
+     "title": "모핑 local 화 — 서비스 레인 제거·실행 본체 통합·입력 수집기 분리",
+     "state": "CLOSED"
+    },
+    {
+     "number": 605,
+     "title": "모핑 상태 이관 완결 — DashManager 협력자 등록·시그널 정리와 DOE 실행 facade 이탈",
+     "state": "CLOSED"
+    }
+   ]
+  }
+ },
+ "446": {
+  "number": 446,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 447,
+     "title": "배율 다른 모니터로 이동 시 프리즈·복구 불가 차단",
+     "state": "OPEN"
+    },
+    {
+     "number": 448,
+     "title": "창 위치·크기·도크 배치의 저장·복원 도입",
+     "state": "OPEN"
+    },
+    {
+     "number": 449,
+     "title": "명령형 크기 지정 제거 — 레이아웃에 크기 결정권 반환",
+     "state": "OPEN"
+    },
+    {
+     "number": 450,
+     "title": "테두리 없는 창과 중첩 메인 윈도우 구조 재검토",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "449": {
+  "number": 449,
+  "state": "OPEN",
+  "parent": {
+   "number": 446,
+   "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "450": {
+  "number": 450,
+  "state": "OPEN",
+  "parent": {
+   "number": 446,
+   "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "451": {
+  "number": 451,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 452,
+     "title": "격리: Analysis Launcher 갈래 분리 — .stli·.wbpj·.dfsxml 추출 (동작 불변)",
+     "state": "CLOSED"
+    },
+    {
+     "number": 453,
+     "title": "-",
+     "state": "CLOSED"
+    },
+    {
+     "number": 454,
+     "title": "Data Preprocessor — 동기 실행 워커 이관과 펌핑 16곳 제거",
+     "state": "OPEN"
+    },
+    {
+     "number": 455,
+     "title": "모듈 외 잔여 view 펌핑 10곳 분류·제거",
+     "state": "OPEN"
+    },
+    {
+     "number": 456,
+     "title": "Analysis Launcher 정규 경로(.inp·ANSYS) — [Start] 동기 실행 워커 이관",
+     "state": "OPEN"
+    },
+    {
+     "number": 457,
+     "title": "Optimizer — 펌핑 2곳 제거와 요청 식별자 왕복 (OPT-D19)",
+     "state": "OPEN"
+    },
+    {
+     "number": 512,
+     "title": "Geometry Parameterization(Morphing) — setResults 펌핑 제거와 결정 시그널 유실 차단",
+     "state": "OPEN"
+    },
+    {
+     "number": 513,
+     "title": "Model Runner — 폴더 선택 동기 스캔 워커 이관",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "454": {
+  "number": 454,
+  "state": "OPEN",
+  "parent": {
+   "number": 451,
+   "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "455": {
+  "number": 455,
+  "state": "OPEN",
+  "parent": {
+   "number": 451,
+   "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "456": {
+  "number": 456,
+  "state": "OPEN",
+  "parent": {
+   "number": 451,
+   "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "457": {
+  "number": 457,
+  "state": "OPEN",
+  "parent": {
+   "number": 451,
+   "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "473": {
+  "number": 473,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 474,
+     "title": "표 행과 항목의 결합을 식별자 키로 전환",
+     "state": "OPEN"
+    },
+    {
+     "number": 475,
+     "title": "산출물 채번의 세션 영속화",
+     "state": "OPEN"
+    },
+    {
+     "number": 476,
+     "title": "항목 대장·목록 화면",
+     "state": "CLOSED"
+    },
+    {
+     "number": 477,
+     "title": "접두사 매칭 삭제를 식별자 삭제로 — 생성·스캔 경로 정합",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "478": {
+  "number": 478,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "482": {
+  "number": 482,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "488": {
+  "number": 488,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "490": {
+  "number": 490,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "316": {
+  "number": 316,
+  "state": "OPEN",
+  "parent": {
+   "number": 427,
+   "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "447": {
+  "number": 447,
+  "state": "OPEN",
+  "parent": {
+   "number": 446,
+   "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "448": {
+  "number": 448,
+  "state": "OPEN",
+  "parent": {
+   "number": 446,
+   "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "474": {
+  "number": 474,
+  "state": "OPEN",
+  "parent": {
+   "number": 473,
+   "title": "실행 산출물 항목의 식별자 결합"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "475": {
+  "number": 475,
+  "state": "OPEN",
+  "parent": {
+   "number": 473,
+   "title": "실행 산출물 항목의 식별자 결합"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "477": {
+  "number": 477,
+  "state": "OPEN",
+  "parent": {
+   "number": 473,
+   "title": "실행 산출물 항목의 식별자 결합"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "431": {
+  "number": 431,
+  "state": "OPEN",
+  "parent": {
+   "number": 246,
+   "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "438": {
+  "number": 438,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 439,
+     "title": "배치 취소가 대기 큐까지 비우게 완결",
+     "state": "OPEN"
+    },
+    {
+     "number": 440,
+     "title": "실행 케이스마다 현재 상태가 표에 보이게",
+     "state": "OPEN"
+    },
+    {
+     "number": 441,
+     "title": "배치 상태 기록의 증분화와 재시작 시 복구",
+     "state": "OPEN"
+    },
+    {
+     "number": 442,
+     "title": "실행 이력 목록 관리",
+     "state": "CLOSED"
+    }
+   ]
+  }
+ },
+ "439": {
+  "number": 439,
+  "state": "OPEN",
+  "parent": {
+   "number": 438,
+   "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "440": {
+  "number": 440,
+  "state": "OPEN",
+  "parent": {
+   "number": 438,
+   "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "441": {
+  "number": 441,
+  "state": "OPEN",
+  "parent": {
+   "number": 438,
+   "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "442": {
+  "number": 442,
+  "state": "CLOSED",
+  "parent": {
+   "number": 438,
+   "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "443": {
+  "number": 443,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 444,
+     "title": "Set 기록 파일을 변경 빈도 단위로 분할",
+     "state": "OPEN"
+    },
+    {
+     "number": 445,
+     "title": "Set 목록 화면과 소비 추적",
+     "state": "CLOSED"
+    },
+    {
+     "number": 366,
+     "title": "G7 각 Set 이 자기 기준모델을 저장하고 사용 (T14·T15·T16·T19)",
+     "state": "CLOSED"
+    },
+    {
+     "number": 369,
+     "title": "G10 ModelRunner 의 NodeSet 파일 선택을 저장 (T18)",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "444": {
+  "number": 444,
+  "state": "OPEN",
+  "parent": {
+   "number": 443,
+   "title": "Set 에 식별자를 부여하고 원장으로 관리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "458": {
+  "number": 458,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "459": {
+  "number": 459,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "460": {
+  "number": 460,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 461,
+     "title": "실행 중 재클릭·재진입 차단",
+     "state": "OPEN"
+    },
+    {
+     "number": 462,
+     "title": "진행 표시 표준 1종 정의",
+     "state": "OPEN"
+    },
+    {
+     "number": 463,
+     "title": "모듈별 진행바·취소 버튼 확산",
+     "state": "OPEN"
+    },
+    {
+     "number": 464,
+     "title": "기존 진행 표시 결함 정리 — 스피너 비대칭",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "461": {
+  "number": 461,
+  "state": "OPEN",
+  "parent": {
+   "number": 460,
+   "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "462": {
+  "number": 462,
+  "state": "OPEN",
+  "parent": {
+   "number": 460,
+   "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "463": {
+  "number": 463,
+  "state": "OPEN",
+  "parent": {
+   "number": 460,
+   "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "464": {
+  "number": 464,
+  "state": "OPEN",
+  "parent": {
+   "number": 460,
+   "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "465": {
+  "number": 465,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 466,
+     "title": "프로세스 무음 실패의 통지 규칙 수립",
+     "state": "OPEN"
+    },
+    {
+     "number": 467,
+     "title": "데몬 기동·응답 타임아웃 도입",
+     "state": "OPEN"
+    },
+    {
+     "number": 468,
+     "title": "외부 프로세스 호출부 널 가드 일괄",
+     "state": "OPEN"
+    },
+    {
+     "number": 469,
+     "title": "프로세스 인자·출력 인코딩 UTF-8 통일",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "466": {
+  "number": 466,
+  "state": "OPEN",
+  "parent": {
+   "number": 465,
+   "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "467": {
+  "number": 467,
+  "state": "OPEN",
+  "parent": {
+   "number": 465,
+   "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "468": {
+  "number": 468,
+  "state": "OPEN",
+  "parent": {
+   "number": 465,
+   "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "469": {
+  "number": 469,
+  "state": "OPEN",
+  "parent": {
+   "number": 465,
+   "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "470": {
+  "number": 470,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 471,
+     "title": "산출물 대장과 소비 기록",
+     "state": "OPEN"
+    },
+    {
+     "number": 368,
+     "title": "G9 산출물에 조합 식별자를 기록하고 각 단계가 입력을 검증 (T27·T21·T22·T23)",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "471": {
+  "number": 471,
+  "state": "OPEN",
+  "parent": {
+   "number": 470,
+   "title": "실행 산출물의 유래 추적 — 스탬프와 대장"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "479": {
+  "number": 479,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "480": {
+  "number": 480,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "481": {
+  "number": 481,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "483": {
+  "number": 483,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "484": {
+  "number": 484,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "485": {
+  "number": 485,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "486": {
+  "number": 486,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "487": {
+  "number": 487,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "489": {
+  "number": 489,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "494": {
+  "number": 494,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "502": {
+  "number": 502,
+  "state": "OPEN",
+  "parent": {
+   "number": 367,
+   "title": "G8 Launcher 가 형상·조건 세트 조합을 기록 + 화면 데이터 출처 교체 (T20·T17)"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "508": {
+  "number": 508,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "512": {
+  "number": 512,
+  "state": "OPEN",
+  "parent": {
+   "number": 451,
+   "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "513": {
+  "number": 513,
+  "state": "OPEN",
+  "parent": {
+   "number": 451,
+   "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "514": {
+  "number": 514,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "543": {
+  "number": 543,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "519": {
+  "number": 519,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "553": {
+  "number": 553,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "551": {
+  "number": 551,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "562": {
+  "number": 562,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "370": {
+  "number": 370,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "499": {
+  "number": 499,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "376": {
+  "number": 376,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "563": {
+  "number": 563,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "557": {
+  "number": 557,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "580": {
+  "number": 580,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "604": {
+  "number": 604,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "615": {
+  "number": 615,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "616": {
+  "number": 616,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 647,
+     "title": "Ansys Motion: dfsxml 실행이 LGE 압축기 예제에 하드코딩되어 있고 run마다 dfmm·dfg를 만들지 않는다",
+     "state": "OPEN"
+    },
+    {
+     "number": 648,
+     "title": "fe-safe: Set이 파일 하나에 묶인 뒤 입력 ODB 위치를 찾지 못한다",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "630": {
+  "number": 630,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "631": {
+  "number": 631,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "634": {
+  "number": 634,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "635": {
+  "number": 635,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "636": {
+  "number": 636,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "637": {
+  "number": 637,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "638": {
+  "number": 638,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "639": {
+  "number": 639,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "643": {
+  "number": 643,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "647": {
+  "number": 647,
+  "state": "OPEN",
+  "parent": {
+   "number": 616,
+   "title": "입력 파일 정책: RW 미지원 포맷(.dfsxml/.wbpj/.stli)의 Project Assets·Condition·Launcher 처리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "648": {
+  "number": 648,
+  "state": "OPEN",
+  "parent": {
+   "number": 616,
+   "title": "입력 파일 정책: RW 미지원 포맷(.dfsxml/.wbpj/.stli)의 Project Assets·Condition·Launcher 처리"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "645": {
+  "number": 645,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "646": {
+  "number": 646,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "649": {
+  "number": 649,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": [
+    {
+     "number": 643,
+     "title": "Analysis Launcher: Preprocess XML을 Set 단위로 쓰고 중복 정보를 없앤다 (HDF5 전환 검토)",
+     "state": "OPEN"
+    },
+    {
+     "number": 604,
+     "title": "Tool 메뉴: Direct Launch를 별도 Dialog로 분리한다",
+     "state": "OPEN"
+    },
+    {
+     "number": 645,
+     "title": "Project Assets: Add File로 덮어쓴 파일이 Condition 화면에 반영되지 않고 복사 실패 시 기존 등록이 사라진다",
+     "state": "OPEN"
+    },
+    {
+     "number": 646,
+     "title": "Analysis Launcher: 재실행 뒤 Preprocess 목록 미갱신, Re-run 실패 시 기존 결과 삭제, Skip 안내 없음",
+     "state": "OPEN"
+    },
+    {
+     "number": 615,
+     "title": "DOE Sampler: Add Set을 복원하되 Resample만 번호를 붙여 추가한다",
+     "state": "OPEN"
+    },
+    {
+     "number": 616,
+     "title": "입력 파일 정책: RW 미지원 포맷(.dfsxml/.wbpj/.stli)의 Project Assets·Condition·Launcher 처리",
+     "state": "OPEN"
+    },
+    {
+     "number": 639,
+     "title": "Analysis Launcher: Target Part 로딩 중 Start를 누르면 빈 target이 저장되고 로드 실패 시 저장값이 지워짐",
+     "state": "OPEN"
+    },
+    {
+     "number": 650,
+     "title": "Module Tree: 참조 Set 핀과 상류 버전 불일치 경고를 Analysis Launcher 외 모듈로 확장한다",
+     "state": "OPEN"
+    }
+   ]
+  }
+ },
+ "650": {
+  "number": 650,
+  "state": "OPEN",
+  "parent": {
+   "number": 649,
+   "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+  },
+  "subIssues": {
+   "nodes": []
+  }
+ },
+ "653": {
+  "number": 653,
+  "state": "OPEN",
+  "parent": null,
+  "subIssues": {
+   "nodes": []
+  }
+ }
+}

@@ -1,0 +1,5 @@
+{
+  "date": "2026-10-02T10:22:08Z",
+  "message": "refactor(model): 결과 XML 작성기의 카탈로그 조회·모드 주파수·질의 직렬화를 공용 함수로 바꾼다 (#433) (#642)\n\n* refactor(model): 결과 XML 작성기의 카탈로그 조회·모드 주파수·질의 직렬화를 공용 함수로 바꾼다 (#433)\n\n#433 9단계(질의·파싱·직렬화 공통화) 중 작성기 몫이다. 런처가 이미 쓰는 공용 함수로 작성기의\n사본을 바꾸며, 동작은 바꾸지 않는다.\n\n- 카탈로그 항목: findSubEntry · findOperatorFromName → DashResultQuery::responseLeaf\n- 모드 주파수: getFrequencyFromTimeSteps → DashResultKeys::frequencyAt. 호출이 기본 인자만 써서\n  닿지 않던 Motion 분기도 함께 지운다\n- 질의 직렬화 6곳: DashResultQuery::compact\n- 작성기 테스트에 모드 주파수 경로 케이스를 더하고, 작성기를 직접 컴파일하는 두 테스트 타깃에\n  공용 함수 소스를 더한다\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n\n* test(preprocessor): #619 · #620 리뷰 잔여 — 상수 이름과 주석을 바로잡는다 (#433)\n\n- TestResultBatch: 상수 kModes → modes (k 접두사 없는 camelCase)\n- TestResultQuery: 카탈로그를 키 순으로 돌아 Displacement 의 \"_\" 가 먼저 잡힌다는 주석으로 고친다\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
+  "sha": "b08a91b39bbdb7c3b75796ff2cd7f663d53258ef"
+}

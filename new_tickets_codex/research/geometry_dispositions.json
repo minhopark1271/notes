@@ -1,0 +1,316 @@
+[
+  {
+    "issue": 249,
+    "disposition": "mapped",
+    "tasks": [
+      "CAD-001"
+    ],
+    "reason": "m_batchMode/배치 전용 통지가 dev에 남음; Deferred 유지."
+  },
+  {
+    "issue": 318,
+    "disposition": "mapped",
+    "tasks": [
+      "VIS-001",
+      "VIS-002",
+      "VIS-003",
+      "VIS-004",
+      "VIS-005"
+    ],
+    "reason": "씬 소유/상태/파일 토글을 사용자 결과 단위로 재분할. 광역 부모 자체는 별도 실행 카드 아님."
+  },
+  {
+    "issue": 331,
+    "disposition": "mapped",
+    "tasks": [
+      "VIS-006",
+      "GEO-005"
+    ],
+    "reason": "Gizmo 임시 타깃과 MarchingPlaneBound 모두 dev 잔존. 각각 소비 모듈 작업으로 이관."
+  },
+  {
+    "issue": 332,
+    "disposition": "mapped",
+    "tasks": [
+      "GEO-001",
+      "GEO-002"
+    ],
+    "reason": "최신 결정으로 per-handle UI 철회. sampling·상태기 PR654 미병합, interaction 정본 해제 후속."
+  },
+  {
+    "issue": 322,
+    "disposition": "mapped",
+    "tasks": [
+      "VIS-007"
+    ],
+    "reason": "GizmoGroup 병렬 인덱스 저장과 중복 checked 백업 현존."
+  },
+  {
+    "issue": 319,
+    "disposition": "mapped",
+    "tasks": [
+      "VIS-002"
+    ],
+    "reason": "FE visibility 복원·무조건 resetCamera·등록 해제 비대칭 현존."
+  },
+  {
+    "issue": 320,
+    "disposition": "mapped",
+    "tasks": [
+      "VIS-005"
+    ],
+    "reason": "Project Assets에서도 vtk_parent/vtk_single 실제 경로이며 m_vtuVtkActors 삽입 없음."
+  },
+  {
+    "issue": 430,
+    "disposition": "mapped",
+    "tasks": [
+      "GEO-001",
+      "GEO-002"
+    ],
+    "reason": "DashHandleData/VTP 통합 설계는 Setup/Configuration JSON으로 대체; 미병합과 후속 interaction 작업 분리."
+  },
+  {
+    "issue": 499,
+    "disposition": "mapped",
+    "tasks": [
+      "GEO-001",
+      "GEO-004",
+      "GEO-005"
+    ],
+    "reason": "범프·isolated handles는 완료 이력. PR654 상태기/section 어댑터 이후 Box FFD와 section_frames 소비 이관 잔여."
+  },
+  {
+    "issue": 512,
+    "disposition": "mapped",
+    "tasks": [
+      "GEO-006"
+    ],
+    "reason": "dev processEvents 및 finished await 순서 확인; 계산 워커화는 재작업하지 않음."
+  },
+  {
+    "issue": 563,
+    "disposition": "mapped",
+    "tasks": [
+      "GEO-003",
+      "GEO-001"
+    ],
+    "reason": "dev constraints 저장 비대칭·Hide의 membership 변경 현존. 최신 JSON unpinned 스펙으로 이관; 구 VTP migration 설계는 폐기."
+  },
+  {
+    "issue": 645,
+    "disposition": "mapped",
+    "tasks": [
+      "AST-001",
+      "CON-001"
+    ],
+    "reason": "copy 전에 파일/context/tree 제거와 Condition 갱신 통지 부재 확인. 원장/Set 직접 삭제는 코드에서 확인되지 않아 표현 정정."
+  },
+  {
+    "issue": 458,
+    "disposition": "mapped",
+    "tasks": [
+      "AST-003"
+    ],
+    "reason": "코루틴 API는 있으나 SDK actor는 GUI affinity. 실제 파싱 워커 이관은 미완료; Deferred 유지."
+  },
+  {
+    "issue": 316,
+    "disposition": "mapped",
+    "tasks": [
+      "VIS-001"
+    ],
+    "reason": "Optimizer 전체 actor 순회 삭제 현존. downstream OPT 요청 수명 작업과 분리."
+  },
+  {
+    "issue": 464,
+    "disposition": "mapped",
+    "tasks": [
+      "CAD-002"
+    ],
+    "reason": "CAD load 성공 stop 부재·preview start 부재 확인."
+  },
+  {
+    "issue": 487,
+    "disposition": "mapped",
+    "tasks": [
+      "CAD-003",
+      "CON-002",
+      "GEO-001"
+    ],
+    "reason": "CAD bounds 교차검증과 Condition number schema 범위 잔여. GP 검증은 PR654 내 포함. 다른 모듈은 각 owner."
+  },
+  {
+    "issue": 577,
+    "disposition": "mapped",
+    "tasks": [
+      "GEO-001",
+      "GEO-004"
+    ],
+    "reason": "보드 외 연결 이슈. 2026-10-05 결정에 따라 cylinder 삭제와 Hexahedron FFD 신규로 반영."
+  },
+  {
+    "issue": 281,
+    "disposition": "partial",
+    "tasks": [
+      "GEO-006",
+      "GEO-007"
+    ],
+    "reason": "구 WorkerJob/MorphingGate 계획 폐기. 현재 freezeDoeBatch/runDoeBatch가 서비스 co_await 경로이며 값 경계·전용 문서 상당 부분 구현됨. QC dialog 결함과 실제 교차모듈 검증만 GEO 잔여; OPT/RUN 요청 취소·수명은 downstream, deck GUI parse는 AST-003."
+  },
+  {
+    "issue": 427,
+    "disposition": "partial",
+    "tasks": [
+      "GEO-002",
+      "GEO-007",
+      "VIS-001",
+      "VIS-002",
+      "VIS-003"
+    ],
+    "reason": "광역 격리 부모. #428/#429 및 모핑 local화 완료분을 제외하고 scene 소유·interaction projection·통합 검증에 분산. 현 snapshot 실행 코드에서 뒷정리 원복을 무조건 추가 삭제할 근거는 없음."
+  },
+  {
+    "issue": 423,
+    "disposition": "cross_owner",
+    "tasks": [],
+    "reason": "root IO-06 전역 default 정책 소유. GEO 반경 10.0 분산은 실재하나 PR654 전역 Set radius 결정과 맞춰 적용; 독립 per-handle UI 없음."
+  },
+  {
+    "issue": 557,
+    "disposition": "cross_owner",
+    "tasks": [],
+    "reason": "execution 담당 legacy source 정책. batch WARN 진행과 Optimizer/Runner validateMorphingTarget 거부 차이는 현재 코드에 남음."
+  },
+  {
+    "issue": 616,
+    "disposition": "partial",
+    "tasks": [
+      "AST-002",
+      "AST-001"
+    ],
+    "reason": "PR651 미병합. 자산 등록·복사/삭제·Condition 미생성은 AST-002, 실패 안전성은 AST-001, Launcher/fe-safe 실행은 execution 소유."
+  },
+  {
+    "issue": 428,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "#576/#588 이후 interaction·수집기 주입과 GUI 정본 차용 절단 완료. 남은 polydata 소유 문제는 #430/GEO-002 범위."
+  },
+  {
+    "issue": 243,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "현재 Widget .ui 사용 경로와 별도 morphing preview driver 존재. 과거 .ui 이관을 재발행하지 않음."
+  },
+  {
+    "issue": 362,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "registry displayedContext/displayedActor 명명 현존."
+  },
+  {
+    "issue": 408,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashMorphingService 존재; 이후 #586이 레인을 제거한 local 서비스로 갱신. 초기 서비스 재도입은 불필요."
+  },
+  {
+    "issue": 605,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashManager에서 MorphFromDoeSamples/모핑 협력자 등록 API 제거 확인; runDoeBatchForSet가 executor 옆에 존재."
+  },
+  {
+    "issue": 403,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashMorphingRun/PreviewCollector/값 경계가 공유 엔진 차용을 대체. 원 이슈의 기구 재구현 불필요."
+  },
+  {
+    "issue": 422,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "Morphing 경로는 Result/ErrorState를 반환하며 실패 사유 로깅/전달 경로 존재."
+  },
+  {
+    "issue": 546,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "핸들 트리 작업은 기존 완료 이력. PR654의 sampled tree가 후속 정본; 별도 원 티켓 재작업 안 함."
+  },
+  {
+    "issue": 503,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "기존 완료로 분류; 현 설정 표 browse 경로와 최신 트리 이관에 따라 회귀 확인은 해당 구현 검증에 포함."
+  },
+  {
+    "issue": 603,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "현재 Condition Set model이 자신의 reference를 refreshFromLoadedAnalysis로 읽고 Project::createLinkedSets 경로 존재."
+  },
+  {
+    "issue": 500,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashMorphingDoeExecutor::plan validateMorphingTarget 적용 현존. legacy source 예외만 #557로 남음."
+  },
+  {
+    "issue": 586,
+    "disposition": "resolved",
+    "tasks": [
+      "GEO-007"
+    ],
+    "reason": "local 서비스/Run/collector 구현 현존. 이슈가 명시적으로 보류한 통합 수동 검증은 GEO-007로 연결."
+  },
+  {
+    "issue": 525,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashMorphingDoeExecutor::plan이 GP JSON/VTP를 직접 복원하며 GUI GP 진입 전제 없음. 후속 JSON 소비자는 GEO-001."
+  },
+  {
+    "issue": 560,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "CAD clearAllSets 완료 이력. 프로젝트 전환 회귀는 root 공통 수명 작업에서 확인."
+  },
+  {
+    "issue": 602,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "DashModelingTreeWidget은 Reference File+DOE Tables 자산 트리. 기존 모듈 이름을 기준으로 재작성하지 않음."
+  },
+  {
+    "issue": 361,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "registry toRootRelativePath/표시 경로 상대화가 dev에 존재."
+  },
+  {
+    "issue": 599,
+    "disposition": "resolved",
+    "tasks": [],
+    "reason": "현재 프로젝트 고정 Set naming 정책 완료 이력; 추가 Set 증식을 신규 기능으로 요구하지 않음."
+  },
+  {
+    "issue": 278,
+    "disposition": "superseded",
+    "tasks": [],
+    "reason": "W10 미병합/rollback 좌표의 폐기 이력. 현재 서비스/Run/immutable document 구현 기준으로 재조사하므로 WorkerJob·MorphingGate 설계를 복원하지 않음."
+  },
+  {
+    "issue": 274,
+    "disposition": "superseded",
+    "tasks": [],
+    "reason": "W10 미병합/rollback 좌표의 폐기 이력. 현재 서비스/Run/immutable document 구현 기준으로 재조사하므로 WorkerJob·MorphingGate 설계를 복원하지 않음."
+  },
+  {
+    "issue": 260,
+    "disposition": "superseded",
+    "tasks": [],
+    "reason": "W10 미병합/rollback 좌표의 폐기 이력. 현재 서비스/Run/immutable document 구현 기준으로 재조사하므로 WorkerJob·MorphingGate 설계를 복원하지 않음."
+  }
+]

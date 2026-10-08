@@ -1,0 +1,1566 @@
+[
+  {
+    "issue": 246,
+    "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager",
+    "source_line": 3,
+    "board_row": 53,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 246,
+      "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "PRJ-01",
+        "PRJ-09",
+        "PRJ-10"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-01 프로젝트 교체 전에 모든 모듈의 모델 연결과 진행 중 요청을 정리한다; PRJ-09 프로젝트의 Set 복원·개명·참조 조회에 필요한 IO 경계를 명시한다; PRJ-10 DashManager의 프로세스·설정 접근을 명시적인 소유자로 이관한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/246"
+    }
+  },
+  {
+    "issue": 431,
+    "title": "모델 교체·세트 전환 시 위젯 정리 규칙 문서화",
+    "source_line": 4,
+    "board_row": null,
+    "display_parent": 246,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 431,
+      "title": "모델 교체·세트 전환 시 위젯 정리 규칙 문서화",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 246,
+      "disposition": "mapped",
+      "tasks": [
+        "PRJ-01"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-01 프로젝트 교체 전에 모든 모듈의 모델 연결과 진행 중 요청을 정리한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/431"
+    }
+  },
+  {
+    "issue": 432,
+    "title": "모델 계층이 프로젝트 관리자를 되부르는 의존 제거",
+    "source_line": 5,
+    "board_row": null,
+    "display_parent": 246,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 432,
+      "title": "모델 계층이 프로젝트 관리자를 되부르는 의존 제거",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 246,
+      "disposition": "mapped",
+      "tasks": [
+        "IO-07",
+        "IO-08",
+        "IO-09",
+        "PRJ-06",
+        "PRJ-09"
+      ],
+      "reason": "downstream: 모델의 전역 ProjectManager 의존 정리는 root. downstream 사용처를 재목록화했으나 독립 중복 카드 없음. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-06 Save와 Save As의 성공 판정을 실제 저장 결과와 일치시킨다; PRJ-09 프로젝트의 Set 복원·개명·참조 조회에 필요한 IO 경계를 명시한다; IO-07 모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다; IO-08 모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다; IO-09 모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/432"
+    }
+  },
+  {
+    "issue": 433,
+    "title": "데이터 처리 클래스 분해",
+    "source_line": 6,
+    "board_row": null,
+    "display_parent": 246,
+    "iteration": "W3 09/28–10/04",
+    "status": "In progress",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 433,
+      "title": "데이터 처리 클래스 분해",
+      "board_status": "In progress",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 246,
+      "disposition": "partial",
+      "tasks": [
+        "RES-04",
+        "RES-05",
+        "RES-09",
+        "RES-10",
+        "RES-11"
+      ],
+      "reason": "execution: 1~7단계 및 PR642 writer 공통화는 반영됨. 실제 파일 검증·시점/컴포넌트 공통화 잔여만 구체 카드로 반영.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/433"
+    }
+  },
+  {
+    "issue": 434,
+    "title": "전역 관리 객체 해체",
+    "source_line": 7,
+    "board_row": null,
+    "display_parent": 246,
+    "iteration": "W3 09/28–10/04",
+    "status": "In progress",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 434,
+      "title": "전역 관리 객체 해체",
+      "board_status": "In progress",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 246,
+      "disposition": "mapped",
+      "tasks": [
+        "PRJ-10"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-10 DashManager의 프로세스·설정 접근을 명시적인 소유자로 이관한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/434"
+    }
+  },
+  {
+    "issue": 427,
+    "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리",
+    "source_line": 9,
+    "board_row": 54,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 427,
+      "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "partial",
+      "tasks": [
+        "GEO-002",
+        "GEO-007",
+        "VIS-001",
+        "VIS-002",
+        "VIS-003"
+      ],
+      "reason": "geometry: 광역 격리 부모. #428/#429 및 모핑 local화 완료분을 제외하고 scene 소유·interaction projection·통합 검증에 분산. 현 snapshot 실행 코드에서 뒷정리 원복을 무조건 추가 삭제할 근거는 없음.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/427"
+    }
+  },
+  {
+    "issue": 430,
+    "title": "핸들 데이터 전용 타입 DashHandleData 신설 — VTP 읽기 5곳·쓰기 2곳 일원화",
+    "source_line": 10,
+    "board_row": null,
+    "display_parent": 427,
+    "iteration": "W4 10/05–10/11",
+    "status": "In progress",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 430,
+      "title": "핸들 데이터 전용 타입 DashHandleData 신설 — VTP 읽기 5곳·쓰기 2곳 일원화",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 427,
+      "disposition": "mapped",
+      "tasks": [
+        "GEO-001",
+        "GEO-002"
+      ],
+      "reason": "geometry: DashHandleData/VTP 통합 설계는 Setup/Configuration JSON으로 대체; 미병합과 후속 interaction 작업 분리.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/430"
+    }
+  },
+  {
+    "issue": 318,
+    "title": "공유 VTK 씬에 모듈 소유권 도입 — 덮어쓰기 12곳 정리, 인수는 파괴가 아니라 숨김",
+    "source_line": 11,
+    "board_row": null,
+    "display_parent": 427,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 318,
+      "title": "공유 VTK 씬에 모듈 소유권 도입 — 덮어쓰기 12곳 정리, 인수는 파괴가 아니라 숨김",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 427,
+      "disposition": "mapped",
+      "tasks": [
+        "VIS-001",
+        "VIS-002",
+        "VIS-003",
+        "VIS-004",
+        "VIS-005"
+      ],
+      "reason": "geometry: 씬 소유/상태/파일 토글을 사용자 결과 단위로 재분할. 광역 부모 자체는 별도 실행 카드 아님.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/318"
+    }
+  },
+  {
+    "issue": 316,
+    "title": "Optimizer Preview 의 전체 actor 일괄 삭제 — 핸들 5종 복구 불가, 비파괴 오버레이로 전환",
+    "source_line": 12,
+    "board_row": null,
+    "display_parent": 427,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 316,
+      "title": "Optimizer Preview 의 전체 actor 일괄 삭제 — 핸들 5종 복구 불가, 비파괴 오버레이로 전환",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 427,
+      "disposition": "mapped",
+      "tasks": [
+        "VIS-001"
+      ],
+      "reason": "geometry: Optimizer 전체 actor 순회 삭제 현존. downstream OPT 요청 수명 작업과 분리. / downstream: Optimizer GetActors 전량 RemoveActor·setDisplayedContext·resetCamera 유지. 비파괴 overlay는 geometry agent VIS-001, 요청 수명은 OPT-02.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/316"
+    }
+  },
+  {
+    "issue": 319,
+    "title": "레이어 체계 밖 actor 의 수명·상태 결함 4건 — FE actor 숨김 방치 · 무조건 카메라 리셋 · clearAllLayers 누락 · 등록/해제 경로 불일치",
+    "source_line": 13,
+    "board_row": null,
+    "display_parent": 427,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 319,
+      "title": "레이어 체계 밖 actor 의 수명·상태 결함 4건 — FE actor 숨김 방치 · 무조건 카메라 리셋 · clearAllLayers 누락 · 등록/해제 경로 불일치",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 427,
+      "disposition": "mapped",
+      "tasks": [
+        "VIS-002"
+      ],
+      "reason": "geometry: FE visibility 복원·무조건 resetCamera·등록 해제 비대칭 현존.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/319"
+    }
+  },
+  {
+    "issue": 281,
+    "title": "단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b)",
+    "source_line": 14,
+    "board_row": null,
+    "display_parent": 427,
+    "iteration": "W4 10/05–10/11",
+    "status": "In progress",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 281,
+      "title": "단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b)",
+      "board_status": "In progress",
+      "issue_state": "OPEN",
+      "state_reason": "REOPENED",
+      "parent": 427,
+      "disposition": "partial",
+      "tasks": [
+        "GEO-006",
+        "GEO-007",
+        "OPT-02",
+        "RUN-07",
+        "RUN-11"
+      ],
+      "reason": "geometry: 구 WorkerJob/MorphingGate 계획 폐기. 현재 freezeDoeBatch/runDoeBatch가 서비스 co_await 경로이며 값 경계·전용 문서 상당 부분 구현됨. QC dialog 결함과 실제 교차모듈 검증만 GEO 잔여; OPT/RUN 요청 취소·수명은 downstream, deck GUI parse는 AST-003. / downstream: #586 서비스로 morph 계산 워커·값 경계 구현은 dev 존재. 남은 요청 귀속/취소 및 설치 환경 수동 검증으로 재정의; 기존 워커화 전체 재발행 금지.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/281"
+    }
+  },
+  {
+    "issue": 446,
+    "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환",
+    "source_line": 16,
+    "board_row": 55,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 446,
+      "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "UI-01",
+        "UI-02",
+        "UI-03"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-01 혼합 DPI 이동과 도크 재배치의 재진입·화면 이탈을 막는다; UI-02 창 위치·크기·도크 구성을 저장하고 안전하게 복원한다; UI-03 내용 크기와 도크 크기 결정을 레이아웃에 맡기고 강제 이벤트 flush를 없앤다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/446"
+    }
+  },
+  {
+    "issue": 447,
+    "title": "배율 다른 모니터로 이동 시 프리즈·복구 불가 차단",
+    "source_line": 17,
+    "board_row": null,
+    "display_parent": 446,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 447,
+      "title": "배율 다른 모니터로 이동 시 프리즈·복구 불가 차단",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 446,
+      "disposition": "mapped",
+      "tasks": [
+        "UI-01"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-01 혼합 DPI 이동과 도크 재배치의 재진입·화면 이탈을 막는다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/447"
+    }
+  },
+  {
+    "issue": 448,
+    "title": "창 위치·크기·도크 배치의 저장·복원 도입",
+    "source_line": 18,
+    "board_row": null,
+    "display_parent": 446,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 448,
+      "title": "창 위치·크기·도크 배치의 저장·복원 도입",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 446,
+      "disposition": "mapped",
+      "tasks": [
+        "UI-02"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-02 창 위치·크기·도크 구성을 저장하고 안전하게 복원한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/448"
+    }
+  },
+  {
+    "issue": 449,
+    "title": "명령형 크기 지정 제거 — 레이아웃에 크기 결정권 반환",
+    "source_line": 19,
+    "board_row": null,
+    "display_parent": 446,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 449,
+      "title": "명령형 크기 지정 제거 — 레이아웃에 크기 결정권 반환",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 446,
+      "disposition": "mapped",
+      "tasks": [
+        "UI-03"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-03 내용 크기와 도크 크기 결정을 레이아웃에 맡기고 강제 이벤트 flush를 없앤다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/449"
+    }
+  },
+  {
+    "issue": 450,
+    "title": "테두리 없는 창과 중첩 메인 윈도우 구조 재검토",
+    "source_line": 20,
+    "board_row": null,
+    "display_parent": 446,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Low",
+    "baseline_crosswalk": {
+      "issue": 450,
+      "title": "테두리 없는 창과 중첩 메인 윈도우 구조 재검토",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 446,
+      "disposition": "mapped",
+      "tasks": [
+        "UI-01"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-01 혼합 DPI 이동과 도크 재배치의 재진입·화면 이탈을 막는다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/450"
+    }
+  },
+  {
+    "issue": 451,
+    "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거",
+    "source_line": 22,
+    "board_row": 56,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 451,
+      "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-01",
+        "ASY-05"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-01 비동기 작업의 준비·실행·완료 계약과 제출 결과를 명시한다; ASY-05 FEM 읽기·변환을 워커로 옮기고 진행 중 창 수명을 분리한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/451"
+    }
+  },
+  {
+    "issue": 454,
+    "title": "Data Preprocessor — 동기 실행 워커 이관과 펌핑 16곳 제거",
+    "source_line": 23,
+    "board_row": null,
+    "display_parent": 451,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 454,
+      "title": "Data Preprocessor — 동기 실행 워커 이관과 펌핑 16곳 제거",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 451,
+      "disposition": "mapped",
+      "tasks": [
+        "RES-08",
+        "RES-09"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/454"
+    }
+  },
+  {
+    "issue": 455,
+    "title": "모듈 외 잔여 view 펌핑 10곳 분류·제거",
+    "source_line": 24,
+    "board_row": null,
+    "display_parent": 451,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 455,
+      "title": "모듈 외 잔여 view 펌핑 10곳 분류·제거",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 451,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-05",
+        "UI-03"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-05 FEM 읽기·변환을 워커로 옮기고 진행 중 창 수명을 분리한다; UI-03 내용 크기와 도크 크기 결정을 레이아웃에 맡기고 강제 이벤트 flush를 없앤다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/455"
+    }
+  },
+  {
+    "issue": 456,
+    "title": "Analysis Launcher 정규 경로(.inp·ANSYS) — [Start] 동기 실행 워커 이관",
+    "source_line": 25,
+    "board_row": null,
+    "display_parent": 451,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Low",
+    "baseline_crosswalk": {
+      "issue": 456,
+      "title": "Analysis Launcher 정규 경로(.inp·ANSYS) — [Start] 동기 실행 워커 이관",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 451,
+      "disposition": "partial",
+      "tasks": [
+        "AL-12"
+      ],
+      "reason": "execution: generateInputCases 동기 전체라는 구 전제는 사라졌고 모핑·export는 await한다. 동기 dat fallback/파일준비만 잔여.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/456"
+    }
+  },
+  {
+    "issue": 457,
+    "title": "Optimizer — 펌핑 2곳 제거와 요청 식별자 왕복 (OPT-D19)",
+    "source_line": 26,
+    "board_row": null,
+    "display_parent": 451,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 457,
+      "title": "Optimizer — 펌핑 2곳 제거와 요청 식별자 왕복 (OPT-D19)",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 451,
+      "disposition": "partial",
+      "tasks": [
+        "OPT-02",
+        "OPT-07"
+      ],
+      "reason": "downstream: 모핑 본체는 이미 service co_await이나 view processEvents 두 곳과 무태그 NX 완료·Set 요청 귀속은 남음. 새 워커를 중복 도입하지 않음.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/457"
+    }
+  },
+  {
+    "issue": 512,
+    "title": "Geometry Parameterization(Morphing) — setResults 펌핑 제거와 결정 시그널 유실 차단",
+    "source_line": 27,
+    "board_row": null,
+    "display_parent": 451,
+    "iteration": "W2 09/21–09/27",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 512,
+      "title": "Geometry Parameterization(Morphing) — setResults 펌핑 제거와 결정 시그널 유실 차단",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 451,
+      "disposition": "mapped",
+      "tasks": [
+        "GEO-006"
+      ],
+      "reason": "geometry: dev processEvents 및 finished await 순서 확인; 계산 워커화는 재작업하지 않음.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/512"
+    }
+  },
+  {
+    "issue": 513,
+    "title": "Model Runner — 폴더 선택 동기 스캔 워커 이관",
+    "source_line": 28,
+    "board_row": null,
+    "display_parent": 451,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 513,
+      "title": "Model Runner — 폴더 선택 동기 스캔 워커 이관",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 451,
+      "disposition": "mapped",
+      "tasks": [
+        "RUN-06"
+      ],
+      "reason": "downstream: 현재 folder→loadModelInfoFromFolder→UI population은 동기 경로. 공통 RW 적재(AST-003)와 구분해 메타데이터 스냅샷/중복 읽기/요청 세대 담당.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/513"
+    }
+  },
+  {
+    "issue": 473,
+    "title": "실행 산출물 항목의 식별자 결합",
+    "source_line": 30,
+    "board_row": 57,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 473,
+      "title": "실행 산출물 항목의 식별자 결합",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "UI-06"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-06 삭제 가능한 표의 콜백을 현재 항목에 결합한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/473"
+    }
+  },
+  {
+    "issue": 474,
+    "title": "표 행과 항목의 결합을 식별자 키로 전환",
+    "source_line": 31,
+    "board_row": null,
+    "display_parent": 473,
+    "iteration": "W2 09/21–09/27",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 474,
+      "title": "표 행과 항목의 결합을 식별자 키로 전환",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 473,
+      "disposition": "partial",
+      "tasks": [
+        "RUN-03",
+        "UI-06"
+      ],
+      "reason": "downstream: Runner case 값/행 결합은 영속 케이스 ID 작업. MCU Builder/Runner browse 행 캡처와 죽은 preview row는 #514 공통 UI-06에서 해결. DOE 분은 execution 담당.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/474"
+    }
+  },
+  {
+    "issue": 475,
+    "title": "산출물 채번의 세션 영속화",
+    "source_line": 32,
+    "board_row": null,
+    "display_parent": 473,
+    "iteration": "W2 09/21–09/27",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 475,
+      "title": "산출물 채번의 세션 영속화",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 473,
+      "disposition": "mapped",
+      "tasks": [
+        "RUN-03"
+      ],
+      "reason": "downstream: m_predictionCount=0 시작 및 충돌방지 없는 Generate 파일명 확인. 케이스 저장/복원·삭제와 같은 데이터 소유 범위로 묶음.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/475"
+    }
+  },
+  {
+    "issue": 477,
+    "title": "접두사 매칭 삭제를 식별자 삭제로 — 생성·스캔 경로 정합",
+    "source_line": 33,
+    "board_row": null,
+    "display_parent": 473,
+    "iteration": "W2 09/21–09/27",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 477,
+      "title": "접두사 매칭 삭제를 식별자 삭제로 — 생성·스캔 경로 정합",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 473,
+      "disposition": "mapped",
+      "tasks": [
+        "RUN-03"
+      ],
+      "reason": "downstream: relatedFilePathsForDeletion prefix+* 및 생성 VTU와 재조회 dat/inp 간 불일치 확인.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/477"
+    }
+  },
+  {
+    "issue": 438,
+    "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결",
+    "source_line": 35,
+    "board_row": 58,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 438,
+      "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-03",
+        "AL-04",
+        "AL-05",
+        "AL-06",
+        "DIR-01"
+      ],
+      "reason": "execution: 부모 자체는 실행 작업으로 세지 않음. terminal/취소/상태/복구/Direct 상태로 분해.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/438"
+    }
+  },
+  {
+    "issue": 439,
+    "title": "배치 취소가 대기 큐까지 비우게 완결",
+    "source_line": 36,
+    "board_row": null,
+    "display_parent": 438,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 439,
+      "title": "배치 취소가 대기 큐까지 비우게 완결",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 438,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-04"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/439"
+    }
+  },
+  {
+    "issue": 440,
+    "title": "실행 케이스마다 현재 상태가 표에 보이게",
+    "source_line": 37,
+    "board_row": null,
+    "display_parent": 438,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 440,
+      "title": "실행 케이스마다 현재 상태가 표에 보이게",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 438,
+      "disposition": "partial",
+      "tasks": [
+        "DIR-01"
+      ],
+      "reason": "execution: 정규 Launcher status 연결은 WidgetLauncher.cpp:205에 있음. 옛 Direct 결함은 미병합 PR652가 대체.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/440"
+    }
+  },
+  {
+    "issue": 441,
+    "title": "배치 상태 기록의 증분화와 재시작 시 복구",
+    "source_line": 38,
+    "board_row": null,
+    "display_parent": 438,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 441,
+      "title": "배치 상태 기록의 증분화와 재시작 시 복구",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 438,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-05",
+        "AL-06"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/441"
+    }
+  },
+  {
+    "issue": 442,
+    "title": "실행 이력 목록 관리",
+    "source_line": 39,
+    "board_row": null,
+    "display_parent": 438,
+    "iteration": "",
+    "status": "",
+    "board_priority": "Low  (not planned)",
+    "baseline_crosswalk": {
+      "issue": 442,
+      "title": "실행 이력 목록 관리",
+      "board_status": "unset",
+      "issue_state": "CLOSED",
+      "state_reason": "NOT_PLANNED",
+      "parent": 438,
+      "disposition": "historical",
+      "tasks": [],
+      "reason": "GitHub 상태 CLOSED / NOT_PLANNED. 보드 이력으로 보존하고 새 구현을 재생성하지 않는다. 현재 코드 완결을 독립 재검증했다는 뜻은 아니다. 새 작업 근거로 직접 사용하지 않은 닫힌 항목이다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/442"
+    }
+  },
+  {
+    "issue": 443,
+    "title": "Set 에 식별자를 부여하고 원장으로 관리",
+    "source_line": 41,
+    "board_row": 59,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "In progress",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 443,
+      "title": "Set 에 식별자를 부여하고 원장으로 관리",
+      "board_status": "In progress",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "PRJ-02",
+        "PRJ-04"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-02 Set 개명 시 설정·산출물·참조를 함께 바꾸고 실패를 되돌린다; PRJ-04 Set 목록의 정본을 파일명 탐색에서 setId 원장으로 옮긴다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/443"
+    }
+  },
+  {
+    "issue": 444,
+    "title": "Set 기록 파일을 변경 빈도 단위로 분할",
+    "source_line": 42,
+    "board_row": null,
+    "display_parent": 443,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 444,
+      "title": "Set 기록 파일을 변경 빈도 단위로 분할",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 443,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-05"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/444"
+    }
+  },
+  {
+    "issue": 460,
+    "title": "실행 진행 표시·취소·중복 실행 가드의 표준화",
+    "source_line": 44,
+    "board_row": 60,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 460,
+      "title": "실행 진행 표시·취소·중복 실행 가드의 표준화",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "partial",
+      "tasks": [
+        "ASY-02",
+        "BLD-02",
+        "OPT-02",
+        "OPT-03",
+        "OPT-07",
+        "RUN-02",
+        "RUN-07",
+        "RUN-11"
+      ],
+      "reason": "downstream: 공통 ASY-02 규약 하에 실제 모듈 busy/terminal/취소 적용을 분해. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-02 작업 상태에 따른 진행 표시·입력 차단·취소 표시를 한 방식으로 연결한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/460"
+    }
+  },
+  {
+    "issue": 461,
+    "title": "실행 중 재클릭·재진입 차단",
+    "source_line": 45,
+    "board_row": null,
+    "display_parent": 460,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 461,
+      "title": "실행 중 재클릭·재진입 차단",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 460,
+      "disposition": "partial",
+      "tasks": [
+        "ASY-02",
+        "BLD-02",
+        "OPT-03"
+      ],
+      "reason": "downstream: 모델 m_currentJob guard만으로 UI 재실행 상태를 충족하지 않는 실제 경로 소유; execution 측 guard는 타 담당. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-02 작업 상태에 따른 진행 표시·입력 차단·취소 표시를 한 방식으로 연결한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/461"
+    }
+  },
+  {
+    "issue": 462,
+    "title": "진행 표시 표준 1종 정의",
+    "source_line": 46,
+    "board_row": null,
+    "display_parent": 460,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 462,
+      "title": "진행 표시 표준 1종 정의",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 460,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-02"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-02 작업 상태에 따른 진행 표시·입력 차단·취소 표시를 한 방식으로 연결한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/462"
+    }
+  },
+  {
+    "issue": 463,
+    "title": "모듈별 진행바·취소 버튼 확산",
+    "source_line": 47,
+    "board_row": null,
+    "display_parent": 460,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 463,
+      "title": "모듈별 진행바·취소 버튼 확산",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 460,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-12",
+        "ASY-02",
+        "RES-08",
+        "RES-09"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-02 작업 상태에 따른 진행 표시·입력 차단·취소 표시를 한 방식으로 연결한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/463"
+    }
+  },
+  {
+    "issue": 464,
+    "title": "기존 진행 표시 결함 정리 — 스피너 비대칭",
+    "source_line": 48,
+    "board_row": null,
+    "display_parent": 460,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Low",
+    "baseline_crosswalk": {
+      "issue": 464,
+      "title": "기존 진행 표시 결함 정리 — 스피너 비대칭",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 460,
+      "disposition": "mapped",
+      "tasks": [
+        "CAD-002"
+      ],
+      "reason": "geometry: CAD load 성공 stop 부재·preview start 부재 확인.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/464"
+    }
+  },
+  {
+    "issue": 465,
+    "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드",
+    "source_line": 50,
+    "board_row": 61,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 465,
+      "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-03",
+        "ASY-04"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-03 데몬 명령 응답에 요청별 시한과 종결 처리를 둔다; ASY-04 외부 프로그램 인코딩·nullable 서비스 경계를 실제 호출 계약에 맞춘다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/465"
+    }
+  },
+  {
+    "issue": 466,
+    "title": "프로세스 무음 실패의 통지 규칙 수립",
+    "source_line": 51,
+    "board_row": null,
+    "display_parent": 465,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 466,
+      "title": "프로세스 무음 실패의 통지 규칙 수립",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 465,
+      "disposition": "partial",
+      "tasks": [
+        "ANA-07",
+        "BLD-02",
+        "OPT-03",
+        "UI-05"
+      ],
+      "reason": "downstream: 무음 실패를 구체 학습 시작 실패·optimizationFailed 미연결·plot/export 실패에 배분. 정책만 새 발행하지 않음. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-05 실패·정보·확인의 통지 규칙과 공통 호출 표면을 맞춘다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/466"
+    }
+  },
+  {
+    "issue": 467,
+    "title": "데몬 기동·응답 타임아웃 도입",
+    "source_line": 52,
+    "board_row": null,
+    "display_parent": 465,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 467,
+      "title": "데몬 기동·응답 타임아웃 도입",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 465,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-03"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-03 데몬 명령 응답에 요청별 시한과 종결 처리를 둔다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/467"
+    }
+  },
+  {
+    "issue": 468,
+    "title": "외부 프로세스 호출부 널 가드 일괄",
+    "source_line": 53,
+    "board_row": null,
+    "display_parent": 465,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 468,
+      "title": "외부 프로세스 호출부 널 가드 일괄",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 465,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-04"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-04 외부 프로그램 인코딩·nullable 서비스 경계를 실제 호출 계약에 맞춘다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/468"
+    }
+  },
+  {
+    "issue": 469,
+    "title": "프로세스 인자·출력 인코딩 UTF-8 통일",
+    "source_line": 54,
+    "board_row": null,
+    "display_parent": 465,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 469,
+      "title": "프로세스 인자·출력 인코딩 UTF-8 통일",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 465,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-04"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-04 외부 프로그램 인코딩·nullable 서비스 경계를 실제 호출 계약에 맞춘다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/469"
+    }
+  },
+  {
+    "issue": 470,
+    "title": "실행 산출물의 유래 추적 — 스탬프와 대장",
+    "source_line": 56,
+    "board_row": 62,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 470,
+      "title": "실행 산출물의 유래 추적 — 스탬프와 대장",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "IO-10",
+        "IO-11",
+        "PRJ-03",
+        "PRJ-05"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-03 진행 중인 조합 스탬프 PR을 현재 파이프라인에 통합하고 전 구간 검증한다; PRJ-05 실행과 산출물의 생성·소비 관계를 파일 대장에 기록한다; IO-10 학습 모델 생산과 Runner·Optimizer 소비를 대장에 연결한다; IO-11 DOE 입력과 예측·최적화 결과의 생산·소비 기록을 완결한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/470"
+    }
+  },
+  {
+    "issue": 471,
+    "title": "산출물 대장과 소비 기록",
+    "source_line": 57,
+    "board_row": null,
+    "display_parent": 470,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 471,
+      "title": "산출물 대장과 소비 기록",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 470,
+      "disposition": "mapped",
+      "tasks": [
+        "IO-10",
+        "IO-11",
+        "PRJ-05",
+        "PRJ-11"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-05 실행과 산출물의 생성·소비 관계를 파일 대장에 기록한다; IO-10 학습 모델 생산과 Runner·Optimizer 소비를 대장에 연결한다; IO-11 DOE 입력과 예측·최적화 결과의 생산·소비 기록을 완결한다; PRJ-11 포맷과 독립적인 산출물 세대 계약을 만들고 결과 생성에 적용한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/471"
+    }
+  },
+  {
+    "issue": 368,
+    "title": "G9 산출물에 조합 식별자를 기록하고 각 단계가 입력을 검증 (T27·T21·T22·T23)",
+    "source_line": 58,
+    "board_row": null,
+    "display_parent": 470,
+    "iteration": "",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 368,
+      "title": "G9 산출물에 조합 식별자를 기록하고 각 단계가 입력을 검증 (T27·T21·T22·T23)",
+      "board_status": "In review",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 470,
+      "disposition": "mapped",
+      "tasks": [
+        "BLD-01",
+        "OPT-01",
+        "PRJ-03",
+        "RUN-05"
+      ],
+      "reason": "execution: PR530 pipeline stamp 생산·검증·통합은 root 소유. DOE/AL의 별도 스탬프 중복 카드는 제거했다. / downstream: PR530 OPEN head 0bbcc9c의 T22/T23로 Builder/Runner/Optimizer 조합 핀·model_info 전사·단일 geometryDeck 프리뷰 구현 중. root가 기존 PR 통합/검증 한 카드 소유; 중복 신규 구현 카드 없음. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-03 진행 중인 조합 스탬프 PR을 현재 파이프라인에 통합하고 전 구간 검증한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/368"
+    }
+  },
+  {
+    "issue": 514,
+    "title": "표 셀 위젯이 캡처한 행 번호가 삭제 후 어긋난다 — 전수조사 잔여 5건과 행 해석 규칙 통일 (#503 계열)",
+    "source_line": 60,
+    "board_row": 63,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 514,
+      "title": "표 셀 위젯이 캡처한 행 번호가 삭제 후 어긋난다 — 전수조사 잔여 5건과 행 해석 규칙 통일 (#503 계열)",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "UI-06"
+      ],
+      "reason": "downstream: MCU Builder addDatasetFileRow browse [this,row] 남음, Runner preview row는 미사용 인자. domain 케이스 저장 모델은 RUN-03에 별도 귀속. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: UI-06 삭제 가능한 표의 콜백을 현재 항목에 결합한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/514"
+    }
+  },
+  {
+    "issue": 543,
+    "title": "비동기 작업 중 UI 차단·진행 표시의 UI/UX 정리",
+    "source_line": 61,
+    "board_row": 64,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "Medium",
+    "baseline_crosswalk": {
+      "issue": 543,
+      "title": "비동기 작업 중 UI 차단·진행 표시의 UI/UX 정리",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "ASY-02"
+      ],
+      "reason": "common: 현재 공통/모듈 경계의 구체 잔여로 재정의: ASY-02 작업 상태에 따른 진행 표시·입력 차단·취소 표시를 한 방식으로 연결한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/543"
+    }
+  },
+  {
+    "issue": 551,
+    "title": "프로젝트 전환 시 나머지 모듈 위젯 7곳도 해제된 모델을 역참조한다 — #549 전수조사 잔여",
+    "source_line": 62,
+    "board_row": 65,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 551,
+      "title": "프로젝트 전환 시 나머지 모듈 위젯 7곳도 해제된 모델을 역참조한다 — #549 전수조사 잔여",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "PRJ-01"
+      ],
+      "reason": "downstream: Builder Sim/MCU·Optimizer raw model pointer 확인. runner는 #549 QPointer 적용 완료. 공통 project lifetime 소유. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-01 프로젝트 교체 전에 모든 모듈의 모델 연결과 진행 중 요청을 정리한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/551"
+    }
+  },
+  {
+    "issue": 499,
+    "title": "morphing: mesh-ops 버전 범프 수용 — 신규 handle 생성기 API 와 고립 handle 옵션",
+    "source_line": 63,
+    "board_row": 66,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "High",
+    "baseline_crosswalk": {
+      "issue": 499,
+      "title": "morphing: mesh-ops 버전 범프 수용 — 신규 handle 생성기 API 와 고립 handle 옵션",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "GEO-001",
+        "GEO-004",
+        "GEO-005"
+      ],
+      "reason": "geometry: 범프·isolated handles는 완료 이력. PR654 상태기/section 어댑터 이후 Box FFD와 section_frames 소비 이관 잔여.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/499"
+    }
+  },
+  {
+    "issue": 635,
+    "title": "결과 XML 작성기가 Motion 컴포넌트의 entity_name 을 질의에 싣지 않아 전체 모델을 읽는다",
+    "source_line": 64,
+    "board_row": 68,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "In progress",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 635,
+      "title": "결과 XML 작성기가 Motion 컴포넌트의 entity_name 을 질의에 싣지 않아 전체 모델을 읽는다",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "mapped",
+      "tasks": [
+        "RES-04",
+        "RES-11"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/635"
+    }
+  },
+  {
+    "issue": 649,
+    "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신",
+    "source_line": 66,
+    "board_row": 69,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 649,
+      "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": null,
+      "disposition": "superseded",
+      "tasks": [
+        "AL-01",
+        "AL-07",
+        "AL-08",
+        "AL-09",
+        "ANA-03",
+        "AST-001",
+        "BLD-01",
+        "CON-001",
+        "DIR-01",
+        "DOE-01",
+        "DOE-02",
+        "DOE-03",
+        "OPT-01",
+        "PRJ-03",
+        "PRJ-11",
+        "RES-12",
+        "RES-13",
+        "RUN-05"
+      ],
+      "reason": "#597 후속 모음 부모다. 아래 실제 자식 범위로 분산했으며 별도 구현량 없음.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/649"
+    }
+  },
+  {
+    "issue": 643,
+    "title": "Analysis Launcher: Preprocess XML을 Set 단위로 쓰고 중복 정보를 없앤다 (HDF5 전환 검토)",
+    "source_line": 67,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W5 10/12–10/18",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 643,
+      "title": "Analysis Launcher: Preprocess XML을 Set 단위로 쓰고 중복 정보를 없앤다 (HDF5 전환 검토)",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 649,
+      "disposition": "mapped",
+      "tasks": [
+        "RES-12",
+        "RES-13"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/643"
+    }
+  },
+  {
+    "issue": 645,
+    "title": "Project Assets: Add File로 덮어쓴 파일이 Condition 화면에 반영되지 않고 복사 실패 시 기존 등록이 사라진다",
+    "source_line": 68,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 645,
+      "title": "Project Assets: Add File로 덮어쓴 파일이 Condition 화면에 반영되지 않고 복사 실패 시 기존 등록이 사라진다",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 649,
+      "disposition": "mapped",
+      "tasks": [
+        "AST-001",
+        "CON-001"
+      ],
+      "reason": "geometry: copy 전에 파일/context/tree 제거와 Condition 갱신 통지 부재 확인. 원장/Set 직접 삭제는 코드에서 확인되지 않아 표현 정정.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/645"
+    }
+  },
+  {
+    "issue": 646,
+    "title": "Analysis Launcher: 재실행 뒤 Preprocess 목록 미갱신, Re-run 실패 시 기존 결과 삭제, Skip 안내 없음",
+    "source_line": 69,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 646,
+      "title": "Analysis Launcher: 재실행 뒤 Preprocess 목록 미갱신, Re-run 실패 시 기존 결과 삭제, Skip 안내 없음",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 649,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-07",
+        "AL-08"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/646"
+    }
+  },
+  {
+    "issue": 615,
+    "title": "DOE Sampler: Add Set을 복원하되 Resample만 번호를 붙여 추가한다",
+    "source_line": 70,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 615,
+      "title": "DOE Sampler: Add Set을 복원하되 Resample만 번호를 붙여 추가한다",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 649,
+      "disposition": "partial",
+      "tasks": [
+        "DOE-01",
+        "DOE-02"
+      ],
+      "reason": "execution: 최대 ResampleN 선택은 DashDoeTableFile에 구현됨. Add Set과 old active 참조가 남음.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/615"
+    }
+  },
+  {
+    "issue": 647,
+    "title": "Ansys Motion: dfsxml 실행이 LGE 압축기 예제에 하드코딩되어 있고 run마다 dfmm·dfg를 만들지 않는다",
+    "source_line": 71,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 647,
+      "title": "Ansys Motion: dfsxml 실행이 LGE 압축기 예제에 하드코딩되어 있고 run마다 dfmm·dfg를 만들지 않는다",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 616,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-10"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/647"
+    }
+  },
+  {
+    "issue": 648,
+    "title": "fe-safe: Set이 파일 하나에 묶인 뒤 입력 ODB 위치를 찾지 못한다",
+    "source_line": 72,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 648,
+      "title": "fe-safe: Set이 파일 하나에 묶인 뒤 입력 ODB 위치를 찾지 못한다",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 616,
+      "disposition": "partial",
+      "tasks": [
+        "AL-09"
+      ],
+      "reason": "execution: 원본 ODB 경로의 주요 추정 원인은 PR651이 구현 중. 실제 fe-safe 잔여 원인은 실측으로 판정하며 별도 중복 구현 카드 없음.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/648"
+    }
+  },
+  {
+    "issue": 639,
+    "title": "Analysis Launcher: Target Part 로딩 중 Start를 누르면 빈 target이 저장되고 로드 실패 시 저장값이 지워짐",
+    "source_line": 73,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W4 10/05–10/11",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 639,
+      "title": "Analysis Launcher: Target Part 로딩 중 Start를 누르면 빈 target이 저장되고 로드 실패 시 저장값이 지워짐",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 649,
+      "disposition": "mapped",
+      "tasks": [
+        "AL-01"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/639"
+    }
+  },
+  {
+    "issue": 650,
+    "title": "Module Tree: 참조 Set 핀과 상류 버전 불일치 경고를 Analysis Launcher 외 모듈로 확장한다",
+    "source_line": 74,
+    "board_row": null,
+    "display_parent": 649,
+    "iteration": "W5 10/12–10/18",
+    "status": "Backlog",
+    "board_priority": "",
+    "baseline_crosswalk": {
+      "issue": 650,
+      "title": "Module Tree: 참조 Set 핀과 상류 버전 불일치 경고를 Analysis Launcher 외 모듈로 확장한다",
+      "board_status": "Backlog",
+      "issue_state": "OPEN",
+      "state_reason": null,
+      "parent": 649,
+      "disposition": "partial",
+      "tasks": [
+        "ANA-03",
+        "BLD-01",
+        "DOE-03",
+        "OPT-01",
+        "PRJ-03",
+        "PRJ-11",
+        "RUN-05"
+      ],
+      "reason": "execution: 현 dev 코드 대조 후 구체 작업으로 재구성. 상세 근거는 execution.md 및 작업 카드. / downstream: 본 담당은 상류 Set/산출물 generation 소비자 적용. PRJ-03 공통 계약과 DOE-03, RES-12 생산자 식별을 함께 연결해야 전체 요구 완결. / common: 현재 공통/모듈 경계의 구체 잔여로 재정의: PRJ-03 진행 중인 조합 스탬프 PR을 현재 파이프라인에 통합하고 전 구간 검증한다; PRJ-11 포맷과 독립적인 산출물 세대 계약을 만들고 결과 생성에 적용한다. 코드 근거와 완료 조건은 해당 카드 및 research/common.md 참조. 부모 항목은 별도 작업량으로 세지 않는다.",
+      "url": "https://github.com/NumeRealWorks/DashOpti_GUI/issues/650"
+    }
+  },
+  {
+    "issue": 664,
+    "title": "Motion 미리보기가 응답 키 없이 조회해 래퍼 불일치·배열 선택 실패로 끝난다",
+    "source_line": 76,
+    "board_row": 70,
+    "display_parent": null,
+    "iteration": "W4 10/05–10/11",
+    "status": "In progress",
+    "board_priority": "",
+    "baseline_crosswalk": null
+  }
+]

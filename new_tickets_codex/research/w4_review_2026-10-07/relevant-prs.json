@@ -1,0 +1,96 @@
+{
+  "data": {
+    "repository": {
+      "p530": {
+        "number": 530,
+        "title": "368-산출물에 조합 식별자를 기록하고 각 단계가 입력을 검증 (T27·T21·T22·T23)",
+        "state": "CLOSED",
+        "mergedAt": null,
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/530",
+        "baseRefName": "feat/reference-model-manifest",
+        "headRefName": "feat/pipeline-deck-stamp"
+      },
+      "p651": {
+        "number": 651,
+        "title": "feat: RW 미지원 입력 포맷(dfsxml/wbpj/stli) 정책과 fe-safe ODB 원본 복원 (#616)",
+        "state": "MERGED",
+        "mergedAt": "2026-10-07T04:56:46Z",
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/651",
+        "baseRefName": "dev",
+        "headRefName": "feat/616-input-format-policy"
+      },
+      "p652": {
+        "number": 652,
+        "title": "feat: Direct Launch를 Tool 메뉴 다이얼로그로 분리 (#604)",
+        "state": "MERGED",
+        "mergedAt": "2026-10-06T14:22:40Z",
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/652",
+        "baseRefName": "dev",
+        "headRefName": "feat/604-direct-launch-dialog"
+      },
+      "p654": {
+        "number": 654,
+        "title": "refactor(morphing): 핸들 모델을 Setup→Configuration 상태기와 mesh-ops sampling 으로 전환 (#332)",
+        "state": "OPEN",
+        "mergedAt": null,
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/654",
+        "baseRefName": "dev",
+        "headRefName": "refactor/332-handle-state-integration"
+      },
+      "p655": {
+        "number": 655,
+        "title": "refactor(morphing): 핸들 Set 렌더·편집·영속을 상태기 entry 로 통합한다 (#430)",
+        "state": "OPEN",
+        "mergedAt": null,
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/655",
+        "baseRefName": "refactor/332-handle-state-integration",
+        "headRefName": "refactor/430-handle-sets-render"
+      },
+      "p656": {
+        "number": 656,
+        "title": "refactor(model): 런처·초기화기·작성기의 모달 Name·질의 직렬화·TimeSteps 파싱을 공용 함수로 모은다 (#433)",
+        "state": "MERGED",
+        "mergedAt": "2026-10-06T06:32:36Z",
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/656",
+        "baseRefName": "dev",
+        "headRefName": "refactor/433-launcher-common"
+      },
+      "p658": {
+        "number": 658,
+        "title": "feat: Registry #82 수용 — preprocessor v3 및 Coupling 소비자 적응",
+        "state": "OPEN",
+        "mergedAt": null,
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/658",
+        "baseRefName": "dev",
+        "headRefName": "feat/registry-82-consumer-adaptation"
+      },
+      "p662": {
+        "number": 662,
+        "title": "fix(model): Motion 판정을 솔버로, 시점을 런처가 해석한 state 로 통일한다 (#634, #433)",
+        "state": "MERGED",
+        "mergedAt": "2026-10-07T05:06:09Z",
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/662",
+        "baseRefName": "refactor/433-request-time",
+        "headRefName": "fix/634-motion-time"
+      },
+      "p663": {
+        "number": 663,
+        "title": "fix(model): 결과 XML 작성기의 컴포넌트 항을 putComponentTerm 으로 통일한다 (#635, #433)",
+        "state": "OPEN",
+        "mergedAt": null,
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/663",
+        "baseRefName": "dev",
+        "headRefName": "fix/635-motion-component"
+      },
+      "p665": {
+        "number": 665,
+        "title": "fix(model): Motion 미리보기 질의에 카탈로그의 응답 키를 싣는다 (#664, #433)",
+        "state": "OPEN",
+        "mergedAt": null,
+        "url": "https://github.com/NumeRealWorks/DashOpti_GUI/pull/665",
+        "baseRefName": "fix/635-motion-component",
+        "headRefName": "fix/664-motion-preview-response"
+      }
+    }
+  }
+}

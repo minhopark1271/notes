@@ -1,0 +1,4552 @@
+[
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3E9kA",
+    "isArchived": false,
+    "content": {
+      "number": 280,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:19Z",
+      "closedAt": "2026-09-17T02:40:19Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 3
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3E9lE",
+    "isArchived": false,
+    "content": {
+      "number": 281,
+      "state": "OPEN",
+      "stateReason": "REOPENED",
+      "updatedAt": "2026-09-21T05:47:57Z",
+      "closedAt": null,
+      "parent": {
+        "number": 427,
+        "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+      },
+      "subIssues": {
+        "totalCount": 2,
+        "nodes": [
+          {
+            "number": 403,
+            "state": "CLOSED",
+            "title": "모핑 엔진 소유권 분리 + 고정점 마커 영속화 — #281 결합 ⑴⑵⑶ 선행 해소"
+          },
+          {
+            "number": 408,
+            "state": "CLOSED",
+            "title": "Morphing 요청 서비스 — 레인 스케줄링·스레드 예산·결과 반환"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 7
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3E9ms",
+    "isArchived": false,
+    "content": {
+      "number": 282,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:17Z",
+      "closedAt": "2026-09-17T02:40:21Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3EnsI",
+    "isArchived": false,
+    "content": {
+      "number": 279,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:20Z",
+      "closedAt": "2026-09-17T02:40:17Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg19vPY",
+    "isArchived": false,
+    "content": {
+      "number": 249,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-08-23T17:30:22Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg22gEA",
+    "isArchived": false,
+    "content": {
+      "number": 269,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T11:13:32Z",
+      "closedAt": "2026-09-28T11:13:32Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxFo",
+    "isArchived": false,
+    "content": {
+      "number": 211,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:34Z",
+      "closedAt": "2026-07-29T06:12:08Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg22ZMU",
+    "isArchived": false,
+    "content": {
+      "number": 266,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-08-18T03:10:33Z",
+      "closedAt": "2026-08-18T03:10:33Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg22ZNk",
+    "isArchived": false,
+    "content": {
+      "number": 267,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-08-17T15:15:00Z",
+      "closedAt": "2026-08-17T15:15:00Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg22ZOw",
+    "isArchived": false,
+    "content": {
+      "number": 268,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-08-18T01:39:08Z",
+      "closedAt": "2026-08-18T01:39:08Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3Enp4",
+    "isArchived": false,
+    "content": {
+      "number": 278,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:21Z",
+      "closedAt": "2026-08-19T01:54:13Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3FDxM",
+    "isArchived": false,
+    "content": {
+      "number": 283,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:16Z",
+      "closedAt": "2026-08-19T02:20:09Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxCk",
+    "isArchived": false,
+    "content": {
+      "number": 207,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-17T03:49:38Z",
+      "closedAt": "2026-08-05T01:12:27Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 14
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxDg",
+    "isArchived": false,
+    "content": {
+      "number": 208,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-17T03:49:37Z",
+      "closedAt": "2026-08-10T01:21:05Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxEA",
+    "isArchived": false,
+    "content": {
+      "number": 209,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-17T03:49:36Z",
+      "closedAt": "2026-08-10T07:09:31Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxFE",
+    "isArchived": false,
+    "content": {
+      "number": 210,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-17T03:49:35Z",
+      "closedAt": "2026-08-11T01:44:28Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 3
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxGM",
+    "isArchived": false,
+    "content": {
+      "number": 212,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-17T03:49:33Z",
+      "closedAt": "2026-08-12T04:37:13Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 5
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxGw",
+    "isArchived": false,
+    "content": {
+      "number": 213,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:32Z",
+      "closedAt": "2026-08-13T04:05:55Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 7
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg2YCNc",
+    "isArchived": false,
+    "content": {
+      "number": 260,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:24Z",
+      "closedAt": "2026-08-16T21:59:00Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 7
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg2CWuU",
+    "isArchived": false,
+    "content": {
+      "number": 251,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:25Z",
+      "closedAt": "2026-08-17T12:17:35Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg21hbI",
+    "isArchived": false,
+    "content": {
+      "number": 264,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T02:34:21Z",
+      "closedAt": "2026-08-18T01:43:36Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxHc",
+    "isArchived": false,
+    "content": {
+      "number": 214,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:31Z",
+      "closedAt": "2026-08-18T03:20:00Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 5
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg22ZKk",
+    "isArchived": false,
+    "content": {
+      "number": 265,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T02:34:22Z",
+      "closedAt": "2026-08-18T05:28:22Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg1C9k0",
+    "isArchived": false,
+    "content": {
+      "number": 224,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-17T03:49:27Z",
+      "closedAt": "2026-08-04T03:55:52Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg27YOw",
+    "isArchived": false,
+    "content": {
+      "number": 274,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:24Z",
+      "closedAt": "2026-08-18T09:56:23Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3EnoA",
+    "isArchived": false,
+    "content": {
+      "number": 277,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:22Z",
+      "closedAt": "2026-08-20T02:35:02Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg3S_8M",
+    "isArchived": false,
+    "content": {
+      "number": 290,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:49:15Z",
+      "closedAt": "2026-08-20T14:30:04Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 3
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg0KxII",
+    "isArchived": false,
+    "content": {
+      "number": 215,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-17T03:59:53Z",
+      "closedAt": "2026-09-17T02:40:16Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg6zP20",
+    "isArchived": false,
+    "content": {
+      "number": 360,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-19T06:03:06Z",
+      "closedAt": "2026-09-14T13:17:12Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 5
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg63vcU",
+    "isArchived": false,
+    "content": {
+      "number": 361,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-19T06:03:07Z",
+      "closedAt": "2026-09-15T00:23:31Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg69Yog",
+    "isArchived": false,
+    "content": {
+      "number": 362,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-19T06:03:08Z",
+      "closedAt": "2026-09-15T01:30:10Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg69rao",
+    "isArchived": false,
+    "content": {
+      "number": 363,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-19T06:03:10Z",
+      "closedAt": "2026-09-15T04:24:08Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 3
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg6-3bs",
+    "isArchived": false,
+    "content": {
+      "number": 364,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T02:53:08Z",
+      "closedAt": "2026-09-21T02:53:08Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 7
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7Oyto",
+    "isArchived": false,
+    "content": {
+      "number": 403,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T01:31:35Z",
+      "closedAt": "2026-09-18T07:10:30Z",
+      "parent": {
+        "number": 281,
+        "title": "단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7VXhg",
+    "isArchived": false,
+    "content": {
+      "number": 408,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T05:47:03Z",
+      "closedAt": "2026-09-21T05:30:40Z",
+      "parent": {
+        "number": 281,
+        "title": "단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMEE",
+    "isArchived": false,
+    "content": {
+      "number": 365,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T02:53:10Z",
+      "closedAt": "2026-09-21T02:53:10Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMF4",
+    "isArchived": false,
+    "content": {
+      "number": 366,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T02:53:33Z",
+      "closedAt": "2026-09-21T02:53:33Z",
+      "parent": {
+        "number": 443,
+        "title": "Set 에 식별자를 부여하고 원장으로 관리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMHc",
+    "isArchived": false,
+    "content": {
+      "number": 367,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-22T11:00:04Z",
+      "closedAt": "2026-09-22T11:00:04Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 2,
+        "nodes": [
+          {
+            "number": 491,
+            "state": "CLOSED",
+            "title": "DOE 조건 세트 다중 선택 — 선택 UI·저장 형식·실행 시 값 적용 (T24·T25·T26 치환부)"
+          },
+          {
+            "number": 502,
+            "state": "OPEN",
+            "title": "실행 1회로 조건 해석파일별 batch run 자동 반복 (T26 루프)"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMJE",
+    "isArchived": false,
+    "content": {
+      "number": 368,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T22:19:46Z",
+      "closedAt": null,
+      "parent": {
+        "number": 470,
+        "title": "실행 산출물의 유래 추적 — 스탬프와 대장"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMKk",
+    "isArchived": false,
+    "content": {
+      "number": 369,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T00:44:00Z",
+      "closedAt": null,
+      "parent": {
+        "number": 443,
+        "title": "Set 에 식별자를 부여하고 원장으로 관리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMLs",
+    "isArchived": false,
+    "content": {
+      "number": 239,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T04:52:50Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 10
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMNc",
+    "isArchived": false,
+    "content": {
+      "number": 246,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T06:58:28Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 5,
+        "nodes": [
+          {
+            "number": 431,
+            "state": "OPEN",
+            "title": "모델 교체·세트 전환 시 위젯 정리 규칙 문서화"
+          },
+          {
+            "number": 432,
+            "state": "OPEN",
+            "title": "모델 계층이 프로젝트 관리자를 되부르는 의존 제거"
+          },
+          {
+            "number": 433,
+            "state": "OPEN",
+            "title": "데이터 처리 클래스 분해"
+          },
+          {
+            "number": 434,
+            "state": "OPEN",
+            "title": "전역 관리 객체 해체"
+          },
+          {
+            "number": 435,
+            "state": "CLOSED",
+            "title": "고객사 전용 KPI 계산 코드 분리"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMNo",
+    "isArchived": false,
+    "content": {
+      "number": 241,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-08-21T04:39:45Z",
+      "closedAt": "2026-08-21T04:39:45Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMN0",
+    "isArchived": false,
+    "content": {
+      "number": 242,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-08T22:42:53Z",
+      "closedAt": "2026-09-08T22:42:53Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMN8",
+    "isArchived": false,
+    "content": {
+      "number": 243,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-08-21T04:28:10Z",
+      "closedAt": "2026-08-21T04:28:10Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMOI",
+    "isArchived": false,
+    "content": {
+      "number": 244,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-08-13T02:52:13Z",
+      "closedAt": "2026-08-13T02:52:13Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMOQ",
+    "isArchived": false,
+    "content": {
+      "number": 245,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-08-13T02:52:15Z",
+      "closedAt": "2026-08-13T02:52:15Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMOY",
+    "isArchived": false,
+    "content": {
+      "number": 247,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T04:37:59Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMOk",
+    "isArchived": false,
+    "content": {
+      "number": 258,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-08-13T05:47:35Z",
+      "closedAt": "2026-08-13T05:47:35Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMQQ",
+    "isArchived": false,
+    "content": {
+      "number": 318,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T05:41:33Z",
+      "closedAt": null,
+      "parent": {
+        "number": 427,
+        "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMRw",
+    "isArchived": false,
+    "content": {
+      "number": 331,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-11T05:08:27Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMTI",
+    "isArchived": false,
+    "content": {
+      "number": 332,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-04T16:24:21Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMU0",
+    "isArchived": false,
+    "content": {
+      "number": 322,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-08T09:00:13Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMWM",
+    "isArchived": false,
+    "content": {
+      "number": 405,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T02:58:24Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMYI",
+    "isArchived": false,
+    "content": {
+      "number": 321,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-23T06:51:43Z",
+      "closedAt": "2026-09-23T06:51:43Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMZQ",
+    "isArchived": false,
+    "content": {
+      "number": 305,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-17T07:50:52Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMak",
+    "isArchived": false,
+    "content": {
+      "number": 412,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-23T06:59:06Z",
+      "closedAt": "2026-09-21T07:43:58Z",
+      "parent": {
+        "number": 413,
+        "title": "XML 접근 경로 성능 개선 통합 — 파싱 비용 · 선택적 로드 · 중복 파싱 · 포맷 (부모)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMb0",
+    "isArchived": false,
+    "content": {
+      "number": 413,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-22T02:58:37Z",
+      "closedAt": "2026-09-22T02:58:37Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 5,
+        "nodes": [
+          {
+            "number": 402,
+            "state": "CLOSED",
+            "title": "DashXmlParser: 텐서 파싱이 블롭 크기의 5~6배를 복사한다 (int32 미처리·경계 검사 누락 동반)"
+          },
+          {
+            "number": 409,
+            "state": "CLOSED",
+            "title": "DashXmlParser: 필요한 것만 읽는 경로가 없다 — 변수 목록·축약값에도 전량 디코딩이 붙는다"
+          },
+          {
+            "number": 410,
+            "state": "CLOSED",
+            "title": "Analyzer: 한 번의 UI 조작이 같은 XML 을 2회 이상 파싱한다 — 한시 캐시 도입"
+          },
+          {
+            "number": 411,
+            "state": "OPEN",
+            "title": "DOE 산출 XML 포맷 교체 검토 — HDF5(vtkHDF) 등 스트리밍 가능 포맷"
+          },
+          {
+            "number": 412,
+            "state": "CLOSED",
+            "title": "Analyzer 가 데이터셋 XML 을 열지 않아도 되게 — 메타데이터·축약값 분리 (방향성)"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMc4",
+    "isArchived": false,
+    "content": {
+      "number": 402,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T05:40:03Z",
+      "closedAt": "2026-09-18T09:29:32Z",
+      "parent": {
+        "number": 413,
+        "title": "XML 접근 경로 성능 개선 통합 — 파싱 비용 · 선택적 로드 · 중복 파싱 · 포맷 (부모)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMdA",
+    "isArchived": false,
+    "content": {
+      "number": 409,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T05:40:20Z",
+      "closedAt": "2026-09-18T09:29:33Z",
+      "parent": {
+        "number": 413,
+        "title": "XML 접근 경로 성능 개선 통합 — 파싱 비용 · 선택적 로드 · 중복 파싱 · 포맷 (부모)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMdE",
+    "isArchived": false,
+    "content": {
+      "number": 410,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-22T04:27:21Z",
+      "closedAt": "2026-09-22T02:54:03Z",
+      "parent": {
+        "number": 413,
+        "title": "XML 접근 경로 성능 개선 통합 — 파싱 비용 · 선택적 로드 · 중복 파싱 · 포맷 (부모)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMdI",
+    "isArchived": false,
+    "content": {
+      "number": 411,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T06:21:28Z",
+      "closedAt": null,
+      "parent": {
+        "number": 413,
+        "title": "XML 접근 경로 성능 개선 통합 — 파싱 비용 · 선택적 로드 · 중복 파싱 · 포맷 (부모)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMhs",
+    "isArchived": false,
+    "content": {
+      "number": 319,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T05:41:51Z",
+      "closedAt": null,
+      "parent": {
+        "number": 427,
+        "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMjg",
+    "isArchived": false,
+    "content": {
+      "number": 320,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T04:54:18Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMmg",
+    "isArchived": false,
+    "content": {
+      "number": 386,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-15T01:55:46Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMn4",
+    "isArchived": false,
+    "content": {
+      "number": 372,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-14T06:25:23Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMpU",
+    "isArchived": false,
+    "content": {
+      "number": 336,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T04:51:17Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMqk",
+    "isArchived": false,
+    "content": {
+      "number": 335,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T04:51:15Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMsg",
+    "isArchived": false,
+    "content": {
+      "number": 330,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T04:56:43Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7irKQ",
+    "isArchived": false,
+    "content": {
+      "number": 422,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-23T06:59:29Z",
+      "closedAt": "2026-09-21T05:30:40Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7ixag",
+    "isArchived": false,
+    "content": {
+      "number": 423,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T05:42:45Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxOo",
+    "isArchived": false,
+    "content": {
+      "number": 427,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T05:40:53Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 7,
+        "nodes": [
+          {
+            "number": 428,
+            "state": "CLOSED",
+            "title": "모핑 핸들 데이터와 표시 코드의 결합 절단 — 타입 신설 없이 단독 커밋 가능한 4건"
+          },
+          {
+            "number": 429,
+            "state": "CLOSED",
+            "title": "해석 결과 읽기 캐시의 화면·실행 공유 해소 — registry 소비 6곳을 실행 단위 소유로"
+          },
+          {
+            "number": 430,
+            "state": "OPEN",
+            "title": "핸들 데이터 전용 타입 DashHandleData 신설 — VTP 읽기 5곳·쓰기 2곳 일원화"
+          },
+          {
+            "number": 318,
+            "state": "OPEN",
+            "title": "공유 VTK 씬에 모듈 소유권 도입 — 덮어쓰기 12곳 정리, 인수는 파괴가 아니라 숨김"
+          },
+          {
+            "number": 316,
+            "state": "OPEN",
+            "title": "Optimizer Preview 의 전체 actor 일괄 삭제 — 핸들 5종 복구 불가, 비파괴 오버레이로 전환"
+          },
+          {
+            "number": 319,
+            "state": "OPEN",
+            "title": "레이어 체계 밖 actor 의 수명·상태 결함 4건 — FE actor 숨김 방치 · 무조건 카메라 리셋 · clearAllLayers 누락 · 등록/해제 경로 불일치"
+          },
+          {
+            "number": 281,
+            "state": "OPEN",
+            "title": "단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b)"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxSA",
+    "isArchived": false,
+    "content": {
+      "number": 428,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-29T04:10:24Z",
+      "closedAt": "2026-09-29T04:10:24Z",
+      "parent": {
+        "number": 427,
+        "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxTI",
+    "isArchived": false,
+    "content": {
+      "number": 429,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-27T06:08:26Z",
+      "closedAt": "2026-09-27T06:08:26Z",
+      "parent": {
+        "number": 427,
+        "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxUw",
+    "isArchived": false,
+    "content": {
+      "number": 430,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-04T16:24:23Z",
+      "closedAt": null,
+      "parent": {
+        "number": 427,
+        "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxZc",
+    "isArchived": false,
+    "content": {
+      "number": 432,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T08:12:09Z",
+      "closedAt": null,
+      "parent": {
+        "number": 246,
+        "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxa4",
+    "isArchived": false,
+    "content": {
+      "number": 433,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T07:05:05Z",
+      "closedAt": null,
+      "parent": {
+        "number": 246,
+        "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxc8",
+    "isArchived": false,
+    "content": {
+      "number": 434,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T06:58:43Z",
+      "closedAt": null,
+      "parent": {
+        "number": 246,
+        "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+      },
+      "subIssues": {
+        "totalCount": 2,
+        "nodes": [
+          {
+            "number": 586,
+            "state": "CLOSED",
+            "title": "모핑 local 화 — 서비스 레인 제거·실행 본체 통합·입력 수집기 분리"
+          },
+          {
+            "number": 605,
+            "state": "CLOSED",
+            "title": "모핑 상태 이관 완결 — DashManager 협력자 등록·시그널 정리와 DOE 실행 facade 이탈"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxek",
+    "isArchived": false,
+    "content": {
+      "number": 435,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T04:55:01Z",
+      "closedAt": "2026-09-21T04:55:01Z",
+      "parent": {
+        "number": 246,
+        "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jxjw",
+    "isArchived": false,
+    "content": {
+      "number": 437,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-22T03:33:00Z",
+      "closedAt": "2026-09-22T03:33:00Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jyfg",
+    "isArchived": false,
+    "content": {
+      "number": 446,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:03:39Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 4,
+        "nodes": [
+          {
+            "number": 447,
+            "state": "OPEN",
+            "title": "배율 다른 모니터로 이동 시 프리즈·복구 불가 차단"
+          },
+          {
+            "number": 448,
+            "state": "OPEN",
+            "title": "창 위치·크기·도크 배치의 저장·복원 도입"
+          },
+          {
+            "number": 449,
+            "state": "OPEN",
+            "title": "명령형 크기 지정 제거 — 레이아웃에 크기 결정권 반환"
+          },
+          {
+            "number": 450,
+            "state": "OPEN",
+            "title": "테두리 없는 창과 중첩 메인 윈도우 구조 재검토"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jylU",
+    "isArchived": false,
+    "content": {
+      "number": 449,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:03:44Z",
+      "closedAt": null,
+      "parent": {
+        "number": 446,
+        "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jync",
+    "isArchived": false,
+    "content": {
+      "number": 450,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:03:46Z",
+      "closedAt": null,
+      "parent": {
+        "number": 446,
+        "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jyog",
+    "isArchived": false,
+    "content": {
+      "number": 451,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T02:58:28Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 8,
+        "nodes": [
+          {
+            "number": 452,
+            "state": "CLOSED",
+            "title": "격리: Analysis Launcher 갈래 분리 — .stli·.wbpj·.dfsxml 추출 (동작 불변)"
+          },
+          {
+            "number": 453,
+            "state": "CLOSED",
+            "title": "-"
+          },
+          {
+            "number": 454,
+            "state": "OPEN",
+            "title": "Data Preprocessor — 동기 실행 워커 이관과 펌핑 16곳 제거"
+          },
+          {
+            "number": 455,
+            "state": "OPEN",
+            "title": "모듈 외 잔여 view 펌핑 10곳 분류·제거"
+          },
+          {
+            "number": 456,
+            "state": "OPEN",
+            "title": "Analysis Launcher 정규 경로(.inp·ANSYS) — [Start] 동기 실행 워커 이관"
+          },
+          {
+            "number": 457,
+            "state": "OPEN",
+            "title": "Optimizer — 펌핑 2곳 제거와 요청 식별자 왕복 (OPT-D19)"
+          },
+          {
+            "number": 512,
+            "state": "OPEN",
+            "title": "Geometry Parameterization(Morphing) — setResults 펌핑 제거와 결정 시그널 유실 차단"
+          },
+          {
+            "number": 513,
+            "state": "OPEN",
+            "title": "Model Runner — 폴더 선택 동기 스캔 워커 이관"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jyqw",
+    "isArchived": false,
+    "content": {
+      "number": 452,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T05:47:33Z",
+      "closedAt": "2026-10-01T05:47:33Z",
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jyuM",
+    "isArchived": false,
+    "content": {
+      "number": 454,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T04:27:03Z",
+      "closedAt": null,
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jywU",
+    "isArchived": false,
+    "content": {
+      "number": 455,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T04:22:58Z",
+      "closedAt": null,
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jyyg",
+    "isArchived": false,
+    "content": {
+      "number": 456,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T04:28:56Z",
+      "closedAt": null,
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jy0U",
+    "isArchived": false,
+    "content": {
+      "number": 457,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T04:23:01Z",
+      "closedAt": null,
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jzT0",
+    "isArchived": false,
+    "content": {
+      "number": 473,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T01:47:28Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 4,
+        "nodes": [
+          {
+            "number": 474,
+            "state": "OPEN",
+            "title": "표 행과 항목의 결합을 식별자 키로 전환"
+          },
+          {
+            "number": 475,
+            "state": "OPEN",
+            "title": "산출물 채번의 세션 영속화"
+          },
+          {
+            "number": 476,
+            "state": "CLOSED",
+            "title": "항목 대장·목록 화면"
+          },
+          {
+            "number": 477,
+            "state": "OPEN",
+            "title": "접두사 매칭 삭제를 식별자 삭제로 — 생성·스캔 경로 정합"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jzdQ",
+    "isArchived": false,
+    "content": {
+      "number": 478,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:38Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jzlc",
+    "isArchived": false,
+    "content": {
+      "number": 482,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:46Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jzw0",
+    "isArchived": false,
+    "content": {
+      "number": 488,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:57Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7jz14",
+    "isArchived": false,
+    "content": {
+      "number": 490,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:05:01Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1HU",
+    "isArchived": false,
+    "content": {
+      "number": 316,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T05:41:44Z",
+      "closedAt": null,
+      "parent": {
+        "number": 427,
+        "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1W0",
+    "isArchived": false,
+    "content": {
+      "number": 447,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:03:40Z",
+      "closedAt": null,
+      "parent": {
+        "number": 446,
+        "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1YY",
+    "isArchived": false,
+    "content": {
+      "number": 448,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:03:42Z",
+      "closedAt": null,
+      "parent": {
+        "number": 446,
+        "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1bs",
+    "isArchived": false,
+    "content": {
+      "number": 453,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T06:02:49Z",
+      "closedAt": "2026-09-21T04:22:53Z",
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1t0",
+    "isArchived": false,
+    "content": {
+      "number": 474,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T02:07:23Z",
+      "closedAt": null,
+      "parent": {
+        "number": 473,
+        "title": "실행 산출물 항목의 식별자 결합"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1uA",
+    "isArchived": false,
+    "content": {
+      "number": 475,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T02:22:15Z",
+      "closedAt": null,
+      "parent": {
+        "number": 473,
+        "title": "실행 산출물 항목의 식별자 결합"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1us",
+    "isArchived": false,
+    "content": {
+      "number": 476,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-21T01:47:02Z",
+      "closedAt": "2026-09-21T01:47:02Z",
+      "parent": {
+        "number": 473,
+        "title": "실행 산출물 항목의 식별자 결합"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j1vQ",
+    "isArchived": false,
+    "content": {
+      "number": 477,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T02:23:03Z",
+      "closedAt": null,
+      "parent": {
+        "number": 473,
+        "title": "실행 산출물 항목의 식별자 결합"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j11s",
+    "isArchived": false,
+    "content": {
+      "number": 431,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:03:09Z",
+      "closedAt": null,
+      "parent": {
+        "number": 246,
+        "title": "[W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3Ds",
+    "isArchived": false,
+    "content": {
+      "number": 436,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-22T10:37:26Z",
+      "closedAt": "2026-09-22T10:37:26Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3J8",
+    "isArchived": false,
+    "content": {
+      "number": 438,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T06:01:27Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 4,
+        "nodes": [
+          {
+            "number": 439,
+            "state": "OPEN",
+            "title": "배치 취소가 대기 큐까지 비우게 완결"
+          },
+          {
+            "number": 440,
+            "state": "OPEN",
+            "title": "실행 케이스마다 현재 상태가 표에 보이게"
+          },
+          {
+            "number": 441,
+            "state": "OPEN",
+            "title": "배치 상태 기록의 증분화와 재시작 시 복구"
+          },
+          {
+            "number": 442,
+            "state": "CLOSED",
+            "title": "실행 이력 목록 관리"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3LM",
+    "isArchived": false,
+    "content": {
+      "number": 439,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T06:01:41Z",
+      "closedAt": null,
+      "parent": {
+        "number": 438,
+        "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3LY",
+    "isArchived": false,
+    "content": {
+      "number": 440,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T06:01:47Z",
+      "closedAt": null,
+      "parent": {
+        "number": 438,
+        "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3Lk",
+    "isArchived": false,
+    "content": {
+      "number": 441,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T06:01:53Z",
+      "closedAt": null,
+      "parent": {
+        "number": 438,
+        "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3Lo",
+    "isArchived": false,
+    "content": {
+      "number": 442,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-28T06:02:03Z",
+      "closedAt": "2026-09-21T01:47:00Z",
+      "parent": {
+        "number": 438,
+        "title": "배치 계산의 취소·진행 표시·재시작 복구를 완결"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3Tc",
+    "isArchived": false,
+    "content": {
+      "number": 443,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T11:42:12Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 4,
+        "nodes": [
+          {
+            "number": 444,
+            "state": "OPEN",
+            "title": "Set 기록 파일을 변경 빈도 단위로 분할"
+          },
+          {
+            "number": 445,
+            "state": "CLOSED",
+            "title": "Set 목록 화면과 소비 추적"
+          },
+          {
+            "number": 366,
+            "state": "CLOSED",
+            "title": "G7 각 Set 이 자기 기준모델을 저장하고 사용 (T14·T15·T16·T19)"
+          },
+          {
+            "number": 369,
+            "state": "OPEN",
+            "title": "G10 ModelRunner 의 NodeSet 파일 선택을 저장 (T18)"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7YMkw",
+    "isArchived": false,
+    "content": {
+      "number": 388,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T01:43:41Z",
+      "closedAt": "2026-10-01T01:43:41Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3UY",
+    "isArchived": false,
+    "content": {
+      "number": 444,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:03:35Z",
+      "closedAt": null,
+      "parent": {
+        "number": 443,
+        "title": "Set 에 식별자를 부여하고 원장으로 관리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3Uc",
+    "isArchived": false,
+    "content": {
+      "number": 445,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "updatedAt": "2026-09-21T01:44:56Z",
+      "closedAt": "2026-09-21T01:44:56Z",
+      "parent": {
+        "number": 443,
+        "title": "Set 에 식별자를 부여하고 원장으로 관리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3qM",
+    "isArchived": false,
+    "content": {
+      "number": 458,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T09:52:43Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3r0",
+    "isArchived": false,
+    "content": {
+      "number": 459,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T01:35:47Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3t4",
+    "isArchived": false,
+    "content": {
+      "number": 460,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T02:58:29Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 4,
+        "nodes": [
+          {
+            "number": 461,
+            "state": "OPEN",
+            "title": "실행 중 재클릭·재진입 차단"
+          },
+          {
+            "number": 462,
+            "state": "OPEN",
+            "title": "진행 표시 표준 1종 정의"
+          },
+          {
+            "number": 463,
+            "state": "OPEN",
+            "title": "모듈별 진행바·취소 버튼 확산"
+          },
+          {
+            "number": 464,
+            "state": "OPEN",
+            "title": "기존 진행 표시 결함 정리 — 스피너 비대칭"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3uo",
+    "isArchived": false,
+    "content": {
+      "number": 461,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:07Z",
+      "closedAt": null,
+      "parent": {
+        "number": 460,
+        "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3us",
+    "isArchived": false,
+    "content": {
+      "number": 462,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:09Z",
+      "closedAt": null,
+      "parent": {
+        "number": 460,
+        "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3vE",
+    "isArchived": false,
+    "content": {
+      "number": 463,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:11Z",
+      "closedAt": null,
+      "parent": {
+        "number": 460,
+        "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j3vI",
+    "isArchived": false,
+    "content": {
+      "number": 464,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:13Z",
+      "closedAt": null,
+      "parent": {
+        "number": 460,
+        "title": "실행 진행 표시·취소·중복 실행 가드의 표준화"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j4x4",
+    "isArchived": false,
+    "content": {
+      "number": 465,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:15Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 4,
+        "nodes": [
+          {
+            "number": 466,
+            "state": "OPEN",
+            "title": "프로세스 무음 실패의 통지 규칙 수립"
+          },
+          {
+            "number": 467,
+            "state": "OPEN",
+            "title": "데몬 기동·응답 타임아웃 도입"
+          },
+          {
+            "number": 468,
+            "state": "OPEN",
+            "title": "외부 프로세스 호출부 널 가드 일괄"
+          },
+          {
+            "number": 469,
+            "state": "OPEN",
+            "title": "프로세스 인자·출력 인코딩 UTF-8 통일"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j4zg",
+    "isArchived": false,
+    "content": {
+      "number": 466,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:17Z",
+      "closedAt": null,
+      "parent": {
+        "number": 465,
+        "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j4z0",
+    "isArchived": false,
+    "content": {
+      "number": 467,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T01:36:19Z",
+      "closedAt": null,
+      "parent": {
+        "number": 465,
+        "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j40A",
+    "isArchived": false,
+    "content": {
+      "number": 468,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:21Z",
+      "closedAt": null,
+      "parent": {
+        "number": 465,
+        "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j40M",
+    "isArchived": false,
+    "content": {
+      "number": 469,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:23Z",
+      "closedAt": null,
+      "parent": {
+        "number": 465,
+        "title": "외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j44g",
+    "isArchived": false,
+    "content": {
+      "number": 470,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T01:44:48Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 2,
+        "nodes": [
+          {
+            "number": 471,
+            "state": "OPEN",
+            "title": "산출물 대장과 소비 기록"
+          },
+          {
+            "number": 368,
+            "state": "OPEN",
+            "title": "G9 산출물에 조합 식별자를 기록하고 각 단계가 입력을 검증 (T27·T21·T22·T23)"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j46E",
+    "isArchived": false,
+    "content": {
+      "number": 471,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T01:44:47Z",
+      "closedAt": null,
+      "parent": {
+        "number": 470,
+        "title": "실행 산출물의 유래 추적 — 스탬프와 대장"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j47U",
+    "isArchived": false,
+    "content": {
+      "number": 479,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:40Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j488",
+    "isArchived": false,
+    "content": {
+      "number": 480,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:42Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j5Ao",
+    "isArchived": false,
+    "content": {
+      "number": 481,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:44Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j5CI",
+    "isArchived": false,
+    "content": {
+      "number": 483,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:47Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j5EA",
+    "isArchived": false,
+    "content": {
+      "number": 484,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:49Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j5Fk",
+    "isArchived": false,
+    "content": {
+      "number": 485,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:51Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j5HA",
+    "isArchived": false,
+    "content": {
+      "number": 486,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:53Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j5IY",
+    "isArchived": false,
+    "content": {
+      "number": 487,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:55Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j5KI",
+    "isArchived": false,
+    "content": {
+      "number": 489,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:04:59Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7j7XA",
+    "isArchived": false,
+    "content": {
+      "number": 491,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T05:39:08Z",
+      "closedAt": "2026-09-21T02:53:19Z",
+      "parent": {
+        "number": 367,
+        "title": "G8 Launcher 가 형상·조건 세트 조합을 기록 + 화면 데이터 출처 교체 (T20·T17)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 5
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7kQiA",
+    "isArchived": false,
+    "content": {
+      "number": 494,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-18T08:46:33Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7ywMw",
+    "isArchived": false,
+    "content": {
+      "number": 502,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-20T07:05:35Z",
+      "closedAt": null,
+      "parent": {
+        "number": 367,
+        "title": "G8 Launcher 가 형상·조건 세트 조합을 기록 + 화면 데이터 출처 교체 (T20·T17)"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg7y-Ho",
+    "isArchived": false,
+    "content": {
+      "number": 503,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-21T06:12:52Z",
+      "closedAt": "2026-09-21T06:12:52Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg74Lyk",
+    "isArchived": false,
+    "content": {
+      "number": 508,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T04:22:21Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg74lpc",
+    "isArchived": false,
+    "content": {
+      "number": 512,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T05:44:53Z",
+      "closedAt": null,
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg74lq4",
+    "isArchived": false,
+    "content": {
+      "number": 513,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-21T04:11:56Z",
+      "closedAt": null,
+      "parent": {
+        "number": 451,
+        "title": "GUI 스레드 동기 실행과 이벤트 펌핑 제거"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg74xMs",
+    "isArchived": false,
+    "content": {
+      "number": 514,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T11:26:29Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg76DQE",
+    "isArchived": false,
+    "content": {
+      "number": 520,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-22T11:41:41Z",
+      "closedAt": "2026-09-22T11:24:03Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8C8Ac",
+    "isArchived": false,
+    "content": {
+      "number": 526,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-22T11:41:47Z",
+      "closedAt": "2026-09-22T11:24:31Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8HqM4",
+    "isArchived": false,
+    "content": {
+      "number": 546,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T09:39:56Z",
+      "closedAt": "2026-09-28T09:39:56Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 4
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8HsqY",
+    "isArchived": false,
+    "content": {
+      "number": 544,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T01:02:09Z",
+      "closedAt": "2026-09-28T01:02:09Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8HtwQ",
+    "isArchived": false,
+    "content": {
+      "number": 543,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T11:33:36Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Hu-A",
+    "isArchived": false,
+    "content": {
+      "number": 519,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-22T11:35:04Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8PBtE",
+    "isArchived": false,
+    "content": {
+      "number": 548,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T05:43:27Z",
+      "closedAt": "2026-09-29T03:00:46Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8PBwg",
+    "isArchived": false,
+    "content": {
+      "number": 549,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-23T05:07:06Z",
+      "closedAt": "2026-09-23T05:07:06Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8QX6Y",
+    "isArchived": false,
+    "content": {
+      "number": 560,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-27T23:59:16Z",
+      "closedAt": "2026-09-27T23:59:16Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8QYPo",
+    "isArchived": false,
+    "content": {
+      "number": 553,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T04:59:58Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8QYbI",
+    "isArchived": false,
+    "content": {
+      "number": 551,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T05:00:26Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Q2HM",
+    "isArchived": false,
+    "content": {
+      "number": 562,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T05:26:47Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Q2Og",
+    "isArchived": false,
+    "content": {
+      "number": 525,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T05:43:05Z",
+      "closedAt": "2026-09-29T04:10:43Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 2
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Q2pk",
+    "isArchived": false,
+    "content": {
+      "number": 370,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T06:15:57Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Q2_8",
+    "isArchived": false,
+    "content": {
+      "number": 500,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-27T06:08:27Z",
+      "closedAt": "2026-09-27T06:08:27Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 3
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Q3K4",
+    "isArchived": false,
+    "content": {
+      "number": 522,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T09:39:28Z",
+      "closedAt": "2026-10-02T09:39:28Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Q3XM",
+    "isArchived": false,
+    "content": {
+      "number": 523,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T10:27:54Z",
+      "closedAt": "2026-09-28T10:27:54Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8RCKI",
+    "isArchived": false,
+    "content": {
+      "number": 499,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T07:01:04Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8Rikc",
+    "isArchived": false,
+    "content": {
+      "number": 493,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T09:52:37Z",
+      "closedAt": "2026-10-01T09:52:37Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8RimI",
+    "isArchived": false,
+    "content": {
+      "number": 376,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-23T07:41:01Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg8RtO8",
+    "isArchived": false,
+    "content": {
+      "number": 563,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-04T16:24:25Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9GmyM",
+    "isArchived": false,
+    "content": {
+      "number": 521,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T06:04:15Z",
+      "closedAt": "2026-09-28T05:48:24Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9Gm2M",
+    "isArchived": false,
+    "content": {
+      "number": 556,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T05:48:24Z",
+      "closedAt": "2026-09-28T05:48:24Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9HWJM",
+    "isArchived": false,
+    "content": {
+      "number": 568,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T05:28:13Z",
+      "closedAt": "2026-09-28T05:28:13Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9HWJk",
+    "isArchived": false,
+    "content": {
+      "number": 569,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-28T06:52:08Z",
+      "closedAt": "2026-09-28T06:52:08Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9HzXE",
+    "isArchived": false,
+    "content": {
+      "number": 573,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-30T01:42:18Z",
+      "closedAt": "2026-09-30T01:42:18Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 6
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9Igqo",
+    "isArchived": false,
+    "content": {
+      "number": 557,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T05:44:57Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9Ihxg",
+    "isArchived": false,
+    "content": {
+      "number": 565,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-09-29T04:10:07Z",
+      "closedAt": "2026-09-29T04:10:07Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9L_8g",
+    "isArchived": false,
+    "content": {
+      "number": 580,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-09-28T11:07:36Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9VgaM",
+    "isArchived": false,
+    "content": {
+      "number": 581,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T05:41:02Z",
+      "closedAt": "2026-09-29T03:47:12Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9fpng",
+    "isArchived": false,
+    "content": {
+      "number": 586,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T07:01:37Z",
+      "closedAt": "2026-10-02T07:01:37Z",
+      "parent": {
+        "number": 434,
+        "title": "전역 관리 객체 해체"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9kRjE",
+    "isArchived": false,
+    "content": {
+      "number": 589,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T05:41:24Z",
+      "closedAt": "2026-09-30T02:26:34Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9kRmQ",
+    "isArchived": false,
+    "content": {
+      "number": 590,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-01T05:41:40Z",
+      "closedAt": "2026-09-30T02:26:11Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9oueE",
+    "isArchived": false,
+    "content": {
+      "number": 597,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T09:40:45Z",
+      "closedAt": "2026-10-02T09:39:25Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 8,
+        "nodes": [
+          {
+            "number": 598,
+            "state": "CLOSED",
+            "title": "클래스명 정리 — DashAnalysisLauncher→DashDoeSampler, DashDataProcessor→DashAnalysisLauncher"
+          },
+          {
+            "number": 599,
+            "state": "CLOSED",
+            "title": "Module Tree: Geometry Parameter·DOE Sampler Set명을 고정하고 중복 생성을 막는다"
+          },
+          {
+            "number": 600,
+            "state": "CLOSED",
+            "title": "모듈명 변경 — Analysis Launcher→DOE Sampler, Data Preprocessor→Analysis Launcher"
+          },
+          {
+            "number": 601,
+            "state": "CLOSED",
+            "title": "Analysis Launcher: DOE Launcher 탭을 첫 탭으로 이관하고 Data Upload 탭을 제거한다"
+          },
+          {
+            "number": 602,
+            "state": "CLOSED",
+            "title": "Modeling Tree: 프로젝트 파일 관리 트리(Project Assets)로 전환한다"
+          },
+          {
+            "number": 603,
+            "state": "CLOSED",
+            "title": "Condition Parameter: Reference File과 Set을 1:1로 연동한다"
+          },
+          {
+            "number": 633,
+            "state": "CLOSED",
+            "title": "Module Tree: 상류 DOE Table id가 바뀐 Analysis Launcher Set에 경고 아이콘을 표시한다"
+          },
+          {
+            "number": 640,
+            "state": "CLOSED",
+            "title": "Analysis Launcher: 런처가 Done 시점에 결과 파일을 기록하고 Preprocess는 추측 없이 그 기록을 쓴다 (Target file 선택)"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9ouf0",
+    "isArchived": false,
+    "content": {
+      "number": 598,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T02:05:08Z",
+      "closedAt": "2026-10-01T05:38:18Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9ouic",
+    "isArchived": false,
+    "content": {
+      "number": 600,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T02:05:12Z",
+      "closedAt": "2026-10-01T05:38:18Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9oukc",
+    "isArchived": false,
+    "content": {
+      "number": 601,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T09:39:26Z",
+      "closedAt": "2026-10-02T09:39:26Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9ouxE",
+    "isArchived": false,
+    "content": {
+      "number": 599,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T02:05:10Z",
+      "closedAt": "2026-10-01T05:07:13Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9ou0M",
+    "isArchived": false,
+    "content": {
+      "number": 602,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T09:39:25Z",
+      "closedAt": "2026-10-02T09:39:25Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9ou0g",
+    "isArchived": false,
+    "content": {
+      "number": 603,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T09:39:26Z",
+      "closedAt": "2026-10-02T09:39:26Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9oyQ8",
+    "isArchived": false,
+    "content": {
+      "number": 604,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:47:49Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg9o2VM",
+    "isArchived": false,
+    "content": {
+      "number": 605,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T07:01:40Z",
+      "closedAt": "2026-10-02T07:01:40Z",
+      "parent": {
+        "number": 434,
+        "title": "전역 관리 객체 해체"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg904H4",
+    "isArchived": false,
+    "content": {
+      "number": 615,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:47:52Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg904KI",
+    "isArchived": false,
+    "content": {
+      "number": 616,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T10:51:04Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 2,
+        "nodes": [
+          {
+            "number": 647,
+            "state": "OPEN",
+            "title": "Ansys Motion: dfsxml 실행이 LGE 압축기 예제에 하드코딩되어 있고 run마다 dfmm·dfg를 만들지 않는다"
+          },
+          {
+            "number": 648,
+            "state": "OPEN",
+            "title": "fe-safe: Set이 파일 하나에 묶인 뒤 입력 ODB 위치를 찾지 못한다"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg91quY",
+    "isArchived": false,
+    "content": {
+      "number": 623,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T04:12:16Z",
+      "closedAt": "2026-10-01T09:48:35Z",
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg932Q4",
+    "isArchived": false,
+    "content": {
+      "number": 630,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-01T12:10:14Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg932SI",
+    "isArchived": false,
+    "content": {
+      "number": 631,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-01T09:56:48Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg948Xg",
+    "isArchived": false,
+    "content": {
+      "number": 633,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T09:39:27Z",
+      "closedAt": "2026-10-02T09:39:27Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg95Tf8",
+    "isArchived": false,
+    "content": {
+      "number": 634,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-01T12:09:40Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg95Thk",
+    "isArchived": false,
+    "content": {
+      "number": 635,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-01T12:09:43Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg95TjI",
+    "isArchived": false,
+    "content": {
+      "number": 636,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-01T12:09:44Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg95TlM",
+    "isArchived": false,
+    "content": {
+      "number": 637,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-01T12:09:46Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg95Tnw",
+    "isArchived": false,
+    "content": {
+      "number": 638,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-01T12:09:48Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-CSzM",
+    "isArchived": false,
+    "content": {
+      "number": 639,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:48:00Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-CSzQ",
+    "isArchived": false,
+    "content": {
+      "number": 640,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "updatedAt": "2026-10-02T09:39:27Z",
+      "closedAt": "2026-10-02T09:39:27Z",
+      "parent": {
+        "number": 597,
+        "title": "DOE Sampler·Analysis Launcher 재구성 — Launcher 탭 이관, Project Files 트리, Set명 고정"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-ENGY",
+    "isArchived": false,
+    "content": {
+      "number": 643,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:48:04Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 1
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-GUUE",
+    "isArchived": false,
+    "content": {
+      "number": 647,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:47:37Z",
+      "closedAt": null,
+      "parent": {
+        "number": 616,
+        "title": "입력 파일 정책: RW 미지원 포맷(.dfsxml/.wbpj/.stli)의 Project Assets·Condition·Launcher 처리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-GUX4",
+    "isArchived": false,
+    "content": {
+      "number": 648,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:47:41Z",
+      "closedAt": null,
+      "parent": {
+        "number": 616,
+        "title": "입력 파일 정책: RW 미지원 포맷(.dfsxml/.wbpj/.stli)의 Project Assets·Condition·Launcher 처리"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-GaBU",
+    "isArchived": false,
+    "content": {
+      "number": 645,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:47:30Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-GaFQ",
+    "isArchived": false,
+    "content": {
+      "number": 646,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:47:33Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-GaRc",
+    "isArchived": false,
+    "content": {
+      "number": 649,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:50:55Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 8,
+        "nodes": [
+          {
+            "number": 643,
+            "state": "OPEN",
+            "title": "Analysis Launcher: Preprocess XML을 Set 단위로 쓰고 중복 정보를 없앤다 (HDF5 전환 검토)"
+          },
+          {
+            "number": 604,
+            "state": "OPEN",
+            "title": "Tool 메뉴: Direct Launch를 별도 Dialog로 분리한다"
+          },
+          {
+            "number": 645,
+            "state": "OPEN",
+            "title": "Project Assets: Add File로 덮어쓴 파일이 Condition 화면에 반영되지 않고 복사 실패 시 기존 등록이 사라진다"
+          },
+          {
+            "number": 646,
+            "state": "OPEN",
+            "title": "Analysis Launcher: 재실행 뒤 Preprocess 목록 미갱신, Re-run 실패 시 기존 결과 삭제, Skip 안내 없음"
+          },
+          {
+            "number": 615,
+            "state": "OPEN",
+            "title": "DOE Sampler: Add Set을 복원하되 Resample만 번호를 붙여 추가한다"
+          },
+          {
+            "number": 616,
+            "state": "OPEN",
+            "title": "입력 파일 정책: RW 미지원 포맷(.dfsxml/.wbpj/.stli)의 Project Assets·Condition·Launcher 처리"
+          },
+          {
+            "number": 639,
+            "state": "OPEN",
+            "title": "Analysis Launcher: Target Part 로딩 중 Start를 누르면 빈 target이 저장되고 로드 실패 시 저장값이 지워짐"
+          },
+          {
+            "number": 650,
+            "state": "OPEN",
+            "title": "Module Tree: 참조 Set 핀과 상류 버전 불일치 경고를 Analysis Launcher 외 모듈로 확장한다"
+          }
+        ]
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-GccY",
+    "isArchived": false,
+    "content": {
+      "number": 650,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-02T09:49:58Z",
+      "closedAt": null,
+      "parent": {
+        "number": 649,
+        "title": "DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신"
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  },
+  {
+    "id": "PVTI_lADODyEmC84Beid1zg-SJps",
+    "isArchived": false,
+    "content": {
+      "number": 653,
+      "state": "OPEN",
+      "stateReason": null,
+      "updatedAt": "2026-10-03T11:38:54Z",
+      "closedAt": null,
+      "parent": null,
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "comments": {
+        "totalCount": 0
+      }
+    }
+  }
+]

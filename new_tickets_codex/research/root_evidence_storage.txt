@@ -1,0 +1,109 @@
+$ rg -n "QSaveFile|WriteOnly|Truncate|formatVersion|schemaVersion|saveGeometry|restoreGeometry|saveState|restoreState|QLockFile|QSettings" model controller persistence view main.cpp
+exit=0
+main.cpp:13:#include <QSettings>
+main.cpp:33:    // 받는다. 파일은 실행 단위(%LOCALAPPDATA%/NumeReal/Logs), 설정(QSettings NumeReal/DashOpti)
+main.cpp:41:        QSettings logSettings("NumeReal", "DashOpti");
+main.cpp:67:        QSettings settings("NohLab", "DashOptiAnalyzer");
+view/DashMainWindow.cpp:33:#include <QSettings>
+view/DashMainWindow.cpp:259:    QSettings uiSettings("NohLab", "DashOptiAnalyzer");
+view/DashMainWindow.cpp:270:            QSettings s("NohLab", "DashOptiAnalyzer");
+view/DashMainWindow.cpp:4299:    QSettings settings("NohLab", "DashOptiAnalyzer");
+view/DashMainWindow.cpp:4334:    QSettings settings("NohLab", "DashOptiAnalyzer");
+view/DashGeometryParameterWidget.cpp:30:#include <QSettings>
+view/DashGeometryParameterWidget.cpp:708:                if (outFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+persistence/DashSaveSystem.cpp:13:#include <QSaveFile>
+persistence/DashSaveSystem.cpp:533:    version.formatVersion = document.formatVersion;
+persistence/DashSaveSystem.cpp:576:    QSaveFile file(path);
+persistence/DashSaveSystem.cpp:577:    if (!file.open(QIODevice::WriteOnly)) {
+view/DashDoeSamplerWidget.cpp:1422:    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+persistence/DashSaveSystem.h:58:    // File layer. writeJsonFile uses QSaveFile: a failure leaves the existing file.
+persistence/DashSaveData.h:40:    Q_PROPERTY(int formatVersion MEMBER formatVersion)
+persistence/DashSaveData.h:44:    int formatVersion = 1;
+persistence/DashSaveData.h:57:    Q_PROPERTY(int formatVersion MEMBER formatVersion)
+persistence/DashSaveData.h:64:    int formatVersion = 1;
+model/DashModelRunner.cpp:589:    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashModelRunner.cpp:1748:    if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/log/DashLogDockWidget.cpp:17:#include <QSettings>
+view/log/DashLogDockWidget.cpp:64:// 경로 숨김 결정: 실행 인자 --log-show-paths > QSettings(그룹 Log, 기본 true). settings는 그룹 Log 안에 있어야 한다.
+view/log/DashLogDockWidget.cpp:65:bool resolveStripPaths(const QSettings& settings)
+view/log/DashLogDockWidget.cpp:76:    QSettings settings(kOrg, kApp);
+view/log/DashLogDockWidget.cpp:238:    QSettings settings(kOrg, kApp);
+view/log/DashLogDockWidget.cpp:253:    QSettings settings(kOrg, kApp);
+view/DashModelRunnerWidget.cpp:2105:    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/log/DashLogDockWidget.h:26:// - 링 버퍼(QSettings Log/DockBufferSize, 기본 20000). 경로 숨김은 기본 켜짐·토글 없음(--log-show-paths / Log/DockStripPaths=false).
+view/log/DashLogDockWidget.h:27:// - 검색·자동 스크롤(QSettings 저장)·Clear·Ctrl+C(파일 레코드 포맷 복사)만 제공.
+view/DashResultsAnalyzerWidget.cpp:161:        buffer.open(QIODevice::WriteOnly);
+view/DashResultsAnalyzerWidget.cpp:3782:            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/DashResultsAnalyzerWidget.cpp:3804:            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/DashDoeCasesWidget.cpp:132:    // The launcher json is replaced on every write (QSaveFile), which drops it from the
+view/DashModelBuilderMCUWidget.cpp:819:    if (!configFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+view/DashModelBuilderMCUWidget.cpp:984:    if (configFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+view/DashModelBuilderMCUWidget.cpp:1729:    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/analyzer/DashTimeSeriesWidget.cpp:554:    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/analyzer/DashTimeSeriesWidget.cpp:590:    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+controller/DashManager.cpp:8:#include <QSettings>
+controller/DashManager.cpp:65:    QSettings settings("YourCompany", "DashApp");
+controller/DashManager.cpp:68:    DASH_LOG_DEBUG(App) << "DashManager: Initializing solver paths from QSettings...";
+controller/DashManager.cpp:279:    QSettings settings("YourCompany", "DashApp");
+view/common/DashSectionLabel.cpp:16:    buf.open(QIODevice::WriteOnly);
+view/analyzer/DashAnalyzerUtils.h:160: * @param objectName  Object name for the container (for QSettings compatibility)
+controller/DashStateSnapshot.h:36: * 쓰는 순서는 사이드카가 먼저, 메타가 마지막이다(`QSaveFile`). "메타가 있으면 사이드카도 있다" 가
+controller/DashStateSnapshot.cpp:10:#include <QSaveFile>
+controller/DashStateSnapshot.cpp:138:    QSaveFile file(metaPath());
+controller/DashStateSnapshot.cpp:139:    if (!file.open(QIODevice::WriteOnly)) {
+view/DashModelRunnerMCUWidget.cpp:699:    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashSetLegacyMigration.cpp:9:#include <QSaveFile>
+model/DashSetLegacyMigration.cpp:69:    QSaveFile out(path);
+model/DashSetLegacyMigration.cpp:70:    return out.open(QIODevice::WriteOnly)
+view/dialog/MaterialSetupDialog.cpp:201:        if (!out.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/dialog/MaterialSetupDialog.cpp:582:    if (!out.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashModelRunnerMCU.cpp:83:    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/extensions/enterprise/LGE_SpringRule.cpp:241:    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashJobRunnerFeSafe.cpp:7:#include <QSettings>
+model/DashJobRunnerFeSafe.cpp:71:    QSettings settings("YourCompany", "DashApp");
+model/DashSetIdentity.cpp:7:#include <QSaveFile>
+model/DashSetIdentity.cpp:52:    QSaveFile out(path);
+model/DashSetIdentity.cpp:53:    return out.open(QIODevice::WriteOnly)
+view/DashOptimizerWidget.cpp:2198:    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashProject.cpp:238:    if (!fileWrite.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashProject.cpp:905:    if (jsonFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashDesignVariableModel.cpp:499:        if (!outFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashModelBuilderMCU.cpp:557:    if (!configFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashModelBuilderMCU.cpp:688:    if (modelInfoFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashConditionParameterization.cpp:11:#include <QSaveFile>
+model/DashConditionParameterization.cpp:645:            QSaveFile out(m_settingsJsonPath);
+model/DashConditionParameterization.cpp:647:                out.open(QIODevice::WriteOnly)
+model/DashDoeSampler.cpp:1310:    file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+model/DashDoeSampler.cpp:1577:    if (csvFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashDoeConfigManager.cpp:310:    if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashDoeConfigManager.cpp:398:    if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashJobRunnerAnsysMechanical.cpp:240:    if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashJobRunnerAnsysMotion.cpp:261:                        if (dfrFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashAnalysisLauncherKPI.cpp:353:            if (outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashAnalysisLauncherKPI.cpp:564:    if (outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashAnalysisLauncherKPI.cpp:777:    if (outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashAnalysisLauncherKPI.cpp:973:    if (outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashAnalysisLauncherKPI.cpp:1166:    if (outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+model/DashReferenceModelLedger.cpp:9:#include <QSaveFile>
+model/DashReferenceModelLedger.cpp:69:    if (root.value(QStringLiteral("schemaVersion")).toInt() > kSchemaVersion
+model/DashReferenceModelLedger.cpp:235:    QSaveFile f(m_filePath);
+model/DashReferenceModelLedger.cpp:236:    if (!f.open(QIODevice::WriteOnly)) {
+model/DashReferenceModelLedger.cpp:241:        { QStringLiteral("schemaVersion"), kSchemaVersion },
+model/DashOptimizer.cpp:395:    if (fileWrite.open(QIODevice::WriteOnly)) {
+model/DashGeometryParameter.cpp:9:#include <QSaveFile>
+model/DashGeometryParameter.cpp:289:    QSaveFile output(m_geometryParameterJsonPath);
+model/DashGeometryParameter.cpp:290:    if (!output.open(QIODevice::WriteOnly)) {
+model/DashModelBuilder.cpp:520:    if (!configFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashModelBuilder.cpp:602:    if (modelInfoFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashModelBuilder.cpp:783:    if (modelInfoFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashModelBuilder.cpp:934:    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+model/DashModelBuilder.cpp:2342:            if (modelInfoFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+view/dialog/AboutDialog.cpp:14:#include <QSettings>
+view/dialog/AboutDialog.cpp:136:    QSettings settings;
+model/preprocessor/DashResultBatch.cpp:296:    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+view/dialog/SolverSettingsDialog.cpp:11:#include <QSettings>
+view/dialog/SolverSettingsDialog.cpp:79:    QSettings settings("YourCompany", "DashApp");
+view/dialog/SolverSettingsDialog.cpp:110:    QSettings settings("YourCompany", "DashApp");
+model/preprocessor/DashAnalysisLauncherConfig.cpp:4:#include <QSaveFile>
+model/preprocessor/DashAnalysisLauncherConfig.cpp:44:    QSaveFile file(configPath);
+model/preprocessor/DashAnalysisLauncherConfig.cpp:45:    if (!file.open(QIODevice::WriteOnly)) {

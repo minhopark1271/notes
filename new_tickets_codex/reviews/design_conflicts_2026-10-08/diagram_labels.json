@@ -1,0 +1,592 @@
+[
+  {
+    "path": "dashopti_project_unit_v1.drawio",
+    "labels": [
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-1",
+        "text": "Reference File A.inp"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-7",
+        "text": "Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-8",
+        "text": "Geometry Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-9",
+        "text": "Condition Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-12",
+        "text": "DOE   Parameters  -> Design Variables(Space)  (Sampling) -> DOE table  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-13",
+        "text": "Launcher   DOE table & A.inpt (serialize) -> Batch input  (batch CAE run) -> Batch output  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-14",
+        "text": "Builder (1D)   y.xml (y, reduction) *   -> dataset   (model type)** -> model  * 수정하면 최종으로 덮어씀. nodes  -> 1    ** 학습한 여러 모델 중 마지막 것만 남김 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-15",
+        "text": "Preprocessor    Batch output   (preprocess y) -> y.xml  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-26",
+        "text": "Runner    (generate input) *   ->   RunnerSet.json - Prediction Cases  (run, dv값) -> .csv에 결과 값 행 추가  *DV 값들만 전달하면 되지만, .inp도 만듦  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-30",
+        "text": "Optimizer    BuilderSet 하나의 model_info.json   (DeepOpt run-opt    ) -> optimum.json "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-32",
+        "text": "Builder (ND)   y.xml (y, reduction=None)  -> dataset   (model type) -> models*     *여러 nodes의 y를 예측하는 모델   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-33",
+        "text": "Runner    (generate input) -> RunnnerSet.json, Prediction Cases*, vtu  (run, dv라벨, dv값, vtu)  -> 노드별 예측값 입힌 vtu     *vtu 생산을 위한 중간산물로 .inp 생성 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-46",
+        "text": "Deck 1, Response 1"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-92",
+        "text": "Reference File A.inp"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-94",
+        "text": "Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-95",
+        "text": "Geometry Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-96",
+        "text": "Condition Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-98",
+        "text": "DOE   Parameters  -> Design Variables(Space)  (Sampling) -> DOE table  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-100",
+        "text": "Launcher   DOE table & A.inpt (serialize) -> Batch input  (batch CAE run) -> Batch output  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-102",
+        "text": "Builder (1D)   y.xml  (y1, reduction)  -> dataset1     (model1 type) -> model1       (y2, reduction)  -> dataset2     (model2 type) -> model2     model1, model2 각각 최종본을 남김    "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-104",
+        "text": "Preprocessor    Batch output    (preprocess y1, y2) -> y.xml   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-108",
+        "text": "Runner     Builder model_info.json.models 복수 표시     Output response에 선택한 model 복수 추가    Prediction Cases마다 선택한 복수 모델실행하고 결과 행 추가  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-110",
+        "text": "Optimizer      DeepOpt run-optimization         OptSet.json내의 model_id 사용              run_optimization() trained_model_path 제거,     단일 Builder 경로 전달 제거,    _build_response_paths() 수정    >>       모델 선택 기준: set + model_id로 통일    "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-111",
+        "text": "Deck 1, Response 2~"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-117",
+        "text": "Reference File A.inp"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-119",
+        "text": "Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-120",
+        "text": "Geometry Parameters A"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-121",
+        "text": "Condition Parameters A"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-123",
+        "text": "DOE   Parameters  -> Design Variables(Space)  (Sampling) -> DOE table  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-125",
+        "text": "Launcher   DOE table & B.inp (serialize) -> Batch input  (batch CAE run) -> Batch output  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-127",
+        "text": "Builder (1D)   y3.xml (reduction, model3 type) ->  model3   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-129",
+        "text": "Preprocessor    Batch output   (preprocess y) -> y3.xml  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-133",
+        "text": "Runner         "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-136",
+        "text": "Deck 2~, Response 2~"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-137",
+        "text": "Reference File B.inp"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-140",
+        "text": "Parameters"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-141",
+        "text": "Geometry 생략 (동일 형상 가정)"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-142",
+        "text": "Condition Parameters B"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-144",
+        "text": "Launcher   DOE table & A.inpt (serialize) -> Batch input  (batch CAE run) -> Batch output  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-2",
+        "text": "xml   samples     0   \t dv   \t ...    \t y1    \t  y2        1    model_info      parameter   \t ..       selected_responses     \t y1      \t   component      \t   load_step      \t   name      \t   file_name       \t y2       \t   ...    "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-4",
+        "text": "configs/BuilderSet1.json   Data Label (Set Dataset)      Dataset: xml      Input      Output    \t y1 - reduction, transformation      \t y2 - reduction, transformation          Configuration (단수)        model type - resp, 옵션, 상태    >>      Configuration (복수)        model1 - id, resp, model type, 상태        model2 - id, resp, model type, 상태   BuilderSet1/    model_info.json    model1/      y1_{mape}.pt    model2/      y2_{mape}/      \t model.pt   \t input_scaler.pkl    \t output_scaler.pkl    \t model_info.txt      model_info.json   parameter      selected_responses      errors      models        model1/     \t response, model type, path,     \t input_order, reduction, trans, status        model2/     \t response, model type, path,  \t input_order, reduction, trans, status    "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-9",
+        "text": "configs/RunnerSet1.json   Model upload      Output response      \t { set: BuilderSet1     \t model_id: model1     \t response: y1    \t model: RF}     \t {set: BuilderSet1      \t model_id: model2      \t response: y2      \t model: MLP}        Input DV   \t label, value, min, max       Prediction Cases          \t {name, active, values}     \t   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-11",
+        "text": "configs/OptimizerSet1.json   Optimization      trained_surrogate_model     \t { set: Builder1     \t model_id: model1     \t model: RF    \t response: y1    \t symbol: r1}     \t { set: Builder1     \t model_id: model2     \t model: MLP    \t response: y2    \t symbol: r2}  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-14",
+        "text": "Preprocessor    Batch output    (preprocess y1, y2) -> y_1_2.xml   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-15",
+        "text": "Builder (1D)   y_1_2.xml    (reduction, model1 type) -> model1    (reduction, model2 type) -> model2     model1, model2 각각 최종본을 남김    "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-16",
+        "text": "Runner   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-17",
+        "text": "Optimizer      DeepOpt   run-optimization         OptSet.json내의 model_id 사용           run_optimization() trained_model_path 제거,     단일 Builder 경로 전달 제거,    _build_response_paths() 수정    >>     모델 선택 기준: set + model_id로 통일   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-21",
+        "text": "configs/OptimizerSet1.json   Optimization      trained_surrogate_model      \t {set: Builder1     \t model_id: model1      \t model: RF      \t response: y1      \t symbol: r1}       \t {set: Builder1     \t model_id: model2     \t model: RF    \t response: y2    \t symbol: r2}   \t { set: Builder2     \t model_id: model3     \t model: RF    \t response: y3    \t symbol: r3}   "
+      }
+    ]
+  },
+  {
+    "path": "dashopti_project_data_flow_v1.drawio",
+    "labels": [
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-1",
+        "text": " Project Assets  등록·활성 선택  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-12",
+        "text": " DOE Sampler\n\n샘플링 방법, 샘플 수, 옵션 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-13",
+        "text": " Launcher (+Preprocessor)  샘플별 입력 생성 -> CAE 일괄 실행 결과 전처리 -> Part-1_1_1_Stress.xml "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-14",
+        "text": " Builder (1D)\n\nPart-1_1_1_Stress.xml 라벨·reduction 설정\n대리모델 학습 -> model_info, .pt "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-26",
+        "text": " Runner\n\n학습 모델 + DV 값 -> 예측\n케이스 입력 .inp 생성 가능 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-30",
+        "text": " Optimizer\n\n목적·제약·방법 설정\n대리모델로 최적화 -> optimum "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-46",
+        "text": " 사용자 모듈 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-29",
+        "text": " Proj/.Proj.dproj/configs/     \t A.inp - Proj/A.inp의 복사본 생성   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-30",
+        "text": " Proj/.Proj.dproj/configs/   \t GeometryParameter_Morphing.json – 형상변수 및 Morphing 설정 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-32",
+        "text": " Proj/.Proj.dproj/configs/  \t ConditionParameter_A_inp.json - 조건 변수 및 변경 대상 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-34",
+        "text": " { \"setId\": \"a1b2c3d4e5f6\",\n  \"referenceModel\": { \"uuid\": \"deck-uuid\", \"path\": \"A.inp\" },\n  \"variant\": \"Morphing\",\n  \"Morphing\": { \"part\": \"Part-1\", \"handles_vtp\": \"GeometryParameter_Morphing.vtp\", \"radius\": 10.0, \"straight_sided\": false },\n  \"DV-Geometry\": {\n    \"param1\": {\n      \"boolean\": true,\n      \"source\": \"Morphing|A.inp|Part-1\",\n      \"type\": \"continuous\",\n      \"meta\": { \"default\": 0.0, \"design value\": 0.0, \"min\": -2.0, \"max\": 2.0, \"handle id\": 0 } } } } "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-35",
+        "text": " { \"setId\": \"b2c3d4e5f607\",\n  \"referenceModel\": { \"uuid\": \"deck-uuid\", \"path\": \"A.inp\" },\n  \"DV-Condition\": {\n    \"Pressure\": {\n      \"boolean\": true,\n      \"source\": \"A.inp\",\n      \"type\": \"continuous\",\n      \"uuid\": \"condition-uuid\",\n      \"entry_ptr\": \"/entries/0\",\n      \"param\": \"magnitude\",\n      \"meta\": { \"default\": 1000.0, \"min\": 0.0, \"max\": 1000.0 }}}} "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-37",
+        "text": " PolyData\n├── Points                                # 핸들 좌표\n├── PointData\n│   ├── LocalNormal / HandleNormal        # 기준 방향 / 실제 Morphing 방향\n│   ├── HandleType / GroupIds / PlaneIds  # 표면·평면 핸들 / 그룹 / 평면\n│   ├── SelectionScalars / ActiveStatus   # 선택 / 활성 상태\n│   ├── LowerRange / UpperRange / Bounds\n│   └── LocalToGlobal                     # 좌표 변환\n└── FieldData\n    └── AllFixedVolumeIds                 # 고정할 볼륨 메시 점 인덱스 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-43",
+        "text": " Proj/.Proj.dproj/configs/  \t GeometryParameter_Morphing.vtp - 핸들, 고정점 데이터 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-53",
+        "text": " Proj/   \t A.inp - 파트 목록(모핑 대상), 파트 메시(절점·요소), 절점 집합(고정 영역) "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-55",
+        "text": " Proj/   \t A.inp - 하중·경계조건 목록(이름·종류·대상), 편집 가능한 값(magnitude) "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-57",
+        "text": " Proj/.Proj.dproj/configs/   \t GeometryParameter_Morphing.json - 활성 DV 의 type·meta·source, referenceModel, Morphing part "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-57b",
+        "text": " Proj/.Proj.dproj/configs/   \t ConditionParameter_A_inp.json - 활성 DV 의 type·meta·source, referenceModel "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-58",
+        "text": " Proj/.Proj.dproj/configs/  \t DoeSampler_Init.json - 샘플링 설정, DOE Table "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-59",
+        "text": " Proj/DoeSampler_Init/\n  doe_table.csv - 변수별 샘플값 표 ( 샘플 수 × DV 수 ) "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-62",
+        "text": " { \"setId\": \"c3d4e5f60718\",   \"variant\": \"Init\",   \"DOE configuration\": {     \"Selected Design Variables\": {       \"geometry\": { \"set\": \"Morphing\" },       \"conditions\": [{ \"set\": \"A_inp\" }] },     \"Manual-configuration\": {       \"method\": \"Monte Carlo\",       \"options\": { \"Number of samples\": 2 } } },    \"parameterization\": {     \"geometry\": {       \"set\": \"a1b2c3d4e5f6\", \"name\": \"Morphing\",       \"deck\": { \"uuid\": \"deck-uuid\", \"path\": \"A.inp\" } },     \"conditions\": {       \"b2c3d4e5f607\": {         \"name\": \"A_inp\",         \"deck\": { \"uuid\": \"deck-uuid\", \"path\": \"A.inp\" } } } },    \"DOE Table\": {     \"tableId\": \"table-uuid\", \"generatedAt\": \"2026-10-06T00:00:00Z\",     \"mode\": \"General\",     \"headers\": [\"Morphing.param1\", \"A_inp.Pressure\"],     \"columns\": [       { \"module\": \"geometry\", \"set\": \"a1b2c3d4e5f6\", \"name\": \"Morphing\", \"key\": \"param1\" },       { \"module\": \"condition\", \"set\": \"b2c3d4e5f607\", \"name\": \"A_inp\", \"key\": \"Pressure\" } ],     \"source\": [\"Morphing|A.inp|Part-1\", \"A.inp\"],     \"min\": [-2.0, 0.0], \"max\": [2.0, 1000.0],     \"samples\": [       { \"key\": \"runs1\", \"values\": [-1.2, 300.0], \"slice\": 1, \"active\": true, \"iteration\": 1 },       { \"key\": \"runs2\", \"values\": [0.8, 750.0], \"slice\": 1, \"active\": true, \"iteration\": 1 } ],     \"rawSamples\": [       { \"key\": \"runs1\", \"partName\": \"Part-1\", \"Morphing.param1\": -1.2, \"A_inp.Pressure\": 300.0 },       { \"key\": \"runs2\", \"partName\": \"Part-1\", \"Morphing.param1\": 0.8, \"A_inp.Pressure\": 750.0 } ] } } "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "iCWKe73rloB3fLNisFpg-65",
+        "text": " Morphing.param1,A_inp.Pressure\n-1.2,300\n0.8,750 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-2",
+        "text": " Proj/.Proj.dproj/configs/   \t DoeSampler_Init.json - DOE Table (samples·rawSamples), DOE configuration "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-4",
+        "text": " Proj/   \t A.inp "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-cf4b",
+        "text": " Proj/.Proj.dproj/configs/   \t GeometryParameter_Morphing.json - DV meta   \t GeometryParameter_Morphing.vtp - 모핑 핸들 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-cf4c",
+        "text": " Proj/.Proj.dproj/configs/   \t ConditionParameter_A_inp.json - 조건 주입 위치, DV meta "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-6",
+        "text": " Proj/.Proj.dproj/configs/   \t AnalysisLauncher_A_inp.json - 참조 파일, DOE Table 스냅샷, 케이스 상태·결과 파일, 전처리 선택 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-8",
+        "text": " Proj/   \t AnalysisLauncher_A_inp/Init/runs1/   \t \t  runs1.inp - DV 값을 주입한 케이스 입력 (Batch input)   \t \t runs1.odb - 솔버 결과 (Batch output) "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-10",
+        "text": " Proj/   \t AnalysisLauncher_A_inp/Part-1_1_1_Stress.xml - 응답 데이터셋  \t  \t ({component}_{step}_{substep}_{name}.xml) "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-12",
+        "text": " { \"setId\": \"d4e5f6071829\",\n  \"referenceModel\": { \"uuid\": \"deck-uuid\", \"path\": \"A.inp\" },\n  \"input_files\": [ { \"name\": \"A.inp\", \"target_component\": \"Part-1\", \"path\": \"A.inp\" } ],\n  \"DOE configuration\": { \"Init\": { ... DoeSampler_Init.json 의 DOE configuration 그대로 } },\n  \"DOE Table\": { \"Init\": { \"tableId\": \"table-uuid\", \"headers\": [...], \"columns\": [...],\n                           \"samples\": [...], \"rawSamples\": [...], \"min\": [...], \"max\": [...],\n                           \"mode\": \"General\", \"source\": [...], \"priorSamples\": [] } },\n                                   # Start 시점의 DoeSampler_Init.json DOE Table 스냅샷\n  \"Launcher Cases\": {\n    \"Init\": {\n      \"runs1\": { \"active\": true, \"status_A\": \"Done\", \"tableId\": \"table-uuid\",\n                 \"resultFiles\": [\"runs1.odb\"] },          # status_{참조 파일 basename}\n      \"runs2\": { \"active\": true, \"status_A\": \"Running\", \"tableId\": \"table-uuid\" } } },\n  \"Preprocess\": { \"targetFile\": \"primary\" },              # Preprocess 탭: Target file 선택\n  \"Output Response\": [ { \"component\": \"Part-1\", \"loadStep\": \"Step 1 / Substep 1\", \"name\": \"Stress\" } ] } "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-14",
+        "text": " Proj/AnalysisLauncher_A_inp/\n└── Init/                      # DOE Set: 신규 생성 Init / Resample\n    ├── runs1/\n    │   ├── runs1.vtu          # 모핑된 메시 (Morphing 경로 중간 산출물)\n    │   ├── runs1.inp          # A.inp 에 Morphing.param1(모핑)·A_inp.Pressure 주입 → Batch input\n    │   ├── runs1.odb          # 솔버 결과 → Batch output, Launcher Cases.resultFiles 에 기록\n    │   └── (솔버 로그)\n    └── runs2/ ... "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-16",
+        "text": " Preprocess: active · Done · 현재 tableId 일치 케이스의 resultFiles를 읽음\n요청 응답을 정상적으로 읽은 샘플만 기록; 응답마다 XML 1개 작성\n \n├── dict\n│   ├── dict_item key=\"0\"                       # 유효 샘플만 0부터 재번호\n│   │   ├── Morphing.param1, A_inp.Pressure   tensor float32 [1]        # DV 값 (DOE headers 순서)\n│   │   ├── node_location   tensor float32 [절점수, 3]             # 형상 (샘플당 1회)\n│   │   ├── connectivity    tensor int32 [셀수, 패딩]\n│   │   └── Stress          tensor float32 [절점수, 1]             # 응답 (Output Response 의 name)\n│   └── dict_item key=\"1\" ...\n└── dict_item key=\"model_info\"\n    ├── parameter\n    │   ├── Morphing.param1   { source: \"GeometryParameter_Morphing.json\",  meta: { min: -2.0, max: 2.0 } }\n    │   └── A_inp.Pressure { source: \"ConditionParameter_A_inp.json\", meta: { min: 0.0, max: 1000.0 } }\n    └── selected_response { component: \"Part-1\", load_step: \"Step 1 / Substep 1\",\n                            name: \"Stress\", file_name: \"runs1.odb\" }\ntensor 본문 = 리틀엔디안 raw bytes 의 base64 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-18",
+        "text": " Proj/AnalysisLauncher_A_inp/  \t Part-1_1_1_Stress.xml - (샘플 0 의 키 → 라벨, model_info → parameter) "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-20",
+        "text": " Proj/.Proj.dproj/configs/  \t ModelBuilder_Set1.json - 데이터셋·라벨 (reduction·transformation), 모델 설정·상태 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-22",
+        "text": " Proj/.Proj.dproj/   \t ModelBuilder_Set1/  model_info.json - parameter·selected_response (GUI 기록), errors (엔진 기록)     \t   ModelBuilder_Set1/  Stress/RF_*.pt - 학습 모델 (DeepOpt train-model-1d) "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-24",
+        "text": " { \"setId\": \"e5f60718293a\",\n  \"variant\": \"Sim\",\n  \"Data Label\": {\n    \"Dataset\": \".../Proj/AnalysisLauncher_A_inp/Part-1_1_1_Stress.xml\",       # 절대 경로\n    \"Input\":  { \"Morphing.param1\": { \"reduction\": \"None\" }, \"A_inp.Pressure\": { \"reduction\": \"None\" } },\n    \"Output\": { \"Stress\": { \"reduction\": \"Max\", \"transformation\": \"None\" } } },   # 절점 → 1 (1D)\n  \"Configuration\": {                              # 키 = 모델명. Done 인 기존 항목만 보존\n    \"RF\":  { \"response\": \"Stress\", \"run\": true, \"trials\": 20, \"loocv\": false,\n             \"status\": \"Done\", \"error\": \"\" },\n    \"MLP\": { \"response\": \"Stress\", \"run\": true, \"best_model_epoch\": 3000, \"loocv\": false,\n             \"status\": \"Done\", \"error\": \"\" } } } "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-26",
+        "text": " Proj/.Proj.dproj/ModelBuilder_Set1/\n├── model_info.json\n└── Stress/                        # sanitize 된 응답명\n    ├── RF_*.pt                    # 1D 학습 모델 (엔진 산출)\n    └── MLP_*.pt\n\n\nmodel_info.json\n{ \"parameter\": {                   # GUI 가 Part-1_1_1_Stress.xml 의 model_info.parameter 를 옮겨 적음\n    \"Morphing.param1\":   { \"source\": \"GeometryParameter_Morphing.json\",  \"meta\": { \"min\": -2.0, \"max\": 2.0 } },\n    \"A_inp.Pressure\": { \"source\": \"ConditionParameter_A_inp.json\", \"meta\": { \"min\": 0.0, \"max\": 1000.0 } } },\n  \"selected_response\": { \"component\": \"Part-1\", \"load_step\": \"Step 1 / Substep 1\",\n                         \"name\": \"Stress\", \"file_name\": \"runs1.odb\" },\n  \"errors\": { \"Stress\": { \"RF\":  { \"R2\": 0.97, \"MAPE [%]\": 3.1 },        # 엔진 산출\n                          \"MLP\": { \"R2\": 0.95, \"MAPE [%]\": 4.0 } } } } "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-28",
+        "text": " Proj/.Proj.dproj/   \t ModelBuilder_Set1/  model_info.json - parameter (DV 표), errors (모델 목록)     \t   ModelBuilder_Set1/    Stress/RF_*.pt - 대리 모델   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-30",
+        "text": " Proj/.Proj.dproj/configs/   \t GeometryParameter_Morphing.json   \t GeometryParameter_Morphing·.vtp "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-cf30b",
+        "text": " Proj/.Proj.dproj/configs/   \t ConditionParameter_A_inp.json "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-cf30c",
+        "text": " Proj/   \t A.inp - 입력 템플릿 원본 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-32",
+        "text": " Proj/.Proj.dproj/configs/   \t ModelRunner_Set1.json - 선택 모델, DV 값·범위, Prediction Cases "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-34",
+        "text": " Proj/   \t ModelRunner_Set1/Predict_01_Stress_RF.inp·vtu - 케이스 입력 (generate input)  \t   ModelRunner_Set1/     *.csv - 예측 결과 (DeepOpt test-model-1d, 케이스마다 행 추가)   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-36",
+        "text": " { \"setId\": \"f60718293a4b\",\n  \"variant\": \"Sim\",\n  \"Model upload\": {\n    \"Output Response\": [ { \"set\": \".../Proj/.Proj.dproj/ModelBuilder_Set1\", \"response\": \"Stress\", \"model\": \"RF\" } ],\n    \"Input Design Variables\": { \"label\": [\"Morphing.param1\", \"A_inp.Pressure\"],\n                                \"value\": [0.5, 500.0], \"min\": [-2.0, 0.0], \"max\": [2.0, 1000.0] },\n    \"Prediction Cases\": [                                   # generate input 마다 행 추가\n      { \"name\": \"Predict_01_Stress_RF\", \"file\": \".../Proj/ModelRunner_Set1/Predict_01_Stress_RF.vtu\",\n        \"active\": true, \"values\": [0.5, 500.0] },\n      { \"name\": \"Predict_02_Stress_RF (DV only)\", \"file\": \"\", \"active\": true, \"values\": [-1.0, 200.0] } ] } } "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-38",
+        "text": " Proj/ModelRunner_Set1/\n├── Predict_01_Stress_RF.inp                 # A.inp 에 DV 값 주입 (DV 만 넘겨도 되지만 .inp 도 만듦)\n├── Predict_01_Stress_RF.vtu                 # 모핑된 메시 → Prediction Cases.file\n├── Predict_01_Stress_RF_input_geometry.vtu\n└── *.csv                                    # 엔진 산출. Prediction Cases 마다 예측값 행. GUI 는 최신 파일을 CSV 뷰어로 연다 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-40",
+        "text": " Proj/.Proj.dproj/   \t ModelBuilder_Set1/model_info.json - parameter (변수 표), errors (모델 목록)  \t   ModelBuilder_Set1/    Stress/RF_*.pt - 대리 모델   "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-42",
+        "text": " Proj/.Proj.dproj/configs/   \t GeometryParameter_Morphing.json   \t GeometryParameter_Morphing·.vtp "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-cf42b",
+        "text": " Proj/.Proj.dproj/configs/   \t A.inp - Render Preview 시 형상 생성 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-44",
+        "text": " Proj/.Proj.dproj/configs/   \t Optimizer_Set1.json - 대리모델 심볼, 설계변수, 목적·제약식, 최적화 설정 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-46",
+        "text": " Proj/   \t Optimizer_Set1/optimum.json   \t   Optimizer_Set1/    optimization_log/ - 최적해·수렴 이력 (DeepOpt run-optimization)       \t Optimizer_Set1/  Preview_*.vtu·.inp - Render Preview 생성 파일  \t Optimizer_Set1/Preview_*_input_geometry.vtu - 미리보기용 추출 메시 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-48",
+        "text": " { \"setId\": \"0718293a4b5c\",\n  \"Optimization\": {\n    \"trained_surrogate_model\": [ { \"symbol\": \"r1\", \"response\": \"Stress\", \"model\": \"RF\" } ],\n    \"design_variables\": [\n      { \"symbol\": \"v1\", \"parameter\": \"Morphing.param1\",   \"value\": 0.0,    \"min\": -2.0, \"max\": 2.0,\n        \"mean\": \"None\", \"std\": \"None\", \"optimize\": true },\n      { \"symbol\": \"v2\", \"parameter\": \"A_inp.Pressure\", \"value\": 1000.0, \"min\": 0.0,  \"max\": 1000.0,\n        \"mean\": \"None\", \"std\": \"None\", \"optimize\": true } ],\n    \"optimization_settings\": {\n      \"methods\": \"SQP\",\n      \"objective_function\": { \"name\": \"Obj\", \"direction\": \"minimize\", \"type\": \"deterministic\",\n                              \"expression\": \"r1\" },\n      \"use_constrained_function\": true,\n      \"constrained_functions\": [ { \"name\": \"G1\", \"type\": \"deterministic\", \"expression\": \"v2 >= 300\" } ],\n      \"configs\": { \"iteration\": 10, \"tolerance\": 0.000001 } } } } "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "cf-50",
+        "text": " Proj/Optimizer_Set1/\n├── optimum.json                             # 엔진 산출. Validation·Results Analysis 탭이 읽음\n│   { \"meta\": { \"item\": [\"id\", \"v1\", \"v2\", \"objective\", \"constraint1\", \"r1\"] },\n│     \"data\": [ { \"name\": \"Optimum\",            \"value\": [1, 0.42, 310.0, 152.3, -10.0, 152.3] },\n│               { \"name\": \"Optimum_trajectory\", \"value\": [2, 0.00, 1000.0, 230.1, -700.0, 230.1] },\n│               { \"name\": \"Neighbor\", ... }, { \"name\": \"MPP\", ... } ] }\n├── optimization_log/convergence_history.png\n├── Preview_ _A_ .vtu\n├── Preview_ _A_ .inp   # 참조가 .dat이면 .dat\n└── Preview_ _A_ _input_geometry.vtu "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2c-conventions",
+        "text": " 경로·Set 이름 규칙 (현재 코드 기준) 프로젝트 루트: Proj/  |  내부 폴더: Proj/.Proj.dproj/ 참조 원본 예시: Proj/A.inp referenceModel.path / input_files.path: 프로젝트 루트 기준 상대 경로 Geometry: Morphing / CAD  |  DOE: Init / Resample A.inp의 Condition·Launcher Set: A_inp (파일명의 점을 밑줄로 변환) Builder·Runner·Optimizer: Set1, Set2, … 본문은 Morphing + Init 예시. 식별자·해시·수치는 예시 값.     모듈 Set 식별 관계 각  _ .json의 최상위 setId: 12자리 hex 식별자 GeometryParameter_Morphing.json: a1b2c3d4e5f6 ConditionParameter_A_inp.json: b2c3d4e5f607 DOE parameterization.geometry.set / conditions의 키 / columns[].set  → 해당 모듈 JSON의 setId Selected Design Variables.set과 name은 Set 이름을 사용 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-legend-title",
+        "text": "파일 색상 범례:  파일  |  생산 모듈  →  소비 모듈.   무색 = 다른 모듈이 소비하지 않는 생산 파일"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-legend-1",
+        "text": "A.inp (Proj/ 원본, configs/ 복사본)  |  Project Assets · Geometry  →  Geometry · Condition · Launcher · Runner · Optimizer"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-legend-2",
+        "text": "GeometryParameter_Morphing.json · .vtp  |  Geometry  →  DOE Sampler · Launcher · Runner · Optimizer"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-legend-3",
+        "text": "ConditionParameter_A_inp.json  |  Condition  →  DOE Sampler · Launcher · Runner"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-legend-4",
+        "text": "DoeSampler_Init.json  |  DOE Sampler  →  Launcher"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-legend-5",
+        "text": "Part-1_1_1_Stress.xml  |  Launcher  →  Builder"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2d-legend-6",
+        "text": "ModelBuilder_Set1/model_info.json · Stress/RF_*.pt  |  Builder  →  Runner · Optimizer (.pt 는 엔진이 로드)"
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2c-reference-ledger",
+        "text": "  Proj/     \t A.inp (참조 원본)  Proj/.Proj.dproj/configs/  \t referenceModels.json - 참조 모델 등록·활성 모델 선택·프로젝트 복원에 사용 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "v2c-ledger-schema",
+        "text": " { \"schemaVersion\": 1,   \"activeModel\": \"deck-uuid\",   \"models\": {     \"deck-uuid\": {       \"path\": \"A.inp\",       \"sha256\": \" \",       \"size\": 123456, \"mtimeMs\": 1791331200000 } } }  "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-8",
+        "text": " Geometry Parameterization "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "5XQGE1Q0sDRGbxL6DRzS-9",
+        "text": " Condition Parameterization "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "JrBWtiKJ5ogwo4tQ9b9L-4",
+        "text": " 소비하는 데이터 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "JrBWtiKJ5ogwo4tQ9b9L-5",
+        "text": " 생산 / 갱신 파일 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "JrBWtiKJ5ogwo4tQ9b9L-6",
+        "text": " 파일 구조 예시 "
+      },
+      {
+        "page": "페이지-1",
+        "cell_id": "lMDKISj4kEnD_V8ztW9P-1",
+        "text": "  추가 검토의견 반영할 것  [틀린 항목] - Runner Prediction Cases.file 은 .inp/.dat 경로. v2d 는 .vtu 로 표기 (view/DashModelRunnerWidget.cpp:1843) - MLP 는 .pt 파일이 아니라 폴더 생성. MLP_*.pt 표기 오류. RF 만 .pt, MLP·BNN·ND 는 {Model}_*/ 디렉터리 (model/DashModelBuilder.cpp:2022) - Render Preview 파일명 실제는 Preview_{검증열}_{템플릿명}_{타임스탬프}. 해석 입력 파일 생성 후 .vtu 두 개는 삭제되어 .inp/.dat 만 잔존 (view/DashOptimizerWidget.cpp:1707)  [부정확한 항목] - Preprocess 필터 조건 누락. active·Done·tableId 일치 외에 resultFiles 비어 있지 않음 조건 필요. tableId 비교 대상은 라이브 DOE 테이블이 아닌 Launcher 자체 스냅샷 (model/preprocessor/DashLauncherRuns.cpp:65) - configs/A.inp 복사본은 Geometry 외에 Launcher Start 도 생성. v2d 는 Geometry 만 생산자로 표기 (model/DashAnalysisLaunchExecutor.cpp:88) - CSV 케이스마다 행 추가는 GUI 가 보장하지 않음. GUI 는 최신 CSV 열기만 수행. v2 는 미확정으로 표기, v2d 는 단언으로 변경됨  [표현 결함] - GeometryParameter_Morphing·.vtp 표기 (Runner·Optimizer 소비 박스 2곳). .json · .vtp 로 수정 필요 - Launcher 소비 박스 Proj/ A.inp 만 설명 없음 - 규칙 박스 17줄 대비 높이 240 으로 넘침 가능성 (렌더링 추정, 미확인) - 모듈 간 세로 화살표가 v2c 부터 없음. 흐름이 색·세로 순서로만 표현됨 - 검증 기준 커밋 해시 없음. 규칙 박스 \"현재 코드 기준\" 에 v2 처럼 커밋 해시 추가 권장        "
+      }
+    ]
+  }
+]

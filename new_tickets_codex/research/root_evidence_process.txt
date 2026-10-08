@@ -1,0 +1,232 @@
+$ rg -n "fromLocal8Bit|fromUtf8|readyTimeout|m_waitingFinished|m_commandQueue|QTimer|setProgram|optimizationFailed" controller model view
+exit=0
+model/DashJobRunnerAnsysJournal.cpp:9:#include <QTimer>
+model/DashJobRunnerAnsysJournal.cpp:566:        QString::fromUtf8(QJsonDocument(launchConfig).toJson(QJsonDocument::Compact));
+model/DashJobRunnerAnsysJournal.cpp:745:        QString::fromUtf8(QJsonDocument(launchConfig).toJson(QJsonDocument::Compact));
+controller/DashSolverNxCad.cpp:158:    const QString configText = QString::fromUtf8(
+model/DashModelRunner.cpp:373:        + QString::fromUtf8(QJsonDocument(inputJson).toJson(QJsonDocument::Compact));
+model/DashModelRunner.cpp:640:    QString jsonString = QString::fromUtf8(fileData);
+model/DashModelRunner.cpp:2003:                           .arg(QString::fromUtf8(
+model/DashModelRunner.cpp:2076:                           .arg(QString::fromUtf8(
+controller/DashExtensionProcess.cpp:38:    connect(&m_readyTimer, &QTimer::timeout, this, &DashExtensionProcess::onReadyTimeout);
+controller/DashExtensionProcess.cpp:39:    connect(&m_stopTimer, &QTimer::timeout, this, &DashExtensionProcess::onStopTimeout);
+controller/DashExtensionProcess.cpp:66:    m_readyTimeoutMs = ms;
+controller/DashExtensionProcess.cpp:231:        m_readyTimer.start(m_readyTimeoutMs);
+controller/DashExtensionProcess.cpp:269:    const bool hadInFlight = m_waitingFinished;
+controller/DashExtensionProcess.cpp:274:    drained.swap(m_commandQueue);
+controller/DashExtensionProcess.cpp:276:    m_waitingFinished = false;
+controller/DashExtensionProcess.cpp:296:                       .arg(m_readyTimeoutMs));
+controller/DashExtensionProcess.cpp:297:    reportDeath(QStringLiteral("Daemon did not become ready within %1ms.").arg(m_readyTimeoutMs));
+controller/DashExtensionProcess.cpp:323:    m_commandQueue.clear();
+controller/DashExtensionProcess.cpp:324:    m_waitingFinished = false;
+controller/DashExtensionProcess.cpp:356:    m_commandQueue.enqueue(cmd);
+controller/DashExtensionProcess.cpp:366:    if (commandIds.isEmpty() || m_commandQueue.isEmpty()) {
+controller/DashExtensionProcess.cpp:374:    while (!m_commandQueue.isEmpty()) {
+controller/DashExtensionProcess.cpp:375:        const PendingCommand cmd = m_commandQueue.dequeue();
+controller/DashExtensionProcess.cpp:382:    m_commandQueue.swap(kept);
+controller/DashExtensionProcess.cpp:392:    if (m_waitingFinished || m_commandQueue.isEmpty()) {
+controller/DashExtensionProcess.cpp:400:    const PendingCommand cmd = m_commandQueue.dequeue();
+controller/DashExtensionProcess.cpp:403:    m_waitingFinished = true;
+controller/DashExtensionProcess.cpp:475:    if (!m_waitingFinished) {
+controller/DashExtensionProcess.cpp:482:        m_waitingFinished = false;
+controller/DashExtensionProcess.cpp:494:        m_waitingFinished = false;
+controller/DashRwDocumentHandle.cpp:19:    return QString::fromUtf8(msg.data(), static_cast<int>(msg.size()));
+controller/DashAnalysisModelContextRegistry.cpp:125:                                << QString::fromUtf8(
+controller/DashDaemonLifecycle.cpp:3:#include <QTimer>
+controller/DashDaemonLifecycle.cpp:99:    e.timer = new QTimer(this);
+controller/DashDaemonLifecycle.cpp:101:    connect(e.timer, &QTimer::timeout, this, [this, daemon] { onIdleTimeout(daemon); });
+controller/DashDaemonLifecycle.cpp:116:    connect(daemon, &DashExtensionProcess::stopped, e.timer, &QTimer::stop);
+controller/DashDaemonLifecycle.cpp:117:    connect(daemon, &DashExtensionProcess::died, e.timer, &QTimer::stop);
+view/DashOptimizerWidget.cpp:1566:        DashOptimizerPresentationModel::sanitizedModelInfoJson(QString::fromUtf8(fileData));
+model/DashJobRunner.cpp:15:#include <QTimer>
+model/DashJobRunner.cpp:55:    m_stpWatchdog = new QTimer(this);
+model/DashJobRunner.cpp:57:    connect(m_stpWatchdog, &QTimer::timeout, this, &DashJobRunner::onStpCaseTimeout);
+controller/DashVtkLogBridge.cpp:15:    return text ? QString::fromUtf8(text).trimmed() : QString();
+view/log/DashLogDockWidget.cpp:21:#include <QTimer>
+view/log/DashLogDockWidget.cpp:119:    m_searchDebounce = new QTimer(this);
+view/log/DashLogDockWidget.cpp:122:    connect(m_search, &QLineEdit::textChanged, m_searchDebounce, qOverload<>(&QTimer::start));
+view/log/DashLogDockWidget.cpp:123:    connect(m_searchDebounce, &QTimer::timeout, this, &DashLogDockWidget::applySearch);
+view/DashGeometryParameterWidget.cpp:39:#include <QTimer>
+view/DashGeometryParameterWidget.cpp:885:    QTimer::singleShot(0, this, updateHeaderCheckBoxPosition);
+view/DashGeometryParameterWidget.cpp:975:    QTimer::singleShot(0, this, updateAddValuesRowColumnWidths);
+view/DashGeometryParameterWidget.cpp:2809:        QTimer::singleShot(0, this, [this]() {
+view/DashGeometryParameterCADWidget.cpp:44:#include <QTimer>
+view/DashGeometryParameterCADWidget.cpp:209:    QTimer::singleShot(0, this, updateCadHeaderCheckBoxPos);
+view/DashGeometryParameterCADWidget.cpp:250:    QTimer::singleShot(0, this, updateCadAddValuesRowColumnWidths);
+view/DashGeometryParameterCADWidget.cpp:434:        QTimer::singleShot(0, this, [this]() {
+controller/DashStateSnapshot.cpp:33:    return QString::fromUtf8(name.data(), static_cast<qsizetype>(name.size()));
+view/overlay/DashInfoIconWidget.cpp:5:#include <QTimer>
+view/overlay/DashInfoIconWidget.cpp:15:        : QObject(parent), m_tooltip(tooltip), m_widget(parent), m_timer(new QTimer(this))
+view/overlay/DashInfoIconWidget.cpp:19:        connect(m_timer, &QTimer::timeout, this, [this]() {
+view/overlay/DashInfoIconWidget.cpp:42:    QTimer* m_timer;
+view/DashModelRunnerWidget.cpp:59:#include <QTimer>
+view/DashModelRunnerWidget.cpp:215:        QTimer::singleShot(0, this, [this]() {
+view/DashModelRunnerWidget.cpp:914:        DashSurrogateModelCommon::sanitizedModelInfoJson(QString::fromUtf8(jsonData));
+view/DashModelRunnerWidget.cpp:1357:            QTimer::singleShot(500, this, [this]() {
+model/DashOptimizer.h:120:    void optimizationFailed(const QString& errorMessage);
+view/DashMainWindow.cpp:42:#include <QTimer>
+view/DashMainWindow.cpp:884:            // Use QTimer to ensure the model is updated before selecting
+view/DashMainWindow.cpp:885:            QTimer::singleShot(200, this, [this, categoryName, setName]() {
+view/DashMainWindow.cpp:2075:    QTimer::singleShot(100, this, [this]() {
+view/DashMainWindow.cpp:2080:    QTimer::singleShot(200, this, [this]() {
+view/DashMainWindow.cpp:2100:    QTimer::singleShot(0, this, &DashMainWindow::startAiDemoAutoplay);
+view/DashMainWindow.cpp:2481:    connect(&m_projectLoadAnim.timer, &QTimer::timeout, this, [this] {
+view/DashMainWindow.cpp:2486:    connect(&m_nxCadAnim.timer, &QTimer::timeout, this, [this] { tickDotAnimation(m_nxCadAnim); });
+view/DashMainWindow.cpp:2489:    connect(&m_generateAnim.timer, &QTimer::timeout, this, [this] {
+view/DashMainWindow.cpp:3271:        QTimer::singleShot(50, this, &DashMainWindow::adjustLogDockHeight);
+view/DashMainWindow.cpp:3435:    const QString script = QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_AUTOPLAY"));
+view/DashMainWindow.cpp:3460:            QTimer::singleShot(500, qApp, &QCoreApplication::quit);
+view/DashMainWindow.cpp:3468:    const QString speedEnv = QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_AUTOPLAY_SPEED"));
+view/DashMainWindow.cpp:3472:    const QString shot = QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_AUTOPLAY_SHOT"));
+view/DashMainWindow.cpp:3476:    const QString scenesEnv = QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_AUTOPLAY_SCENES"));
+view/DashMainWindow.cpp:3493:        QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_AUTOPLAY_AUTO_ADVANCE_MS"));
+view/DashMainWindow.cpp:3504:        QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_AUTOPLAY_SHOT_AT_SCENE"));
+view/DashMainWindow.cpp:3518:                    QTimer::singleShot(600, this, [this, file]() { grab().save(file); });
+view/DashMainWindow.cpp:3551:        QTimer::singleShot(500, qApp, &QCoreApplication::quit);
+view/DashMainWindow.cpp:3569:    const QString timeoutEnv = QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_AUTOPLAY_TIMEOUT"));
+view/DashMainWindow.cpp:3570:    QTimer* watchdog = new QTimer(this);
+view/DashMainWindow.cpp:3578:    connect(watchdog, &QTimer::timeout, this, [player, report]() {
+view/DashMainWindow.cpp:5064:    QTimer::singleShot(50, this, [this]() {
+view/DashMainWindow.h:12:#include <QTimer>
+view/DashMainWindow.h:30:class QTimer;
+view/DashMainWindow.h:196:        QTimer timer;
+model/DashOptimizer.cpp:23:#include <QTimer>
+model/DashOptimizer.cpp:195:            emit optimizationFailed(msg);
+model/DashOptimizer.cpp:217:        emit optimizationFailed("ProjectManager is not available.");
+model/DashOptimizer.cpp:225:        emit optimizationFailed("IOController is not available.");
+model/DashOptimizer.cpp:287:        QTimer::singleShot(
+model/DashOptimizer.cpp:316:        QString::fromUtf8(QJsonDocument(deConfigObj).toJson(QJsonDocument::Compact));
+model/DashOptimizer.cpp:757:    QString jsonString = QString::fromUtf8(fileData);
+model/DashOptimizer.cpp:1027:        emit optimizationFailed(fullOutput);
+model/DashOptimizer.cpp:1302:    QString jsonString = QString::fromUtf8(fileData);
+controller/ai/DashDemoScriptPlayer.cpp:66:    return QString::fromUtf8(file.readAll());
+controller/ai/DashDemoScriptPlayer.cpp:88:    connect(&m_stepTimer, &QTimer::timeout, this, &DashDemoScriptPlayer::runStep);
+controller/ai/DashDemoScriptPlayer.cpp:91:    connect(&m_actionTimer, &QTimer::timeout, this, &DashDemoScriptPlayer::onActionFinished);
+view/DashResultsAnalyzerWidget.h:21:class QTimer;
+view/DashResultsAnalyzerWidget.h:117:    QTimer* m_debounceTimer = nullptr;
+model/extensions/enterprise/LGE_BoreBossComponentRule.cpp:90:            QString arrName = arrNameCStr ? QString::fromUtf8(arrNameCStr) : "unnamed";
+model/extensions/enterprise/LGE_BoreBossComponentRule.cpp:101:                QString arrName = QString::fromUtf8(arrNameCStr);
+model/extensions/enterprise/LGE_BoreBossComponentRule.cpp:119:                QString arrName = arrNameCStr ? QString::fromUtf8(arrNameCStr) : "unnamed";
+model/DashJobRunnerAnsysMotion.cpp:186:         QString::fromLocal8Bit(output).split(QLatin1Char('\n'), Qt::SkipEmptyParts)) {
+model/DashJobRunnerAnsysMotion.cpp:190:         QString::fromLocal8Bit(errorOutput).split(QLatin1Char('\n'), Qt::SkipEmptyParts)) {
+model/DashJobRunnerAnsysMotion.cpp:197:        QString errorStr = QString::fromLocal8Bit(errorOutput);
+model/DashJobRunnerAnsysMotion.cpp:230:                QString outputStr = QString::fromLocal8Bit(remainingOutput);
+model/DashJobRunnerAnsysMotion.cpp:416:        QString message = QString::fromLocal8Bit(line).trimmed();
+controller/ai/DashDemoScriptPlayer.h:11:#include <QTimer>
+controller/ai/DashDemoScriptPlayer.h:200:    QTimer m_stepTimer;  // lead-in delay before the next step
+controller/ai/DashDemoScriptPlayer.h:201:    QTimer m_actionTimer;  // completion of a step the backend does not own
+view/log/DashLogDockWidget.h:13:class QTimer;
+view/log/DashLogDockWidget.h:60:    QTimer*      m_searchDebounce = nullptr;
+view/DashResultsAnalyzerWidget.cpp:66:#include <QTimer>
+view/DashResultsAnalyzerWidget.cpp:136:    m_debounceTimer = new QTimer(this);
+view/DashResultsAnalyzerWidget.cpp:139:    connect(m_debounceTimer, &QTimer::timeout, this, &DashResultsAnalyzerWidget::debouncedReplot);
+model/ai/DashScriptedBackend.cpp:48:    connect(&m_completionTimer, &QTimer::timeout, this, &DashScriptedBackend::onCompletionTimeout);
+model/ai/DashScriptedBackend.cpp:51:    connect(&m_streamTimer, &QTimer::timeout, this, &DashScriptedBackend::onStreamTick);
+view/overlay/DashMorphingSettings.cpp:24:#include <QTimer>
+view/overlay/DashMorphingSettings.cpp:332:    QTimer::singleShot(0, this, [this]() {
+view/overlay/DashMorphingSettings.cpp:358:    QTimer::singleShot(0, this, [this]() {
+view/overlay/DashMorphingSettings.cpp:468:    QTimer::singleShot(0, this, [this]() {
+view/DashModelBuilderMCUWidget.cpp:30:#include <QTimer>
+view/DashModelBuilderMCUWidget.cpp:341:    QTimer::singleShot(0, this, updateInputHeaderCheckBoxPosition);
+view/DashModelBuilderMCUWidget.cpp:380:    QTimer::singleShot(0, this, updateOutputHeaderCheckBoxPosition);
+view/DashModelBuilderMCUWidget.cpp:513:        QTimer::singleShot(0, this, [this]() {
+view/DashModelBuilderMCUWidget.cpp:1937:    QTimer::singleShot(0, this, [this]() {
+view/DashDoeCasesWidget.cpp:29:#include <QTimer>
+view/DashDoeCasesWidget.cpp:93:    QTimer::singleShot(0, this, updateOutputHeaderCheckBoxPos);
+view/DashDoeCasesWidget.cpp:287:        QTimer::singleShot(0, this, [this]() {
+view/DashDoeCasesWidget.cpp:555:        QTimer::singleShot(0, this, [this]() {
+model/DashConditionParameterization.cpp:13:#include <QTimer>
+model/DashConditionParameterization.cpp:435:    QTimer nextTurn;
+model/ai/DashScriptedBackend.h:11:#include <QTimer>
+model/ai/DashScriptedBackend.h:128:    QTimer m_completionTimer;
+model/ai/DashScriptedBackend.h:133:    QTimer m_streamTimer;
+view/ai/DashAiChatWidget.cpp:27:#include <QTimer>
+view/ai/DashAiChatWidget.cpp:40:    const QString fromEnv = QString::fromLocal8Bit(qgetenv("DASH_AI_DEMO_DATA_DIR"));
+view/ai/DashAiChatWidget.cpp:236:    m_autoAdvanceTimer = new QTimer(this);
+view/ai/DashAiChatWidget.cpp:238:    connect(m_autoAdvanceTimer, &QTimer::timeout, this, &DashAiChatWidget::resumeFromUser);
+model/DashModelBuilder.cpp:34:    m_statusCheckTimer = new QTimer(this);
+model/DashModelBuilder.cpp:36:    connect(m_statusCheckTimer, &QTimer::timeout, this, &DashModelBuilder::checkModelStatus);
+model/DashModelBuilder.cpp:984:    QString jsonString = QString::fromUtf8(fileData);
+model/DashModelBuilder.cpp:1123:    QString jsonString = QString::fromUtf8(fileData);
+model/DashModelBuilder.cpp:1339:    QTimer::singleShot(500, this, [this, success]() {
+model/DashModelBuilder.cpp:1344:        QTimer::singleShot(1000, this, [this, success]() {
+model/DashModelBuilder.cpp:2207:    QString jsonStr = QString::fromUtf8(data);
+model/DashDoeSampler.cpp:1074:        m_samplingError = QString::fromUtf8(e.what());
+controller/DashRenderingManager.cpp:225:            arrays << QString::fromUtf8(grid->GetPointData()->GetArrayName(i));
+controller/DashRenderingManager.cpp:228:            arrays << QString::fromUtf8(grid->GetCellData()->GetArrayName(i));
+model/DashDoeConfigManager.cpp:316:    out << QString::fromUtf8(outputDoc.toJson(QJsonDocument::Indented));
+model/DashDoeConfigManager.cpp:404:    out << QString::fromUtf8(outputDoc.toJson(QJsonDocument::Indented));
+view/ai/DashAiComposerWidget.cpp:24:#include <QTimer>
+view/ai/DashAiComposerWidget.cpp:230:    m_typeTimer = new QTimer(this);
+view/ai/DashAiComposerWidget.cpp:231:    connect(m_typeTimer, &QTimer::timeout, this, &DashAiComposerWidget::typeNextCharacter);
+view/ai/DashAiComposerWidget.cpp:393:        QTimer::singleShot(scaled(kDropFlashMs), this, [this, key, displayName, icon]() {
+view/ai/DashAiComposerWidget.cpp:401:    QTimer::singleShot(scaled(kPressFlashMs), this, [this, key, displayName, icon]() {
+view/ai/DashAiComposerWidget.cpp:529:        QTimer::singleShot(scaled(kPressFlashMs), this, [this]() {
+view/ai/DashAiComposerWidget.cpp:541:    QTimer::singleShot(scaled(kPressFlashMs), this, [this]() {
+controller/DashRwDocument.cpp:301:        DASH_LOG_INFO(Rw) << "symbol detail for" << condName << ":" << QString::fromUtf8(raw);
+view/common/DashIconHoverEventFilter.cpp:21:        QString svgString = QString::fromUtf8(svgData);
+model/DashJobRunner.h:322:    class QTimer* m_stpWatchdog = nullptr;  // 케이스별 상한
+view/ai/DashAiChatWidget.h:27:class QTimer;
+view/ai/DashAiChatWidget.h:182:    QTimer* m_autoAdvanceTimer = nullptr;
+controller/DashDaemonLifecycle.h:9:class QTimer;
+controller/DashDaemonLifecycle.h:58:        QTimer* timer = nullptr;  // 유휴 대기 — 소비자 0 이고 데몬이 준비·유휴일 때만 돈다
+view/common/DashThemeLoader.h:92:    QString theme = QString::fromUtf8(file.readAll());
+model/preprocessor/DashFieldPreview.cpp:39:        fetch.error = QString::fromUtf8(e.what());
+model/preprocessor/DashFieldPreview.cpp:43:        fetch.error = QString::fromUtf8(e.what());
+model/preprocessor/DashFieldPreview.cpp:84:            remaining << QString::fromUtf8(pd->GetArrayName(i));
+controller/async/ProcessJob.cpp:10:#include <QTimer>
+controller/async/ProcessJob.cpp:61:        QTimer::singleShot(0, this, [this, msg] { setState(State::Failed, msg); });
+controller/async/LineAssembler.h:49:        return QString::fromUtf8(raw);
+model/DashJobRunnerAnsysMechanical.cpp:377:        templateContent = QString::fromUtf8(tmpl.readAll());
+controller/DashExtensionProcess.h:12:#include <QTimer>
+controller/DashExtensionProcess.h:144:        return !m_waitingFinished && m_commandQueue.isEmpty();
+controller/DashExtensionProcess.h:168:    // QTimer::singleShot(0) 으로 미룬다.
+controller/DashExtensionProcess.h:245:    bool m_waitingFinished = false;
+controller/DashExtensionProcess.h:250:    QQueue<PendingCommand> m_commandQueue;
+controller/DashExtensionProcess.h:252:    QTimer m_readyTimer;  // Starting 상한 — 만료 시 died 로 라우팅
+controller/DashExtensionProcess.h:253:    QTimer m_stopTimer;  // Stopping 상한 — 만료 시 kill 승격
+controller/DashExtensionProcess.h:259:    int m_readyTimeoutMs = 30000;  // shipped 기동 실측 최대 17.4s (SensitivityEngine)
+controller/async/ProcessJob.h:59:    QString stdoutText() const { return QString::fromUtf8(m_stdoutRaw); }
+view/ai/DashAiComposerWidget.h:16:class QTimer;
+view/ai/DashAiComposerWidget.h:149:    QTimer* m_typeTimer = nullptr;
+controller/async/DashAsyncJobContext.cpp:36:                QStringLiteral("unhandled exception: %1").arg(QString::fromUtf8(e.what())));
+view/DashConditionParameterizationWidget.cpp:32:#include <QTimer>
+view/DashConditionParameterizationWidget.cpp:151:    QTimer::singleShot(0, this, updateFeHeaderCheckBoxPos);
+view/DashConditionParameterizationWidget.cpp:546:        QTimer::singleShot(0, this, [this]() {
+view/DashAnalysisLauncherWidget.cpp:56:#include <QTimer>
+view/dialog/TopOptPostprocessDialog.h:18:#include <QTimer>
+view/dialog/TopOptPostprocessDialog.h:145:    QTimer* m_progressTimer;
+model/DashModelBuilderMCU.cpp:236:    QString jsonStr = QString::fromUtf8(data);
+model/DashModelBuilderMCU.cpp:284:    const QString head = QString::fromUtf8(file.read(4096));
+model/DashModelBuilderMCU.cpp:301:    QString jsonStr = QString::fromUtf8(file.readAll());
+model/DashModelBuilderMCU.cpp:423:    const QString head = QString::fromUtf8(file.read(64 * 1024));
+model/DashModelBuilderMCU.cpp:471:    QString jsonPayload = QString::fromUtf8(QJsonDocument(payload).toJson(QJsonDocument::Compact));
+model/DashDesignVariableModel.cpp:265:    QString preview = QString::fromUtf8(fileData.left(200));
+view/dialog/TopOptPostprocessDialog.cpp:27:#include <QTimer>
+view/dialog/TopOptPostprocessDialog.cpp:1272:    m_progressTimer = new QTimer(this);
+view/dialog/TopOptPostprocessDialog.cpp:1274:    connect(m_progressTimer, &QTimer::timeout, this, &TopOptPostprocessDialog::onProgressTimer);
+view/dialog/TopOptPostprocessDialog.cpp:1834:            QTimer::singleShot(5000, this, [this]() {
+model/DashJobRunnerCae.h:17:    return QString::fromUtf8(e.message().data(), static_cast<int>(e.message().size()));
+model/DashModelBuilder.h:9:#include <QTimer>
+model/DashModelBuilder.h:165:    QTimer* m_statusCheckTimer;
+view/ai/blocks/DashAiSuggestionChipsBlock.cpp:12:#include <QTimer>
+view/ai/blocks/DashAiSuggestionChipsBlock.cpp:84:    QTimer::singleShot(kPressFlashMs, chip, [this, chip, index]() {
+view/ai/blocks/DashAiBlockWidget.cpp:14:#include <QTimer>
+view/ai/blocks/DashAiBlockWidget.cpp:56:    m_pulseTimer = new QTimer(this);
+view/ai/blocks/DashAiBlockWidget.cpp:58:    connect(m_pulseTimer, &QTimer::timeout, this, &DashAiBlockWidget::onPulseTick);
+view/ai/blocks/DashAiToolCardBlock.h:10:class QTimer;
+view/ai/blocks/DashAiToolCardBlock.h:31:    QTimer* m_spinTimer = nullptr;
+view/ai/blocks/DashAiBlockWidget.h:10:class QTimer;
+view/ai/blocks/DashAiBlockWidget.h:54:    QTimer* m_pulseTimer = nullptr;
+view/ai/blocks/DashAiThinkingBlock.h:10:class QTimer;
+view/ai/blocks/DashAiThinkingBlock.h:36:    QTimer* m_dotTimer = nullptr;
+view/ai/blocks/DashAiToolCardBlock.cpp:12:#include <QTimer>
+view/ai/blocks/DashAiToolCardBlock.cpp:87:    m_spinTimer = new QTimer(this);
+view/ai/blocks/DashAiToolCardBlock.cpp:89:    connect(m_spinTimer, &QTimer::timeout, this, &DashAiToolCardBlock::onSpinTick);
+controller/DashHandleBlock.cpp:153:    return QString::fromUtf8(name.data(), static_cast<qsizetype>(name.size())) + "Role";
+view/ai/blocks/DashAiThinkingBlock.cpp:10:#include <QTimer>
+view/ai/blocks/DashAiThinkingBlock.cpp:57:    m_dotTimer = new QTimer(this);
+view/ai/blocks/DashAiThinkingBlock.cpp:59:    connect(m_dotTimer, &QTimer::timeout, this, &DashAiThinkingBlock::onDotTick);
+view/DashModelBuilderWidget.cpp:257:    QTimer::singleShot(0, this, updateInputHeaderCheckBoxPosition);
+view/DashModelBuilderWidget.cpp:298:    QTimer::singleShot(0, this, updateOutputHeaderCheckBoxPosition);
+view/DashModelBuilderWidget.cpp:336:    QTimer::singleShot(0, this, updateTransformIconPosition);

@@ -1,0 +1,1113 @@
+# Builder·Runner·Optimizer·Analyzer 작업 카드
+
+> **2026-10-08 개정 반영** — [이슈 개정 이력](../../Issue-Revision-History.md). 설계 반영과 구현 완료는 구분한다.
+
+교차검토 반영본. 최종 통합 정본은 [전체 목록](../03_TASK_CATALOG.md)이다.
+
+## BLD-01
+
+**Builder가 학습에 사용한 입력 버전과 생성 모델 버전을 기록하고 최신성을 판정한다**
+
+- 모듈: Model Builder (Sim/MCU)
+- 판정: 선행 작업 후 · 제안 우선순위 P2 · 측면 태그 A, C, D
+- 사용자 결과: 동일 Launcher Set의 데이터가 재생성되면 기존 학습 모델이 사용한 입력 버전의 차이를 알 수 있다.
+- 선행: PRJ-11
+- 기존 이슈: [#650](https://github.com/NumeRealWorks/DashOpti_GUI/issues/650)
+
+**변경 범위**
+
+- 생산 Builder Set은 모델 버전을 기록하고 소비 Builder Set은 실제 학습에 사용한 입력 버전으로 최신성을 판정한다.
+- 프로젝트가 Builder 판정을 호출·집계하고 VM에 이유를 표시한다.
+- Sim·MCU 입력별 버전 의미와 비교 불가 상태는 PRJ-11의 계약을 따른다.
+
+**완료 조건**
+
+- 동일 Launcher setId의 데이터 재생성 후 기존 모델의 최신성 차이를 판정한다.
+- 정상 재학습 완료 후 실제 사용한 입력 버전과 생성 모델 버전이 갱신된다.
+- 열기·Set 선택·완료 시 판정과 표시가 일치하며 자동 재실행하지 않는다.
+
+**검증 방법**
+
+- 동일 Set 입력 두 버전·실패한 재학습·비교 불가 입력 회귀
+- Sim·MCU 재시작 후 실제 소비 버전 및 모델 버전 확인
+
+**근거**
+
+- `Issue-Revision-History.md: 2026-10-08 개정 반영 및 현재 방향`
+- `model/DashModelBuilder.cpp: onTrainingStartButtonClicked`
+
+**범위·결정 메모**
+
+Builder 입력 setId 저장·출처 기록·공통 판독은 PRJ-03(#368)에서 다룬다. 이 카드는 #650의 버전·최신성만 담당하며 포맷 전체 전환이나 출처 전환을 하드선행으로 두지 않는다.
+
+## BLD-02
+
+**학습 시작 거절·실패·취소를 하나의 종료 상태로 화면에 반영한다**
+
+- 모듈: Model Builder (Sim/MCU)
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 B, D
+- 사용자 결과: 설정 저장 실패나 학습 준비 실패 뒤 Start가 잠기거나 완료 전에 다시 열리지 않는다.
+- 선행: 없음
+- 기존 이슈: [#460](https://github.com/NumeRealWorks/DashOpti_GUI/issues/460), [#461](https://github.com/NumeRealWorks/DashOpti_GUI/issues/461), [#466](https://github.com/NumeRealWorks/DashOpti_GUI/issues/466), [#548](https://github.com/NumeRealWorks/DashOpti_GUI/issues/548)
+
+**변경 범위**
+
+- Sim 시작 전 설정 파일 쓰기 실패·필수 경로 누락을 명시적 실패로 반환
+- ProcessJob 종료 전 모델별 Done만으로 Start를 재활성하지 않음
+- MCU daemon ready와 학습 busy/Stop 상태를 함께 반영; 기존 virtual Stop 유지
+
+**완료 조건**
+
+- 읽기 전용 설정 경로에서 실행되지 않고 오류 표시 후 재시도 가능
+- 성공·실패·취소가 정확히 한 번 UI를 종료 상태로 전환
+- Set 복귀 시 실제 실행 상태 복원
+
+**검증 방법**
+
+- 파일 열기 실패 주입 및 두 모델 순차 상태 갱신 시험
+- MCU 시작·Stop·데몬 사고사 수동 확인
+
+**근거**
+
+- `view/DashModelBuilderWidget.cpp:958 시작 버튼 비활성`
+- `model/DashModelBuilder.cpp:522 설정 open 실패 return (trainingFailed 없음)`
+- `model/DashModelBuilder.cpp:439 guard 주석: 모델 Done 후 실제 job 잔존`
+- `view/DashModelBuilderMCUWidget.cpp:202 observeDaemonReady`
+
+**범위·결정 메모**
+
+공통 ASY-02 UI 규약과 정렬하되 결함 수정에 하드 선행 불필요. 파일 원자성 자체는 IO-04. #548 stopTraining virtual 수정은 이미 완료.
+
+## BLD-03
+
+**학습 수치·탐색 범위를 제출 전에 검증한다**
+
+- 모듈: Model Builder (Sim/MCU)
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 A, D
+- 사용자 결과: 빈 값·문자·뒤집힌 범위가 학습 프로세스로 전달되지 않는다.
+- 선행: 없음
+- 기존 이슈: [#487](https://github.com/NumeRealWorks/DashOpti_GUI/issues/487)
+
+**변경 범위**
+
+- float/int_range/float_range 입력에 타입·유한값·순서 검증
+- 모델별 파라미터 카탈로그에 허용 범위/단위 연결 및 툴팁
+- 이미 범위가 있는 SpinBox 유지; config load·복원·submit에서도 같은 검증
+
+**완료 조건**
+
+- 문자·NaN·역전 범위·허용범위 밖 입력 시 필드와 이유 표시 후 학습 시작 안 됨
+- 유효 경계값과 Sim/MCU 설정 저장 왕복 보존
+
+**검증 방법**
+
+- 카탈로그별 대표 경계/잘못된 범위 테이블 테스트
+- 기존 Sim·MCU 기본 설정 학습 제출 회귀
+
+**근거**
+
+- `view/DashModelBuilderWidget.cpp:853 float/string·range QLineEdit`
+- `view/DashModelBuilderMCUWidget.cpp:921 float/string·range QLineEdit`
+- `viewmodel/DashModelBuilderPresentationModel.cpp:356 buildTrainingStartPlan`
+
+**범위·결정 메모**
+
+알고리즘별 범위를 근거 없이 통일하지 않는다. 외부 학습 도구 계약으로 각 범위를 확인하고 string 필드는 숫자로 오인하지 않는다.
+
+## RUN-01
+
+**해석 파일 없는 1D 예측에 사용자가 입력한 DV 값을 전달한다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, B, D
+- 사용자 결과: DV-only 행으로 1D 예측이 실행되고 기본값으로 바뀐 조용한 오답을 막는다.
+- 선행: 없음
+- 기존 이슈: [#370](https://github.com/NumeRealWorks/DashOpti_GUI/issues/370)
+
+**변경 범위**
+
+- 1D/ND 요구 입력을 분리하여 1D의 빈 file 케이스 허용
+- 선택 케이스가 없을 때 현재 DV를 명시적인 1D prediction case로 생성
+- updateModelUploadConfig의 기본값 덮어쓰기와 케이스 normalization 순서 정리
+
+**완료 조건**
+
+- 파일 없는 1D 단독 Run이 현재 DV로 실행
+- ND는 geometry 파일 없는 입력을 명확히 차단
+- 0·음수·변환 DV가 backend 입력까지 정확히 보존
+
+**검증 방법**
+
+- 생성 없는 1D·DV-only Generate 후 Run·ND 무파일 회귀
+- 실제 DeepOpt 입력 JSON과 1D CSV 값 대조
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:1286 pc.file.isEmpty 제외`
+- `model/DashModelRunner.cpp:1235 Input Design Variables 기본값 재작성`
+- `view/DashModelRunnerWidget.cpp:1658 addDvOnlyRowToFileTable`
+
+**범위·결정 메모**
+
+단순 게이트 완화로 끝내지 않는다. Python 실행은 본 조사에서 미실행.
+
+## RUN-02
+
+**ND·1D 동시 선택을 실행별 입력 스냅샷과 결과로 처리한다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 선행 작업 후 · 제안 우선순위 P1 · 측면 태그 A, B, C
+- 사용자 결과: 한 번의 Run에서 선택한 두 종류가 실제 실행되고 각각의 결과가 올바르게 표시된다.
+- 선행: RUN-01
+- 기존 이슈: [#370](https://github.com/NumeRealWorks/DashOpti_GUI/issues/370), [#460](https://github.com/NumeRealWorks/DashOpti_GUI/issues/460)
+
+**변경 범위**
+
+- ND·1D를 명시적인 순차 요청으로 구성하고 설정 파일 재작성은 해당 요청 제출 직전에 수행
+- 요청별 선택 모델·DV·케이스·출력 CSV/VTU 귀속 보존
+- 중간 실패·취소 정책과 진행 안내 및 재클릭 방지
+
+**완료 조건**
+
+- ND 실행 중 1D 요청이 busy로 조용히 버려지지 않음
+- 실행 중 두 번째 설정 저장이 첫 실행 입력을 바꾸지 않음
+- 1D CSV와 ND field preview를 각 완료 요청에 연결
+
+**검증 방법**
+
+- ND+1D·1D 다중응답·첫 job 실패·중간 취소 시나리오
+- Set 전환 후 옛 결과가 다른 Set을 덮지 않는 회귀
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:1341 ND/1D 연속 시작`
+- `model/DashModelRunner.cpp:191 단일 m_currentJob busy 거절`
+- `view/DashModelRunnerWidget.cpp:1318 m_lastPredictionIsND 단일 값`
+- `view/DashModelRunnerWidget.cpp:1351 onPredictionSucceeded`
+
+**범위·결정 메모**
+
+동시 실행 지원을 새로 추가하는 대신 현재 다중 체크 UI의 약속을 순차 실행으로 충족한다. 첫 실패 후 후속 실행 여부는 사용자에게 보이는 계약으로 명시한다.
+
+## RUN-03
+
+**결과 항목의 표 연결·덮어쓰기 방지·삭제 정합을 수정한다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, C, E
+- 사용자 결과: 재시작 때 기존 파일을 덮지 않고, 새 케이스 생성이나 삭제 뒤에도 다른 케이스의 DV와 입력 경로가 유지된다.
+- 선행: 없음
+- 기존 이슈: [#370](https://github.com/NumeRealWorks/DashOpti_GUI/issues/370), [#473](https://github.com/NumeRealWorks/DashOpti_GUI/issues/473), [#474](https://github.com/NumeRealWorks/DashOpti_GUI/issues/474), [#475](https://github.com/NumeRealWorks/DashOpti_GUI/issues/475), [#477](https://github.com/NumeRealWorks/DashOpti_GUI/issues/477), [#478](https://github.com/NumeRealWorks/DashOpti_GUI/issues/478)
+
+**변경 범위**
+
+- #474: 기존 안정적인 항목 키로 콜백·조회·갱신·행 번호 기반 보조 상태가 같은 항목을 가리키게 한다. 새 UUID·전역 원장은 도입하지 않는다.
+- #475: 재시작·Set 재진입 후에도 실제 생성 대상의 파일 충돌을 검사해 기존 결과를 보존한다. 프로젝트 전역 카운터는 요구하지 않는다.
+- #477: 선택 항목에 속한 파일만 삭제하고 입력·프리뷰 용도 및 생성 직후·재열기 후 해석을 일치시킨다. 기존 모듈·산출물 기록을 우선 사용한다.
+
+**완료 조건**
+
+- 재시작/Set 재진입 후 Generate가 기존 Predict_* 내용을 변경하지 않음
+- A 생성 후 B 생성/refresh 시 A의 값·부호변환·VTU 경로 보존
+- Predict_1 삭제가 Predict_1x를 지우지 않음
+- 파일 없는 DV-only 행·선택 상태도 저장 왕복
+
+**검증 방법**
+
+- 두 세션 채번·외부 동명 파일 충돌·접두사 충돌 삭제 회귀
+- Morphing/CAD/Condition/DV-only 생성→재진입→실행→삭제 E2E
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:73 m_predictionCount(0)`
+- `view/DashModelRunnerWidget.cpp:1114 populateFileTable clears DV and scans dat/inp/stp/step`
+- `view/DashModelRunnerWidget.cpp:1753 generated VTU row`
+- `viewmodel/DashModelRunnerPresentationModel.cpp:40 prefix+* 삭제`
+- `view/DashModelRunnerWidget.cpp:1158 syncFileTableToJson no-op`
+
+**범위·결정 메모**
+
+#473의 독립 오류 수정 묶음이며 #443·#368·#685를 선행으로 두지 않는다. #474·#477은 최소 항목 키와 재열기 식별을 공유하고 #475는 충돌 방지부터 독립 진행할 수 있다. 대장·최신성·목록 전용 UI는 제외한다. #514와의 공용 행 조회 담당 조율은 추가 개정 계획이며 모든 표에 영속 ID를 요구하지 않는다.
+
+## RUN-04
+
+**NodeSet 소스 선택을 저장하고 기본 deck으로 복원한다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 A, C, D
+- 사용자 결과: 재진입·재시작 후 NodeSet 소스와 콤보 선택이 유지되고 미선택 시 기준 deck을 사용한다.
+- 선행: 없음
+- 기존 이슈: [#369](https://github.com/NumeRealWorks/DashOpti_GUI/issues/369)
+
+**변경 범위**
+
+- nodeSetSource를 루트 상대 path·uuid로 Set config에 저장; 루트 밖 파일은 프로젝트 내부 복사
+- 복원 때 NodeSet 콤보와 morph 입력의 실제 source를 일치시킴
+- 빈 값/구키 부재 시 생성에 쓰는 기준 deck으로 폴백; source reader를 현재 Document API에 맞춤
+
+**완료 조건**
+
+- 다이얼로그 없이 NodeSet 선택 후 Generate 성공
+- 다른 소스 선택→Set 재진입/재시작→같은 소스·NodeSet 사용
+- 프로젝트 이동 뒤 경로 유효; 복사 실패 시 기존 선택 보존
+
+**검증 방법**
+
+- NodeSet 기준/별도 source·루트 밖·누락 파일·복사 실패 fixture
+- 실제 morph 후 _input_geometry.vtu 검증
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:1185 m_datFilePath.clear`
+- `view/DashModelRunnerWidget.cpp:2171 onDatFileEditClicked`
+- `model/DashModelRunner.cpp:2396 empty nodeSetSourcePath 실패`
+- `model/DashModelRunner.cpp:2405 source 경로 대신 reference Document 전달`
+
+**범위·결정 메모**
+
+보드 Deferred. 재개 여부는 사용자 목록 재정의에서 정한다. 별도 파일과 기준 deck의 라벨 일치 검증을 강제하지 않는 #369의 수용 결정을 보존한다. 다만 현재 코드가 browsed source를 lookup에 실제 쓰지 않는 점은 입력 경로 정합에서 함께 수정해야 한다. #369는 #443 부모에서 분리된 독립 작업이다. #443·#368·#685 완료 조건이나 선행으로 두지 않는다.
+
+## RUN-05
+
+**Runner가 실제 사용한 모델 버전으로 최신성을 판정하고 표시한다**
+
+- 모듈: Model Runner (Sim/MCU)
+- 판정: 선행 작업 후 · 제안 우선순위 P2 · 측면 태그 A, C, D
+- 사용자 결과: Builder 재학습 뒤 기존 예측에 사용한 모델 버전과 현재 버전의 차이를 확인한다.
+- 선행: PRJ-11, BLD-01
+- 기존 이슈: [#650](https://github.com/NumeRealWorks/DashOpti_GUI/issues/650)
+
+**변경 범위**
+
+- Runner가 실제 실행에 사용한 Builder 모델 버전을 기록하고 PRJ-11 기준으로 최신성을 판정한다.
+- Sim·MCU의 개별 소비 입력에 대해 최신성·비교 불가 이유를 만들고 프로젝트 집계와 VM 표시로 연결한다.
+
+**완료 조건**
+
+- 동일 Builder setId의 모델 재학습 뒤 실제 소비 버전의 차이를 판정한다.
+- 선택만 바꾼 상태와 실제 실행으로 소비 버전을 갱신한 상태를 구분한다.
+- 재열기·실행 완료 후 판정과 화면 이유가 일치한다.
+
+**검증 방법**
+
+- Builder 두 모델 버전·비교 불가 입력·실행 실패 및 재열기 회귀
+
+**근거**
+
+- `Issue-Revision-History.md: 2026-10-08 개정 반영 및 현재 방향`
+- `model/DashModelRunner.cpp: loadModelInfoFromFolder`
+
+**범위·결정 메모**
+
+Builder setId 저장·복원·출처 검증·실행/프리뷰 경로 전환은 PRJ-04(#685) 소관이다. #650 버전 도입은 그 작업의 완료 조건이나 선행이 아니다.
+
+## RUN-06
+
+**모델 폴더 로드를 비동기 스냅샷으로 바꾸고 중복 읽기를 줄인다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 B, E
+- 사용자 결과: 큰 모델 폴더 선택 중 화면이 응답하며 늦게 완료된 이전 선택이 최신 표를 덮지 않는다.
+- 선행: 없음
+- 기존 이슈: [#513](https://github.com/NumeRealWorks/DashOpti_GUI/issues/513)
+
+**변경 범위**
+
+- 폴더 열거·model_info/metric/GeometryParameter 읽기를 한 로드 결과로 수집
+- 기존 async 실행층을 사용하고 UI 적용만 GUI에서 수행
+- 프로젝트·Set·선택 요청 세대에 맞는 결과만 반영; 취소/실패 종료 표시
+
+**완료 조건**
+
+- 느린 폴더 선택 중 이벤트 루프 응답
+- A→B 선택에서 A가 늦게 완료되어도 B 유지
+- 읽기 실패 시 새 선택과 오래된 값이 섞이지 않음
+
+**검증 방법**
+
+- 지연 I/O fixture와 빠른 재선택·프로젝트 전환 시험
+- 실제 큰 폴더에서 응답성 및 JSON read 수 전후 측정
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:1621 switchToSet`
+- `model/DashModelRunner.cpp:1378 loadModelInfoFromFolder`
+- `view/DashModelRunnerWidget.cpp:844 populateSurrogateTable / 1074 populateDesignVariableTable`
+
+**범위·결정 메모**
+
+#458의 FEM parser/read lane은 별도 공통/geometry 소유다. 이미 reader Document/co_await가 들어온 현재 구조에서 폴더·메타데이터 잔여를 대상으로 한다. MCU 데몬 전체를 재작성하지 않는다. #513 비동기화와 PRJ-04(#685) ID 참조·출처 검증은 담당을 분리한다. 공유 코드의 적용 순서 조율은 추가 개정 계획이며 워커에는 실행 시 해석된 경로를 전달할 수 있다.
+
+## RUN-07
+
+**입력 생성 요청을 Set에 고정하고 늦은 완료·취소를 처리한다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, B, C
+- 사용자 결과: 모핑 입력 생성 중 Set을 바꾸어도 이전 결과가 새 Set의 행이나 상태를 변경하지 않는다.
+- 선행: 없음
+- 기존 이슈: [#281](https://github.com/NumeRealWorks/DashOpti_GUI/issues/281), [#460](https://github.com/NumeRealWorks/DashOpti_GUI/issues/460)
+
+**변경 범위**
+
+- 생성 시작 시 project/Set/model·DV·출력 경로 스냅샷과 요청 id 보관
+- co_await 이후 widget 생존뿐 아니라 요청 소유자/세대 확인
+- 모핑 실행의 취소 token과 상태 표시를 요청별로 회수한다. 공유 NX 서비스 계약과 그 소비 이행은 RUN-11이 소유한다.
+
+**완료 조건**
+
+- A Set에서 생성→B Set 전환 후 A 완료가 B 표/설정을 변경하지 않음
+- 연속 Generate에서 결과와 DV가 각 요청에 귀속
+- 실패·취소·프로젝트 닫기 뒤 성공 문구/빈 행이 추가되지 않음
+
+**검증 방법**
+
+- 지연 morph callback 및 실패 주입
+- NodeSet/morph 수동 실행과 Set 전환; NX 왕복은 RUN-11 검증
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:1730 self만 검사 후 현재 fileTable에 행 추가`
+- `view/DashModelRunnerWidget.cpp:520 m_pendingCadParams 단일 저장`
+- `view/DashModelRunnerWidget.cpp:460 morph return 후 항상 generated 상태 메시지`
+- `model/geometry/DashMorphingUtils.cpp:164,189 std::stop_token{}`
+
+**범위·결정 메모**
+
+계산 워커 이관은 #586으로 이미 있음. PRJ-01 공통 모델 수명 방어와 협력하되 이 카드는 모듈 요청 귀속/취소를 소유. 정적 결함 경로 확인; 런타임 미재현.
+
+## RUN-08
+
+**현재 Set의 입력을 FE Validation 다이얼로그로 전달한다**
+
+- 모듈: Model Runner / Optimizer
+- 판정: 선행 작업 후 · 제안 우선순위 P2 · 측면 태그 B, D
+- 사용자 결과: 생성된 해석 입력을 Direct Launch로 검증하고 완료 결과를 바로 확인한다.
+- 선행: DIR-01
+- 기존 이슈: [#653](https://github.com/NumeRealWorks/DashOpti_GUI/issues/653)
+
+**변경 범위**
+
+- 두 모듈 FE Validation 버튼과 명시적 입력 파일·Target Part 선택
+- Direct Launch prefill(inputPath,targetPart,outputFolder) 진입점 및 Launcher 페이지 표시
+- 출력 기본값 Set 모듈/FEValidation, Done 뒤 Result Preview 선택
+
+**완료 조건**
+
+- 현재 Set에 속한 입력과 Target Part가 채워짐
+- 입력 없거나 삭제된 경우 실행 안 되고 생성/선택 안내
+- Direct↔Analysis Launcher 배제 및 결과 페이지 전환 유지
+
+**검증 방법**
+
+- Runner/Optimizer 각각 prefill·없어진 입력·두 런처 경합 검증
+- 설치 solver fixture로 Done→Result Preview 수동 시험
+
+**근거**
+
+- `sources/pr-652.json #604 Direct Launch 진행 중`
+- `view/DashModelRunnerWidget.cpp:389 입력 생성 흐름`
+- `view/DashOptimizerWidget.cpp:1498 onPreviewButtonClicked`
+
+**범위·결정 메모**
+
+입력 생성·Set 응답/KPI 후처리는 이 카드 범위 아님. 현재 Set에 여러 입력이 있으면 사용자가 확인한 행/프리뷰 산출물을 고르도록 하며 임의 첫 파일을 선택하지 않는다.
+
+## RUN-09
+
+**유효한 0 DV와 입력 경계를 보존한다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, D
+- 사용자 결과: 0 입력이 중간값으로 바뀌지 않고 표시한 범위와 실제 허용 범위가 일치한다.
+- 선행: 없음
+- 기존 이슈: [#487](https://github.com/NumeRealWorks/DashOpti_GUI/issues/487)
+
+**변경 범위**
+
+- value 존재 여부와 수치 0을 구분하여 초기값 복원
+- 하드코딩 max-0.0001 제거/명시 범위 정책으로 치환
+- CSV 업로드·복원·Generate·Run에서 유한값/범위 검증과 툴팁 일치
+
+**완료 조건**
+
+- [-1,3]에서 value=0이면 화면과 요청 모두 0
+- 매우 좁은 구간에서 잘못된 range/clamp가 발생하지 않음
+- 허용/불허 경계가 저장·업로드·수동 입력에서 동일
+
+**검증 방법**
+
+- 0·음수·min=max·폭<0.0001·NaN/Inf 입력 경계 테스트
+- 실제 모델 추론 입력 대조
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:1098 max-0.0001`
+- `view/DashModelRunnerWidget.cpp:1104 info.value != 0.0 ? value : midpoint`
+
+**범위·결정 메모**
+
+0을 누락으로 취급하는 것은 코드로 확정. upper bound 포함 여부는 모델 계약 확인 후 결정하며 기존 의도를 임의 반전하지 않는다.
+
+## OPT-01
+
+**Optimizer가 실제 사용한 입력 버전으로 최신성을 판정하고 표시한다**
+
+- 모듈: Optimizer
+- 판정: 선행 작업 후 · 제안 우선순위 P2 · 측면 태그 A, C, D
+- 사용자 결과: 최적화 실행에 사용한 모델과 설계 입력의 버전 차이를 확인한다.
+- 선행: PRJ-11, BLD-01
+- 기존 이슈: [#650](https://github.com/NumeRealWorks/DashOpti_GUI/issues/650)
+
+**변경 범위**
+
+- 실제 실행에서 소비한 모델·설계 입력 버전을 기록하고 Optimizer Set이 최신성을 판정한다.
+- 프로젝트는 판정을 호출·집계하며 VM이 최신성·비교 불가 이유를 표시한다.
+
+**완료 조건**
+
+- 동일 입력 Set 재생성 뒤 실제 소비 버전의 차이를 판정한다.
+- 입력 선택 변경만으로 이전 실행의 소비 버전을 갱신하지 않는다.
+- 최신 입력으로 실행 완료 후 버전 판정과 표시가 갱신된다.
+
+**검증 방법**
+
+- 모델·설계 입력 재생성, 비교 불가, 선택 변경·실행 완료·재열기 매트릭스
+
+**근거**
+
+- `Issue-Revision-History.md: 2026-10-08 개정 반영 및 현재 방향`
+- `model/DashOptimizer.cpp: 모델·설계 입력`
+
+**범위·결정 메모**
+
+Builder 참조 저장·출처 검증과 실행·프리뷰는 PRJ-04(#685) 소관이다. #650의 버전 의미를 여기서 별도 정의하지 않는다.
+
+## OPT-02
+
+**프리뷰 요청 완료를 호출 Set으로 돌려주고 취소·재진입을 처리한다**
+
+- 모듈: Optimizer
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, B, C
+- 사용자 결과: 프리뷰가 여러 번 실행되거나 Set이 바뀌어도 결과·진행 표시가 엉키지 않는다.
+- 선행: 없음
+- 기존 이슈: [#281](https://github.com/NumeRealWorks/DashOpti_GUI/issues/281), [#457](https://github.com/NumeRealWorks/DashOpti_GUI/issues/457), [#460](https://github.com/NumeRealWorks/DashOpti_GUI/issues/460)
+
+**변경 범위**
+
+- 남은 processEvents 두 곳 제거하고 이미 있는 async morph를 요청 상태로 감쌈
+- 모핑 요청 id/Set generation과 취소 가능성을 UI에 연결한다. 공유 NX request/result 계면 변경은 CAD-001 및 OPT-07이 소유한다.
+- 요청별 출력 경로 충돌 방지와 실패/취소 terminal 처리
+
+**완료 조건**
+
+- 연타/Set 전환/프로젝트 닫기에도 다른 요청 결과 표시 안 됨
+- 모핑 완료/실패가 해당 Optimizer 요청을 한 번만 종결한다.
+- 취소 후 새 프리뷰가 정상 실행되며 늦은 완료 무시
+
+**검증 방법**
+
+- 지연 모핑 완료·실패·취소·두 입력 경합 fixture
+- NX 이외 프리뷰 반복/Set 전환 GUI 회귀; NX는 OPT-07
+
+**근거**
+
+- `view/DashOptimizerWidget.cpp:1690 co_await 후 self만 확인`
+- `view/DashOptimizerWidget.cpp:1698,1724 processEvents`
+- `view/DashOptimizerWidget.cpp:1864 enqueueUpdatePrtGeometry 무태그·MainWindow render`
+- `model/geometry/DashMorphingUtils.cpp:164,189 stop_token{}`
+
+**범위·결정 메모**
+
+VIS-001이 비파괴 overlay 표시를 소유한다. 렌더 소유권과 요청 귀속은 병렬 구현 가능하므로 불필요 선행을 두지 않는다. 계산 전체 워커 신설은 이미 완료된 #586 중복이다.
+
+## OPT-03
+
+**최적화 진행·실패·취소를 Run 버튼과 결과 화면에 연결한다**
+
+- 모듈: Optimizer
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, B, D
+- 사용자 결과: 실행 거절이나 backend 실패가 로그 밖에서도 보이고 실행 중 중복 설정 제출을 막는다.
+- 선행: 없음
+- 기존 이슈: [#460](https://github.com/NumeRealWorks/DashOpti_GUI/issues/460), [#461](https://github.com/NumeRealWorks/DashOpti_GUI/issues/461), [#466](https://github.com/NumeRealWorks/DashOpti_GUI/issues/466)
+
+**변경 범위**
+
+- optimizationFailed 연결 및 실패 이유 표시
+- Run busy/terminal 상태·취소 지원 여부를 실제 ProcessJob과 연결
+- 실행 중 설정 제출/저장이 현재 실행 입력에 영향을 주지 않도록 snapshot 또는 편집 정책 적용
+
+**완료 조건**
+
+- 잘못된 제약·실행 파일 실패·비정상 종료가 화면에 표시
+- 실행 중 재클릭으로 설정 파일을 덮지 않음
+- 종료·Set 복귀 시 버튼과 결과 상태 일관
+
+**검증 방법**
+
+- 비교 연산자 없는 제약·프로세스 시작 실패·성공/취소 회귀
+
+**근거**
+
+- `view/DashOptimizerWidget.cpp:119 setModel success만 connect`
+- `model/DashOptimizer.cpp:164 busy guard`
+- `model/DashOptimizer.cpp:195 emit optimizationFailed`
+- `view/DashOptimizerWidget.cpp:588 guard 전 updateObjectiveFunction/updateConstraints`
+
+**범위·결정 메모**
+
+ASY-02 공통 UI 규약의 Optimizer 적용. 취소 API가 없는 경로는 가능하다고 표시하지 않는다.
+
+## OPT-04
+
+**최적화 옵션의 잘못된 수치를 0으로 치환하지 않고 차단한다**
+
+- 모듈: Optimizer
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 A, D
+- 사용자 결과: iteration/population/실수 옵션에 유효한 값만 전달된다.
+- 선행: 없음
+- 기존 이슈: [#487](https://github.com/NumeRealWorks/DashOpti_GUI/issues/487)
+
+**변경 범위**
+
+- method별 옵션 타입·범위·필수 여부에 따라 validator와 툴팁 제공
+- buildMethodOptions가 parse 실패를 명시적으로 반환
+- 설정 복원과 Run 제출에서 동일 검증
+
+**완료 조건**
+
+- 빈 값·문자·overflow·음수 불허값이 0으로 backend에 전달되지 않음
+- 유효 기본값/경계값은 기존 JSON과 호환
+- 오류 필드와 허용범위를 사용자가 확인 가능
+
+**검증 방법**
+
+- method별 integer/float 및 restore/submit 경계 테스트
+
+**근거**
+
+- `viewmodel/DashOptimizerPresentationModel.cpp:75 buildMethodOptions ok?value:0`
+- `view/DashOptimizerWidget.cpp:1234 옵션 설정에 validator 없음`
+
+**범위·결정 메모**
+
+외부 최적화 도구의 알고리즘별 허용 범위를 확인해 명세화한다.
+
+## ANA-01
+
+**MCU SHAP 지원 정책과 실제 화면·입력 경로를 일치시킨다**
+
+- 모듈: Results Analyzer / MCU sensitivity
+- 판정: 결정 필요 · 제안 우선순위 P2 · 측면 태그 D, E
+- 사용자 결과: 지원하지 않는 메뉴를 복구할지 여부를 먼저 확정하고 CSV를 XML 파서에 잘못 넘기지 않는다.
+- 선행: 없음
+- 기존 이슈: [#459](https://github.com/NumeRealWorks/DashOpti_GUI/issues/459)
+
+**변경 범위**
+
+- #459 요구와 현재 MCU SHAP 숨김 정책의 근거/사용 backend capability 확인
+- 미지원 유지면 MCU용 SHAP CSV 분기 제거/미노출 회귀; 지원 결정이면 CSV feature metadata와 SHAP 호출까지 완결
+- 다른 Sim SHAP 동작과 구분
+
+**완료 조건**
+
+- MCU 주 진입과 다른 Builder 선택 경로에서 같은 지원 정책
+- 지원 시 CSV feature 목록 및 실제 SHAP 산출 확인; 미지원 시 실행할 수 없는 메뉴 안 나옴
+
+**검증 방법**
+
+- MCU Runner sensitivity·Sim panel에서 MCU Builder 선택 교차 확인
+- 지원 선택 시 실제 MCU daemon SHAP capability 검증
+
+**근거**
+
+- `view/DashResultsAnalyzerWidget.cpp:645 setModelBuilderBasePath removes SHAP`
+- `view/DashResultsAnalyzerWidget.cpp:1864 MCU CSV branch 잔존`
+- `view/analyzer/DashPlotWidgetFactory.cpp:1283 XML-only feature extraction`
+
+**범위·결정 메모**
+
+결정 질문: MCU SHAP를 제품 지원 기능으로 되살릴 것인가, 현재의 명시적 미지원 정책을 유지할 것인가? #459를 단순 콤보 누락 fix로 확정하지 않는다.
+
+## ANA-02
+
+**데이터셋을 경로 식별자로 선택하고 잘못된 XML 재조회를 막는다**
+
+- 모듈: Results Analyzer / SHAP
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 A, C, D
+- 사용자 결과: 다른 Set의 동명 XML을 각각 선택할 수 있고 잘못된 경로가 feature 콤보 조작마다 읽히지 않는다.
+- 선행: 없음
+- 기존 이슈: [#519](https://github.com/NumeRealWorks/DashOpti_GUI/issues/519)
+
+**변경 범위**
+
+- SHAP dataset 목록의 fileName 중복 제거 대신 Set/경로 id로 보관·복원
+- feature metadata 읽기 앞 exists/isFile 검증; 읽기 실패 처리와 명시적 재시도 정책 정리
+- 선택 변경 시 feature를 해당 dataset에서 새로 채우고 이전 feature를 유효성 확인 후 복원
+
+**완료 조건**
+
+- 두 AnalysisLauncher Set의 dataset.xml이 둘 다 선택 가능
+- 동명 표시 문자열이 같아도 선택/재진입에서 동일 실제 경로 유지
+- 디렉터리/삭제 경로는 파싱하지 않음; 권한 회복·파일 재생성 뒤 재시도 가능
+
+**검증 방법**
+
+- 동명 파일·없는 경로·디렉터리·권한 실패→회복 fixture
+- Sim SHAP feature/importance UI 회귀
+
+**근거**
+
+- `view/DashResultsAnalyzerWidget.cpp:1902 fileToPathMap.contains(xmlFile)`
+- `view/DashResultsAnalyzerWidget.cpp:1931 currentText 복원`
+- `view/analyzer/DashPlotWidgetFactory.cpp:1283 extractVariablesFromXml guard 없음`
+- `view/DashResultsAnalyzerWidget.cpp:768 형제 exists/isFile guard`
+
+**범위·결정 메모**
+
+동명 XML 소실은 코드 조사에서 추가 확인한 누락. ACL 실패까지 exists/isFile만으로 해결됐다고 주장하지 않는다. 전역 실패 캐시 고착은 금지; 명시 재시도/파일 변경 무효화 등 UI 범위 정책을 택한다. RES-12가 포맷 변경 시 함께 통합 가능.
+
+## ANA-03
+
+**표시 중인 결과의 출처 Set과 상류 버전 경고를 보여준다**
+
+- 모듈: Results Analyzer
+- 판정: 선행 작업 후 · 제안 우선순위 P2 · 측면 태그 C, D
+- 사용자 결과: Analyzer가 오래된 결과를 보고 있는지 알 수 있다.
+- 선행: PRJ-11
+- 기존 이슈: [#650](https://github.com/NumeRealWorks/DashOpti_GUI/issues/650)
+
+**변경 범위**
+
+- 읽는 Set/산출물 id와 버전을 target 선택에 연결
+- 호스트 소비 Set의 최신성 판정을 프로젝트가 호출·집계한 결과를 VM에서 표시한다.
+- 상류 삭제·재생성에서 target 목록 갱신과 기존 plot 출처 안내
+
+**완료 조건**
+
+- 같은 Set의 결과 재생성 뒤 현재 표시와 최신 버전 차이를 표시
+- 경고 때문에 자동 재실행·자동 데이터 교체 안 함
+- 프로젝트/Set 전환 뒤 이전 plot 출처를 새 Set으로 오인하지 않음
+
+**검증 방법**
+
+- Launcher/Runner/Optimizer 결과 선택·재생성·삭제·재진입 시험
+
+**근거**
+
+- `view/DashResultsAnalyzerWidget.cpp:455 initializeTargetData`
+- `view/DashResultsAnalyzerWidget.cpp:701 onTargetDataChanged`
+- `model/DashProject.cpp:1657 refreshUpstreamStaleness AL-only`
+
+**범위·결정 메모**
+
+PRJ-11의 버전 계약을 따른다. 별도 Analyzer Set을 만들거나 VM이 최신성을 직접 판정하지 않는다. 출처 전환과 RES-12 전체 포맷 전환을 하드선행으로 두지 않는다.
+
+## ANA-04
+
+**미사용 legacy 축약 API를 정리하고 살아 있는 Std 계산을 보존한다**
+
+- 모듈: Results Analyzer / XML parser
+- 판정: 착수 가능 · 제안 우선순위 P3 · 측면 태그 E, F
+- 사용자 결과: 사용되지 않는 reduction 경로와 현재 cache 경로가 서로 다른 규칙을 가지지 않는다.
+- 선행: 없음
+- 기존 이슈: [#405](https://github.com/NumeRealWorks/DashOpti_GUI/issues/405)
+
+**변경 범위**
+
+- production 호출 없는 extractReducedValues/applyReduction/FieldStatistics/computeFieldStatistics/extractFieldStatistics 정리 여부 확정
+- 현재 extractAllReducedValues가 쓰는 reduceStd 유지
+- obsolete 문서 주석·legacy API만 검사하는 테스트를 현재 공개 계약으로 이동
+
+**완료 조건**
+
+- 실제 Analyzer는 extractAllReducedValues 기반 결과 유지
+- Std·NaN·scalar·행렬 reduction 회귀 통과
+- 제거 심벌의 production caller 0 및 외부 사용 여부 확인
+
+**검증 방법**
+
+- test_xml_parser·test_data_loader_cache 회귀
+- Box/Scatter/Parallel/Pearson 대표 데이터 결과 비교
+
+**근거**
+
+- `model/analyzer/DashXmlParser.cpp:355 legacy applyReduction Max fallback`
+- `model/analyzer/DashXmlParser.cpp:451 extractFieldStatistics는 현재 null/type guard 있음`
+- `model/analyzer/DashXmlParser.cpp:546 reduceStd 실사용`
+- `tests/TestXmlParser.cpp:168 legacy API 테스트 호출`
+
+**범위·결정 메모**
+
+현재 null 역참조를 고치는 카드가 아니다. #405 원문의 reduceStd 전체 삭제는 잘못됨. reduction=None 향후 요구가 확정돼 있다면 삭제 대신 요구를 별도 확정하되 호출자 없는 기능을 선제 구현하지 않는다.
+
+## ANA-05
+
+**Analyzer 데이터 컨테이너를 단순화할 이득을 측정하고 필요한 범위만 전환한다**
+
+- 모듈: Results Analyzer / data containers
+- 판정: 보류 · 제안 우선순위 P3 · 측면 태그 E, F
+- 사용자 결과: 계산이 없는 데이터 전달 계층의 Eigen 의존을 줄이되 plot 수치 결과를 유지한다.
+- 선행: 없음
+- 기존 이슈: [#305](https://github.com/NumeRealWorks/DashOpti_GUI/issues/305)
+
+**변경 범위**
+
+- 현재 VectorXf 전달·복사와 실제 선형대수 사용 위치 재측정
+- 예정된 DTO/데이터 경계 변경과 함께 단일 컨테이너로 정리할지 결정
+- 실제 행렬 연산과 기존 Std 계산은 적합한 라이브러리 사용 유지
+
+**완료 조건**
+
+- 독립 정리 착수 이득과 범위를 수치/빌드 의존 근거로 기록
+- 전환 시 통계·정규화·NaN·Pearson 결과 동등
+
+**검증 방법**
+
+- 컴파일 의존/복사 횟수 비교
+- plot 데이터 골든 및 대표 화면 비교
+
+**근거**
+
+- `model/analyzer/DashBasePlotter.h inputs/outputs Eigen::VectorXf`
+- `model/analyzer/DashDataLoader.cpp QVector→Eigen 변환`
+- `model/analyzer/DashPearsonPlotter.cpp 상관행렬 계산`
+
+**범위·결정 메모**
+
+#305 자체가 독립 추진을 권하지 않는 조건부 정리다. Eigen 전체 제거/성능 향상을 확정 목표로 삼지 않는다. 본 목록에서 즉시 실행 업무로 집계하지 않는다.
+
+## BLD-04
+
+**학습 모델 삭제가 설정·메타데이터·파일에 함께 반영되게 한다**
+
+- 모듈: Model Builder (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, C
+- 사용자 결과: 삭제한 Done 모델이 다음 학습이나 재진입에서 되살아나지 않는다.
+- 선행: 없음
+- 기존 이슈: [#478](https://github.com/NumeRealWorks/DashOpti_GUI/issues/478)
+
+**변경 범위**
+
+- 응답/모델 키로 config Configuration·model_info·실제 파일 삭제 범위 일치
+- 삭제 실패 시 완료를 가장하지 않고 남은 상태를 재조회
+- 다른 응답의 동명 모델/접두 이름 파일 보존
+
+**완료 조건**
+
+- 삭제 후 재진입/재학습에서 지운 모델이 Done으로 다시 나타나지 않음
+- 삭제 실패가 명시되고 다른 모델은 보존
+
+**검증 방법**
+
+- Done 모델 두 개 중 하나 삭제→재시작→Start 회귀
+- 파일 삭제 거절·metadata 쓰기 실패 주입
+
+**근거**
+
+- `view/DashModelBuilderWidgetBase.cpp:93 onRemoveModelRowClicked`
+- `view/DashModelBuilderWidget.cpp:991 aboutToRemoveModelRow`
+- `model/DashModelBuilder.cpp:2269 deleteTrainedModel (config 삭제 없음)`
+- `model/DashModelBuilder.cpp:482 Done config 보존`
+
+**범위·결정 메모**
+
+wiki BLD-D6를 현재 호출 경로로 재확인했다. 원자적 파일 쓰기는 IO-04와 협력하며 다중 파일 삭제 전체를 무조건 원자적이라고 요구하지 않는다.
+
+## RUN-10
+
+**혼합 Geometry·Condition 모델의 생성 소스를 명시적으로 해석한다**
+
+- 모듈: Model Runner (Sim)
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, C
+- 사용자 결과: 파라미터 이름 정렬 순서 때문에 ND 생성이 Condition-only로 오판되지 않는다.
+- 선행: 없음
+- 기존 이슈: [#370](https://github.com/NumeRealWorks/DashOpti_GUI/issues/370)
+
+**변경 범위**
+
+- source 목록을 종류별로 해석하여 geometry 기준과 condition 입력을 구분
+- reference 표시·Part/NodeSet 콤보·실제 Generate가 같은 해석 결과 사용
+- 여러 geometry 후보가 충돌하면 임의 첫 항목 대신 원인을 표시
+
+**완료 조건**
+
+- 같은 소스 집합에서 DV 이름/순서만 변경해도 소스 판정 불변
+- Morphing+Condition ND가 geometry 입력으로 생성
+- Condition-only 1D는 기존 지원 경로 유지
+
+**검증 방법**
+
+- Condition 이름이 사전순 선행/후행인 혼합 fixture
+- Morphing/CAD/Condition-only/소스 누락 매트릭스
+
+**근거**
+
+- `model/DashModelRunner.cpp:1613 params.keys 순회`
+- `model/DashModelRunner.cpp:1669 Condition 분기 break`
+- `view/DashModelRunnerWidget.cpp:535 Condition이면 ND 거절`
+- `sources/pr-530.diff: stampedDeckPath만 대입하고 first-match 종류 판정은 잔존`
+
+**범위·결정 메모**
+
+혼합 소스 판정 결함은 참조·출처 계약 전환과 독립 수정한다. 과거 PR530 diff는 당시 근거로만 보존한다. CAD 지원 범위는 확대하지 않는다.
+
+## OPT-05
+
+**Run 없이 바꾼 최적화 설정을 저장·복원한다**
+
+- 모듈: Optimizer
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 A, D, E
+- 사용자 결과: Fixed/초깃값/목적 방향/방법 옵션/피팅 값이 Set 전환이나 재시작으로 사라지지 않는다.
+- 선행: 없음
+- 기존 이슈: [#478](https://github.com/NumeRealWorks/DashOpti_GUI/issues/478), [#485](https://github.com/NumeRealWorks/DashOpti_GUI/issues/485)
+
+**변경 범위**
+
+- 편집값을 모델 정본에 반영하고 프로젝트 저장·Set 전환 계약에 연결
+- 방법별 옵션 복원과 기본값 주입 순서 정리
+- LGE 빌드 피팅 결과도 같은 setter·저장 경로 사용
+
+**완료 조건**
+
+- Run 없이 각 값 편집→Set 재진입/재시작 후 동일
+- 방법을 바꿨다 돌아오면 저장된 옵션 복원
+- 상류 선택 복원은 OPT-01과 동일 키 사용
+
+**검증 방법**
+
+- 일반/신뢰도 모드 설정 roundtrip 및 LGE 피팅 후 전환
+- 저장 실패 시 편집값 유지·명시 실패
+
+**근거**
+
+- `model/DashOptimizer.cpp:208 saveSettings 유일 호출`
+- `view/DashOptimizerWidget.cpp:470 objectiveCombo 방향 connect 없음`
+- `view/DashOptimizerWidget.cpp:1030 DV value UI 생성·Run에서만 수집`
+- `view/DashOptimizerWidget.cpp:2330 fitting value widget만 변경`
+
+**범위·결정 메모**
+
+IO-04는 저장 엔진·원자성 적용, 이 카드는 빠진 도메인 필드/편집 동기화·왕복을 소유한다. 공통 dirty/종료 계약과 접점을 맞춘다.
+
+## OPT-06
+
+**목적·제약 수식의 심볼을 응답·DV 식별자에 고정한다**
+
+- 모듈: Optimizer
+- 판정: 착수 가능 · 제안 우선순위 P1 · 측면 태그 A, C
+- 사용자 결과: 응답 목록 변경이나 폴더 재선택으로 r1/v1이 다른 항목을 가리키지 않는다.
+- 선행: 없음
+- 기존 이슈: 코드 흐름 독립 조사에서 도출
+
+**변경 범위**
+
+- 표시 symbol과 저장 model.symbol을 한 매핑으로 사용
+- 모델 소스 변경 시 수식 토큰 참조 유효성 확인 및 설정 UI 재구성
+- 참조한 응답 삭제 시 조용한 재할당 대신 식별 가능한 차단/수정 안내
+
+**완료 조건**
+
+- 응답 순서 변경 뒤 기존 수식의 의미 유지
+- 표에 보인 symbol과 backend JSON symbol 일치
+- 삭제된 토큰을 포함한 수식은 실행 전에 차단
+
+**검증 방법**
+
+- 응답 추가/삭제/정렬·상류 폴더 전환·저장 복원 회귀
+- 동명/특수문자 응답의 토큰 매핑 검증
+
+**근거**
+
+- `view/DashOptimizerWidget.cpp:866 QString r%1 row 기반 표시`
+- `model/DashOptimizer.cpp:420 model.symbol 저장`
+- `model/DashOptimizer.cpp:878 저장 symbol 읽기`
+- `view/DashOptimizerWidget.cpp:833 폴더 변경 시 두 표만 갱신`
+
+**범위·결정 메모**
+
+wiki OPT-D24/OPT-D3를 현재 코드로 재확인. 전역 Set ID 새 설계를 기다릴 필요 없이 응답/DV 로컬 키 계약으로 시작할 수 있다.
+
+## ANA-06
+
+**호스트 Set에 맞는 기본 대상을 선택하고 인스턴스별 초기화를 보장한다**
+
+- 모듈: Results Analyzer
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 A, C, D
+- 사용자 결과: 다른 Analyzer 창이 초기화를 막거나 Set1/첫 폴더를 묵시적으로 읽는 일이 없다.
+- 선행: 없음
+- 기존 이슈: 코드 흐름 독립 조사에서 도출
+
+**변경 범위**
+
+- static recentCalls를 인스턴스/프로젝트·요청 단위로 정리
+- 호스트 Set 및 실제 upstream 선택으로 초기 대상 결정; 없으면 미선택 상태
+- 명시적 다른 Set 비교 선택은 보존하고 자동 폴백과 구분
+
+**완료 조건**
+
+- 같은 viewType·setName의 두 위젯이 100ms 안에 초기화돼도 둘 다 정상
+- 빈 Set/참조 없는 상태에서 무관한 Set1/첫 폴더를 자동 사용하지 않음
+- 프로젝트 전환 후 이전 프로젝트의 중복억제 키가 영향 없음
+
+**검증 방법**
+
+- Sim/MCU 두 인스턴스·빈 Set·다른 이름 Builder 참조 fixture
+- DOE/Launcher/Optimizer 각 host 진입/복귀 회귀
+
+**근거**
+
+- `view/DashResultsAnalyzerWidget.cpp:458 static recentCalls key viewType_setName`
+- `view/DashResultsAnalyzerWidget.cpp:510 대상 미일치시 combo index0`
+- `view/DashResultsAnalyzerWidget.cpp:595 AL 첫 폴더 자동 선택`
+- `view/DashResultsAnalyzerWidget.cpp:620 DOE 첫 파일 자동 선택`
+
+**범위·결정 메모**
+
+wiki ANA-D2/D14/D15를 현재 코드로 재확인. 특정 Set 외 결과를 전부 숨기는 새 제품 제약은 도입하지 않는다. ANA-03은 버전 경고, 본 카드는 초기 대상/독립 수명이다.
+
+## ANA-07
+
+**플롯 생성·내보내기 실패를 표시하고 지원하는 메뉴만 활성화한다**
+
+- 모듈: Results Analyzer
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 B, D, G
+- 사용자 결과: Plot/CSV/JSON을 눌렀을 때 아무 반응이 없는 경로를 없앤다.
+- 선행: 없음
+- 기존 이슈: [#466](https://github.com/NumeRealWorks/DashOpti_GUI/issues/466)
+
+**변경 범위**
+
+- 수동 Plot의 요청 작성 실패와 build() null/미지원 command를 구조화된 사유로 알린다. 자동 debounce의 일시적 입력부족·busy는 비모달 상태/로그로 처리한다.
+- DashExportable capability에 따라 CSV/JSON 메뉴 활성화
+- PNG/CSV/JSON 쓰기 실패·부분 쓰기 오류를 사용자에게 알림
+
+**완료 조건**
+
+- 미지원 plot widget의 CSV/JSON은 미리 비활성/미노출
+- 수동 Plot 실패는 원인을 안내하고 자동 재플롯의 편집 중 입력부족에는 반복 모달을 띄우지 않는다; 실제 build 실패도 무음으로 버리지 않는다.
+- 읽기 전용 경로 내보내기 실패가 성공처럼 끝나지 않음
+
+**검증 방법**
+
+- 지원/미지원 plot widget menu 검사
+- invalid plot request·파일 open/write 실패 주입·PNG 저장 회귀
+- 수동 클릭과 자동 debounce 각각의 입력부족·busy·build null·연속 실패 통지 횟수 검증
+
+**근거**
+
+- `view/DashResultsAnalyzerWidget.cpp:1997 processed false/empty command 무음 return`
+- `view/DashResultsAnalyzerWidget.cpp:3766 CSV menu 항상 추가·cast 실패 return`
+- `view/DashResultsAnalyzerWidget.cpp:3788 JSON 동형`
+- `view/DashResultsAnalyzerWidget.cpp:3782/3804 write 결과 미확인`
+
+**범위·결정 메모**
+
+내보내기 미지원 위젯 전부에 CSV/JSON 구현을 새로 추가하는 작업은 아니다. 기존 capability를 정확하게 노출한다.
+
+## ANA-08
+
+**스타일 변경은 기존 플롯에 적용하고 데이터 변경만 재계산한다**
+
+- 모듈: Results Analyzer
+- 판정: 착수 가능 · 제안 우선순위 P2 · 측면 태그 B, D, E
+- 사용자 결과: 글자 크기·선 굵기만 바꿨을 때 불필요한 파싱·데몬 요청을 하지 않는다.
+- 선행: 없음
+- 기존 이슈: 코드 흐름 독립 조사에서 도출
+
+**변경 범위**
+
+- control별 style/data 영향 분류를 타입 핸들 메타데이터로 선언
+- 직접 setter가 있는 스타일 컨트롤은 debounce replot 연결 제거
+- 직접 setter 없는 항목은 재생성이 필요함을 유지하고 중복 요청 억제
+
+**완료 조건**
+
+- 스타일 전용 변경은 화면에 반영되며 data load/daemon 요청 수 0
+- 데이터축/feature 변경은 필요한 재계산 1회
+- 지원되는 모든 method의 스타일 반영 누락 없음
+
+**검증 방법**
+
+- 컨트롤 변경별 plot request 카운터 검사
+- Box/Scatter/Pearson/SHAP 실제 화면 비교
+
+**근거**
+
+- `view/DashResultsAnalyzerWidget.cpp:3860 all SpinBox를 style와 data 양쪽 connect`
+- `view/DashResultsAnalyzerWidget.cpp:3931 applyStyleToActivePlot`
+- `view/DashResultsAnalyzerWidget.cpp:3939 200ms debounce replot`
+
+**범위·결정 메모**
+
+wiki ANA-D13을 현재 신호 배선으로 재확인. 모든 스타일이 setter를 가진다고 가정하여 일괄 연결 제거하지 않는다.
+
+## RUN-11
+
+**NX CAD 생성 요청을 저장한 Set과 완료 결과에 결합한다**
+
+- 모듈: Model Runner / CAD
+- 판정: 보류 · 제안 우선순위 P2 · 측면 태그 A, B, C
+- 사용자 결과: NX의 늦은 완료·실패가 다른 Set/요청의 화면과 결과를 바꾸지 않는다.
+- 선행: CAD-001, RUN-07
+- 기존 이슈: [#249](https://github.com/NumeRealWorks/DashOpti_GUI/issues/249), [#281](https://github.com/NumeRealWorks/DashOpti_GUI/issues/281), [#460](https://github.com/NumeRealWorks/DashOpti_GUI/issues/460)
+
+**변경 범위**
+
+- CAD-001의 공유 요청 id·의도·결과 계면을 소비자에 배선한다.
+- Set generation·출력 경로·진행 상태를 요청에 보관하고 취소/전환 시 결과를 무효화한다.
+- 공유 서비스 계면을 모듈별로 중복 구현하지 않는다.
+
+**완료 조건**
+
+- 동시/연속 NX 요청 완료가 해당 소비자에게만 적용된다.
+- 실패·취소·프로젝트 전환에서 성공 표시와 오래된 결과 적용이 없다.
+
+**검증 방법**
+
+- NX 수동 load/update 성공·실패·취소·전환 회귀
+- 지연 결과 요청 귀속 fixture
+
+**근거**
+
+- `view/DashModelRunnerWidget.cpp:520 m_pendingCadParams`
+- `controller/DashSolverNxCad.h:enqueue 및 signal 계면`
+
+**범위·결정 메모**
+
+공유 NX 계약 CAD-001의 보류를 승계한다. 모핑 요청 수명 수정은 이 작업과 독립적으로 먼저 진행한다.
+
+## OPT-07
+
+**NX CAD 프리뷰 완료를 Optimizer 요청으로 수신한다**
+
+- 모듈: Optimizer / CAD
+- 판정: 보류 · 제안 우선순위 P2 · 측면 태그 A, B, C
+- 사용자 결과: NX의 늦은 완료·실패가 다른 Set/요청의 화면과 결과를 바꾸지 않는다.
+- 선행: CAD-001, OPT-02
+- 기존 이슈: [#249](https://github.com/NumeRealWorks/DashOpti_GUI/issues/249), [#457](https://github.com/NumeRealWorks/DashOpti_GUI/issues/457), [#460](https://github.com/NumeRealWorks/DashOpti_GUI/issues/460)
+
+**변경 범위**
+
+- CAD-001의 공유 요청 id·의도·결과 계면을 소비자에 배선한다.
+- Set generation·출력 경로·진행 상태를 요청에 보관하고 취소/전환 시 결과를 무효화한다.
+- 공유 서비스 계면을 모듈별로 중복 구현하지 않는다.
+
+**완료 조건**
+
+- 동시/연속 NX 요청 완료가 해당 소비자에게만 적용된다.
+- 실패·취소·프로젝트 전환에서 성공 표시와 오래된 결과 적용이 없다.
+
+**검증 방법**
+
+- NX 수동 load/update 성공·실패·취소·전환 회귀
+- 지연 결과 요청 귀속 fixture
+
+**근거**
+
+- `view/DashOptimizerWidget.cpp:1864 enqueueUpdatePrtGeometry`
+- `controller/DashSolverNxCad.h:enqueue 및 signal 계면`
+
+**범위·결정 메모**
+
+공유 NX 계약 CAD-001의 보류를 승계한다. 모핑 요청 수명 수정은 이 작업과 독립적으로 먼저 진행한다.

@@ -1,0 +1,34 @@
+$ rg -n "setModel\(nullptr\)|clearAllSets|SetProjectPath|closeEvent|aboutToQuit|resetMorphingEntry|SaveProjectAs|IsProjectOpen" model/DashProject.cpp controller/DashProjectManager.cpp view/DashMainWindow.cpp main.cpp
+exit=0
+main.cpp:85:    QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [] {
+main.cpp:132:    // 종료 순서: aboutToQuit 핸들러(ProcessJob::cancelAllRunning 등)는 exec() 반환 전에 끝난다.
+controller/DashProjectManager.cpp:58:        GetProject()->SetProjectPath(dprojFilePath);
+controller/DashProjectManager.cpp:62:        GetProject()->SetProjectPath(dprojFilePath);
+controller/DashProjectManager.cpp:186:bool DashProjectManager::SaveProjectAs(const QString& newFolderPath)
+controller/DashProjectManager.cpp:227:        DASH_LOG_WARN(Project) << "DashProjectManager::SaveProjectAs: Inconsistent state - project "
+controller/DashProjectManager.cpp:239:    m_project->SetProjectPath(QString());
+controller/DashProjectManager.cpp:251:bool DashProjectManager::IsProjectOpen() const
+model/DashProject.cpp:60:void DashProject::SetProjectPath(const QString& path)
+model/DashProject.cpp:84:    clearAllSets();
+model/DashProject.cpp:1350:void DashProject::clearAllSets()
+view/DashMainWindow.cpp:339:    resetMorphingEntry();
+view/DashMainWindow.cpp:872:        if (DashManager::PrjMgr()->IsProjectOpen()) {
+view/DashMainWindow.cpp:985:                        m_geometryParameterCADWidget->setModel(nullptr);
+view/DashMainWindow.cpp:996:                        m_geometryParameterWidget->setModel(nullptr);
+view/DashMainWindow.cpp:1043:                    m_conditionParameterizationWidget->setModel(nullptr);
+view/DashMainWindow.cpp:1076:                    m_analysisLauncherWidget->setModel(nullptr);
+view/DashMainWindow.cpp:1097:                        m_modelRunnerMCUWidget->setModel(nullptr);
+view/DashMainWindow.cpp:1101:                        m_modelRunnerWidget->setModel(nullptr);
+view/DashMainWindow.cpp:1113:                    m_optimizerWidget->setModel(nullptr);
+view/DashMainWindow.cpp:1497:        m_geometryParameterWidget->setModel(nullptr);
+view/DashMainWindow.cpp:2616:    if (!DashManager::PrjMgr()->IsProjectOpen()) {
+view/DashMainWindow.cpp:2750:    m_geometryParameterWidget->setModel(nullptr);
+view/DashMainWindow.cpp:4204:void DashMainWindow::resetMorphingEntry()
+view/DashMainWindow.cpp:4209:        m_geometryParameterWidget->setModel(nullptr);
+view/DashMainWindow.cpp:4212:        m_morphingSettings->setModel(nullptr);
+view/DashMainWindow.cpp:4263:    resetMorphingEntry();
+view/DashMainWindow.cpp:4327:    m_modelingDock->setVisible(DashManager::PrjMgr()->IsProjectOpen());
+view/DashMainWindow.cpp:4351:        resetMorphingEntry();
+view/DashMainWindow.cpp:4417:    if (!DashManager::PrjMgr()->IsProjectOpen()) {
+view/DashMainWindow.cpp:4460:    if (!DashManager::PrjMgr()->IsProjectOpen()) {
+view/DashMainWindow.cpp:4526:    if (DashManager::PrjMgr()->SaveProjectAs(destFolderPath)) {

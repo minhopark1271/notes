@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "$comment": {
+    "what": "Super build 의 조립 명세. 패키지 사실(URL, REF, 의존성, description, version-date)의 정본은 DashOpti_Registry 이며 여기에 복사하지 않는다.",
+    "do-not-add": [
+      "REF / 버전 / 의존성 목록",
+      "포트 매니페스트에서 계산 가능한 값",
+      "소비자가 없는 예약 필드"
+    ],
+    "fields": {
+      "package": "vcpkg 패키지 이름. find_package 이름이자 Registry ports/ 의 디렉터리 이름.",
+      "path": "소스를 체크아웃할 경로.",
+      "namespace": "설치되는 include 디렉터리 이름. Registry 사실이지만 여기 두는 의도.",
+      "repository": "Registry portfile 의 URL 과 중복을 두는 의도. 정합성은 action.yml 의 'Verify App token scope' 스텝이 검사한다.",
+      "features": "Super build 에서 켤 vcpkg 피처. vcpkg.json 의 같은 패키지 features 와 일치해야 한다."
+    },
+    "gtest": "메타 vcpkg.json 에 gtest 를 명시 선언해 전이 중복을 두는 의도.",
+    "order": "repos 배열의 순서가 곧 add_subdirectory 순서다. 의존하는 쪽이 뒤에 온다.",
+    "consumers": [
+      "cmake/InternalLibMap.cmake                    package / path / namespace",
+      "scripts/render_readme.py                      package / path / namespace / repository",
+      ".github/workflows/run-integration-test.yml    package",
+      ".github/actions/superbuild-test/action.yml    repository"
+    ]
+  },
+  "repos": [
+    {
+      "package": "core-lib",
+      "path": "core/core-lib",
+      "namespace": "CoreLib",
+      "repository": "https://github.com/NumeRealWorks/DashOpti_CoreLib.git",
+      "features": [
+        "test"
+      ]
+    },
+    {
+      "package": "reader-writer",
+      "path": "core/reader-writer",
+      "namespace": "ReaderWriter",
+      "repository": "https://github.com/NumeRealWorks/DashOpti_ReaderWriter.git",
+      "features": [
+        "test"
+      ]
+    },
+    {
+      "package": "mesh-ops",
+      "path": "core/mesh-ops",
+      "namespace": "MeshOps",
+      "repository": "https://github.com/NumeRealWorks/DashOpti_MeshOps.git",
+      "features": []
+    },
+    {
+      "package": "cae-launcher",
+      "path": "core/cae-launcher",
+      "namespace": "CAELauncher",
+      "repository": "https://github.com/NumeRealWorks/DashOpti_CAELauncher.git",
+      "features": []
+    },
+    {
+      "package": "doe",
+      "path": "core/doe",
+      "namespace": "DOE",
+      "repository": "https://github.com/NumeRealWorks/DashOpti_DOE.git",
+      "features": [
+        "test"
+      ]
+    },
+    {
+      "package": "preprocessor",
+      "path": "core/preprocessor",
+      "namespace": "Preprocessor",
+      "repository": "https://github.com/NumeRealWorks/DashOpti_Preprocessor.git",
+      "features": [
+        "test"
+      ]
+    }
+  ]
+}

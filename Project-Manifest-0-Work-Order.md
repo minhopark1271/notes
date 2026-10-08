@@ -1,11 +1,13 @@
 # 작업 순서와 문서 배치 — 매니페스트 도입 · 마스터
 
+> **2026-10-08 개정 반영** — [이슈 개정 이력](Issue-Revision-History.md)의 확정된 참조·출처 정책과 작업 경계를 본문에 반영했다. 추가 개정 계획은 미반영 팀 논의로 구분한다.
+
 > 작업 묶음: 프로젝트 매니페스트 도입과 모듈 의존성 관리
 > 관련 Issue: #239
 
 **이 묶음의 진입 문서다.** 구조 방침과 착수 순서만 적는다 — 좌표와 근거는 각 문서가 갖는다.
 
-프로젝트 수준 파일(기준 모델 목록 · Set 계보 · 스키마 버전)의 부재가 원인이고, 귀속 근거는 [Cross-Module-Defect-Menifest-Axis](Cross-Module-Defect-Menifest-Axis.md) — 결함 73건이 이 축이다.
+기준모델 목록과 Set별 입력 참조·산출물 출처 기록의 부재가 이 작업의 배경이고, 귀속 근거는 [Cross-Module-Defect-Menifest-Axis](Cross-Module-Defect-Menifest-Axis.md) — 결함 73건이 이 축이다.
 
 ## 구조 방침
 
@@ -60,21 +62,21 @@
 | D14 (개정) | 모듈 JSON 스키마                  | **`referenceModel` 객체 하나**에 `uuid`(조인 키)·`path`(표시·폴백 — D24). 스키마 버전은 올리지 않고 키 부재를 구버전 판정으로 쓴다                                                                                                                              |
 | D15 (재개정)  | 구프로젝트 마이그레이션                 | **Lazy backfill — 핀 출처는 Set 자신의 DV `source`.** 키 없으면 진입 1회 자기 DV `source` 에서 유도해 핀 + 다음 저장 backfill — Condition 은 상대경로 그대로, Morphing 은 bare filename 을 configs 복사본 → 원장 `path` → 루트 스캔 순으로 해석(복수 히트는 정렬 후 첫번째 + 로그). 유도 실패 시에만 전역 폴백, 빈 값이면 핀 안 함. 소급 없음 — 기존 핀 불문. **multi-source json 은 진입 시 1회 자동 분할**(deck 별 Set) + `.bak` 보존 + 결과 통지. 라이터는 Condition·Morphing 2종(문서 3 D15 절) — CAD 는 키 미도입(D31 유보)                                                                                                                 |
 | D16 (3차 개정) | 해석 실패 참조                     | **uuid 직조회 → 미스면 v5(path) 재파생 조회 1회 → 실패·파일 부재 시 미지정 + 로그.** path 원장 스캔·uuid backfill 은 제거 — uuid ≡ v5(상대경로)인 동안 발화 조건 없는 분기다. D11 의 "두 값 갈림 → 원장 정본 backfill" 은 후속작업 4(sha256 이관) 전까지 유보. rename 회복도 후속작업 4 전까지 없다                                  |
-| D17       | Set deck 변경 UI               | **불요 확정.** 생성 시점 고정. Parameters 도크 제목줄에 현재 Set 의 deck 파일명 표시 — 앞단 4모듈(Condition·CAD·Morphing·Launcher) 한정. Launcher 는 `{형상 deck 파일명} +{조건 Set 수}`, 단일 deck 이면 접미 생략(근거는 문서 3 D17 절). CAD 는 기본 "Parameters"(#366 봉합 · D31 유보)                                                                         |
-| D18 (재개정) | 소유자 집합                       | **파이프라인 8모듈 — Condition·Morphing(생성 시점 핀) · CAD(키 미도입 — #366 · D31 유보) · Launcher(`referenceModel` 대신 `parameterization` — DOE 선택 시 조합 기록) + Preprocessor·Builder·Runner·Optimizer(최초 연결 시점 핀).** Analyzer·AIGeo 만 제외. ModelRunner 의 NodeSet 소스는 별도 키. 근거는 [Project-Manifest-3-Module-Deck-Ownership](Project-Manifest-3-Module-Deck-Ownership.md) "소유자" 절  |
-| D19 (개정)  | 파이프라인 불변식 보장                 | **산출물 스탬프 + Set 핀 + 홉별 검증.** 불변식은 단일 deck 이 아니라 **DOE 조합**(Geometry Set 1 + Condition Set N — D23)의 동일성이다. 산출물 스탬프의 형태는 D26 이 정한다(조합 id + 형상 deck). 상세는 문서 3 "파이프라인 스탬프" 절 |
-| D20 (재개정)  | 스탬프·핀 불일치 시                  | **차단.** 판정 기준은 deck 단일성이 아니라 **DOE 조합 일치**(D23)다 — 서로 다른 deck 의 입력이라도 같은 조합이면 정상이다. 불일치 시 거부하고 "다른 조합이면 새 Set" 안내 — D17 동형. **구버전 폴백 불도입 — 무스탬프 산출물은 연결 차단** + "스탬프 없는 구산출물 — 재실행 필요" 안내(차단 문형 동형). 라이브 체인은 part 명 조회 용도만 잔존. 핀은 id 를 든 첫 입력에서 걸린다                                                              |
-| D21 (재개정)  | Launcher 만 예외                | **기록만, 검증 없음.** 핀 대상이 단일 deck 에서 DOE 조합(D23)으로 바뀐다. DV 는 기준 deck 에서 생성하고 형상·조건 동일 변종 deck 을 해석하는 워크플로우 수용은 유지. 부속(실행 템플릿 deck 기록)은 **철회**(2026-09-22 — PR #530 리뷰) — 원문·사유는 [Project-Manifest-Set-Identity-And-Decision-Revisions](Project-Manifest-Set-Identity-And-Decision-Revisions.md)                                                                                                                |
+| D17       | Set deck 변경 UI               | **Condition·Morphing의 기준 deck 변경 UI는 불요.** 생성 시점 고정이며 하류 Set의 입력 참조 변경(D20)과 구분한다. Parameters 도크 제목줄에 현재 Set 의 deck 파일명 표시 — 앞단 4모듈(Condition·CAD·Morphing·Launcher) 한정. Launcher 는 `{형상 deck 파일명} +{조건 Set 수}`, 단일 deck 이면 접미 생략(근거는 문서 3 D17 절). CAD 는 기본 "Parameters"(#366 봉합 · D31 유보)                                                                         |
+| D18 (2026-10-08 개정) | 소유자와 참조 | Condition·Morphing은 기준 deck을 소유하고 CAD는 기존 유보를 유지한다. DOE Sampler는 Geometry·Condition Set, Launcher는 Sampler Set, Builder는 데이터셋을 생성한 Launcher Set을 `setId`로 참조(#368). Runner·Optimizer는 Builder Set을 참조(#685). 데이터셋 생성 경로는 실제 출처를 검증·전달한다. NodeSet 선택 저장은 독립 #369다 |
+| D19 (2026-10-08 개정) | 파이프라인 출처 보장 | **현재 입력 참조와 생성 당시 출처를 분리한다.** Set 설정은 선택한 상류 `setId`, 산출물은 실제 사용한 개별 `setId`·세부 입력 선택·deck 정보를 보유한다. #368이 생산·공통 판독 계약을, #685가 소비 검증을 담당한다. 조합 ID와 최초 입력 영구 핀은 폐기한다 |
+| D20 (2026-10-08 개정) | 입력 변경·검증·구산출물 | 현재 Set의 ID를 유지하며 기존 선택 UI에서 상류 참조를 다른 `setId`로 변경할 수 있다. 선택만으로 기존 산출물 출처를 바꾸지 않으며 재실행 덮어쓰기 시 실제 출처도 함께 갱신한다. 필수 출처 누락·선택과 산출물 출처 불일치는 사용 차단. 출처 없는 구산출물은 재생성하며 이름·경로 추론과 자동 마이그레이션은 도입하지 않는다. 이전 전체 이력 보존은 요구하지 않는다 |
+| D21 (2026-10-08 개정) | Launcher의 실행 출처 | Sampler 입력 참조와 실제 실행 입력·deck 출처를 #368 계약으로 기록·검증한다. 기준 deck과 변종 실행 deck을 동일하다고 추정하지 않는다. 2026-09-22의 DOE Table `templateDeck` 부속 철회는 과거 저장 위치 결정이며 실제 실행 출처 기록을 후속 run ID 작업으로 미루는 근거가 아니다 |
 | D22 (개정)  | 전역 활성 기준모델의 영속               | **원장 최상위 `activeModel` 키 — 값은 uuid**(D24). 등록 N개 중 활성 1개(M2)의 영속 자리 — Load 핸들러 경유 `setReferenceModel` 이 갱신하고(D4) [작업 2] 열기 복원이 읽는다. 복원 시 Load 버튼 활성 표시(D7)도 동기화한다. 스키마 정본은 문서 1 "스키마" 절                                           |
 | D23 (개정) | Set : 기준모델 카디널리티             | **Condition·Geometry(CAD·Morphing) Set : referenceModel = 1:1 확정. 다해석 워크플로우는 DOE 가 Geometry Set 1 + Condition Set N 을 참조**하는 것으로 담는다(PR #389 A안). Builder·Optimizer 1 = DOE 1. Condition DV 표에 여러 deck 을 쌓던 현행(`source` 구분)은 폐기 — batch run 병합 규칙 등 상세는 문서 3 |
-| D24       | 영속 조인 키                      | **uuid 를 1차 키로.** 원장 키·모듈 JSON `referenceModel` 조인·`activeModel`·reference 커서·파이프라인 스탬프가 uuid 로 통일된다. 발급은 등록 시 상대경로 v5 파생 1회(P2). displayed 커서와 `m_contexts` 캐시 키는 제외(각각 D12 · "캐시 키" 절) |
+| D24 | deck의 영속 조인 키 | 기준 deck 원장 키·`referenceModel` 조인·`activeModel`·reference 커서는 uuid를 사용한다. Set 참조는 별도 `setId`(D34)를 사용하며 deck uuid를 Set ID나 버전으로 대체하지 않는다. 등록 시 상대경로 v5 파생 1회(P2), displayed 커서·캐시 키 제외는 유지한다 |
 | D25 (개정) | 조합의 표현                       | **형상 1 + 조건 맵** — `geometry` 객체 하나 + Condition Set 키의 `conditions` 맵. 평평한 튜플(배열 위치 조인)과 deck 당 3요소 묶음(형상 N번 중복) 둘 다 배제한다 — **모든 기준 deck 의 형상은 같고 해석조건만 다르다**는 전제가 확정돼 중복의 근거가 사라졌다. 소유·소비는 문서 3 "조합의 표현" |
-| D26 (산식 확정) | 조합 스탬프의 배치                   | **산출물에는 조합 id + 형상 deck 둘만** — `parameterizationId`(검증용) · `geometryDeck`{uuid, path}(morph 원본). 자리는 dataset XML `model_info` 섹션 안 + `model_info.json` 최상위, 홉별 검증은 id 문자열 비교(근거 문서 3). 조합 정의는 Launcher `{Set}.json` 소유, DV 키 매핑의 산출물 동봉은 범위 밖(후속). id 파생 산식은 **SI-5 로 확정** — `{geometry setId}+{condition setId 정렬 연접 ","}`, 해시 없음·멱등·**id 파싱 금지**(조인은 병기 필드), 계산·저장은 DOE 실행 시점의 `DOE Table` |
-| D27 (재개정) | DOE 다중 선택과 DV 이름              | **체크 가능 콤보 · DV 이름 항상 `{Set 이름}.{DV 이름}` 접두 · 내부 참조는 `{set: setId + name 병기, key: bare 이름}` 복합(SI-4 — 불일치 시 Set json 정본) · deck 치환은 그 run 의 deck 을 공유하는 Set 들의 DV 만 bare key 로.** 공유 deck 안의 bare 이름 겹침은 선택 시 차단. DV 전용 id 는 두지 않는다. 구 DOE Table(`{set: 이름}`)은 기록된 대로 해석 — 이름 폴백, 재기록 없음. 접두 필연성 근거와 동반 수정 3건(G8 — T25·T26)은 문서 3·4 소유 |
+| D26 (2026-10-08 개정) | 산출물 출처의 배치 | `parameterizationId` 생성·전파·비교와 SI-5 산식을 폐기한다. DOE·해석·dataset XML·Builder `model_info.json`에 실제 개별 Set 참조·세부 선택·deck 출처를 전달하며 #368의 완료 지점은 Builder 산출물과 공통 기록·판독 계약이다. 새 직렬화 키는 이 문서에서 확정하지 않는다. 버전·최신성은 #650의 별도 계약이다 |
+| D27 (재개정) | DOE 다중 선택과 DV 이름              | **체크 가능 콤보 · DV 이름 항상 `{Set 이름}.{DV 이름}` 접두 · 내부 참조는 `{set: setId + name 병기, key: bare 이름}` 복합(SI-4 — 불일치 시 Set json 정본) · deck 치환은 그 run 의 deck 을 공유하는 Set 들의 DV 만 bare key 로.** 공유 deck 안의 bare 이름 겹침은 선택 시 차단. DV 전용 id 는 두지 않는다. 구 DOE Table의 이름 판독은 완료된 구포맷 처리 기록이며 새 출처 계약을 충족하지 않는다. 필수 출처 없는 산출물을 입력으로 쓰려면 재생성한다. 접두 필연성 근거와 동반 수정 3건(G8 — T25·T26)은 문서 3·4 소유 |
 | D28 (폐기) | 읽기 전용 행 표시                    | **폐기 — multi-source 자동 분할(D15 재개정) 후 핀 deck 밖 행이 성립하지 않는다.** 함께 걷는 것: `DashDesignVariableModel` 의 회색·잠금·툴팁 처리, `loadFromJsons` 의 핀 deck 인자, `FECondition` 예외 판정, DOE 의 구 multi-source 읽기 경로 |
 | D29\~D31 (유보) | CAD 형상 출처 | **유보 — 이 묶음의 CAD 처분은 #366 봉합(M5 제외·죽은 전역 읽기 제거)까지이고, 원장은 `deck` 전용(P3 현행)을 유지한다.** 방향 세이브(원장 `kind` · Load 핸들러 `.prt` 분기 · CAD Set 의 `cadSource`)와 근거는 [Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md) — 착수는 후속작업 13 |
-| D32·D33 (철회) | wbpj 경로 결부 결정 | **철회 — 근거가 사장 판정된 wbpj 경로에 있었다.** DV `source` 의 `CAD\|<part>` 교체(D32)와 조합·스탬프의 형상 kind 일반화(D33)를 거둔다 — D25·D26 원안(deck 단일) 유지 · `CAD\|` 소비 불개입. 근거는 [Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md) |
-| D34 (신설) | setId — Set 의 안정 식별자 | **12자리 랜덤 hex(v4 절단) + 각 `{Module}_{Set}.json` 의 `setId` 키 정본(별도 Set 원장 없음) + 생성 핸들러·열기 복원 시 발급 + 영속 조인은 setId·`name` 병기 + 조합 id 는 정렬 setId 연접 + 산출물 폴더명은 `{Module}_{Set}` 유지 — 소비자가 setId 를 들고 색인 역조회(SI-6a · 후속작업 14).** 원문 SI-1\~SI-6a 는 [Project-Manifest-Set-Identity-And-Decision-Revisions](Project-Manifest-Set-Identity-And-Decision-Revisions.md) |
+| D32·D33 (철회) | wbpj 경로 결부 결정 | **철회 — 근거가 사장 판정된 wbpj 경로에 있었다.** DV `source` 의 `CAD\|<part>` 교체(D32)와 조합·스탬프의 형상 kind 일반화(D33)를 거둔다 — deck 중심 CAD 범위는 유지하되 D26은 개별 Set 출처 계약으로 개정 · `CAD\|` 소비 불개입. 근거는 [Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md) |
+| D34 (2026-10-08 개정) | setId — Set의 안정 식별자 | **완료된 #520을 재사용한다.** 각 `{Module}_{Set}.json`의 `setId`가 정본이며 발급·영속·복원·역조회를 유지한다. 별도 Set 원장과 조합 ID를 만들지 않는다. `{Module}_{Set}` 폴더명은 유지하고 소비자가 ID를 사용 시점 경로로 해석한다. SI-1~SI-4·SI-6a는 [결정 개정](Project-Manifest-Set-Identity-And-Decision-Revisions.md) 참조 |
 
 D13\~D21 · D23 · D25\~D28 의 근거는 [Project-Manifest-3-Module-Deck-Ownership](Project-Manifest-3-Module-Deck-Ownership.md), D22 의 스키마는 [Project-Manifest-1-Context-Registry-And-Model-Identity](Project-Manifest-1-Context-Registry-And-Model-Identity.md), G5 이후 티켓 재스펙은 [Project-Manifest-4-Ticket-Slicing](Project-Manifest-4-Ticket-Slicing.md) 소유다.
 
@@ -86,10 +88,12 @@ D13\~D21 · D23 · D25\~D28 의 근거는 [Project-Manifest-3-Module-Deck-Owners
 | --- | ---------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- | ------------------ |
 | 1   | [Project-Manifest-1-Context-Registry-And-Model-Identity](Project-Manifest-1-Context-Registry-And-Model-Identity.md) | 조사 · 구상 | 레지스트리 소비자 전수 · 원장 스키마 · content uuid 정책                                      | [작업 2]             |
 | 2   | [Project-Manifest-2-Active-Cursor-Data-Coupling](Project-Manifest-2-Active-Cursor-Data-Coupling.md)         | 조사      | 모듈이 커서를 데이터 소스로 읽는 결합 9좌표 · 유지 12건 + 시그널 2건                                  | [작업 1] · [작업 3] 일부 |
-| 3   | [Project-Manifest-3-Module-Deck-Ownership](Project-Manifest-3-Module-Deck-Ownership.md)               | 설계      | D13\~D21·D23·D25\~D28 근거 · 소유자 8모듈(전수 조사·파이프라인 스탬프) · `referenceModel`·조합 스키마 · [작업 3] 항목 8개 | [작업 3]             |
+| 3   | [Project-Manifest-3-Module-Deck-Ownership](Project-Manifest-3-Module-Deck-Ownership.md)               | 설계      | D13\~D21·D23·D25\~D28 근거 · 당시 모듈 전수 조사·현재 입력 참조·생성 출처 · `referenceModel`·조합 스키마 · [작업 3] 항목 8개 | [작업 3]             |
 | 4   | [Project-Manifest-4-Ticket-Slicing](Project-Manifest-4-Ticket-Slicing.md)                      | 착수 계획   | [작업 1]\~[작업 3]을 PR 10개(G1\~G10 — 티켓 T1\~T27, T6 결번)로 분할                | [작업 1]\~[작업 3]     |
 
-**번호는 배치 순서이고 착수 순서가 아니다.** 착수는 문서 2 → 문서 1 → 문서 3 순이고, 문서 4 가 그것을 PR·커밋으로 자른다. 네 문서 모두 작성 완료 — 남은 것은 PR 실행이다. 표 밖의 [Project-Manifest-5-Scope-and-Follow-up](Project-Manifest-5-Scope-and-Follow-up.md)(완료 범위·후속 정리) · [Project-Manifest-Todo-List](Project-Manifest-Todo-List.md)(진행 관리)는 정본이 아니다.
+**번호는 배치 순서이고 착수 순서가 아니다.** 착수는 문서 2 → 문서 1 → 문서 3 순이고, 문서 4 가 그것을 PR·커밋으로 자른다. 네 문서 모두 작성 완료 — 남은 것은 PR 실행이다. 표 밖의 `Project-Manifest-5-Scope-and-Follow-up`(완료 범위·후속 정리) · `Project-Manifest-Todo-List`(진행 관리)는 현재 파일이 없는 과거 문서이며 정본이 아니다.
+
+D15의 DV source 유도·multi-source 분할은 기존 기준 deck 설정 처리다. D20의 산출물 필수 출처를 그 방식으로 추론·보완할 수 있다는 뜻이 아니며, 새 출처 없는 산출물은 재생성한다.
 
 ## 순서
 
@@ -130,11 +134,11 @@ D13\~D21 · D23 · D25\~D28 의 근거는 [Project-Manifest-3-Module-Deck-Owners
    │      전역 읽기는 신규 생성 시점과 backfill 에만 남는다 (D13 · D16)
    │   4. Reference File 콤보를 원장 조회로 · DV source 를 상대경로로
    │      · getMorphingSourceInfo 를 소유자 조회로 교체
-   │   5. ModelRunner NodeSet 소스 소유 — 다이얼로그 선택 영속화(별도 키) + 빈 값 폴백 (D18)
+   │   5. ModelRunner NodeSet 선택 저장(#369) — 독립 작업, #368·#685 선행 아님
    │   6. Parameters 도크 제목줄에 현재 Set 의 deck 파일명 표시 — 앞단 4모듈 (D17)
-   │   7. 파이프라인 스탬프·핀·검증 (조합 id 단위 — D26) — Launcher 조합 기록 →
-   │      조합 id 발급 → Preprocessor·Builder 검증·핀·전사 → Runner·Optimizer
-   │      스탬프 1차 핀 + 일치 검증 (D19~D21)
+   │   7. #520의 setId 기반 참조·출처 기록 — #368: Sampler → Launcher →
+   │      dataset 생성 경로 → Builder model_info.json + 공통 판독 계약
+   │      → #685: Runner·Optimizer 소비·검증·프리뷰. #650 최신성은 별도
    │   8. DOE 샘플링의 Condition Set 다중 선택 — 체크 콤보 + DV 합산 +
    │      Set 접두 이름 + deck 별 batch run 루프 — 공유 deck 은 한 run (D23·D27)
    │   ※ CAD 는 이 묶음 범위 밖 — #366 봉합까지만. D29~D31 유보 (후속작업 13) ·
@@ -185,11 +189,17 @@ D8 대로 구현 중간 구간은 현행과 같게 둔다.
 | 6 | 정본 일원화 — configs 복사본 제거. 리더만 있는 `{root}/configs` 정리도 여기서 | 문서 1 9절 후속작업 3 |
 | 7 | `onActiveContextChanged` 의 판정 분열 — `:477` 은 이름으로(`findItems`), `:485` 은 경로로 판정한다. 이름이 같고 경로가 다른 항목이 트리에 있으면 파일이 추가되지 않는다. 발현 조건이 좁다(프리뷰 산출물명이 타임스탬프로 유일) | `DashModelingTreeWidget.cpp:472-489` |
 | 8 | `SaveProjectAs` 부분 복사 — 복사 원본이 `GetProjectPath()` = 숨김 `.dproj` 폴더라 루트 레벨 영속 파일(deck·모듈 산출물)이 새 프로젝트에 복제되지 않는다. 루트 내 영속 파일 전수를 복제해야 한다 | `DashProjectManager.cpp:169-210` · `:244-253` |
-| 9 | ~~Optimizer 프리뷰 전수 스캔·전량 morph~~ **편입 — [작업 3] 항목 7(D19)이 흡수했다.** Optimizer 가 model_info 의 `geometryDeck` 1건만 morph 한다(조합 id 핀 — D26 · 문서 4 T23) | `DashOptimizerWidget.cpp:1468-1493` |
+| 9 | **#685로 분리 — Optimizer 프리뷰 전수 스캔·전량 morph 해소.** #368이 생산한 출처 계약을 검증하고 해당 형상 deck만 morph한다. T23은 #368 완료 조건에서 제외 | `DashOptimizerWidget.cpp:1468-1493` |
 | 10 | 모듈 JSON 의 deck 참조 전면 상대경로 통일 — 영속 형식 4개 중 [작업 3]-4 가 둘(DV `source` bare filename · `input_files` 의 deck 분)을 처리하고, `CAD\|` 형식 분은 **사장 경로 소속이라 제외한다**(D32 철회 — 불개입). `input_files` 비-deck 분(`.wbpj`·`.stli`)만 잔여 — 후속작업 5 이후 | 문서 1 9절 후속작업 4 |
 | 11 | Registry state 소유권 이전(PR #389 리뷰 — DCode) — `displayed*`+`m_displayedActor` 는 `DashRenderingManager` 로(모델 캐시가 렌더러를 미는 레이어 역전 해소 — 액터 생성·교체는 `displayedContextChanged` 구독으로), `reference*` 는 프로젝트 세션으로(기준모델과 시그널만 담는 작은 QObject 를 `DashProjectManager` 가 `m_ioController` 패턴으로 소유, `CloseProject` 에서 clear). 이전이 오면 T11 의 `Registry::clear` 는 자연 소멸하고 #364 계열이 발생 불가가 된다. #364 자체는 계획대로 T11 로 먼저 닫는다 | `DashAnalysisModelContextRegistry` · `DashProjectManager` |
 | 13 | **CAD 경로의 일반화 — 기준 deck 으로의 수렴.** CAD 생성 형상을 GUI 안에서 meshing(`DashMeshingDialog` 방향)하고 파트·NSET 을 매칭해 `.inp`/`.dat` 을 생성, 그 deck 을 기준 deck 으로 등록해 정규 경로에 합류시킨다. 생성 deck 의 등록 지점과 P4(Load 단일 규약)의 관계 · 재메싱으로 무효화되는 NSET 의 재부착이 이 설계의 소관이고, **유보한 D29\~D31(원장 kind · `.prt` 등록 · `cadSource`)이 여기 동반한다** | 코드맵 CAD 3-6 절 · [Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md) |
-| 14 | **산출물 폴더 식별(SI-6a)** — 폴더명 `{Module}_{Set}` 유지, 변환 없음. 소비자는 setId 보유 + `DashProject::m_setIds` 역조회로 현행 `getModuleDir` 조립. 성립 조건 셋 — `renameSet` 의 산출물 폴더 동반 개명 · Set 참조 보관 자리의 setId 전환(Runner `modelBuilderFolder` · Optimizer 폴더 콤보 · 폴더명 역파싱 3곳) · 삭제 시 폴더 동반 삭제 + 생성 시 동명 폴더 거부. 선행 G9(#530) 머지. 규모 실측은 SI-6a | [Project-Manifest-Set-Identity-And-Decision-Revisions](Project-Manifest-Set-Identity-And-Decision-Revisions.md) |
+| 14 | **산출물 폴더 식별(SI-6a)** — `{Module}_{Set}` 폴더명을 유지하고 #520의 `setId` 역조회로 실제 경로를 해석한다. #443의 남은 참조 전환은 #368 → #685이며 Runner·Optimizer 영속 참조는 #685 담당이다. 개명·삭제 오류는 해당 수정 범위로 조율한다. #368·#685를 PR #681 머지 조건으로 두지 않는다 | [결정 개정](Project-Manifest-Set-Identity-And-Decision-Revisions.md) |
+
+## 현재 작업 경계와 후속 논의
+
+#444는 #441 하위에서 저장·읽기·화면 갱신 비용을 확인하고 필요한 경우에만 기록 파일을 분리한다. #473(#474·#475·#477)은 행 연결·덮어쓰기·삭제 오류 수정으로 #443·#368·#685를 기다리지 않는다. 별도 Set 원장이나 산출물·소비 이력 대장은 만들지 않는다. 기준 deck registry는 유지한다.
+
+#650은 생산 Set의 버전 기록, 소비 Set의 실제 사용 입력 버전 기반 판정, Project의 호출·집계, VM의 표시를 담당한다. 버전 의미·비교 불가 상태·산식과 API는 별도 설계 대상이다. #643·#562·#514·#615·#646·#649·#411·#513·#684의 후속 본문·경계 조정은 [개정 이력의 추가 계획](Issue-Revision-History.md)에 있는 미반영 팀 논의다.
 
 ## 결정 근거
 

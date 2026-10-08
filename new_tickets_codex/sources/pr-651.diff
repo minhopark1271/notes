@@ -1,0 +1,1297 @@
+diff --git a/model/DashAnalysisLauncher.cpp b/model/DashAnalysisLauncher.cpp
+index 725a0551..a283ad74 100644
+--- a/model/DashAnalysisLauncher.cpp
++++ b/model/DashAnalysisLauncher.cpp
+@@ -1571,3 +1571,13 @@ void DashAnalysisLauncher::setTargetComponent(const QString& targetComponent)
+     DashAnalysisLauncherConfig::writeInputFile(
+         configFilePath(), QFileInfo(m_referenceFilePath).fileName(), targetComponent, relPath);
+ }
++
++std::optional<QStringList> DashAnalysisLauncher::odbSourceSets() const
++{
++    return DashAnalysisLauncherConfig::readOdbSourceSets(configFilePath());
++}
++
++void DashAnalysisLauncher::setOdbSourceSets(const QStringList& setNames)
++{
++    DashAnalysisLauncherConfig::writeOdbSourceSets(configFilePath(), setNames);
++}
+diff --git a/model/DashAnalysisLauncher.h b/model/DashAnalysisLauncher.h
+index 56f60ea1..b2ea5e6e 100644
+--- a/model/DashAnalysisLauncher.h
++++ b/model/DashAnalysisLauncher.h
+@@ -110,6 +110,10 @@ class DashAnalysisLauncher : public QObject
+     // input_files[0].target_component; writing replaces input_files with the Set's one file
+     QString targetComponent() const;
+     void setTargetComponent(const QString& targetComponent);
++    // .stli Set (#616): the Analysis Launcher Sets whose ODBs fe-safe reads. nullopt when nothing
++    // has been chosen yet, which means every .inp-pinned Set
++    std::optional<QStringList> odbSourceSets() const;
++    void setOdbSourceSets(const QStringList& setNames);
+ 
+     // ── Preprocess tab (#601) ────────────────────────────────────────────────────────
+     // The inputs come from the Launcher: the DOE Table in use, the Set's pinned file and the
+diff --git a/model/DashJobRunner.cpp b/model/DashJobRunner.cpp
+index d8aa085b..04edc25d 100644
+--- a/model/DashJobRunner.cpp
++++ b/model/DashJobRunner.cpp
+@@ -24,6 +24,7 @@
+ #include "model/DashProject.h"
+ #include "model/preprocessor/DashAnalysisLauncherConfig.h"
+ #include "model/preprocessor/DashDoeTableFile.h"
++#include "model/preprocessor/DashFeSafeOdbSources.h"
+ #include "utils/log/DashLog.h"
+ 
+ namespace {
+@@ -373,36 +374,8 @@ std::optional<DashJobRunner::DoeRunContext> DashJobRunner::makeDoeRunContext(
+     QString userPath = ioCtrl->getUserPath();
+     const QString outputRoot = m_outputRoot;
+ 
+-    // Collect ODB source analysis types for ExperimentalAbaqusFESafe workflow.
+-    // Only inp files from the launcher's `input_files` are considered ODB sources.
+     m_feSafeTemplateProjectAbsPath.clear();
+ 
+-    const QJsonArray inputFilesArr = root.value("input_files").toArray();
+-    QSet<QString> odbSourceAnalysisTypes;
+-    for (const QJsonValue& fv : inputFilesArr) {
+-        const QJsonObject fo = fv.toObject();
+-        const QString relPath = fo.value("path").toString();
+-        if (relPath.isEmpty()) {
+-            continue;
+-        }
+-
+-        const QString absPath = QDir(userPath).filePath(relPath);
+-        if (!QFile::exists(absPath)) {
+-            continue;
+-        }
+-
+-        const QString suffix = QFileInfo(absPath).suffix().toLower();
+-
+-        // FE-safe ODB source list is derived strictly from DOE JSON `input_files` (Reference File
+-        // list). Only these input types are considered valid ODB sources.
+-        if (suffix == "inp" || suffix == "dat" || suffix == "dfsxml" || suffix == "wbpj") {
+-            const QString srcType = QFileInfo(relPath).completeBaseName();
+-            if (!srcType.isEmpty()) {
+-                odbSourceAnalysisTypes.insert(srcType);
+-            }
+-        }
+-    }
+-
+     if (templateFilePaths.isEmpty()) {
+         DASH_LOG_ERROR(Analysis) << "No template file paths provided";
+         return std::nullopt;
+@@ -483,9 +456,19 @@ std::optional<DashJobRunner::DoeRunContext> DashJobRunner::makeDoeRunContext(
+                                        .arg(templateInfo.fileName());
+     }
+ 
++    // fe-safe reads the ODBs of the .inp Sets chosen on the Launcher tab; nothing chosen yet
++    // means all of them (#616).
++    QMap<QString, QString> odbSources;
+     if (isStli) {
+         m_feSafeTemplateProjectAbsPath =
+             QDir::toNativeSeparators(QFileInfo(templatePath).absoluteFilePath());
++        const QMap<QString, QString> candidates = project->inpAnalysisLauncherSources();
++        const QStringList selected = DashFeSafeOdbSources::selectedSets(
++            candidates.keys(),
++            DashAnalysisLauncherConfig::readOdbSourceSets(launcherConfigPathSnapshot));
++        for (const QString& setName : selected) {
++            odbSources.insert(setName, candidates.value(setName));
++        }
+     }
+ 
+     DoeRunContext ctx;
+@@ -504,7 +487,7 @@ std::optional<DashJobRunner::DoeRunContext> DashJobRunner::makeDoeRunContext(
+     ctx.root = root;
+     ctx.doeTableObj = doeTableObj;
+     ctx.samples = samples;
+-    ctx.odbSourceAnalysisTypes = odbSourceAnalysisTypes;
++    ctx.odbSources = odbSources;
+     ctx.bareKeys = bareKeys;
+     ctx.substitutionTokens = substitutionTokens;
+     return ctx;
+@@ -523,6 +506,23 @@ void DashJobRunner::emitEnqueued(const DoeRunContext& ctx)
+     }
+ }
+ 
++void DashJobRunner::failActiveCases(const DoeRunContext& ctx)
++{
++    for (const QJsonValue& sv : ctx.samples) {
++        const QJsonObject sampleObj = sv.toObject();
++        const QString runKey = sampleObj.value("key").toString();
++        if (!sampleObj.value("active").toBool(true) || runKey.isEmpty()) {
++            continue;
++        }
++        writeCaseStatus(ctx.launcherConfigPathSnapshot,
++                        ctx.setNameSnapshot,
++                        runKey,
++                        "Failed",
++                        ctx.analysisType);
++        emit caseStatusUpdated(runKey, "Failed", ctx.analysisType);
++    }
++}
++
+ QCoro::Task<> DashJobRunner::runDoeJobs(QStringList templateFilePaths,
+                                         QJsonArray cachedSamples,
+                                         QString targetPartName,
+diff --git a/model/DashJobRunner.h b/model/DashJobRunner.h
+index af3ed119..7630323c 100644
+--- a/model/DashJobRunner.h
++++ b/model/DashJobRunner.h
+@@ -11,6 +11,7 @@
+ #include <QByteArray>
+ #include <QDateTime>
+ #include <QHash>
++#include <QMap>
+ #include <QSet>
+ #include <QMutex>
+ 
+@@ -222,7 +223,8 @@ class DashJobRunner : public QObject
+         QJsonObject root;  // DOE JSON 루트
+         QJsonObject doeTableObj;  // root["DOE Table"]
+         QJsonArray samples;
+-        QSet<QString> odbSourceAnalysisTypes;  // fe-safe ODB 출처 (input_files basename)
++        // fe-safe ODB sources (#616): Analysis Launcher Set name → root-relative path of its .inp
++        QMap<QString, QString> odbSources;
+         QStringList bareKeys;  // headers 와 병렬인 bare key
+         QStringList substitutionTokens;  // bareKeys 와 병렬. 빈 항목은 치환하지 않는다
+ 
+@@ -239,6 +241,8 @@ class DashJobRunner : public QObject
+     std::optional<DoeRunContext> makeDoeRunContext(const QStringList& templateFilePaths,
+                                                    const QStringList& runKeysToSkip);
+     void emitEnqueued(const DoeRunContext& ctx);
++    // Records Failed for every active case: an exit after Enqueued still ends the run tracking
++    void failActiveCases(const DoeRunContext& ctx);
+     MorphingPrep prepareMorphingBatch(const DoeRunContext& ctx,
+                                       const QJsonArray& cachedSamples,
+                                       const QString& targetPartName);
+diff --git a/model/DashJobRunnerAnsysJournal.cpp b/model/DashJobRunnerAnsysJournal.cpp
+index d55c22d3..f0d41dd4 100644
+--- a/model/DashJobRunnerAnsysJournal.cpp
++++ b/model/DashJobRunnerAnsysJournal.cpp
+@@ -173,6 +173,7 @@ void DashJobRunner::runAnsysJournalDoe(const DoeRunContext& ctx)
+     QJsonArray inputFilesArr = ctx.root.value("input_files").toArray();
+     if (inputFilesArr.isEmpty()) {
+         DASH_LOG_ERROR(Analysis) << "No input_files entry found in config JSON for .wbpj workflow.";
++        failActiveCases(ctx);
+         return;
+     }
+ 
+@@ -191,10 +192,12 @@ void DashJobRunner::runAnsysJournalDoe(const DoeRunContext& ctx)
+ 
+     if (wbpjRelPath.isEmpty()) {
+         DASH_LOG_ERROR(Analysis) << "Could not find .wbpj path in input_files.";
++        failActiveCases(ctx);
+         return;
+     }
+     if (targetComponentRelPath.isEmpty()) {
+         DASH_LOG_ERROR(Analysis) << "target_component (.prt path) is empty in input_files.";
++        failActiveCases(ctx);
+         return;
+     }
+ 
+diff --git a/model/DashJobRunnerFeSafe.cpp b/model/DashJobRunnerFeSafe.cpp
+index 636d001c..bb6e2059 100644
+--- a/model/DashJobRunnerFeSafe.cpp
++++ b/model/DashJobRunnerFeSafe.cpp
+@@ -8,6 +8,7 @@
+ #include "controller/DashIOController.h"
+ #include "controller/DashManager.h"
+ #include "model/DashJobRunnerCae.h"
++#include "model/preprocessor/DashFeSafeOdbSources.h"
+ #include "utils/log/DashLog.h"
+ 
+ namespace {
+@@ -214,7 +215,8 @@ void DashJobRunner::onFeSafeTaskTerminal(const QString& runKey,
+ // FE-safe workflow (*.stli template project) — cae-launcher FeSafeLauncher
+ // - project_root = `.stli` 의 부모 폴더 (template 프로젝트 루트)
+ // - Selected `.stli` determines analysisType (basename of the file)
+-// - ODB sources derived from the launcher's `input_files` (inp/dat/dfsxml/wbpj basenames)
++// - ODB sources: the .inp Analysis Launcher Sets chosen on the Launcher tab (#616); each one's
++//   <runKey>.odb for the same DOE Sampler Set is copied in as <inp base name>.odb
+ // - case ODB 는 여기서 run 디렉터리로 복사해 배치한다 — launcher 는 배치를 요구만 함
+ void DashJobRunner::runFeSafeDoe(const DoeRunContext& ctx)
+ {
+@@ -224,14 +226,19 @@ void DashJobRunner::runFeSafeDoe(const DoeRunContext& ctx)
+         DASH_LOG_ERROR(Analysis)
+             << QString("Experimental FE-safe template project is not available or missing: %1")
+                    .arg(m_feSafeTemplateProjectAbsPath);
++        failActiveCases(ctx);
+         return;
+     }
+ 
+-    QSet<QString> srcTypes = ctx.odbSourceAnalysisTypes;
+-    srcTypes.remove(ctx.analysisType);
+-    if (srcTypes.isEmpty()) {
+-        DASH_LOG_WARN(Analysis)
+-            << "No ODB source analysisType candidates found in the launcher's `input_files`.";
++    if (ctx.odbSources.isEmpty()) {
++        DASH_LOG_WARN(Analysis) << "No ODB Source Sets are selected for the FE-safe Set.";
++    }
++    // Source Set name → its module dir. ctx.setNameSnapshot is the DOE Sampler Set, the folder
++    // under each module dir that holds that DOE's runs.
++    QMap<QString, QString> sourceModuleDirs;
++    for (auto it = ctx.odbSources.cbegin(); it != ctx.odbSources.cend(); ++it) {
++        sourceModuleDirs.insert(it.key(),
++                                ctx.ioCtrl->getModuleDir(ModuleType::AnalysisLauncher, it.key()));
+     }
+ 
+     int submitted = 0;
+@@ -260,18 +267,15 @@ void DashJobRunner::runFeSafeDoe(const DoeRunContext& ctx)
+         }
+ 
+         int copied = 0;
+-        for (const QString& srcAnalysisType : srcTypes) {
+-            // #601: an Analysis Launcher Set launches one file, so other analysis types no
+-            // longer share this output root. Only this Set's own run folder is searched.
+-            QString srcRunDir = ctx.runDir(runKey);
+-            QString absSrcRunDir =
+-                QDir::toNativeSeparators(QFileInfo(srcRunDir).absoluteFilePath());
+-            const QString srcOdb = QDir(absSrcRunDir).filePath(runKey + ".odb");
++        for (auto it = ctx.odbSources.cbegin(); it != ctx.odbSources.cend(); ++it) {
++            const QString srcOdb = DashFeSafeOdbSources::sourceOdbPath(
++                sourceModuleDirs.value(it.key()), ctx.setNameSnapshot, runKey);
+             if (!QFileInfo::exists(srcOdb)) {
+                 continue;
+             }
+ 
+-            const QString dstOdb = QDir(absDstRunDir).filePath(srcAnalysisType + ".odb");
++            const QString dstOdb = QDir::toNativeSeparators(
++                QDir(absDstRunDir).filePath(DashFeSafeOdbSources::destinationOdbName(it.value())));
+             if (QFile::exists(dstOdb)) {
+                 QFile::remove(dstOdb);
+             }
+diff --git a/model/DashProject.cpp b/model/DashProject.cpp
+index 28befbe0..74bb9701 100644
+--- a/model/DashProject.cpp
++++ b/model/DashProject.cpp
+@@ -247,17 +247,30 @@ void DashProject::writeSetReferenceModel(const QString& categoryName,
+ QString DashProject::createLinkedSets(const QString& referenceRelPath)
+ {
+     const QString setName = DashReferenceSetName::fromReferencePath(referenceRelPath);
++    // Pinned to the file itself, not the active model. Written before each model is
++    // constructed, so its loadFromJson reads the pin back.
++    DashSetReferenceModel pin;
++    pin.pin(resolveReferenceUuid(referenceRelPath), referenceRelPath);
++
++    // A file RW cannot read has no Condition Set: only the Analysis Launcher Set is made (#616).
++    if (!DashReferenceKind::isRwReadable(DashReferenceKind::fromPath(referenceRelPath))) {
++        if (hasSetNamed(DashModuleName::AnalysisLauncher, setName)) {
++            DASH_LOG_WARN(Project) << "Linked Set not created, the name is taken:" << setName;
++            return {};
++        }
++        createModuleJsonFile("AnalysisLauncher", setName);
++        writeSetReferenceModel(DashModuleName::AnalysisLauncher, setName, pin);
++        addAnalysisLauncher(new DashAnalysisLauncher(this), setName);
++        DashProjectManager::Instance()->SaveProject();
++        return setName;
++    }
++
+     if (hasSetNamed(DashModuleName::ConditionParameterization, setName)
+         || hasSetNamed(DashModuleName::AnalysisLauncher, setName)) {
+         DASH_LOG_WARN(Project) << "Linked Sets not created, the name is taken:" << setName;
+         return {};
+     }
+ 
+-    // Pinned to the file itself, not the active model. Written before each model is
+-    // constructed, so its loadFromJson reads the pin back.
+-    DashSetReferenceModel pin;
+-    pin.pin(resolveReferenceUuid(referenceRelPath), referenceRelPath);
+-
+     createModuleJsonFile("ConditionParameter", setName);
+     writeSetReferenceModel(DashModuleName::ConditionParameterization, setName, pin);
+     addConditionParameterization(new DashConditionParameterization(this), setName);
+@@ -282,6 +295,20 @@ QString DashProject::referenceUuidForSet(const QString& categoryName, const QStr
+     return pin.uuid();
+ }
+ 
++QMap<QString, QString> DashProject::inpAnalysisLauncherSources() const
++{
++    QMap<QString, QString> sources;
++    for (const DashAnalysisLauncher* launcher : m_analysisLaunchers) {
++        const QString setName = launcher->getSetName();
++        const QString relPath =
++            referenceModelPath(referenceUuidForSet(DashModuleName::AnalysisLauncher, setName));
++        if (DashReferenceKind::fromPath(relPath) == DashReferenceKind::Inp) {
++            sources.insert(setName, relPath);
++        }
++    }
++    return sources;
++}
++
+ DashProject::LinkedSets DashProject::linkedSetsFor(const QString& uuid) const
+ {
+     // Both the pin and the name must match: a pre-#603 Set pinned to the same deck keeps a
+@@ -293,7 +320,8 @@ DashProject::LinkedSets DashProject::linkedSetsFor(const QString& uuid) const
+ 
+     const QString setName = DashReferenceSetName::fromReferencePath(relPath);
+     LinkedSets linked;
+-    if (referenceUuidForSet(DashModuleName::ConditionParameterization, setName) == uuid) {
++    if (DashReferenceKind::isRwReadable(DashReferenceKind::fromPath(relPath))
++        && referenceUuidForSet(DashModuleName::ConditionParameterization, setName) == uuid) {
+         linked.conditionSetName = setName;
+     }
+     if (referenceUuidForSet(DashModuleName::AnalysisLauncher, setName) == uuid) {
+diff --git a/model/DashProject.h b/model/DashProject.h
+index cc736209..9832fade 100644
+--- a/model/DashProject.h
++++ b/model/DashProject.h
+@@ -84,10 +84,14 @@ class DashProject : public QObject
+ 
+     // Creates the Condition and Analysis Launcher Sets for a registered reference file, both
+     // pinned to that file. Returns the shared Set name, empty when either name is taken.
++    // A file RW cannot read (dfsxml/wbpj/stli) gets only the Analysis Launcher Set (#616).
+     QString createLinkedSets(const QString& referenceRelPath);
+     LinkedSets linkedSetsFor(const QString& uuid) const;
+     QString referenceUuidForSet(const QString& categoryName,
+                                 const QString& setName) const;  // empty when unpinned
++    // Analysis Launcher Set name → root-relative path of its pinned .inp: the Sets whose ODBs a
++    // .stli Set can read (#616)
++    QMap<QString, QString> inpAnalysisLauncherSources() const;
+ 
+     // Methods to manage sub-models
+     void addGeometryParameter(DashGeometryParameter* param, const QString& name);
+diff --git a/model/DashReferenceSetName.h b/model/DashReferenceSetName.h
+index 47e93943..07ae1b90 100644
+--- a/model/DashReferenceSetName.h
++++ b/model/DashReferenceSetName.h
+@@ -1,8 +1,58 @@
+ #pragma once
+ 
++#include <QDir>
+ #include <QFileInfo>
+ #include <QString>
+ 
++// Kind of a reference file, decided by its suffix (#616). Only Inp/Dat are read by RW;
++// the rest are registered and copied as-is and get an Analysis Launcher Set only.
++namespace DashReferenceKind {
++
++enum Kind
++{
++    Inp,
++    Dat,
++    Dfsxml,
++    Wbpj,
++    Stli,
++    Unknown
++};
++
++inline Kind fromPath(const QString& referencePath)
++{
++    const QString suffix = QFileInfo(referencePath).suffix().toLower();
++    if (suffix == QLatin1String("inp")) {
++        return Inp;
++    }
++    if (suffix == QLatin1String("dat")) {
++        return Dat;
++    }
++    if (suffix == QLatin1String("dfsxml")) {
++        return Dfsxml;
++    }
++    if (suffix == QLatin1String("wbpj")) {
++        return Wbpj;
++    }
++    if (suffix == QLatin1String("stli")) {
++        return Stli;
++    }
++    return Unknown;
++}
++
++inline bool isRwReadable(Kind kind)
++{
++    return kind == Inp || kind == Dat;
++}
++
++// Workbench keeps a project's data in the sibling "<name>_files" folder; the name keeps every
++// dot of the .wbpj's base name.
++inline QString wbpjFilesFolderName(const QString& wbpjPath)
++{
++    return QFileInfo(wbpjPath).completeBaseName() + QLatin1String("_files");
++}
++
++}  // namespace DashReferenceKind
++
+ // Name of the Condition / Analysis Launcher Set pair created for a reference file (#603).
+ // Every '.' becomes '_': DV display names are "<SetName>.<key>", and the Set's json file
+ // name is split on its first dot when the project is restored.
+@@ -10,7 +60,13 @@ namespace DashReferenceSetName {
+ 
+ inline QString fromReferencePath(const QString& referencePath)
+ {
+-    return QFileInfo(referencePath).fileName().replace(QLatin1Char('.'), QLatin1Char('_'));
++    // A .stli belongs to its whole folder, so the Set is named after the folder (#616).
++    const QFileInfo info(referencePath);
++    if (DashReferenceKind::fromPath(referencePath) == DashReferenceKind::Stli) {
++        return info.dir().dirName().replace(QLatin1Char('.'), QLatin1Char('_'))
++               + QLatin1String("_stli");
++    }
++    return info.fileName().replace(QLatin1Char('.'), QLatin1Char('_'));
+ }
+ 
+ }  // namespace DashReferenceSetName
+diff --git a/model/preprocessor/DashAnalysisLauncherConfig.cpp b/model/preprocessor/DashAnalysisLauncherConfig.cpp
+index b1333852..ea1ec634 100644
+--- a/model/preprocessor/DashAnalysisLauncherConfig.cpp
++++ b/model/preprocessor/DashAnalysisLauncherConfig.cpp
+@@ -77,6 +77,7 @@ const QString kDoeConfiguration = QStringLiteral("DOE configuration");
+ const QString kResultFiles = QStringLiteral("resultFiles");
+ const QString kPreprocess = QStringLiteral("Preprocess");
+ const QString kTargetFile = QStringLiteral("targetFile");
++const QString kOdbSourceSets = QStringLiteral("odbSourceSets");
+ 
+ }  // namespace
+ 
+@@ -284,4 +285,32 @@ QString readPreprocessTargetFile(const QString& configPath)
+     return readExisting(configPath).value(kPreprocess).toObject().value(kTargetFile).toString();
+ }
+ 
++bool writeOdbSourceSets(const QString& configPath, const QStringList& setNames)
++{
++    if (configPath.isEmpty()) {
++        DASH_LOG_WARN(DataProcessor) << "writeOdbSourceSets: config path is empty";
++        return false;
++    }
++    auto existingRoot = readRoot(configPath);
++    if (!existingRoot) {
++        return false;
++    }
++    QJsonObject root = std::move(*existingRoot);
++    root[kOdbSourceSets] = QJsonArray::fromStringList(setNames);
++    return writeRoot(configPath, root);
++}
++
++std::optional<QStringList> readOdbSourceSets(const QString& configPath)
++{
++    const QJsonObject root = readExisting(configPath);
++    if (!root.contains(kOdbSourceSets)) {
++        return std::nullopt;
++    }
++    QStringList setNames;
++    for (const QJsonValue& value : root.value(kOdbSourceSets).toArray()) {
++        setNames.append(value.toString());
++    }
++    return setNames;
++}
++
+ }  // namespace DashAnalysisLauncherConfig
+diff --git a/model/preprocessor/DashAnalysisLauncherConfig.h b/model/preprocessor/DashAnalysisLauncherConfig.h
+index 2e0a1b8a..93bef4eb 100644
+--- a/model/preprocessor/DashAnalysisLauncherConfig.h
++++ b/model/preprocessor/DashAnalysisLauncherConfig.h
+@@ -5,6 +5,7 @@
+ #include <QMap>
+ #include <QString>
+ #include <QStringList>
++#include <optional>
+ 
+ // AnalysisLauncher_{Set}.json 의 읽기·쓰기 (#433 3단계). 경로는 호출자가 IOController 로 풀어
+ // 넘긴다. 쓰기는 자기 절만 바꾸고 파일의 다른 키는 보존한다. 기존 파일의 읽기·파싱 실패에서는
+@@ -69,4 +70,10 @@ bool writePreprocessTargetFile(const QString& configPath, const QString& targetF
+ // Empty when nothing has been chosen
+ QString readPreprocessTargetFile(const QString& configPath);
+ 
++// "odbSourceSets" — for a .stli Set, the Analysis Launcher Sets whose ODBs fe-safe reads (#616):
++//   [ "<Set name>", ... ]. Other keys are kept
++bool writeOdbSourceSets(const QString& configPath, const QStringList& setNames);
++// nullopt when the key is absent: nothing has been chosen yet
++std::optional<QStringList> readOdbSourceSets(const QString& configPath);
++
+ }  // namespace DashAnalysisLauncherConfig
+diff --git a/model/preprocessor/DashFeSafeOdbSources.h b/model/preprocessor/DashFeSafeOdbSources.h
+new file mode 100644
+index 00000000..18785379
+--- /dev/null
++++ b/model/preprocessor/DashFeSafeOdbSources.h
+@@ -0,0 +1,47 @@
++#pragma once
++
++#include <QDir>
++#include <QFileInfo>
++#include <QString>
++#include <QStringList>
++#include <optional>
++
++// fe-safe's ODB sources (#616): a .stli Set reads, per case, the ODB that other Analysis
++// Launcher Sets (pinned to an .inp) produced for the same DOE Sampler Set and run key. Pure —
++// the caller resolves the module directories; Qt Core only.
++namespace DashFeSafeOdbSources {
++
++// The sources in effect: candidates in their order, limited to the saved choice. Nothing saved
++// (nullopt) means every candidate; a saved name that is no longer a candidate is dropped.
++inline QStringList selectedSets(const QStringList& candidates,
++                                const std::optional<QStringList>& saved)
++{
++    if (!saved) {
++        return candidates;
++    }
++    QStringList selected;
++    for (const QString& name : candidates) {
++        if (saved->contains(name)) {
++            selected.append(name);
++        }
++    }
++    return selected;
++}
++
++// <sourceModuleDir>/<doeSamplerSet>/<runKey>/<runKey>.odb — where the source Set's Abaqus run
++// left its ODB
++inline QString sourceOdbPath(const QString& sourceModuleDir,
++                             const QString& doeSamplerSet,
++                             const QString& runKey)
++{
++    return QDir::toNativeSeparators(
++        QDir(sourceModuleDir).filePath(doeSamplerSet + '/' + runKey + '/' + runKey + ".odb"));
++}
++
++// <inp base name>.odb — the name the fe-safe template expects the source's ODB under
++inline QString destinationOdbName(const QString& inpPath)
++{
++    return QFileInfo(inpPath).completeBaseName() + QLatin1String(".odb");
++}
++
++}  // namespace DashFeSafeOdbSources
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+index b1c9b26a..5afef94f 100644
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -229,6 +229,13 @@ target_link_libraries(test_analysis_launcher_config PRIVATE dashlog_core Qt${QT_
+ 
+ add_test(NAME test_analysis_launcher_config COMMAND test_analysis_launcher_config)
+ 
++# fe-safe ODB 출처 (#616): 고른 Set · 원본 ODB 경로 · run 폴더에 놓을 이름. header-only, Qt Core only.
++add_executable(test_fe_safe_odb_sources TestFeSafeOdbSources.cpp)
++target_include_directories(test_fe_safe_odb_sources PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
++target_link_libraries(test_fe_safe_odb_sources PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test)
++
++add_test(NAME test_fe_safe_odb_sources COMMAND test_fe_safe_odb_sources)
++
+ # Preprocess 의 run 목록 (#601): 런처 json 의 Done 케이스 → run 폴더, Resample 의 priorSamples 는
+ # 그 sourceSet 아래 폴더. Qt Core only.
+ add_executable(test_launcher_runs TestLauncherRuns.cpp
+@@ -380,7 +387,7 @@ target_link_libraries(test_demo_script_player PRIVATE Qt${QT_VERSION_MAJOR}::Cor
+ add_test(NAME test_demo_script_player COMMAND test_demo_script_player)
+ 
+ # Windows: Qt DLL 이 PATH 에 없으면 로더가 0xc0000135 로 죽어 테스트가 실행조차 안 된다.
+-set_tests_properties(test_line_assembler test_job_state test_async_job test_process_runtime test_daemon_lifecycle test_gadget_codec test_dash_logger test_dash_log_model test_xml_parser test_reference_model_ledger test_set_reference_model test_reference_set_name test_upstream_staleness test_doe_selection test_dataset_index test_doe_table_file test_analysis_launcher_config test_launcher_runs test_target_files test_reader_slot test_reader_session test_result_keys test_result_query test_set_identity test_set_legacy_migration test_file_resource_registry test_data_loader_cache test_analyzer_utils_cache test_demo_script_loader test_demo_script_player PROPERTIES
++set_tests_properties(test_line_assembler test_job_state test_async_job test_process_runtime test_daemon_lifecycle test_gadget_codec test_dash_logger test_dash_log_model test_xml_parser test_reference_model_ledger test_set_reference_model test_reference_set_name test_upstream_staleness test_doe_selection test_dataset_index test_doe_table_file test_analysis_launcher_config test_fe_safe_odb_sources test_launcher_runs test_target_files test_reader_slot test_reader_session test_result_keys test_result_query test_set_identity test_set_legacy_migration test_file_resource_registry test_data_loader_cache test_analyzer_utils_cache test_demo_script_loader test_demo_script_player PROPERTIES
+     # QT_LOGGING_TO_CONSOLE: Windows QTest는 stdout이 콘솔이 아니면(ctest가 파이프로 받을 때) PASS/FAIL 출력을
+     # OutputDebugString으로 보낸다. 이 변수를 켜야 ctest -V(run_tests.ps1 기본)에서 서브테스트 결과가 보인다.
+     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt${QT_VERSION_MAJOR}::Core>;QT_LOGGING_TO_CONSOLE=set:1")
+diff --git a/tests/TestAnalysisLauncherConfig.cpp b/tests/TestAnalysisLauncherConfig.cpp
+index aa847a7e..80e640da 100644
+--- a/tests/TestAnalysisLauncherConfig.cpp
++++ b/tests/TestAnalysisLauncherConfig.cpp
+@@ -74,6 +74,8 @@ private slots:
+     void caseStatusRecordsTheSnapshotTableId();
+     void doneRecordsTheResultFiles();
+     void preprocessTargetFileMergesIntoTheSection();
++    void odbSourceSetsRoundTrip();
++    void odbSourceSetsAbsentKeyIsUnset();
+     void clearCaseResultsKeepsOnlyActive();
+     void caseReadsAreEmptyWithoutTheFile();
+     void launcherCasesHoldEveryDoeSamplerSet();
+@@ -308,6 +310,43 @@ void TestAnalysisLauncherConfig::preprocessTargetFileMergesIntoTheSection()
+     QVERIFY(!DashAnalysisLauncherConfig::writePreprocessTargetFile(QString(), "#0"));
+ }
+ 
++void TestAnalysisLauncherConfig::odbSourceSetsRoundTrip()
++{
++    QTemporaryDir dir;
++    const QString path = dir.filePath("AnalysisLauncher_fatigue_stli.json");
++    QVERIFY(writeJson(path, QJsonObject{ { "Other", 1 } }));
++
++    QVERIFY(DashAnalysisLauncherConfig::writeOdbSourceSets(path, { "A_inp", "B_inp" }));
++    const std::optional<QStringList> saved = DashAnalysisLauncherConfig::readOdbSourceSets(path);
++    QVERIFY(saved.has_value());
++    QCOMPARE(*saved, (QStringList{ "A_inp", "B_inp" }));
++    QCOMPARE(readJson(path).value("odbSourceSets").toArray(), (QJsonArray{ "A_inp", "B_inp" }));
++
++    // Unchecking every Set is a choice, not "nothing saved"
++    QVERIFY(DashAnalysisLauncherConfig::writeOdbSourceSets(path, {}));
++    const std::optional<QStringList> none = DashAnalysisLauncherConfig::readOdbSourceSets(path);
++    QVERIFY(none.has_value());
++    QVERIFY(none->isEmpty());
++    QCOMPARE(readJson(path).value("Other").toInt(), 1);
++    QVERIFY(!DashAnalysisLauncherConfig::writeOdbSourceSets(QString(), { "A_inp" }));
++}
++
++void TestAnalysisLauncherConfig::odbSourceSetsAbsentKeyIsUnset()
++{
++    QTemporaryDir dir;
++    const QString path = dir.filePath("AnalysisLauncher_fatigue_stli.json");
++    QVERIFY(!DashAnalysisLauncherConfig::readOdbSourceSets(path).has_value());
++
++    QVERIFY(writeJson(path, QJsonObject{ { "Other", 1 } }));
++    QVERIFY(!DashAnalysisLauncherConfig::readOdbSourceSets(path).has_value());
++
++    QVERIFY(DashAnalysisLauncherConfig::writePreprocessTargetFile(path, "#0"));
++    QVERIFY(!DashAnalysisLauncherConfig::readOdbSourceSets(path).has_value());
++    const QJsonObject root = readJson(path);
++    QCOMPARE(root.value("Other").toInt(), 1);
++    QVERIFY(!root.contains("odbSourceSets"));
++}
++
+ void TestAnalysisLauncherConfig::clearCaseResultsKeepsOnlyActive()
+ {
+     QTemporaryDir dir;
+diff --git a/tests/TestFeSafeOdbSources.cpp b/tests/TestFeSafeOdbSources.cpp
+new file mode 100644
+index 00000000..33b583f3
+--- /dev/null
++++ b/tests/TestFeSafeOdbSources.cpp
+@@ -0,0 +1,54 @@
++// Unit test for model/preprocessor/DashFeSafeOdbSources (#616) — which Analysis Launcher Sets
++// fe-safe reads, where their ODB is and the name it gets in the fe-safe run folder.
++
++#include <QtTest/QtTest>
++
++#include "model/preprocessor/DashFeSafeOdbSources.h"
++
++class TestFeSafeOdbSources : public QObject
++{
++    Q_OBJECT
++
++private slots:
++    void nothingSavedSelectsEveryCandidate();
++    void savedChoiceKeepsCandidateOrder();
++    void emptyChoiceSelectsNothing();
++    void sourceOdbIsTheRunKeysOdbUnderTheDoeSamplerSet();
++    void destinationIsNamedAfterTheInp();
++};
++
++void TestFeSafeOdbSources::nothingSavedSelectsEveryCandidate()
++{
++    const QStringList candidates{ "A_inp", "B_inp" };
++    QCOMPARE(DashFeSafeOdbSources::selectedSets(candidates, std::nullopt), candidates);
++}
++
++void TestFeSafeOdbSources::savedChoiceKeepsCandidateOrder()
++{
++    // A saved name that is no longer a candidate (deleted or re-pinned Set) is dropped.
++    const QStringList candidates{ "A_inp", "B_inp", "C_inp" };
++    const std::optional<QStringList> saved = QStringList{ "C_inp", "gone_inp", "A_inp" };
++    QCOMPARE(DashFeSafeOdbSources::selectedSets(candidates, saved),
++             (QStringList{ "A_inp", "C_inp" }));
++}
++
++void TestFeSafeOdbSources::emptyChoiceSelectsNothing()
++{
++    const std::optional<QStringList> saved = QStringList{};
++    QVERIFY(DashFeSafeOdbSources::selectedSets({ "A_inp" }, saved).isEmpty());
++}
++
++void TestFeSafeOdbSources::sourceOdbIsTheRunKeysOdbUnderTheDoeSamplerSet()
++{
++    QCOMPARE(DashFeSafeOdbSources::sourceOdbPath("C:/prj/AnalysisLauncher_A_inp", "Doe1", "runs3"),
++             QDir::toNativeSeparators("C:/prj/AnalysisLauncher_A_inp/Doe1/runs3/runs3.odb"));
++}
++
++void TestFeSafeOdbSources::destinationIsNamedAfterTheInp()
++{
++    QCOMPARE(DashFeSafeOdbSources::destinationOdbName("models/A.inp"), QString("A.odb"));
++    QCOMPARE(DashFeSafeOdbSources::destinationOdbName("bracket.v2.inp"), QString("bracket.v2.odb"));
++}
++
++QTEST_GUILESS_MAIN(TestFeSafeOdbSources)
++#include "TestFeSafeOdbSources.moc"
+diff --git a/tests/TestReferenceSetName.cpp b/tests/TestReferenceSetName.cpp
+index c2ac5ee8..ff390cfc 100644
+--- a/tests/TestReferenceSetName.cpp
++++ b/tests/TestReferenceSetName.cpp
+@@ -1,4 +1,5 @@
+-// Unit test for model/DashReferenceSetName (the Set pair name derived from a reference file, #603).
++// Unit test for model/DashReferenceSetName (the Set pair name derived from a reference file, #603,
++// and the reference file kind, #616).
+ 
+ #include <QtTest/QtTest>
+ 
+@@ -13,6 +14,11 @@ private slots:
+     void replacesEveryDot();
+     void dropsTheDirectory();
+     void keepsANameWithoutDots();
++    void namesADfsxmlAfterTheFile();
++    void namesAWbpjAfterTheFile();
++    void namesAStliAfterItsFolder();
++    void detectsTheKindBySuffix();
++    void namesTheWbpjFilesFolder();
+ };
+ 
+ void TestReferenceSetName::replacesTheSuffixDot()
+@@ -39,5 +45,44 @@ void TestReferenceSetName::keepsANameWithoutDots()
+              QStringLiteral("deck"));
+ }
+ 
++void TestReferenceSetName::namesADfsxmlAfterTheFile()
++{
++    QCOMPARE(DashReferenceSetName::fromReferencePath(QStringLiteral("a.dfsxml")),
++             QStringLiteral("a_dfsxml"));
++}
++
++void TestReferenceSetName::namesAWbpjAfterTheFile()
++{
++    QCOMPARE(DashReferenceSetName::fromReferencePath(QStringLiteral("a.wbpj")),
++             QStringLiteral("a_wbpj"));
++}
++
++void TestReferenceSetName::namesAStliAfterItsFolder()
++{
++    QCOMPARE(DashReferenceSetName::fromReferencePath(QStringLiteral("fe.v2/job.stli")),
++             QStringLiteral("fe_v2_stli"));
++}
++
++void TestReferenceSetName::detectsTheKindBySuffix()
++{
++    QCOMPARE(DashReferenceKind::fromPath(QStringLiteral("a.inp")), DashReferenceKind::Inp);
++    QCOMPARE(DashReferenceKind::fromPath(QStringLiteral("a.DAT")), DashReferenceKind::Dat);
++    QCOMPARE(DashReferenceKind::fromPath(QStringLiteral("a.dfsxml")), DashReferenceKind::Dfsxml);
++    QCOMPARE(DashReferenceKind::fromPath(QStringLiteral("a.Wbpj")), DashReferenceKind::Wbpj);
++    QCOMPARE(DashReferenceKind::fromPath(QStringLiteral("fe/job.stli")), DashReferenceKind::Stli);
++    QCOMPARE(DashReferenceKind::fromPath(QStringLiteral("a.txt")), DashReferenceKind::Unknown);
++    QVERIFY(DashReferenceKind::isRwReadable(DashReferenceKind::Inp));
++    QVERIFY(DashReferenceKind::isRwReadable(DashReferenceKind::Dat));
++    QVERIFY(!DashReferenceKind::isRwReadable(DashReferenceKind::Wbpj));
++}
++
++void TestReferenceSetName::namesTheWbpjFilesFolder()
++{
++    QCOMPARE(DashReferenceKind::wbpjFilesFolderName(QStringLiteral("a.wbpj")),
++             QStringLiteral("a_files"));
++    QCOMPARE(DashReferenceKind::wbpjFilesFolderName(QStringLiteral("dir/a.b.wbpj")),
++             QStringLiteral("a.b_files"));
++}
++
+ QTEST_GUILESS_MAIN(TestReferenceSetName)
+ #include "TestReferenceSetName.moc"
+diff --git a/view/DashAnalysisLauncherWidget.h b/view/DashAnalysisLauncherWidget.h
+index 88fc805d..e4cde1c1 100644
+--- a/view/DashAnalysisLauncherWidget.h
++++ b/view/DashAnalysisLauncherWidget.h
+@@ -33,6 +33,7 @@ class QHBoxLayout;
+ class QVBoxLayout;
+ 
+ class QSpinBox;
++class QStandardItemModel;
+ 
+ class DashResultsAnalyzerWidget;
+ class DashDoeCasesWidget;
+@@ -57,6 +58,11 @@ class DashAnalysisLauncherWidget : public QWidget
+     // Launcher tab (#601). Called on Launcher tab entry; Set entry goes through setModel.
+     void refreshLauncherTab();
+ 
++protected:
++    // ODB Source Sets combo (#616): a click on the text opens the popup, a click on a row
++    // toggles its checkbox and keeps the popup open
++    bool eventFilter(QObject* watched, QEvent* event) override;
++
+ signals:
+     void plotRequested(const QMap<QString, QVariant>& settings);
+ 
+@@ -88,9 +94,17 @@ private slots:
+     void updateLauncherTabFromModel();
+     void setLauncherIdle(bool idle);
+     // Target Part combo from the reference file's editable parts (RW), the saved
+-    // input_files target first, else the DOE's morphing part. Disabled for files RW can't
+-    // parse (.stli, .dfsxml).
++    // input_files target first, else the DOE's morphing part. Disabled for .dfsxml. For a .stli
++    // Set it lists the ODB Source Sets instead (#616).
+     QCoro::Task<> fillTargetPartCombo();
++    // Switches the combo between Target Part (plain items) and ODB Source Sets (checkboxes,
++    // closed text written by syncOdbSourceSummary)
++    void setTargetPartCheckable(bool checkable);
++    // The .inp Analysis Launcher Sets, checked as saved in the Set's json; all of them when
++    // nothing is saved yet. Writes nothing.
++    void fillOdbSourceSets(DashAnalysisLauncher* model);
++    QStringList checkedOdbSourceSets() const;
++    void syncOdbSourceSummary();
+ 
+     // ── Preprocess tab (#601) ────────────────────────────────────────────────────────
+     // Reloads the Set's finished cases when they changed since the lists were filled, or when
+@@ -134,6 +148,8 @@ private slots:
+     // Launcher tab
+     QLabel* m_launcherHeaderLabel = nullptr;
+     QComboBox* m_targetPartCombo = nullptr;
++    QStandardItemModel* m_targetPartModel = nullptr;  // the combo's own model
++    bool m_targetPartIsOdbSources = false;  // .stli Set: the combo holds the ODB Source Sets
+     QPushButton* m_launcherMaterialButton = nullptr;
+     DashDoeCasesWidget* m_launcherCasesWidget = nullptr;
+     QLabel* m_launcherCpuCoresLabel = nullptr;
+diff --git a/view/DashAnalysisLauncherWidgetLauncher.cpp b/view/DashAnalysisLauncherWidgetLauncher.cpp
+index 09fa4549..c8ce3e0b 100644
+--- a/view/DashAnalysisLauncherWidgetLauncher.cpp
++++ b/view/DashAnalysisLauncherWidgetLauncher.cpp
+@@ -12,9 +12,12 @@
+ #include "model/DashAnalysisLauncher.h"
+ #include "model/DashDoeSelection.h"
+ #include "model/DashProject.h"
++#include "model/DashReferenceSetName.h"
++#include "model/preprocessor/DashFeSafeOdbSources.h"
+ #include "view/DashDoeCasesWidget.h"
+ #include "view/dialog/MaterialSetupDialog.h"
+ 
++#include <QAbstractItemView>
+ #include <QComboBox>
+ #include <QDir>
+ #include <QDirIterator>
+@@ -23,10 +26,13 @@
+ #include <QJsonDocument>
+ #include <QJsonObject>
+ #include <QLabel>
++#include <QLineEdit>
+ #include <QMessageBox>
++#include <QMouseEvent>
+ #include <QPointer>
+ #include <QPushButton>
+ #include <QSpinBox>
++#include <QStandardItemModel>
+ #include <cmath>
+ #include <limits>
+ 
+@@ -99,6 +105,7 @@ void DashAnalysisLauncherWidget::setupLauncherTab()
+ {
+     m_launcherHeaderLabel = ui->launcherHeaderLabel;
+     m_targetPartCombo = ui->launcherTargetPartCombo;
++    m_targetPartModel = qobject_cast<QStandardItemModel*>(m_targetPartCombo->model());
+     m_launcherMaterialButton = ui->launcherMaterialButton;
+     m_launcherCasesWidget = ui->launcherCasesWidget;
+     m_launcherCpuCoresLabel = ui->launcherCpuCoresLabel;
+@@ -125,8 +132,22 @@ void DashAnalysisLauncherWidget::setupLauncherTab()
+                 if (m_isFillingTargetParts || !m_model) {
+                     return;
+                 }
++                if (m_targetPartIsOdbSources) {
++                    // Arrow keys move the current row and overwrite the summary text.
++                    syncOdbSourceSummary();
++                    return;
++                }
+                 m_model->setTargetComponent(m_targetPartCombo->currentText());
+             });
++    // A toggled ODB Source Set is saved right away (#616).
++    connect(m_targetPartModel, &QStandardItemModel::itemChanged, this, [this](QStandardItem*) {
++        if (m_isFillingTargetParts || !m_targetPartIsOdbSources || !m_model) {
++            return;
++        }
++        m_model->setOdbSourceSets(checkedOdbSourceSets());
++        syncOdbSourceSummary();
++    });
++    m_targetPartCombo->view()->viewport()->installEventFilter(this);
+ 
+     // Start: the Set's pinned file is the single reference template, copied into configs/ as
+     // the DOE Launcher did; the batch runs every active sample of the DOE Table in use.
+@@ -170,7 +191,9 @@ void DashAnalysisLauncherWidget::setupLauncherTab()
+         executor->applyLauncherCPUCoreCount();
+ 
+         const QString referencePath = m_model->referenceFilePath();
+-        m_model->setTargetComponent(m_targetPartCombo->currentText());
++        // A .stli Set has no target part; its combo text is the ODB Source Sets summary.
++        m_model->setTargetComponent(m_targetPartIsOdbSources ? QString()
++                                                             : m_targetPartCombo->currentText());
+         executor->copyReferenceFileToConfigs(referencePath);
+         executor->setReferenceTemplate(referencePath);
+         // The DOE Table snapshot is taken on runAccepted, so a refused run leaves it untouched
+@@ -306,6 +329,8 @@ QCoro::Task<> DashAnalysisLauncherWidget::fillTargetPartCombo()
+     m_isFillingTargetParts = true;
+     m_targetPartCombo->clear();
+     m_targetPartCombo->setEnabled(false);
++    setTargetPartCheckable(DashReferenceKind::fromPath(model->referenceFileName())
++                           == DashReferenceKind::Stli);
+ 
+     const QString absPath = model->referenceFilePath();
+     if (absPath.isEmpty()) {
+@@ -315,21 +340,27 @@ QCoro::Task<> DashAnalysisLauncherWidget::fillTargetPartCombo()
+     const QString suffix = QFileInfo(absPath).suffix().toLower();
+     const QString saved = model->targetComponent();
+ 
++    if (m_targetPartIsOdbSources) {
++        // FE-safe template project: it uses its own geometry and reads other Sets' ODBs.
++        fillOdbSourceSets(model);
++        m_isFillingTargetParts = false;
++        co_return;
++    }
++
+     QStringList parts;
+     bool editable = true;
+     QString preferred = saved;
+-    if (suffix == "stli") {
+-        // FE-safe template project: the template uses its own geometry.
+-        editable = false;
+-    } else if (suffix == "dfsxml") {
++    if (suffix == "dfsxml") {
+         parts << "CBLOCK";
+         editable = false;
+     } else if (suffix == "wbpj") {
+-        // NX CAD geometry: .prt files under the .wbpj's directory, stored relative to it so
+-        // DashJobRunner can rebuild the absolute path.
++        // NX CAD geometry: .prt files in the .wbpj's "<name>_files" folder (#616), stored
++        // relative to the .wbpj's directory so DashJobRunner can rebuild the absolute path.
+         const QDir projectDir = QFileInfo(absPath).absoluteDir();
+-        QDirIterator it(
+-            projectDir.absolutePath(), { "*.prt" }, QDir::Files, QDirIterator::Subdirectories);
++        QDirIterator it(projectDir.filePath(DashReferenceKind::wbpjFilesFolderName(absPath)),
++                        { "*.prt" },
++                        QDir::Files,
++                        QDirIterator::Subdirectories);
+         while (it.hasNext()) {
+             parts << projectDir.relativeFilePath(it.next());
+         }
+@@ -389,3 +420,80 @@ QCoro::Task<> DashAnalysisLauncherWidget::fillTargetPartCombo()
+         model->setTargetComponent(m_targetPartCombo->currentText());
+     }
+ }
++
++void DashAnalysisLauncherWidget::setTargetPartCheckable(bool checkable)
++{
++    m_targetPartIsOdbSources = checkable;
++    ui->launcherTargetPartLabel->setText(checkable ? tr("ODB Source Sets") : tr("Target Part"));
++    // Editable so the closed combo can show a summary; NoInsert keeps Enter from adding it as a
++    // row. setEditable(false) drops the line edit and the next setEditable(true) makes a new one,
++    // so the filter goes on each time.
++    m_targetPartCombo->setEditable(checkable);
++    if (!checkable) {
++        return;
++    }
++    m_targetPartCombo->setInsertPolicy(QComboBox::NoInsert);
++    m_targetPartCombo->lineEdit()->setReadOnly(true);
++    m_targetPartCombo->lineEdit()->setPlaceholderText(tr("Select ODB Source Sets"));
++    m_targetPartCombo->lineEdit()->installEventFilter(this);
++}
++
++void DashAnalysisLauncherWidget::fillOdbSourceSets(DashAnalysisLauncher* model)
++{
++    // Only .inp Sets run Abaqus and leave an ODB; the .stli Set itself is never one of them.
++    const QStringList candidates =
++        DashProjectManager::Instance()->GetProject()->inpAnalysisLauncherSources().keys();
++    const QStringList checked =
++        DashFeSafeOdbSources::selectedSets(candidates, model->odbSourceSets());
++    for (const QString& setName : candidates) {
++        auto* item = new QStandardItem(setName);
++        item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
++        item->setCheckState(checked.contains(setName) ? Qt::Checked : Qt::Unchecked);
++        m_targetPartModel->appendRow(item);
++    }
++    m_targetPartCombo->setEnabled(!candidates.isEmpty());
++    syncOdbSourceSummary();
++}
++
++QStringList DashAnalysisLauncherWidget::checkedOdbSourceSets() const
++{
++    QStringList sets;
++    for (int row = 0; row < m_targetPartModel->rowCount(); ++row) {
++        const QStandardItem* item = m_targetPartModel->item(row);
++        if (item->checkState() == Qt::Checked) {
++            sets.append(item->text());
++        }
++    }
++    return sets;
++}
++
++void DashAnalysisLauncherWidget::syncOdbSourceSummary()
++{
++    const int count = checkedOdbSourceSets().size();
++    m_targetPartCombo->lineEdit()->setText(
++        count == 0 ? QString() : tr("%1 Set%2 selected").arg(count).arg(count == 1 ? "" : "s"));
++}
++
++bool DashAnalysisLauncherWidget::eventFilter(QObject* watched, QEvent* event)
++{
++    if (!m_targetPartIsOdbSources || event->type() != QEvent::MouseButtonRelease) {
++        return QWidget::eventFilter(watched, event);
++    }
++    // An editable combo does not open its popup on a click in the text area.
++    if (watched == m_targetPartCombo->lineEdit()) {
++        if (!m_targetPartCombo->view()->isVisible()) {
++            m_targetPartCombo->showPopup();
++        }
++        return true;
++    }
++    if (watched == m_targetPartCombo->view()->viewport()) {
++        const QModelIndex index =
++            m_targetPartCombo->view()->indexAt(static_cast<QMouseEvent*>(event)->pos());
++        if (index.isValid()) {
++            QStandardItem* item = m_targetPartModel->itemFromIndex(index);
++            item->setCheckState(item->checkState() == Qt::Checked ? Qt::Unchecked : Qt::Checked);
++        }
++        return true;  // the popup stays open to pick several Sets in a row
++    }
++    return QWidget::eventFilter(watched, event);
++}
+diff --git a/view/DashMainWindow.cpp b/view/DashMainWindow.cpp
+index 37cd349e..b598089f 100644
+--- a/view/DashMainWindow.cpp
++++ b/view/DashMainWindow.cpp
+@@ -359,7 +359,7 @@ void DashMainWindow::setupWidgets()
+     QStringList filters;
+     filters << "*.dat" << "*.inp" << "*.vtk" << "*.vtu" << "*.rst" << "*.odb" << "*.csv"
+             << "*.dfsxml" << "*.prt" << "*.stp" << "*.step"
+-            << "*.stli";
++            << "*.stli" << "*.wbpj";
+     m_fileSystemModel->setNameFilters(filters);
+     m_fileSystemModel->setNameFilterDisables(false);
+     m_fileSystemModel->setFilter(QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot);
+@@ -2625,7 +2625,7 @@ QCoro::Task<> DashMainWindow::onAddFileClicked()
+     QStringList filters;
+     filters << "*.dat" << "*.inp" << "*.vtk" << "*.vtu" << "*.rst" << "*.odb" << "*.csv"
+             << "*.dfsxml" << "*.prt" << "*.stp" << "*.step"
+-            << "*.stli";
++            << "*.stli" << "*.wbpj";
+     QString filterString = tr("Supported Files (%1)").arg(filters.join(" "));
+ 
+     // Use UserPath as initial directory for file dialog
+@@ -2641,10 +2641,38 @@ QCoro::Task<> DashMainWindow::onAddFileClicked()
+         QFileDialog::getOpenFileNames(this, tr("Add Files to Project"), initialDir, filterString);
+ 
+     QPointer<DashMainWindow> self(this);
++    DashProject* project = DashManager::PrjMgr()->GetProject();
+     for (const QString& filePath : filePaths) {
+         QFileInfo fileInfo(filePath);
+         QString suffix = fileInfo.suffix().toLower();
+ 
++        // A file RW cannot read is only usable through its Analysis Launcher Set, so a taken
++        // Set name stops it before anything is copied (#616). The file already in the ledger
++        // owns that Set and may be added again.
++        const DashReferenceKind::Kind kind = DashReferenceKind::fromPath(filePath);
++        if (kind != DashReferenceKind::Unknown && !DashReferenceKind::isRwReadable(kind)) {
++            const QString projectRelPath =
++                kind == DashReferenceKind::Stli
++                    ? QDir(fileInfo.absoluteDir().dirName()).filePath(fileInfo.fileName())
++                    : fileInfo.fileName();
++            const QString setName = DashReferenceSetName::fromReferencePath(projectRelPath);
++            if (!project->referenceModelPaths().contains(projectRelPath)
++                && project->hasSetNamed(DashModuleName::AnalysisLauncher, setName)) {
++                const QString renamed =
++                    kind == DashReferenceKind::Stli
++                        ? tr("the folder '%1'").arg(fileInfo.absoluteDir().dirName())
++                        : tr("the file '%1'").arg(fileInfo.fileName());
++                DashNotify::warning(
++                    DashLog::Module::View,
++                    this,
++                    tr("Add File"),
++                    tr("An Analysis Launcher Set named '%1' already exists. Rename %2 and add "
++                       "it again.")
++                        .arg(setName, renamed));
++                continue;
++            }
++        }
++
+         // For .stli files, copy the entire parent directory structure
+         if (suffix == "stli") {
+             QDir sourceDir = fileInfo.absoluteDir();
+@@ -2691,6 +2719,22 @@ QCoro::Task<> DashMainWindow::onAddFileClicked()
+         if (!alreadyInProject && !copyFileIntoProject(filePath, destPath)) {
+             continue;
+         }
++        // A Workbench project needs its "<name>_files" folder; the file's overwrite answer
++        // covers it too (#616).
++        if (!alreadyInProject && suffix == "wbpj") {
++            const QString filesFolderName = DashReferenceKind::wbpjFilesFolderName(filePath);
++            const QString destFilesPath = QDir(projectFolderPath).filePath(filesFolderName);
++            QDir(destFilesPath).removeRecursively();
++            if (!copyDirectoryRecursively(fileInfo.absoluteDir().filePath(filesFolderName),
++                                          destFilesPath)) {
++                DashNotify::error(
++                    DashLog::Module::View,
++                    this,
++                    tr("Error"),
++                    tr("Failed to copy Workbench project folder: %1").arg(filesFolderName));
++                continue;
++            }
++        }
+         co_await addReferenceFile(fileInfo.fileName());
+         if (!self) {
+             co_return;
+@@ -2754,9 +2798,38 @@ void DashMainWindow::releaseGeometryWidgetFor(const QString& canonicalDeckPath)
+ QCoro::Task<> DashMainWindow::addReferenceFile(const QString& relPath)
+ {
+     const QString absPath = DashAnalysisModelContextRegistry::toAbsolutePath(relPath);
+-    const QString suffix = QFileInfo(absPath).suffix().toLower();
++    const DashReferenceKind::Kind kind = DashReferenceKind::fromPath(absPath);
+     m_modelingDock->setVisible(true);
+-    if (suffix != QStringLiteral("dat") && suffix != QStringLiteral("inp")) {
++    if (kind == DashReferenceKind::Unknown) {
++        m_modelingTreeWidget->addReferenceFile(absPath);
++        co_return;
++    }
++
++    // The ledger key is the canonical root-relative path setReferenceModel registers under.
++    DashProject* project = DashManager::PrjMgr()->GetProject();
++    const QString ledgerPath = DashAnalysisModelContextRegistry::toRootRelativePath(
++        QFileInfo(absPath).canonicalFilePath());
++    const auto createLinkedSetsOrWarn = [&]() {
++        if (!project->createLinkedSets(ledgerPath).isEmpty()) {
++            return;
++        }
++        DashNotify::warning(
++            DashLog::Module::View,
++            this,
++            tr("Add File"),
++            tr("'%1' was added without linked Sets: a Condition Parameterization or Analysis "
++               "Launcher Set named '%2' already exists.")
++                .arg(QFileInfo(absPath).fileName(),
++                     DashReferenceSetName::fromReferencePath(ledgerPath)));
++    };
++
++    // RW cannot read it: it is put in the ledger with its Analysis Launcher Set, but never
++    // loaded nor made the active reference (#616).
++    if (!DashReferenceKind::isRwReadable(kind)) {
++        if (!project->referenceModelPaths().contains(ledgerPath)
++            && !project->registerReferenceModel(ledgerPath).isEmpty()) {
++            createLinkedSetsOrWarn();
++        }
+         m_modelingTreeWidget->addReferenceFile(absPath);
+         co_return;
+     }
+@@ -2776,10 +2849,6 @@ QCoro::Task<> DashMainWindow::addReferenceFile(const QString& relPath)
+         co_return;
+     }
+     // A deck already in the ledger keeps its entry and its Sets; it is only shown again.
+-    // The ledger key is the canonical root-relative path setReferenceModel registers under.
+-    DashProject* project = DashManager::PrjMgr()->GetProject();
+-    const QString ledgerPath = DashAnalysisModelContextRegistry::toRootRelativePath(
+-        QFileInfo(absPath).canonicalFilePath());
+     if (!project->referenceModelPaths().contains(ledgerPath)) {
+         // Registers it in the ledger; the newest added becomes the active reference.
+         co_await registry.setReferenceModel(absPath);
+@@ -2787,16 +2856,8 @@ QCoro::Task<> DashMainWindow::addReferenceFile(const QString& relPath)
+             co_return;
+         }
+         // setReferenceModel only logs a failure, so the ledger tells whether it registered.
+-        if (project->referenceModelPaths().contains(ledgerPath)
+-            && project->createLinkedSets(ledgerPath).isEmpty()) {
+-            DashNotify::warning(
+-                DashLog::Module::View,
+-                this,
+-                tr("Add File"),
+-                tr("'%1' was added without linked Sets: a Condition Parameterization or Analysis "
+-                   "Launcher Set named '%2' already exists.")
+-                    .arg(QFileInfo(absPath).fileName(),
+-                         DashReferenceSetName::fromReferencePath(ledgerPath)));
++        if (project->referenceModelPaths().contains(ledgerPath)) {
++            createLinkedSetsOrWarn();
+         }
+     }
+     m_modelingTreeWidget->addReferenceFile(absPath);
+@@ -2814,17 +2875,37 @@ void DashMainWindow::removeReferenceAsset(const QString& itemType, const QString
+     const QString fileName = QFileInfo(filePath).fileName();
+     const QString canonicalPath = QFileInfo(filePath).canonicalFilePath();
+ 
+-    // Only an RW deck is in the ledger, so only it can have linked Sets. A file gone from
+-    // disk has no canonical path; its ledger key is then the path as given.
++    // Only a reference input (an RW deck or a dfsxml/wbpj/stli, #616) is in the ledger, so
++    // only it can have linked Sets. A file gone from disk has no canonical path; its ledger
++    // key is then the path as given.
++    const DashReferenceKind::Kind kind = DashReferenceKind::fromPath(filePath);
++    const bool inLedger = kind != DashReferenceKind::Unknown;
++    const QString ledgerPath = DashAnalysisModelContextRegistry::toRootRelativePath(
++        canonicalPath.isEmpty() ? filePath : canonicalPath);
+     DashProject::LinkedSets linked;
+-    if (itemType == "dat_parent") {
+-        linked = project->linkedSetsFor(
+-            project->resolveReferenceUuid(DashAnalysisModelContextRegistry::toRootRelativePath(
+-                canonicalPath.isEmpty() ? filePath : canonicalPath)));
++    if (inLedger) {
++        linked = project->linkedSetsFor(project->resolveReferenceUuid(ledgerPath));
+     }
+ 
+-    const QString deletedLine =
++    // The folder copied in with the file goes with it: the fe-safe template folder (the
++    // ledger path's first segment, as Add File copies it under the project root) or the
++    // Workbench "<name>_files" folder.
++    QString companionDir;
++    if (kind == DashReferenceKind::Stli) {
++        companionDir = DashAnalysisModelContextRegistry::toAbsolutePath(
++            ledgerPath.section(QLatin1Char('/'), 0, 0));
++    }
++    if (kind == DashReferenceKind::Wbpj) {
++        companionDir = QFileInfo(filePath).absoluteDir().filePath(
++            DashReferenceKind::wbpjFilesFolderName(filePath));
++    }
++
++    QString deletedLine =
+         tr("This file will be deleted:\n%1").arg(QDir::toNativeSeparators(filePath));
++    if (!companionDir.isEmpty()) {
++        deletedLine +=
++            tr("\nThis folder will be deleted:\n%1").arg(QDir::toNativeSeparators(companionDir));
++    }
+     QString message = tr("Remove '%1' from the project?\n%2").arg(fileName, deletedLine);
+     if (!linked.isEmpty()) {
+         QStringList removed{ tr("Reference File: %1").arg(fileName) };
+@@ -2894,7 +2975,7 @@ void DashMainWindow::removeReferenceAsset(const QString& itemType, const QString
+         renderMgr->updateScene();
+     }
+     // Drops the ledger entry, the loaded context and the displayed actor.
+-    if (itemType == "dat_parent" && !registry.unregisterReferenceModel(filePath)) {
++    if (inLedger && !registry.unregisterReferenceModel(filePath)) {
+         DASH_LOG_WARN(View) << "Reference file was not in the reference model ledger:" << filePath;
+     }
+     m_modelingTreeWidget->removeReferenceFile(filePath);
+@@ -2905,6 +2986,13 @@ void DashMainWindow::removeReferenceAsset(const QString& itemType, const QString
+         DASH_LOG_WARN(View) << "Reference file could not be deleted from the project folder:"
+                             << filePath;
+     }
++    if (!companionDir.isEmpty()) {
++        if (QDir(companionDir).removeRecursively()) {
++            DASH_LOG_INFO(View) << "Reference folder deleted:" << companionDir;
++        } else {
++            DASH_LOG_WARN(View) << "Reference folder could not be deleted:" << companionDir;
++        }
++    }
+     DashManager::Mgr()->Redraw();
+ }
+ 
+diff --git a/view/DashModelingTreeWidget.cpp b/view/DashModelingTreeWidget.cpp
+index 38c9c6b6..1c557478 100644
+--- a/view/DashModelingTreeWidget.cpp
++++ b/view/DashModelingTreeWidget.cpp
+@@ -7,6 +7,7 @@
+ #include <controller/DashAnalysisModelContext.h>
+ #include "delegate/ModelingTreeDelegate.h"
+ #include "common/DashPalette.h"
++#include "model/DashReferenceSetName.h"
+ 
+ #include <QDir>
+ #include <QFileInfo>
+@@ -17,6 +18,20 @@
+ #include <QMenu>
+ #include <QAction>
+ 
++namespace {
++
++// A .stli row names its folder too: the whole folder is the fe-safe template (#616).
++QString referenceRowLabel(const QString& filePath)
++{
++    const QFileInfo info(filePath);
++    if (DashReferenceKind::fromPath(filePath) != DashReferenceKind::Stli) {
++        return info.fileName();
++    }
++    return info.dir().dirName() + QLatin1Char('\\') + info.fileName();
++}
++
++}  // namespace
++
+ DashModelingTreeWidget::DashModelingTreeWidget(QWidget* parent)
+     : QTreeView(parent)
+ {
+@@ -292,7 +307,7 @@ QStandardItem* DashModelingTreeWidget::addReferenceParentRow(const QString& file
+     QList<QStandardItem*> parentRow;
+ 
+     // Col 0: File Name
+-    QStandardItem* nameItem = new QStandardItem(QFileInfo(filePath).fileName());
++    QStandardItem* nameItem = new QStandardItem(referenceRowLabel(filePath));
+     nameItem->setEditable(false);
+     nameItem->setData(filePath, Qt::UserRole);
+     nameItem->setData(parentType, Qt::UserRole + 1);
+@@ -719,11 +734,13 @@ void DashModelingTreeWidget::applyReferenceMarker()
+     m_model->blockSignals(true);
+     for (int i = 0; i < m_referenceCategory->rowCount(); ++i) {
+         QStandardItem* nameItem = m_referenceCategory->child(i, 0);
++        // Only a deck can be the reference; other rows keep the label they were listed with.
++        if (nameItem->data(Qt::UserRole + 1).toString() != QStringLiteral("dat_parent")) {
++            continue;
++        }
+         const QFileInfo info(nameItem->data(Qt::UserRole).toString());
+         const bool isReference =
+-            !referencePath.isEmpty()
+-            && nameItem->data(Qt::UserRole + 1).toString() == QStringLiteral("dat_parent")
+-            && info.canonicalFilePath() == referencePath;
++            !referencePath.isEmpty() && info.canonicalFilePath() == referencePath;
+         nameItem->setText(isReference ? info.fileName() + QStringLiteral(" (reference)")
+                                       : info.fileName());
+         nameItem->setToolTip(isReference ? tr("Reference model: modules read data from this deck")

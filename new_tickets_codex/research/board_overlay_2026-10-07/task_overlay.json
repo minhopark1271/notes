@@ -1,0 +1,4902 @@
+[
+  {
+    "task_id": "GEO-001",
+    "title": "핸들 편집·실행·저장을 Setup/Configuration 값 모델로 전환한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "in_flight",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      434,
+      430,
+      281,
+      499
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "GEO-001",
+      "module": "Geometry Parameter / Morphing",
+      "title": "핸들 편집·실행·저장을 Setup/Configuration 값 모델로 전환한다",
+      "outcome": "핸들·마커·DV가 하나의 값 모델과 version 1 JSON으로 복원되고 모든 실행 소비자가 동일한 구성을 받는다.",
+      "scope": [
+        "PR #654 구현을 최종 검토·통합한다: sample_handles, Setup→Configuration, (entry 이름, control ID) DV, 반경 재구축, JSON archive 및 QC/DOE/Optimizer/Runner 연결.",
+        "기존 VTP·constraints[]·핸들 ID DV와 cylinder 경로의 종료를 명시하고 구 Set 열기 시 재작성 안내와 파일 무변경을 보장한다.",
+        "현재 PR에 포함된 SectionFrameHandles 변환 어댑터와 sampled tree를 함께 검증한다."
+      ],
+      "acceptance": [
+        "저장·재진입 후 핸들, 고정점, DV 범위와 Set 반경이 복원된다.",
+        "sampling 실패·취소 시 이전 편집 상태가 유지되고 구 형식은 실행 전 안내 후 거부된다.",
+        "GUI 변경과 실행 snapshot의 수명·데이터가 분리된다.",
+        "DV lower≤upper·유한성 및 양의 반경 검증이 저장/프리뷰/복원 경계에서 유지된다."
+      ],
+      "validation": [
+        "PR 신설 TestHandleState/TestHandleSampling/TestSampledHandleTree 및 기존 QC/DOE/preview 테스트를 통합 기준에서 확인한다.",
+        "실제 GUI에서 Automatic→Done→범위 변경→QC→Proceed→재진입, 반경 변경, 구 Set 거부를 수행한다."
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C",
+        "E"
+      ],
+      "sources": [
+        332,
+        430,
+        487,
+        499,
+        563,
+        577
+      ],
+      "evidence": [
+        "dev controller/DashMorphingController.cpp:1052 selectHandlesGreedyByUnit",
+        "dev viewmodel/DashGeometryParameterPresentationModel.cpp:381 handles_vtp",
+        "sources/pr-654.diff:2084 DashHandleState.cpp; :2856 DashHandleStateJson.cpp; :8078 WidgetHandles",
+        "sources/pr-654.json / PR #654 open"
+      ],
+      "status": "in_flight",
+      "priority": "P2",
+      "notes": "새 구현 PR를 중복 작성하지 않는다. PR 본문의 56/56·빌드 통과는 작성자 보고이며 이번 조사에서 재실행하지 않았다. GUI 수동 검증은 PR 본문상 미실행. per-handle 반경 UI·구 VTP 자동 변환은 최신 결정으로 제외.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "GEO-002",
+    "title": "핸들 interaction이 값 모델의 투영만 편집하도록 소유권을 마무리한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      430
+    ],
+    "parent_rollups": [
+      427
+    ],
+    "supporting_issues": [
+      281,
+      499
+    ],
+    "scope_proposals": [
+      {
+        "issue": 430,
+        "relation": "직접",
+        "scope": "GEO-002를 신규 구현 예정에서 PR655의 구현 검토·통합·회귀 확인으로 변환한다. 실제 선행은 PR654/GEO-001이며, entry 상태가 렌더·피킹·편집·Done 저장의 정본인지 확인한다.",
+        "caveat": "옛 DashHandleData 타입/VTP 5-read·2-write 통합은 적용하지 않는다. PR655는 polydata를 projection 캐시로 남기는 수준을 넘어 m_handleGeometry·DashHandleImport·GizmoGroup 등을 삭제하고 DashHandleDefinition/DisplacementPolicy를 정본으로 둔다. GEO-002 문구도 최신 구현에 맞게 갱신 필요. PR655에 흡수된 VIS-007(구 #322)은 supporting_task로 추가 구현하지 않는다. #654/#655의 version 1 형식 차이는 #654 단독 릴리스가 없다는 전제를 확인해야 한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "GEO-002",
+      "module": "Geometry Parameter / Morphing",
+      "title": "핸들 interaction이 값 모델의 투영만 편집하도록 소유권을 마무리한다",
+      "outcome": "기즈모·피킹·표시가 같은 Configuration/Setup에 반영되며 별도의 수정 가능한 polydata 정본이 남지 않는다.",
+      "scope": [
+        "m_handleGeometry를 projection 캐시로 내리고 mesh-ops set output_port에 렌더를 연결한다.",
+        "피킹, 그룹/해제, 이름 변경, 범위·pose 편집을 값 모델 명령으로 연결하고 과도기 polydata→state 이중 동기화를 제거한다.",
+        "Set 전환·재진입 시 actor/observer를 현재 모델에 재연결하고 이전 모델 참조를 해제한다."
+      ],
+      "acceptance": [
+        "드래그·DV 표·프리뷰·저장 값이 동일하며 cached projection 직접 수정이 실행 정본을 우회하지 않는다.",
+        "Set 왕복·삭제 후 선택/기즈모가 이전 Set을 수정하지 않고 actor/observer가 누적되지 않는다."
+      ],
+      "validation": [
+        "TestMorphingPreviewDriver의 재진입·part 왕복 시나리오를 새 값 모델에서 검증한다.",
+        "그룹 편집·범위 변경·undo가 아니라 dropSamples 전이·재sampling·저장 후 재진입을 수동 검증한다."
+      ],
+      "dependencies": [
+        "GEO-001"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "E"
+      ],
+      "sources": [
+        332,
+        427,
+        430
+      ],
+      "evidence": [
+        "controller/DashHandlePickingInteraction.h:241 m_handleGeometry",
+        "sources/pr-654.diff:1077 DashHandleImport 과도기 어댑터",
+        "sources/issues/430.md 2026-10-04 댓글"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "#428의 이미 완료된 주입/수집 분리는 다시 구현하지 않는다. root #434 interaction 객체 수명 이동과 파일 접점은 조율하지만 서로를 자동 하드선행으로 두지 않는다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "GEO-004",
+    "title": "Hexahedron을 BoxHandles FFD 생성·면 DV 흐름으로 제공한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      499
+    ],
+    "parent_rollups": [],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 499,
+        "relation": "분할",
+        "scope": "이미 끝난 baseline 범프·isolated handles 통로와 PR654의 sampling/section 상태기 몫을 제외한다. 남은 것은 Box FFD 생성·면 DV·저장/DOE 흐름(GEO-004), 단면 추출기 section_frames 직접 소비와 사내 MarchingPlaneBound 제거(GEO-005)다.",
+        "caveat": "PR655는 old shell box GUI 경로를 삭제하고 Box JSON entry만 남긴다고 보고하므로 GEO-004는 단순 어댑터 이관이 아니라 새 생성 UI 연결이다. #577의 신규 FFD 방향은 유지하되 실제 UI 세부·baseline 편집 범위는 결정해야 한다. Claude MOR-05는 기능 채택까지 DEC로 재평가하지만 최신 #577 요구가 철회됐다는 증거는 아니므로 신규 FFD 요구 자체를 취소/미승인으로 단정하지 않는다. GEO-005도 PR655 이후 실제 section producer 좌표를 다시 확인해야 하며 기존 중심점→격자 변경을 반복 구현하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "GEO-004",
+      "module": "Geometry Parameter / Volume handles",
+      "title": "Hexahedron을 BoxHandles FFD 생성·면 DV 흐름으로 제공한다",
+      "outcome": "Volume 메뉴에서 박스 생성부터 면 오프셋 DV, QC, 저장, DOE까지 실행할 수 있다.",
+      "scope": [
+        "Hexahedron 메뉴·파라미터 UI를 BoxHandles FFD 생성에 연결한다.",
+        "면 드래그 릴리즈 1회에 set_faces 절대 pose를 갱신하고 face DV 행·범위를 값 모델에 반영한다.",
+        "반경은 Set radius 정책을 따르고 dump/load 후 pose·범위를 복원한다."
+      ],
+      "acceptance": [
+        "Volume→Hexahedron→면 드래그→Done→face 범위→프리뷰→QC Proceed→DOE가 연결된다.",
+        "Set 재열기 후 박스와 DV 범위가 유지되고 Marching Plane에 회귀가 없다."
+      ],
+      "validation": [
+        "box pose·face DV·반경 변경·archive 왕복 테스트.",
+        "실제 GUI에서 신규 Hexahedron 전체 사용자 경로를 확인한다."
+      ],
+      "dependencies": [
+        "GEO-002"
+      ],
+      "tags": [
+        "C",
+        "D",
+        "E"
+      ],
+      "sources": [
+        499,
+        577
+      ],
+      "evidence": [
+        "controller/DashMorphingController.cpp:1215 setHandlesBoxhandle 구 shell 구현",
+        "view/overlay/DashMorphingBar.cpp:27 Volume 메뉴",
+        "sources/issues/577.md 2026-10-05 결정",
+        "sources/pr-654.json 포함하지 않은 것 PR 3"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "최신 #577 결정을 적용: cylinder는 복구하지 않고 GEO-001에서 삭제. 기존 shell 박스와 산출물 동일성은 요구하지 않는다. Box 축 분할 UI 세부 선택은 구현 리뷰에서 명시하되 이미 철회된 shell 동일성을 별도 차단 질문으로 되살리지 않는다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "GEO-005",
+    "title": "단면 추출·핸들 생성을 mesh-ops 공개 API로 끝까지 이관한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      499
+    ],
+    "parent_rollups": [],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 499,
+        "relation": "분할",
+        "scope": "이미 끝난 baseline 범프·isolated handles 통로와 PR654의 sampling/section 상태기 몫을 제외한다. 남은 것은 Box FFD 생성·면 DV·저장/DOE 흐름(GEO-004), 단면 추출기 section_frames 직접 소비와 사내 MarchingPlaneBound 제거(GEO-005)다.",
+        "caveat": "PR655는 old shell box GUI 경로를 삭제하고 Box JSON entry만 남긴다고 보고하므로 GEO-004는 단순 어댑터 이관이 아니라 새 생성 UI 연결이다. #577의 신규 FFD 방향은 유지하되 실제 UI 세부·baseline 편집 범위는 결정해야 한다. Claude MOR-05는 기능 채택까지 DEC로 재평가하지만 최신 #577 요구가 철회됐다는 증거는 아니므로 신규 FFD 요구 자체를 취소/미승인으로 단정하지 않는다. GEO-005도 PR655 이후 실제 section producer 좌표를 다시 확인해야 하며 기존 중심점→격자 변경을 반복 구현하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "GEO-005",
+      "module": "Geometry Parameter / Marching Plane",
+      "title": "단면 추출·핸들 생성을 mesh-ops 공개 API로 끝까지 이관한다",
+      "outcome": "단면 프레임 생성부터 edge DV까지 하나의 공개 생성기 계약을 쓰며 사내 MarchingPlaneBound 복제본을 제거한다.",
+      "scope": [
+        "현재 MarchingPlaneBound 기반 절단을 section_frames로 대체하고 시작/끝 단면 skip 정책을 호출자에서 보존한다.",
+        "GEO-001의 SectionFrameHandles 어댑터를 직접 생성 경로로 연결하고 중간 polydata bounds 변환을 제거한다.",
+        "마지막 소비자가 사라지면 libs/DashMarchingPlane 및 CMake 독립 타깃을 제거한다."
+      ],
+      "acceptance": [
+        "기울어진 단면, 끝 단면 skip, edge 4방향 제어와 저장 복원이 일치한다.",
+        "section_frames 실패·빈 단면이 명시적으로 보고되고 invalid 핸들을 남기지 않는다."
+      ],
+      "validation": [
+        "프레임 좌표·edge 방향·skip 개수·DV 처방 테스트.",
+        "동일 메시의 기존 단면과 새 단면 범위/방향을 비교하되 새 sampling의 수치 동일성을 요구하지 않는다."
+      ],
+      "dependencies": [
+        "GEO-002"
+      ],
+      "tags": [
+        "C",
+        "E"
+      ],
+      "sources": [
+        331,
+        499
+      ],
+      "evidence": [
+        "controller/DashMorphingController.cpp:105 MarchingPlaneBound",
+        "CMakeLists.txt:371 DashMarchingPlane",
+        "sources/pr-654.diff:2192 SectionFrameHandles 어댑터; section_frames 도입 없음"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "PR654는 SectionFrameHandles 값 모델을 도입하지만 원본 marching-plane 추출기는 남긴다. 상류 API 버전은 GEO-001의 MeshOps 0.5.0 기준으로 착수 시 확인한다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "GEO-006",
+    "title": "QC 결과 창을 닫아도 저장 작업이 대기 상태에 갇히지 않게 한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      512
+    ],
+    "parent_rollups": [
+      451
+    ],
+    "supporting_issues": [
+      281,
+      455
+    ],
+    "scope_proposals": [
+      {
+        "issue": 512,
+        "relation": "직접",
+        "scope": "setResults의 이벤트 펌핑과 QC 결정 finished 신호 대기 순서를 정리하여 빠른 결정·닫기에서 결과/취소 신호가 유실되지 않게 한다.",
+        "caveat": "계산 worker를 새로 만들거나 모핑 상태기 전체를 이 이슈에 귀속하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "GEO-006",
+      "module": "Geometry Parameter / Mesh QC",
+      "title": "QC 결과 창을 닫아도 저장 작업이 대기 상태에 갇히지 않게 한다",
+      "outcome": "결과 표시 직후 Esc/닫기를 눌러도 QC 수명과 busy 상태가 정리되고 다시 Set Design Variable을 실행할 수 있다.",
+      "scope": [
+        "DashMeshQualityDialog::setResults의 processEvents를 제거한다.",
+        "결정 수신과 취소/결과 전환 수명을 정리하여 이미 발생한 finished 시그널을 기다리지 않도록 한다.",
+        "Proceed/Retry/닫힘/프로젝트 전환의 qcDialog_ 정리를 하나의 종료 경로에서 보장한다."
+      ],
+      "acceptance": [
+        "결과 표시 중 닫기 후 qcDialog_가 비워지고 숨은 dialog/coroutine이 남지 않는다.",
+        "QC 중 닫기와 결과 직후 닫기 모두 다음 실행을 막지 않는다."
+      ],
+      "validation": [
+        "위젯 레벨에서 결과 게시 시점에 reject를 주입하고 다음 QC 시작 가능성을 검증한다.",
+        "TestMeshQcStates는 계산 상태만 보므로 dialog 수명 검증을 별도로 수행한다."
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "D"
+      ],
+      "sources": [
+        281,
+        512
+      ],
+      "evidence": [
+        "view/dialog/DashMeshQualityDialog.cpp:164 processEvents",
+        "view/DashGeometryParameterWidget.cpp:1456 disconnect→setResults→:1463 await",
+        "tests/TestMeshQcStates.cpp:358; tests/TestMorphingPreviewDriver.cpp"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "QC 계산 워커화 자체는 이미 완료되었다. QCoro wrapper를 변수에 먼저 만든다는 이유만으로 connect가 즉시 수행된다고 가정하지 말고 실제 수신 등록/재진입 제거를 검증한다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "GEO-007",
+    "title": "모핑 값 경계의 미검증 교차 모듈 시나리오를 검증하고 발견된 회귀를 닫는다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "needs_runtime_check",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      281
+    ],
+    "parent_rollups": [
+      427
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 281,
+        "relation": "재판정",
+        "scope": "옛 모핑 워커화 Phase를 그대로 변환하지 않고 완료된 값 경계/서비스 이관을 제거한다. 실제 잔여가 확인되는 Optimizer 요청·펌핑/취소는 OPT-02, 모핑 교차 모듈·프로젝트 전환 검증은 GEO-007로 받는다. 범위 이관 근거를 남긴 뒤 기존 광역 이슈 종료 여부를 판단한다.",
+        "caveat": "기존 crosswalk의 GEO-006은 QC 결과창의 별도 #512 결함이라 단순 #281 직접 대체가 아니다. Runner 요청 귀속 RUN-07, RW 실제 clone/edit/export GUI 이탈 AST-003도 연결된 독립 잔여다. Claude MOR-18은 본체 완료·잔여 OPT 이관을 제안하지만 MOR-16 계측·MOR-04 dead code 등 부수 요구는 기존 Codex 카드와 1:1 대응하지 않으므로 필요 여부를 따로 확인한다. 최신 PR654/655는 이 이슈 전부를 닫는 PR가 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "GEO-007",
+      "module": "Geometry Parameter / 실행 통합",
+      "title": "모핑 값 경계의 미검증 교차 모듈 시나리오를 검증하고 발견된 회귀를 닫는다",
+      "outcome": "구현 완료로 표시된 local화/상태기 경로가 프로젝트 전환과 DOE·Optimizer·Runner에서도 실제로 안전함을 확인한다.",
+      "scope": [
+        "#586에서 보류한 DOE+프리뷰 동시 실행, 프로젝트 전환, Optimizer/Runner export를 새 Configuration 기준으로 재현한다.",
+        "실행 중 화면 편집·참조 변경이 실행 snapshot을 바꾸거나 완료가 다른 프로젝트 화면에 쓰는지 확인한다.",
+        "발견된 결함만 구체 수정하고 이미 사라진 worker/gate 체계를 재도입하지 않는다."
+      ],
+      "acceptance": [
+        "시나리오별 입력·예상 결과·실측·산출물·통과/실패가 남는다.",
+        "실행과 화면 상태가 독립이며 종료/취소/프로젝트 변경 후 이전 결과가 반영되지 않는다."
+      ],
+      "validation": [
+        "TestMorphingRun/Service/DoeBatchChain/PreviewCollector를 관련 경계의 회귀로 사용한다.",
+        "SDK·solver 가용 환경에서 통합 GUI 실행. 구 VTP와 새 sampling의 바이트 동일성은 제외하고 같은 Configuration 실행 재현성을 확인한다."
+      ],
+      "dependencies": [
+        "GEO-001"
+      ],
+      "tags": [
+        "A",
+        "B",
+        "F"
+      ],
+      "sources": [
+        281,
+        427,
+        586
+      ],
+      "evidence": [
+        "model/geometry/DashMorphingUtils.cpp:134 performMorphingAndExport",
+        "controller/DashMorphingDoeExecutor.cpp:529 Execute",
+        "sources/issues/586.md 수동 검증 보류 5~7",
+        "sources/pr-654.json GUI 시나리오 미실행"
+      ],
+      "status": "needs_runtime_check",
+      "priority": "P2",
+      "notes": "검증 게이트 성격의 작업이다. 통과하면 구현 PR이 필요 없을 수 있으며 미검증을 결함으로 단정하지 않는다. Optimizer/Runner 요청 ID·취소 구현은 downstream 카드 소유.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "VIS-001",
+    "title": "Optimizer 프리뷰가 자기 actor만 교체하도록 한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      316
+    ],
+    "parent_rollups": [
+      427
+    ],
+    "supporting_issues": [
+      318
+    ],
+    "scope_proposals": [
+      {
+        "issue": 316,
+        "relation": "직접",
+        "scope": "Optimizer preview만 overlay로 등록·교체·해제하며 기존 FE 문서/핸들의 표시, camera, registry 표시 커서를 유지한다. 다음 Load·요청 무효화에서 자기 preview만 제거한다.",
+        "caveat": "OPT-02의 요청 ID/취소/늦은 완료는 같은 사용자 흐름이지만 별도 실행 계약이다. VIS-003의 일반 모듈 인수 시 숨김 정책을 preview에 적용해 기존 actor를 숨기지 않는다. PR655 이후 핸들 actor 구성은 바뀌므로 옛 5종 복구불가 목록을 고정 acceptance로 삼지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "VIS-001",
+      "module": "공통 VTK / Optimizer Preview",
+      "title": "Optimizer 프리뷰가 자기 actor만 교체하도록 한다",
+      "outcome": "기존 문서·핸들·카메라를 그대로 보존하면서 Optimizer 프리뷰만 겹쳐 표시한다.",
+      "scope": [
+        "renderer actor 전체 순회 삭제를 자기 프리뷰 actor 해제/교체로 바꾼다.",
+        "기존 FE 문서·핸들·피킹 actor의 visibility, registry 표시 커서와 카메라를 유지한다. overlay actor만 등록·해제한다.",
+        "프리뷰 반복·실패·모듈 이탈 시 소유 actor만 정리한다."
+      ],
+      "acceptance": [
+        "기존 로드 모델·핸들이 계속 보이고 표시커서·카메라가 변하지 않으며 preview만 겹친다.",
+        "연속 프리뷰가 actor를 누적시키지 않고 실패가 기존 화면을 잃게 하지 않는다.",
+        "다음 Load와 요청 무효화에서 preview actor만 제거하고 새로운 기준 씬에 낡은 overlay가 남지 않는다."
+      ],
+      "validation": [
+        "문서 로드→모핑 편집→Optimizer 프리뷰→복귀와 실패/반복 프리뷰 GUI 검증.",
+        "actor 소유 목록과 실제 등록 수를 검증하는 렌더 통합 테스트."
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "D",
+        "E"
+      ],
+      "sources": [
+        316,
+        318,
+        427
+      ],
+      "evidence": [
+        "view/DashOptimizerWidget.cpp:1751 prevDisplayedActor 제거; :1757 GetActors 전체 삭제",
+        "controller/DashRenderingManager.cpp:1116 addAnalysisModelActor"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "OPT 비동기 요청 수명 카드와 별도 목적이다. 전면 씬 소유권 작업을 기다리지 않고 현재 API로 비파괴 파일럿을 만들 수 있다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "VIS-002",
+    "title": "FE actor의 숨김·복원·등록 수명과 카메라 갱신을 바로잡는다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      319
+    ],
+    "parent_rollups": [
+      427
+    ],
+    "supporting_issues": [
+      318
+    ],
+    "scope_proposals": [
+      {
+        "issue": 319,
+        "relation": "직접",
+        "scope": "FE actor 숨김 후 복원, Runner preview의 FE 겹침 방지, Geometry actor 등록/해제의 단일 창구, 불필요한 camera reset 제거를 한 일관된 결함 수정으로 잡는다.",
+        "caveat": "#318을 기다려야 하는 후행이 아니라 현재 API로 먼저 가능한 선행·파일럿이다. clearAllLayers에 문서 actor 전체 삭제를 추가하는 처방은 문서 보존 계약에 어긋난다. split view 전체 복구는 VIS-004의 별도 목적이므로 함께 중복 집계하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "VIS-002",
+      "module": "공통 VTK / FE 문서 actor",
+      "title": "FE actor의 숨김·복원·등록 수명과 카메라 갱신을 바로잡는다",
+      "outcome": "Morphing/Runner를 오간 뒤에도 문서 표시가 복원되고 사용자 카메라가 임의 초기화되지 않는다.",
+      "scope": [
+        "Start Morphing의 FE actor 숨김에 모듈 이탈/트리 표시 복원 경로를 짝지운다.",
+        "Model Runner preview에서 남는 FE actor는 삭제가 아닌 숨김으로 처리한다.",
+        "Geometry actor의 등록/해제를 RenderingManager로 맞추고 중복 등록을 막는다.",
+        "문서 교체와 명시적 fit 외에 카메라를 초기화하지 않도록 updateActor 호출 계약을 정리한다."
+      ],
+      "acceptance": [
+        "FE 모델→Morphing→복귀 및 트리 눈 토글로 다시 표시된다.",
+        "Geometry Set을 반복 전환해 actor 관리 목록이 늘어나지 않는다.",
+        "단순 재표시가 카메라 pose를 바꾸지 않는다."
+      ],
+      "validation": [
+        "문서/모듈 왕복 시 visibility·camera pose·actor 수 검증.",
+        "Runner preview에서 FE 겹침이 없고 복귀하면 원래 FE 표시가 회복되는 GUI 확인."
+      ],
+      "dependencies": [],
+      "tags": [
+        "D",
+        "E"
+      ],
+      "sources": [
+        318,
+        319,
+        427
+      ],
+      "evidence": [
+        "view/DashMainWindow.cpp:4755 FE 숨김; :4587 직접 RemoveActor",
+        "controller/DashAnalysisModelContextRegistry.cpp:412 updateActor",
+        "controller/DashRenderingManager.cpp:598 clearAllLayers; :1122 append",
+        "view/DashModelRunnerWidget.cpp:1495 preview"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "clearAllLayers에 모든 문서 actor 삭제를 추가하는 방식은 확정된 문서 보존 정책과 맞지 않는다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "VIS-003",
+    "title": "씬 콘텐츠를 모듈·문서 단위로 등록하고 전환 시 보존 정책을 적용한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      318
+    ],
+    "parent_rollups": [
+      246,
+      427
+    ],
+    "supporting_issues": [
+      434,
+      316,
+      319
+    ],
+    "scope_proposals": [
+      {
+        "issue": 318,
+        "relation": "분할",
+        "scope": "현재 행을 (1) 모듈·문서별 scene 등록/인수/해제 계약과 문서 보존(VIS-003), (2) split view·ghost·범례 복원(VIS-004)으로 나눈다. 독립 결함 복구는 먼저 하고 소유권 확산은 소비자군별 검증으로 완성한다.",
+        "caveat": "VIS-001/#316과 VIS-002/#319는 별도 자식·파일럿이며 같은 구현을 여기서 다시 집계하지 않는다. VIS-005/#320은 같은 기반의 후속 표시 토글 작업이지 #318에 자동 포함할 직접 범위가 아니다. 최신 PR655가 핸들 렌더 내부를 바꾸어도 공유 씬/문서 소유권 요구가 자동 해결되지는 않는다. 원문의 12곳·5종 actor 등 수치는 최신 코드 실측값으로 재인용하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "VIS-003",
+      "module": "공통 VTK / 씬 소유권",
+      "title": "씬 콘텐츠를 모듈·문서 단위로 등록하고 전환 시 보존 정책을 적용한다",
+      "outcome": "모듈 전환이 로드한 문서를 파괴하지 않고 누가 표시 중인지 질의할 수 있다.",
+      "scope": [
+        "RenderingManager에 소유자/콘텐츠 ID와 문서형·작업물형 등록 계약을 도입하고 첫 문서/모듈 소비자를 함께 이관한다.",
+        "MainWindow 문서 Load·삭제·모듈 전환, Analysis Launcher 결과, Runner와 Optimizer 표시를 같은 창구로 연결한다.",
+        "문서는 프로젝트 종료/명시 삭제까지 보존하고 작업물은 모듈 이탈 시 정리한다. 기존 clearModuleLayers의 인자 무시 구현을 제거/대체한다."
+      ],
+      "acceptance": [
+        "현재 씬 소유자·원본 경로/Set을 질의할 수 있고 다른 모듈 콘텐츠를 파괴하지 않는다.",
+        ".dat/.inp와 .vtk/.vtu 문서가 같은 유지 정책을 따른다.",
+        "프로젝트 전환 시 모든 소유 등록이 정리되고 외부 renderer 직접 삭제와 목록 불일치가 남지 않는다."
+      ],
+      "validation": [
+        "문서→Launcher→Runner→Optimizer→Geometry 전환 매트릭스 및 프로젝트 종료 반복 검증.",
+        "소유자별 등록/숨김/해제 계약 테스트와 메모리·actor 수 실측."
+      ],
+      "dependencies": [
+        "VIS-001",
+        "VIS-002"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "D",
+        "E"
+      ],
+      "sources": [
+        318,
+        427
+      ],
+      "evidence": [
+        "controller/DashRenderingManager.h:Layer",
+        "controller/DashRenderingManager.cpp:627 clearModuleLayers 인자 무시",
+        "view/DashMainWindow.cpp:3031 문서 Load 제거 경로",
+        "sources/issues/318.md 2026-09-21 정책"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "실제 소비자를 포함한 PR 단위이며 큰 경우 소비자군별 후속 PR로 나눌 수 있다. 핸들/피킹의 모든 renderer 호출을 이 PR에서 일괄 이동할 요구는 없다. #315 재클릭 게이트에 제공할 질의는 접점이며 별도 티켓 중복 생성하지 않는다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "VIS-004",
+    "title": "split view 이탈과 ghost 외형·범례 복원을 씬 전환에 연결한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      318
+    ],
+    "parent_rollups": [
+      427
+    ],
+    "supporting_issues": [
+      319
+    ],
+    "scope_proposals": [
+      {
+        "issue": 318,
+        "relation": "분할",
+        "scope": "현재 행을 (1) 모듈·문서별 scene 등록/인수/해제 계약과 문서 보존(VIS-003), (2) split view·ghost·범례 복원(VIS-004)으로 나눈다. 독립 결함 복구는 먼저 하고 소유권 확산은 소비자군별 검증으로 완성한다.",
+        "caveat": "VIS-001/#316과 VIS-002/#319는 별도 자식·파일럿이며 같은 구현을 여기서 다시 집계하지 않는다. VIS-005/#320은 같은 기반의 후속 표시 토글 작업이지 #318에 자동 포함할 직접 범위가 아니다. 최신 PR655가 핸들 렌더 내부를 바꾸어도 공유 씬/문서 소유권 요구가 자동 해결되지는 않는다. 원문의 12곳·5종 actor 등 수치는 최신 코드 실측값으로 재인용하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "VIS-004",
+      "module": "공통 VTK / split view·공유 표시",
+      "title": "split view 이탈과 ghost 외형·범례 복원을 씬 전환에 연결한다",
+      "outcome": "Builder split view 이후 모든 모듈이 정상 렌더되고 문서의 외형·카메라·범례가 복원된다.",
+      "scope": [
+        "메인 씬을 인수하는 진입점과 모듈 이탈에서 split renderer 해제 및 main SetDraw(true)를 보장한다.",
+        "base actor ghost 변경 전 외형을 보존하고 결과/컴포넌트 표시 종료 시 복원한다.",
+        "scalar bar·cube axes·camera 공유 자원의 활성 소유자 전환 계약을 RenderingManager에서 처리한다."
+      ],
+      "acceptance": [
+        "Builder split→Project Load/Geometry/Optimizer/Launcher 각각에서 화면이 표시된다.",
+        "component/result 이탈 뒤 base 문서 색·opacity·wireframe·lighting이 원상 복귀한다.",
+        "전환 반복으로 split renderer/범례/축이 누적되지 않는다."
+      ],
+      "validation": [
+        "split 진입/이탈→다른 모듈 진입 GUI 회귀와 renderer Draw 상태 테스트.",
+        "ghost property snapshot 왕복 및 범례 소유자 테스트."
+      ],
+      "dependencies": [],
+      "tags": [
+        "D",
+        "E"
+      ],
+      "sources": [
+        318
+      ],
+      "evidence": [
+        "controller/DashRenderingManager.cpp:1338 SetDraw(false); :1550 clearSplitView",
+        "view/DashModelRunnerWidget.cpp:1497 유일 외부 clearSplitView",
+        "controller/DashRenderingManager.cpp:updateComponentGeometry/updateFieldOutput"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "소유권 본 구현과 조율하되 지금 수정 가능한 화면 복구 결함이므로 VIS-003을 필수 선행으로 강제하지 않는다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "VIS-005",
+    "title": "VTK/VTU 파일별 표시 핸들을 등록하여 눈 토글을 구현한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [],
+    "supporting_issues": [
+      318
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "VIS-005",
+      "module": "Project Assets / VTK 문서 표시",
+      "title": "VTK/VTU 파일별 표시 핸들을 등록하여 눈 토글을 구현한다",
+      "outcome": "파일 하나의 표시를 켜고 끌 때 그 파일만 바뀌며 여러 파일을 함께 표시할 수 있다.",
+      "scope": [
+        "파일별 scene handle/actor를 등록하고 트리 parent·child 표시 상태를 동일 콘텐츠 ID에 연결한다.",
+        "같은 파일 재표시는 재파싱 없이 처리하고 파일 교체/삭제/프로젝트 전환 시 캐시를 무효화한다.",
+        "단일 LAYER_BASE_GEOMETRY를 파일마다 덮는 경로와 항상 빈 m_vtuVtkActors 가정을 제거한다."
+      ],
+      "acceptance": [
+        "두 VTK 파일의 개별 on/off, 부모 일괄 on/off가 서로 독립적으로 동작한다.",
+        "파일 하나를 켜도 다른 모듈/문서 actor가 지워지지 않는다.",
+        "삭제·덮어쓰기 후 이전 메시를 되살리지 않는다."
+      ],
+      "validation": [
+        "2개 .vtu 및 .vtk 파일로 부모/자식 눈 상태와 실제 actor visibility 검사.",
+        "재표시 reader 재호출·캐시 정리·다른 문서 보존 검증."
+      ],
+      "dependencies": [
+        "VIS-003"
+      ],
+      "tags": [
+        "C",
+        "D"
+      ],
+      "sources": [
+        318,
+        320
+      ],
+      "evidence": [
+        "view/DashModelingTreeWidget.cpp:397 vtk_parent+vtk_single 생성",
+        "view/DashMainWindow.cpp:3647 눈 토글; :3861 loadVtkFile",
+        "view/DashMainWindow.h:m_vtuVtkActors, 저장 코드 없음"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "현 Project Assets 구조에서도 vtk_parent/child 경로는 실제 존재하므로 오래된 Modeling Tree 기능의 폐기로 처리할 수 없다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AST-001",
+    "title": "파일·폴더 묶음의 덮어쓰기를 실패 시 복구 가능한 교체로 만든다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      645
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 645,
+        "relation": "분할",
+        "scope": "파일/동반 폴더 교체를 실패 복구 가능하게 만든 뒤 성공 통지를 통해 Condition 문서·DV 바인딩을 갱신한다.",
+        "caveat": "PR651의 특수 포맷 병합은 이 덮어쓰기 실패 안전성과 Condition 내용 갱신까지 완료했다는 증거가 아니다. 기존 조사에서 직접 삭제가 확인된 것은 file/context/tree이며 원장 유실이라는 원문 표현은 런타임 확인 없이 확정하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AST-001",
+      "module": "Project Assets / 파일 교체",
+      "title": "파일·폴더 묶음의 덮어쓰기를 실패 시 복구 가능한 교체로 만든다",
+      "outcome": "복사 실패가 기존 파일·프로젝트 등록·연동 Set·화면을 손상시키지 않는다.",
+      "scope": [
+        "새 콘텐츠를 임시 위치에 준비·검증한 후 교체하고 실패 시 이전 파일/동반 폴더를 복구한다.",
+        "성공이 확정된 뒤에만 registry invalidation·트리 재구성·연동 소비자 갱신을 통지한다.",
+        "단일 deck 외에 #651의 wbpj+_files 및 stli 상위 폴더 묶음, 같은 위치 파일, 이름 충돌을 포함한다."
+      ],
+      "acceptance": [
+        "단일 파일 및 동반 폴더 복사 중 실패를 주입해도 기존 바이트·원장 uuid·Set·표시가 유지된다.",
+        "성공하면 한 번의 변경 통지로 모든 관련 소비자가 새 세대로 갱신한다.",
+        "이미 프로젝트 안인 파일을 자기 자신 위에 복사/삭제하지 않는다."
+      ],
+      "validation": [
+        "임시 디렉터리에서 복사/교체/폴더 중간 실패·거절·같은 경로 회귀 검사.",
+        "기존 GP·Condition·Launcher를 가진 프로젝트에 덮어쓰기 성공/실패 GUI 검증."
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "sources": [
+        616,
+        645
+      ],
+      "evidence": [
+        "view/DashMainWindow.cpp:2700 copyFileIntoProject; :2713 discard→remove→copy",
+        "view/DashMainWindow.cpp:2731 discardLoadedReferenceFile",
+        "sources/pr-651.diff:1083 wbpj companion removeRecursively→copy"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "dev에서 원장/Set을 직접 삭제하는 코드는 확인되지 않았다. 실제 선삭제는 파일·context·tree이므로 원 이슈의 원장 유실 표현을 그대로 사실로 확정하지 않는다. #651 진행 중 구현과 조율하고 파일 실패 안전성은 별도 완료 조건으로 검증한다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AST-003",
+    "title": "RW 파싱과 문서 수집을 GUI 밖에서 실행하고 적재 수명을 보장한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "deferred",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [],
+    "supporting_issues": [
+      281,
+      513
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "AST-003",
+      "module": "Project Assets / FE deck 적재",
+      "title": "RW 파싱과 문서 수집을 GUI 밖에서 실행하고 적재 수명을 보장한다",
+      "outcome": "대형 deck을 읽는 동안 화면이 응답하고 오래된 적재가 새 프로젝트/선택을 덮지 않는다.",
+      "scope": [
+        "DashRwActor의 SDK 소유 스레드를 GUI에서 전용 실행 영역으로 옮기고 open/clone/read/edit/export/close·종료 순서를 명시한다.",
+        "호출부가 BlockingQueuedConnection으로 GUI를 오래 기다리지 않도록 실제 무거운 호출의 await 경계를 구성한다.",
+        "이미 있는 registry load의 중복 대기·프로젝트/경로 generation을 유지·검증하고 취소/종료의 결과를 소비자에 전달한다."
+      ],
+      "acceptance": [
+        "대형 deck 적재 및 DOE exportDoeSample→clone/edit/export 소비 경로의 무거운 SDK 작업이 GUI에서 실행되지 않음을 thread/time trace로 확인한다.",
+        "같은 파일 동시 적재·빠른 프로젝트 전환·파일 교체·연속 선택·적재 중 종료가 유실/오염/영구 대기를 만들지 않는다.",
+        "최종 actor 연결은 GUI에서 수행되며 결과 수명과 SDK 메모리가 분리된다."
+      ],
+      "validation": [
+        "GUI heartbeat와 단계별 thread/time trace, 두 크기 deck의 전후 실측.",
+        "generation invalidate/dedup 및 종료·늦은 결과 회귀 테스트; 기존 RW fake-module 테스트 확장."
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "E"
+      ],
+      "sources": [
+        458
+      ],
+      "evidence": [
+        "controller/DashRwActor.cpp:96 GUI affinity; :137 factory parse",
+        "controller/DashRwActor.h:137 invokeOnActor",
+        "controller/DashAnalysisModelContextRegistry.cpp:53 load; :105 inFlight; :143 generation",
+        "controller/DashAnalysisModelContext.cpp:31 load",
+        "controller/DashRwDocumentHandle.cpp:60 GUI actor 동기 실행 주석; :141 exportContent; :151 clone",
+        "controller/DashDoeBatchChain.cpp:216 exportDoeSample"
+      ],
+      "status": "deferred",
+      "priority": "P2",
+      "notes": "이슈 Deferred 유지. registry의 기존 generation/dedup은 보존한다. co_await API여도 DashRwDocumentHandle은 GUI actor에서 suspend 전 동기 완료될 수 있으므로 AL-12 이후 남는 RW 작업의 실제 thread 이관도 여기서 소유한다. VTK actor는 GUI에 연결한다. ANSYS Motion 자체 solver 경로 개편은 범위 밖.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "CON-001",
+    "title": "참조 파일 교체 후 조건 목록과 DV 바인딩을 새 문서로 갱신한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      645
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 645,
+        "relation": "분할",
+        "scope": "파일/동반 폴더 교체를 실패 복구 가능하게 만든 뒤 성공 통지를 통해 Condition 문서·DV 바인딩을 갱신한다.",
+        "caveat": "PR651의 특수 포맷 병합은 이 덮어쓰기 실패 안전성과 Condition 내용 갱신까지 완료했다는 증거가 아니다. 기존 조사에서 직접 삭제가 확인된 것은 file/context/tree이며 원장 유실이라는 원문 표현은 런타임 확인 없이 확정하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "CON-001",
+      "module": "Condition Parameter / 참조 파일 변경",
+      "title": "참조 파일 교체 후 조건 목록과 DV 바인딩을 새 문서로 갱신한다",
+      "outcome": "Add File로 같은 경로를 교체해도 이전 부품·하중·강조 표시가 남지 않는다.",
+      "scope": [
+        "성공한 자산 교체의 경로/세대 통지를 받고 현재 및 비활성 Condition 모델을 갱신하거나 다음 진입 때 갱신되도록 표시한다.",
+        "부품·하중·조건 표와 강조 actor를 새 문서로 바꾸고 사라진 symbol을 기존 row index로 재사용하지 않는다.",
+        "기존 DV 선택은 의미상 같은 항목에만 유지하고 삭제/변경된 바인딩의 처리를 사용자에게 설명한다."
+      ],
+      "acceptance": [
+        "다른 하중/부품을 가진 같은 이름 파일 교체 직후와 재진입 후 새 목록이 보인다.",
+        "다른 경로를 참조하는 Set은 바뀌지 않고 실패한 교체는 기존 문서를 유지한다.",
+        "늦은 refresh가 새 Set/프로젝트에 반영되지 않는다."
+      ],
+      "validation": [
+        "기존 TestConditionParameterization의 loadGeneration/revision 테스트에 같은 경로 교체와 symbol 삭제를 추가한다.",
+        "Assets 덮어쓰기→Condition 표/강조/DV→실행 입력의 일관성을 GUI 확인한다."
+      ],
+      "dependencies": [
+        "AST-001"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "D"
+      ],
+      "sources": [
+        645
+      ],
+      "evidence": [
+        "view/DashConditionParameterizationWidget.cpp:77 연결은 DV watcher뿐; :441 refreshFromFile",
+        "model/DashConditionParameterization.cpp:125 refreshFromLoadedAnalysis generation",
+        "controller/DashAnalysisModelContextRegistry.cpp:161 publish documentChanged; :353 invalidate"
+      ],
+      "status": "after_dependency",
+      "priority": "P1",
+      "notes": "registry displayedContextChanged는 표시 커서 이벤트라 문서 내용 변경 통지와 혼동하지 않는다. Condition의 자기 편집 후 publish를 무조건 재로드해 진행 중 편집을 덮는 연결도 피한다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "CAD-001",
+    "title": "CAD 요청의 의도와 완료 결과를 동일한 요청 식별자로 왕복시킨다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "deferred",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [],
+    "supporting_issues": [
+      457
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "CAD-001",
+      "module": "Geometry Parameter / NX CAD",
+      "title": "CAD 요청의 의도와 완료 결과를 동일한 요청 식별자로 왕복시킨다",
+      "outcome": "대화형 형상 편집과 배치 요청이 모드 플래그에 의해 서로의 완료/실패를 받지 않는다.",
+      "scope": [
+        "load/update 요청에 request ID·출처·산출 경로를 담고 성공/실패 결과가 이를 유지한다.",
+        "m_batchMode와 배치 전용 통지를 제거하고 구독자가 요청 식별자로 결과를 수신한다.",
+        "CAD UI·배치 실행·Runner 소비자의 연결과 해제를 요청 수명에 맞춘다.",
+        "nxCadParametersJson도 요청/PRT 식별을 보존하여 늦게 도착한 파라미터를 현재 다른 CAD Set에 적용하지 않는다."
+      ],
+      "acceptance": [
+        "같은 파일에 서로 다른 요청이 들어와도 완료/실패가 각 요청에 한 번씩 돌아간다.",
+        "실패가 load/update 종류를 잃지 않고 취소/소유자 소멸 후 다른 요청을 완료시키지 않는다."
+      ],
+      "validation": [
+        "외부 NX를 띄우지 않는 fake command completion으로 성공/실패/순서 뒤바뀜 검증.",
+        "NX 가용 환경에서 대화형 load/update와 배치 교차 실행."
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "C",
+        "E"
+      ],
+      "sources": [
+        249
+      ],
+      "evidence": [
+        "controller/DashSolverNxCad.h:27 enqueue; :31 setBatchMode; :36 signals",
+        "controller/DashSolverNxCad.cpp:203 mode branch; :221 emitFailure",
+        "view/DashGeometryParameterCADWidget.cpp:79 nxCadParametersJson 무조건 현재 mModel 적용"
+      ],
+      "status": "deferred",
+      "priority": "P2",
+      "notes": "현재 Deferred 우선도를 유지한다. Direct Launch/Workbench job 중복·구독 전량 해제 정리는 execution 담당이 별도로 판단한다. 새 CAD 기능이나 CAD 프로젝트 누수 해결(#560 완료)은 포함하지 않는다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "CAD-002",
+    "title": "CAD 로드·프리뷰의 진행 표시 시작과 종료를 요청 수명에 맞춘다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      463,
+      464
+    ],
+    "parent_rollups": [
+      460
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 463,
+        "relation": "분할",
+        "scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+        "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다."
+      },
+      {
+        "issue": 464,
+        "relation": "부분",
+        "scope": "CAD preview 시작 표시와 STEP 표시 실패의 종료 누락 등 실제 남은 진행 표시 비대칭을 좁혀 수정한다.",
+        "caveat": "Codex의 성공 stop 부재 진단과 달리 Claude CAD-07은 stepFileLoaded 성공 stop을 이미 해결로 판정한다. 성공 경로 신규 구현은 재확인 전 제외하고 preview 시작/실패 반환 경로에 집중한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "CAD-002",
+      "module": "Geometry Parameter / CAD 진행 표시",
+      "title": "CAD 로드·프리뷰의 진행 표시 시작과 종료를 요청 수명에 맞춘다",
+      "outcome": "PRT 로드가 끝나면 Loading 표시가 사라지고 Upper/Lower 프리뷰는 실행 중임을 보여준다.",
+      "scope": [
+        "load 성공·실패·표시 실패·중도 이탈에서 진행 표시를 정리한다.",
+        "프리뷰 enqueue 승인 시 진행을 시작하고 완료·실패와 짝지으며 다른 요청의 진행 표시를 종료하지 않는다."
+      ],
+      "acceptance": [
+        "PRT 성공 후 Loading이 남지 않는다.",
+        "프리뷰 성공/실패와 연속 요청에서 busy 표시가 실제 실행과 일치한다."
+      ],
+      "validation": [
+        "fake NX 완료/실패 신호로 진행 상태 전이 검증.",
+        "NX 가용 환경에서 Load/Upper/Lower/실패/연속 클릭 확인."
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "D"
+      ],
+      "sources": [
+        464
+      ],
+      "evidence": [
+        "view/DashMainWindow.cpp:317 실패 stop; :3203 성공 stop 부재",
+        "view/DashGeometryParameterCADWidget.cpp:710 enqueuePreview 시작 부재"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "CAD-001 요청 태그 일반화를 기다리지 않고 현재 요청 경계를 명시해 수정할 수 있다. 전역 busy 규약은 root 작업과 맞춘다.",
+      "owner_document": "modules/geometry.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "DOE-01",
+    "title": "번호가 있는 Resample Set을 추가하고 참조 Set을 기본 연결한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      615
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 615,
+        "relation": "분할",
+        "scope": "ResampleN 추가/채번/기본 참조와 이전 케이스 active 반영을 구분한다.",
+        "caveat": "DOE-02는 복수 Launcher Set의 active가 다를 때 어느 것을 샘플 유효성 기준으로 쓸지 결정 필요. DOE-01 Set 번호와 RUN-03 예측 산출물 번호는 전혀 다른 채번이다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "DOE-01",
+      "module": "DOE Sampler",
+      "title": "번호가 있는 Resample Set을 추가하고 참조 Set을 기본 연결한다",
+      "outcome": "Init은 하나, Resample은 필요한 만큼 추가하고 다음 실행이 올바른 DOE Table을 사용한다.",
+      "scope": [
+        "Add Set에 Init 존재 가드·최소 빈 ResampleN 채번·추가 안내를 연결한다.",
+        "Rename 금지와 DEV Resample 제한을 유지한다.",
+        "Reference 기본값을 직전 Set으로 잡고 수동 변경을 보존한다. 최신 table 선택의 기존 구현을 재사용한다."
+      ],
+      "acceptance": [
+        "Init/Resample1/Resample3에서 새 항목은 Resample2이며 Init은 추가되지 않는다.",
+        "저장·재오픈 후 참조 선택 유지; 번호가 최대인 유효 DOE Table이 Launcher에 선택된다."
+      ],
+      "validation": [
+        "Set 추가/삭제 후 빈 번호 재사용 및 참조 저장 UI 회귀",
+        "TestDoeTableFile의 번호 정렬·빈 Table 선택과 연계 검증"
+      ],
+      "dependencies": [],
+      "tags": [
+        "C",
+        "D"
+      ],
+      "sources": [
+        615
+      ],
+      "evidence": [
+        "model/preprocessor/DashDoeTableFile.cpp:25/selectDoeSamplerSet",
+        "view/DashDoeSamplerResampleWidget.cpp:170/refreshReferenceSetCombo"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "DOE-02",
+    "title": "Resample 이력에서 실제 비활성 케이스를 제외한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "needs_decision",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      615
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 615,
+        "relation": "분할",
+        "scope": "ResampleN 추가/채번/기본 참조와 이전 케이스 active 반영을 구분한다.",
+        "caveat": "DOE-02는 복수 Launcher Set의 active가 다를 때 어느 것을 샘플 유효성 기준으로 쓸지 결정 필요. DOE-01 Set 번호와 RUN-03 예측 산출물 번호는 전혀 다른 채번이다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "DOE-02",
+      "module": "DOE Sampler",
+      "title": "Resample 이력에서 실제 비활성 케이스를 제외한다",
+      "outcome": "Launcher의 케이스 활성 상태가 Resample prior와 기준점에 반영된다.",
+      "scope": [
+        "collectReferencePoints와 prior 전파 경로가 Launcher Cases의 active를 읽도록 바꾼다.",
+        "sourceSet/runKey를 유지하고 이전 이력과 신규 샘플을 혼합하지 않는다.",
+        "복수 Launcher Set에서 active가 다를 때 사용할 기준을 결정·기록한다."
+      ],
+      "acceptance": [
+        "정해진 활성 정책에 따라 inactive를 제외하고 prior sourceSet/runKey를 보존한다.",
+        "비활성/누락 Set/재실행/여러 Resample 단계에서도 값·행 인덱스가 일치한다."
+      ],
+      "validation": [
+        "복수 Launcher active 충돌 fixture 및 prior chain 단위 검증",
+        "Init→Resample1→Resample2 화면/파일 비교"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "sources": [
+        615
+      ],
+      "evidence": [
+        "model/DashDoeSampler.cpp:94/collectReferencePoints",
+        "model/DashDoeSampler.cpp:112",
+        "model/DashDoeSampler.cpp:453"
+      ],
+      "status": "needs_decision",
+      "priority": "P1",
+      "notes": "현재 #615는 active 저장 위치만 지정한다. 어느 Launcher Set의 active가 샘플의 유효성을 결정하는지 확정해야 구현이 단정되지 않는다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "DOE-03",
+    "title": "DOE Set에서 상류 형상·조건 변경 경고를 표시한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      650
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 650,
+        "relation": "분할",
+        "scope": "조합 id와 다른 산출물 generation 계약, 모듈별 upstream 참조 저장/복원, 공통 검사와 트리 경고 적용으로 나눈다.",
+        "caveat": "PRJ-03은 관련 조합 핀 기반이지 #650 전 범위와 동일하지 않다. Claude PRJ-23은 Geometry/Condition→DOE 세대 결정으로 Codex PRJ-11의 AL 결과 generation 첫 적용과 부분 대응이다. 과거 소비 대장(#471)을 제외해도 현재 stale 경고 요구는 남는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "DOE-03",
+      "module": "DOE Sampler",
+      "title": "DOE Set에서 상류 형상·조건 변경 경고를 표시한다",
+      "outcome": "DOE를 만든 입력 Set이 바뀌면 트리와 툴팁에서 그 이유를 확인한다.",
+      "scope": [
+        "PRJ-03이 제공하는 참조/조합 계약을 사용해 Geometry/Condition 상류의 변경·삭제를 검사한다.",
+        "DOE Set 트리 경고를 연결하고 재생성·재오픈 갱신을 처리한다."
+      ],
+      "acceptance": [
+        "상류 변경·삭제 후 경고가 정확하고 DOE 재생성 후 해제된다.",
+        "여러 Condition Set 중 실제 바뀐 입력의 사유를 표시한다."
+      ],
+      "validation": [
+        "상류 변경 및 재생성 fixture",
+        "프로젝트 재오픈 후 경고 일치"
+      ],
+      "dependencies": [
+        "PRJ-03"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "sources": [
+        650
+      ],
+      "evidence": [
+        "model/DashDoeConfigManager.cpp:24/stampTableIdentity",
+        "model/DashDoeConfigManager.cpp:296",
+        "model/DashDoeSampler.cpp:107"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "스탬프 생산·검증 pipeline 자체는 PRJ-03/PR530 소유. 이 카드는 DOE 경고 UI 적용만 소유한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-01",
+    "title": "Target Part 로딩 중 실행을 막고 실패 시 저장된 선택을 보존한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      639
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 639,
+        "relation": "직접",
+        "scope": "Target Part loading/ready/failed를 Start 게이트와 연결하고 실패/빈 후보에서 저장된 target pin을 보존한다.",
+        "caveat": "일반 진행 표시 작업으로 축소하면 빈 target 저장 결함이 남는다. 이미 있는 Set generation 가드는 보존하며 독립적으로 검증한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-01",
+      "module": "Analysis Launcher / 입력",
+      "title": "Target Part 로딩 중 실행을 막고 실패 시 저장된 선택을 보존한다",
+      "outcome": "부품 목록이 준비되지 않은 Start가 빈 target을 저장하지 않는다.",
+      "scope": [
+        "fillTargetPartCombo의 loading/ready/failed 상태와 Start 활성 조건을 묶는다.",
+        "Set 전환 generation guard를 유지하고 실패·빈 목록에서 저장 pin을 덮어쓰지 않는다."
+      ],
+      "acceptance": [
+        "느린 로드 중 Start 불가, 성공 후 저장값 복원, 실패 후 기존 target JSON 유지",
+        "Set 전환 중 이전 결과가 새 Set을 덮지 않는다."
+      ],
+      "validation": [
+        "느린/실패 reader와 연속 Set 전환 재현",
+        "dat/inp 및 PR651 특수 포맷 UI 회귀"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "D"
+      ],
+      "sources": [
+        639
+      ],
+      "evidence": [
+        "view/DashAnalysisLauncherWidgetLauncher.cpp:246/setLauncherIdle",
+        "view/DashAnalysisLauncherWidgetLauncher.cpp:299/fillTargetPartCombo",
+        "view/DashAnalysisLauncherWidgetLauncher.cpp:388"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-03",
+    "title": "모든 제출 실패와 프로젝트 전환이 케이스를 종결하게 한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [],
+    "parent_rollups": [
+      438
+    ],
+    "supporting_issues": [
+      439,
+      461,
+      466
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "AL-03",
+      "module": "Analysis Launcher / 실행",
+      "title": "모든 제출 실패와 프로젝트 전환이 케이스를 종결하게 한다",
+      "outcome": "Enqueued 상태가 영원히 남아 Start가 잠기는 경로를 닫는다.",
+      "scope": [
+        "resumeAfterMorph의 프로젝트/IO 소멸, ansysReady 실패, Motion source/dat 부재를 사전 거부 또는 활성 키 전체 terminal로 처리한다.",
+        "dat fallback의 템플릿 읽기·mkdir/write·제출 실패에서도 UI 상태 신호와 저장 기록을 일치시킨다.",
+        "PR651 stli/wbpj 및 PR652 Direct 0-submit 수선과 충돌하지 않게 통합 후 남은 경로를 검증한다."
+      ],
+      "acceptance": [
+        "실패·취소·프로젝트 전환마다 추적한 모든 runKey가 terminal 또는 배치 거부로 끝난다.",
+        "늦은 콜백이 새 실행 상태를 다시 Running으로 바꾸지 않는다."
+      ],
+      "validation": [
+        "각 조기 반환 fault injection과 정상 solver 제출 회귀",
+        "프로젝트 전환·Stop 직후 재시작 시 버튼/표/JSON 비교"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B"
+      ],
+      "sources": [
+        438,
+        580
+      ],
+      "evidence": [
+        "model/DashJobRunner.cpp:617",
+        "model/DashJobRunner.cpp:728/resumeAfterMorph",
+        "model/DashJobRunnerAnsysMotion.cpp:470",
+        "model/DashJobRunnerAnsysMechanical.cpp:371/runTemplateFallback"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "폐기된 러너 전면 통합은 포함하지 않는다. 현 Set별 executor의 terminal 계약을 지킨다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-04",
+    "title": "Stop이 Motion 대기 큐와 진행 작업을 함께 취소한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      439
+    ],
+    "parent_rollups": [
+      438
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 439,
+        "relation": "직접",
+        "scope": "Stop이 현재 Motion 실행뿐 아니라 pending 큐의 후속 제출도 막고 모든 추적 케이스를 terminal로 정리하게 한다.",
+        "caveat": "제출 실패 terminal은 AL-03과 맞추되 별도 러너 전면 통합이나 영속 이력 기능을 넣지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-04",
+      "module": "Analysis Launcher / 취소",
+      "title": "Stop이 Motion 대기 큐와 진행 작업을 함께 취소한다",
+      "outcome": "취소 직후 다음 Motion 케이스가 새로 시작되지 않는다.",
+      "scope": [
+        "cancelAllRuns가 큐를 먼저 비우고 대기/실행 케이스에 terminal을 전달한다.",
+        "finished callback과 startNextMotionLauncher가 취소 세대 작업을 다시 제출하지 않게 한다."
+      ],
+      "acceptance": [
+        "실행 1개·대기 여러 개 상황에서 Stop 후 새 프로세스가 시작되지 않는다.",
+        "각 키는 Cancelled이고 새 배치는 정상 시작한다."
+      ],
+      "validation": [
+        "대기 큐/finished 콜백 순서 경합 재현",
+        "DOE·Direct Motion 및 solver별 Stop 회귀"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B"
+      ],
+      "sources": [
+        438,
+        439
+      ],
+      "evidence": [
+        "model/DashJobRunner.cpp:220/cancelAllRuns",
+        "model/DashJobRunnerAnsysMotion.cpp:370/startNextMotionLauncher"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-05",
+    "title": "케이스 상태를 증분 기록하고 표의 변경 행만 갱신한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      441,
+      444
+    ],
+    "parent_rollups": [
+      438
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 441,
+        "relation": "분할",
+        "scope": "단일 상태 writer·변경 행 갱신과 재시작 시 Interrupted 판정·명시적 재시도를 분리한다.",
+        "caveat": "AL-05의 물리 파일 분할 전제는 Claude LCH-32의 분할하지 않음과 충돌한다. 기존 파일 내 쓰기 중복/표 재구축 억제와 복구가 가능한지 먼저 계약을 조정하며 새 journal을 자동 요구하지 않는다. 원자적 IO는 IO-03, 결과 보존은 AL-07 소유."
+      },
+      {
+        "issue": 444,
+        "relation": "재판정",
+        "scope": "파일 분할 구현을 바로 발행하지 않고 기존 AL-05에서 단일 writer·행 갱신과 물리 파일 분할을 분리하여 처분을 다시 정한다.",
+        "caveat": "명시적 문서 충돌: Codex AL-05는 설정/상태 분리, Claude FINAL LCH-32는 분할하지 않음. 후자는 단일 writer·재구축 억제로 비용을 줄이고 로드 실측 없이는 분할하지 않는 결정이다. 이 행의 task_ids는 수정 대상이지 신규 구현 승인 표시가 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-05",
+      "module": "Analysis Launcher / 상태 기록",
+      "title": "케이스 상태를 증분 기록하고 표의 변경 행만 갱신한다",
+      "outcome": "N건 상태 변경이 Set JSON 전체 쓰기와 표 전량 재구성을 반복하지 않는다.",
+      "scope": [
+        "설정·DOE snapshot과 빈번한 실행 상태를 분리하는 기록 계약을 공통 IO와 정한다.",
+        "러너/Executor의 상태 기록 책임을 정리하고 status·resultFiles·tableId를 한 케이스 전이로 저장한다.",
+        "watcher의 전량 갱신을 행 단위 갱신으로 전환하고 기존 파일을 읽는 이행을 포함한다."
+      ],
+      "acceptance": [
+        "케이스 상태 1건에 관련 기록/행만 바뀌며 중복 writer가 충돌하지 않는다.",
+        "재오픈 후 active·상태·resultFiles·snapshot 관계가 보존된다."
+      ],
+      "validation": [
+        "N 케이스 쓰기량/행갱신 횟수 전후 계측",
+        "status 기록 중 실패 및 구 프로젝트 load 회귀"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C",
+        "E"
+      ],
+      "sources": [
+        438,
+        441,
+        444
+      ],
+      "evidence": [
+        "model/DashAnalysisLaunchExecutor.cpp:236/onCaseStatusUpdated",
+        "model/preprocessor/DashAnalysisLauncherConfig.cpp:125/writeCaseStatus",
+        "view/DashDoeCasesWidget.cpp:124/fileChanged"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "공통 파일 원자화는 IO-01/IO-03의 범위. 여기서는 실행 기록 구조·소유권·UI 증분 반영을 담당한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-06",
+    "title": "재시작 시 중단된 배치를 식별하고 안전한 재시도를 제공한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "needs_decision",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      441
+    ],
+    "parent_rollups": [
+      438
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 441,
+        "relation": "분할",
+        "scope": "단일 상태 writer·변경 행 갱신과 재시작 시 Interrupted 판정·명시적 재시도를 분리한다.",
+        "caveat": "AL-05의 물리 파일 분할 전제는 Claude LCH-32의 분할하지 않음과 충돌한다. 기존 파일 내 쓰기 중복/표 재구축 억제와 복구가 가능한지 먼저 계약을 조정하며 새 journal을 자동 요구하지 않는다. 원자적 IO는 IO-03, 결과 보존은 AL-07 소유."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-06",
+      "module": "Analysis Launcher / 복구",
+      "title": "재시작 시 중단된 배치를 식별하고 안전한 재시도를 제공한다",
+      "outcome": "앱을 다시 열었을 때 과거 Running을 현재 실행으로 오인하지 않는다.",
+      "scope": [
+        "AL-05의 기록으로 중단 케이스/마지막 확정 결과를 복원한다.",
+        "프로세스 재연결 가능성과 Interrupted 처리 기준을 결정한다.",
+        "재시도는 기존 결과를 보존하는 AL-07 계약을 사용한다."
+      ],
+      "acceptance": [
+        "강제 종료 뒤 케이스 상태가 설명 가능하고 완료 결과는 그대로 사용할 수 있다.",
+        "자동 중복 제출 없이 사용자가 선택한 범위만 재시도한다."
+      ],
+      "validation": [
+        "입력 생성/solver 실행/결과 기록 단계별 강제 종료 후 재오픈 시나리오"
+      ],
+      "dependencies": [
+        "AL-05",
+        "AL-07"
+      ],
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "sources": [
+        438,
+        441
+      ],
+      "evidence": [
+        "model/DashAnalysisLaunchExecutor.h/m_expectedRunKeys",
+        "model/preprocessor/DashAnalysisLauncherConfig.cpp/readCases"
+      ],
+      "status": "needs_decision",
+      "priority": "P2",
+      "notes": "재연결 불가능한 solver를 새로 실행할지 묵시적으로 정하지 않는다. 프로세스 생존 판정과 사용자 재시도 정책을 먼저 확정한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-07",
+    "title": "Re-run 실패와 취소에서 이전 결과와 기록을 보존한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      646
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [
+      441
+    ],
+    "scope_proposals": [
+      {
+        "issue": 646,
+        "relation": "분할",
+        "scope": "재실행 실패/취소 시 이전 결과 보존과 완료 뒤 Preprocess 입력·선택 목록 갱신을 별도로 완결한다. Skip 안내는 실제 정책에 맞춰 AL-07에 포함한다.",
+        "caveat": "안내 문구만 수정하면 데이터 손실·옛 결과 재사용 문제가 남는다. 기존 Skip 설명은 일부 있으므로 설명 PR를 별도로 늘리지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-07",
+      "module": "Analysis Launcher / 재실행",
+      "title": "Re-run 실패와 취소에서 이전 결과와 기록을 보존한다",
+      "outcome": "새 실행이 성공하기 전에는 마지막 성공 결과를 잃지 않는다.",
+      "scope": [
+        "discardResults 선삭제를 staging 또는 복구 가능한 결과 세대 교체로 바꾼다.",
+        "Done과 resultFiles/tableId의 commit을 연결하고 실패·취소 시 이전 완료 기록을 복원한다.",
+        "Re-run/Skip의 동작 안내를 실제 보존 정책에 맞춘다."
+      ],
+      "acceptance": [
+        "Re-run 실패·취소·준비 실패 시 이전 파일과 DV snapshot/결과 참조가 유효하다.",
+        "성공 시 새 결과만 현재 결과로 노출되고 Skip은 기존 완료 케이스를 제출하지 않는다."
+      ],
+      "validation": [
+        "실패/취소/성공 파일 내용 및 status snapshot 비교",
+        "multi-result wbpj와 변경된 DOE Table에서 보존 검증"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "sources": [
+        646
+      ],
+      "evidence": [
+        "model/DashAnalysisLaunchExecutor.cpp:136/discardResults",
+        "view/DashAnalysisLauncherWidgetLauncher.cpp:143",
+        "model/preprocessor/DashAnalysisLauncherConfig.cpp:125"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "Skip 설명 일부는 이미 존재한다. 별도 설명 PR로 늘리지 않고 재실행 계약에 포함한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-08",
+    "title": "실행 완료 후 Preprocess 입력과 선택 목록을 새 결과로 갱신한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      646
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 646,
+        "relation": "분할",
+        "scope": "재실행 실패/취소 시 이전 결과 보존과 완료 뒤 Preprocess 입력·선택 목록 갱신을 별도로 완결한다. Skip 안내는 실제 정책에 맞춰 AL-07에 포함한다.",
+        "caveat": "안내 문구만 수정하면 데이터 손실·옛 결과 재사용 문제가 남는다. 기존 Skip 설명은 일부 있으므로 설명 PR를 별도로 늘리지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-08",
+      "module": "Analysis Launcher / 결과 연결",
+      "title": "실행 완료 후 Preprocess 입력과 선택 목록을 새 결과로 갱신한다",
+      "outcome": "같은 Set에서 Re-run한 결과가 즉시 Preprocess에 반영된다.",
+      "scope": [
+        "실행 완료/resultFiles 변경 시 result reader·target-file 후보·component/time/response를 무효화하고 재구성한다.",
+        "유효한 기존 선택은 보존하고 사라진 선택은 분명하게 처리한다."
+      ],
+      "acceptance": [
+        "다른 결과를 생성한 Re-run 뒤 이전 부품·하중·배열이 남지 않는다.",
+        "실패로 이전 결과를 보존한 경우 AL-07의 확정 결과만 보여 준다."
+      ],
+      "validation": [
+        "같은 경로에 다른 내용의 결과 교체·후보 개수 변경·Set 전환 회귀"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "D"
+      ],
+      "sources": [
+        646
+      ],
+      "evidence": [
+        "view/DashAnalysisLauncherWidgetLauncher.cpp:223/analysisFinished",
+        "model/DashAnalysisLauncher.cpp:290/inputsChanged",
+        "model/preprocessor/DashLauncherRuns.cpp"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-09",
+    "title": "특수 입력 포맷의 Assets·Set·Launcher·fe-safe ODB 연결을 통합·검증한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "in_flight",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      648
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 648,
+        "relation": "재판정",
+        "scope": "선택 Source Set의 같은 DoeSet/runKey ODB 연결·복사와 누락/미완료/삭제/복사 실패를 병합된 구현에서 확인하고 남은 결함만 수정한다.",
+        "caveat": "2026-10-07 relevant-prs.json PR651 MERGED, mergedAt=2026-10-07T04:56:46Z. 따라서 새 동일 구현이나 병합 대기 작업이 아니라 병합 완료 후 #648 범위 검증으로 변환한다. 이슈 OPEN은 구현 미병합을 뜻하지 않으며 실제 solver 회귀 통과 자료는 이 스냅샷에 없다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-09",
+      "module": "Project Assets / Analysis Launcher 특수포맷",
+      "title": "특수 입력 포맷의 Assets·Set·Launcher·fe-safe ODB 연결을 통합·검증한다",
+      "outcome": "dfsxml/wbpj/stli가 약정 복사 단위·Set 정책·실행 입력으로 등록되고 실행된다.",
+      "scope": [
+        "PR #651의 Assets/Project 부분을 검토·통합한다: 포맷 분류, wbpj 필터/동반 폴더, stli 폴더명, 읽기 검사 분기.",
+        "Launcher Set 이름 충돌을 복사 전에 막고 Condition Set 생성을 생략한다.",
+        "삭제 시 연동 Set·원장·동반 폴더의 대상 범위를 일치시킨다.",
+        "PR651의 Launcher 포맷 분기·wbpj prt 범위·core 비활성·stli Material/ODB Source Sets 저장을 통합 검증한다.",
+        "선택 Source Set의 같은 DoeSet/runKey ODB를 이름 규칙에 맞게 복사한다.",
+        "소스 Set 삭제·미완료·파일 누락·복사 실패를 행별 실패 사유로 처리한다."
+      ],
+      "acceptance": [
+        "세 포맷 모두 RW 파싱 없이 부모 행이 등록되며 View/Color/Opacity가 비활성이다.",
+        "약정 이름의 Launcher Set만 생성되고 중복 시 파일/원장 변경이 없다.",
+        "삭제 대상이 정확하며 다른 자산/Set을 함께 지우지 않는다.",
+        "A.inp/B.inp Done→stli에서 A.odb/B.odb 배치 후 실제 fe-safe 결과를 얻는다.",
+        "원본 없는 행은 탐색한 경로와 사유가 남고 다른 행은 실행된다.",
+        "재오픈 후 선택값 유지; 결과 확장자가 같아도 pin 확장자로 Set 종류를 판별한다."
+      ],
+      "validation": [
+        "TestReferenceSetName 포맷별 규칙과 실제 Project createLinkedSets 분기 검증.",
+        "dfsxml, wbpj+폴더, stli 폴더, 이름 충돌·삭제를 실제 임시 프로젝트에서 확인한다.",
+        "PR651 TestFeSafeOdbSources·Config 테스트 및 실제 stli solver 시나리오",
+        "wbpj 다중 rst·dfsxml 입력/UI 확인"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "sources": [
+        616,
+        648
+      ],
+      "evidence": [
+        "sources/pr-651.diff:263 DashProject createLinkedSets; :353 DashReferenceSetName",
+        "sources/pr-651.diff:1016 MainWindow; :1239 ModelingTree",
+        "sources/pr-651.json / PR #651 open",
+        "PR #651 OPEN: feat/616-input-format-policy",
+        "model/DashJobRunnerFeSafe.cpp/runFeSafeDoe",
+        "view/DashAnalysisLauncherWidgetLauncher.cpp:318"
+      ],
+      "status": "in_flight",
+      "priority": "P1",
+      "notes": "PR651 하나의 통합 작업이다. 담당 초안 AST-002(Assets)와 AL-09(실행)를 합쳤다. 실제 solver 검증은 아직 하지 않았다. 덮어쓰기 실패 안전성(AST-001)은 별도 잔여이며 해결됐다고 계산하지 않는다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-10",
+    "title": "Motion 모델별 생성 규칙을 Python으로 옮기고 run 입력 묶음을 완성한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      647
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 647,
+        "relation": "직접",
+        "scope": "GUI의 특정 LGE 모델 하드코딩을 제거하고 모델별 규칙을 외부 AnsysMotion 처리와 조율하여 run별 입력 묶음 생성/실패를 완결한다.",
+        "caveat": "외부 DashOptiMBD 저장소 변경·실제 Motion 파일 검증이 필요할 수 있다. GUI 경로만 옮기거나 .dfsxml 입력을 허용하는 PR651 병합만으로 완료가 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-10",
+      "module": "Analysis Launcher / Motion",
+      "title": "Motion 모델별 생성 규칙을 Python으로 옮기고 run 입력 묶음을 완성한다",
+      "outcome": "예제 CBLOCK에 종속되지 않고 run마다 dfsxml·dfmm·dfg를 일관되게 만든다.",
+      "scope": [
+        "GUI는 입력 경로·DOE 값·필요 실행 정보만 넘기고 모델별 target/모핑 연결 규칙은 DashOptiMBD AnsysMotion 쪽에서 처리한다.",
+        "run별 동반 파일 생성·실패 보고 계약을 정하고 GUI hardcode를 제거한다."
+      ],
+      "acceptance": [
+        "서로 다른 target을 가진 모델에서 같은 GUI 실행 경로로 올바른 입력 세트 생성",
+        "동반 파일 누락/생성 실패는 실행 전 해당 케이스 실패로 끝난다."
+      ],
+      "validation": [
+        "LGE 예제와 독립 Motion fixture의 생성물·실행 결과 비교",
+        "외부 Python 버전 호환·오류 전달 통합 검증"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "E"
+      ],
+      "sources": [
+        647
+      ],
+      "evidence": [
+        "view/DashAnalysisLauncherWidgetLauncher.cpp:321",
+        "model/DashJobRunnerAnsysMotion.cpp:453/runAnsysMotionMorphingDoe"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "외부 DashOptiMBD 저장소 변경이 필요할 수 있다. 이 저장소만 고쳐 완료했다고 판정하지 않는다. 일반 async 카드에서 Motion 펌핑 전체를 강제 이관하지 않는다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "AL-12",
+    "title": "남은 동기 입력 준비와 dat fallback을 취소 가능한 작업으로 옮긴다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      456,
+      463
+    ],
+    "parent_rollups": [
+      451,
+      460
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 456,
+        "relation": "재판정",
+        "scope": "AL-12의 동기 dat fallback·파일 준비 중 GUI 점유가 실제 남은 부분만 확인하여 worker 이관 후보로 유지한다.",
+        "caveat": "모핑/export 전체 동기라는 옛 전제는 폐기한다. Claude FINAL LCH-20은 #456을 해소로 판정하므로 AL-12를 확정 신규 작업으로 세기 전에 해당 fallback의 현재 호출 경로·점유를 재대조해야 한다."
+      },
+      {
+        "issue": 463,
+        "relation": "분할",
+        "scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+        "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "AL-12",
+      "module": "Analysis Launcher / 입력 생성",
+      "title": "남은 동기 입력 준비와 dat fallback을 취소 가능한 작업으로 옮긴다",
+      "outcome": "파일 준비·dat fallback의 GUI 정지를 줄이고 해당 작업의 취소를 전달한다.",
+      "scope": [
+        "실제 남은 동기 copy/read/write 루프를 계측하고 값 payload로 분리한다.",
+        "dat template fallback의 파일 생성·치환을 워커로 옮기고 제출·상태 UI는 정해진 스레드에서 수행한다.",
+        "기존 모핑/조건 export의 값·await 호출 경계는 재사용한다. 실제 RW clone/edit/export GUI 실행 이관은 AST-003이 별도로 소유한다."
+      ],
+      "acceptance": [
+        "큰 파일 준비/dat fallback 구간에서 GUI event가 처리되며 취소 후 새 solver 제출이 없다; 전체 RW export 응답성은 AST-003 이후 별도 검증한다.",
+        "프로젝트/Set 전환 이후 늦은 결과가 새 실행에 반영되지 않는다."
+      ],
+      "validation": [
+        "UI 정지 시간 전후 계측과 취소·오류·프로젝트 전환 회귀",
+        "정규 inp/dat 생성 결과 동일성 비교"
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "E"
+      ],
+      "sources": [
+        456,
+        463
+      ],
+      "evidence": [
+        "model/DashJobRunnerAnsysMechanical.cpp:371/runTemplateFallback",
+        "model/DashJobRunner.cpp:764/morphFromTemplate",
+        "controller/DashDoeBatchChain.cpp:248"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "독립 파일 준비에는 AST-003 하드선행이 없다. co_await 존재만으로 전체 입력 생성이 GUI 밖에서 돈다고 판정하지 않는다. RW 이관이 Deferred인 동안 남는 GUI 구간을 측정 결과에 명시한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "DIR-01",
+    "title": "Tool 메뉴 Direct Launch와 Result Preview를 통합·검증한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "in_flight",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [
+      438,
+      649
+    ],
+    "supporting_issues": [
+      440
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "DIR-01",
+      "module": "Direct Launch",
+      "title": "Tool 메뉴 Direct Launch와 Result Preview를 통합·검증한다",
+      "outcome": "창을 닫아도 실행이 유지되고 다시 열면 상태와 결과를 확인한다.",
+      "scope": [
+        "PR652의 앱 수명 runner·비모달 dialog·메모리 상태·runSerial·실행 상호배제를 통합한다.",
+        "구 Direct Set 경로 제거와 Output Cases 상태 배선을 검증한다.",
+        "입력 staging·복사 실패·프로젝트 전환·Done→Preview 및 중앙 렌더링을 실제 UI에서 확인한다."
+      ],
+      "acceptance": [
+        "inp/dat/dfsxml/wbpj 실행→닫기/재열기→Stop/Done 흐름 정상",
+        "제출 0건·복사 실패·기존 run 폴더·프로젝트 전환에서 상태가 고착되지 않는다.",
+        "FE validation이 사용할 prefill 진입을 별도 downstream 작업과 합의한다."
+      ],
+      "validation": [
+        "PR652 관련 단위 테스트와 보고서상 미실행 GUI 시나리오 수행"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "D",
+        "E"
+      ],
+      "sources": [
+        440,
+        580,
+        604
+      ],
+      "evidence": [
+        "PR #652 OPEN: feat/604-direct-launch-dialog",
+        "view/DashDoeSamplerDirectWidget.cpp",
+        "view/DashDoeCasesWidget.cpp:542"
+      ],
+      "status": "in_flight",
+      "priority": "P2",
+      "notes": "stli Direct와 여러 파일 큐잉은 PR652 범위 밖이며 합의된 신규 요구 없이 확장하지 않는다. #653은 downstream 소유.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-03",
+    "title": "응답 이름과 operator를 함께 전달해 올바른 필드를 선택한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      664
+    ],
+    "parent_rollups": [],
+    "supporting_issues": [
+      433,
+      635
+    ],
+    "scope_proposals": [
+      {
+        "issue": 664,
+        "relation": "부분",
+        "scope": "카탈로그 이후 신설된 이슈를 RES-03의 Motion Preview 응답 leaf/operator/field_output_name 및 배열 선택 후보 누락 부분에 새로 대응한다.",
+        "caveat": "RES-03 전체 응답 질의 공통화와 동일하지 않다. PR665는 PR663 위의 OPEN 스택이며 PR658 putResponseTerm 통합 후 호출을 맞출 필요가 있다. #634/PR662 완료를 재작업하지 않고 실제 dfr Preview 검증을 남긴다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-03",
+      "module": "Preprocess / 질의",
+      "title": "응답 이름과 operator를 함께 전달해 올바른 필드를 선택한다",
+      "outcome": "같은 operator의 다른 결과를 읽거나 성분 수만으로 배열을 고르지 않는다.",
+      "scope": [
+        "preview·일반 XML·ModeShape·원형도 질의에 field_output_name과 operator를 전달한다.",
+        "leaf 조회를 질의보다 먼저 하고 배열도 카탈로그 이름으로 선택한다.",
+        "Motion Preview의 응답 키 누락을 함께 해소한다."
+      ],
+      "acceptance": [
+        "같은 operator·다른 field_name mock에서 요청한 필드만 반환",
+        "실제 카탈로그에 없는 응답은 명시적 Missing/오류이며 다른 값을 쓰지 않는다."
+      ],
+      "validation": [
+        "TestResultXmlWriter/ResultQuery 중복 operator fixture",
+        "실제 rst/dfr catalog 쌍과 preview/batch 비교"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "sources": [
+        630
+      ],
+      "evidence": [
+        "model/DashAnalysisLauncher.cpp:1244/requestVtkPreview",
+        "model/preprocessor/DashResultXmlWriter.cpp:825",
+        "model/preprocessor/wrapper/LegacyJsonPreprocessor.cpp:233/MatchResponse"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "operator 중복은 실제 파일에서 미재현한 잠재 결함이다. Motion 키 누락은 코드로 확인. Modal 선택 자체는 RES-05가 소유한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-04",
+    "title": "Motion의 State와 Component를 Preview·배치에서 동일하게 해석한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      433,
+      635
+    ],
+    "parent_rollups": [],
+    "supporting_issues": [
+      664
+    ],
+    "scope_proposals": [
+      {
+        "issue": 433,
+        "relation": "부분",
+        "scope": "이미 끝난 클래스 분해를 반복하지 않고 Motion component/Kind, Modal 선택 및 실파일 회귀의 남은 완료 조건을 추적한다. 응답 키와 worker 이관은 각각의 후속 작업으로 연결한다.",
+        "caveat": "PR656 병합으로 RES-10의 modalNames/직렬화/TimeSteps 공통화는 새 구현 후보에서 제외한다. PR662의 State 통일도 완료이며 RES-04 전체를 잔여로 세지 않는다. PR663/665/658 통합과 실파일 검증을 구별한다."
+      },
+      {
+        "issue": 635,
+        "relation": "부분",
+        "scope": "RES-04 중 writer component 항의 entity_name 보존과 명시적 Motion Kind 전달을 PR663 범위로 마무리한다.",
+        "caveat": "RES-04의 State 해석 부분은 PR662 완료이므로 새로 세지 않는다. PR663은 OPEN이고 PR658과 writer/Kind 접점 조정 및 실제 dfr BODY 선택 검증이 남는다. RES-03 전체가 이 좁은 수정의 절대 선행은 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-04",
+      "module": "Preprocess / Motion",
+      "title": "Motion의 State와 Component를 Preview·배치에서 동일하게 해석한다",
+      "outcome": "State 2와 특정 BODY를 골랐을 때 해당 시점·부품의 결과를 읽는다.",
+      "scope": [
+        "화면 States / State N을 하나의 공통 시점 값으로 해석하고 Processor/Writer/Initializer에 전달한다.",
+        "solverType과 Dynamic 문자열로 갈린 Motion 판정을 정리한다.",
+        "writer가 putComponentTerm을 사용해 entity_name을 보존한다."
+      ],
+      "acceptance": [
+        "State1/2 요청의 XML 또는 Set 응답이 서로 덮이지 않고 실제 값이 다르다.",
+        "선택 component 노드 수/필드가 전체 모델이 아닌 해당 domain에 일치한다."
+      ],
+      "validation": [
+        "화면 문자열 기반 Query/Batch 테스트",
+        "실제 dfr 두 State·두 BODY preview/batch 비교"
+      ],
+      "dependencies": [
+        "RES-03"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "E"
+      ],
+      "sources": [
+        433,
+        634,
+        635
+      ],
+      "evidence": [
+        "model/preprocessor/DashResultQuery.cpp:56/parseMotionState",
+        "model/preprocessor/DashResultBatch.cpp:173/timeOf",
+        "model/preprocessor/DashResultXmlWriter.cpp:1324/addComponentToQuery"
+      ],
+      "status": "after_dependency",
+      "priority": "P1",
+      "notes": "",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-05",
+    "title": "Modal 변위 응답을 하나의 규칙으로 선택하고 모든 성분을 처리한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      433
+    ],
+    "parent_rollups": [],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 433,
+        "relation": "부분",
+        "scope": "이미 끝난 클래스 분해를 반복하지 않고 Motion component/Kind, Modal 선택 및 실파일 회귀의 남은 완료 조건을 추적한다. 응답 키와 worker 이관은 각각의 후속 작업으로 연결한다.",
+        "caveat": "PR656 병합으로 RES-10의 modalNames/직렬화/TimeSteps 공통화는 새 구현 후보에서 제외한다. PR662의 State 통일도 완료이며 RES-04 전체를 잔여로 세지 않는다. PR663/665/658 통합과 실파일 검증을 구별한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-05",
+      "module": "Preprocess / Modal",
+      "title": "Modal 변위 응답을 하나의 규칙으로 선택하고 모든 성분을 처리한다",
+      "outcome": "Abaqus/Ansys에서 Mode Shape의 x/y/z/magnitude가 Preview와 Process에 동일하게 나온다.",
+      "scope": [
+        "변위 U main 항목을 명시적으로 선택하고 component_labels로 성분을 찾는다.",
+        "writer의 Displacement 고정 키·최초 배열 fallback을 제거한다.",
+        "Preview를 선행하지 않아도 배치가 catalog를 준비한다."
+      ],
+      "acceptance": [
+        "U보다 앞선 E/RF/S가 있어도 변위만 사용한다.",
+        "새 Load→즉시 Process 및 Mode별 x/y/z/magnitude가 올바르고 누락 시 Missing"
+      ],
+      "validation": [
+        "TestResultQuery/XmlWriter 카탈로그 회귀",
+        "실제 Modal rst/odb 단일 파일(Direct)·DOE 배치 비교"
+      ],
+      "dependencies": [
+        "RES-03"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "sources": [
+        433,
+        637
+      ],
+      "evidence": [
+        "model/preprocessor/DashResultQuery.cpp:138/modeShapeLeaf",
+        "model/preprocessor/DashResultXmlWriter.cpp:384",
+        "model/DashAnalysisLauncher.cpp:1257"
+      ],
+      "status": "after_dependency",
+      "priority": "P1",
+      "notes": "일반 sub-result RES-02와 질의 계약을 맞춘다. 어느 작업을 먼저 하더라도 임의 성분 fallback을 재도입하지 않는다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-08",
+    "title": "결과 파일 Load와 일반 Preview 조회를 워커 실행으로 옮긴다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      454,
+      463
+    ],
+    "parent_rollups": [
+      451,
+      460
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 454,
+        "relation": "분할",
+        "scope": "결과 Load·Preview와 일반 배치 Process·XML 생성을 각각 작업 소유 입력/reader, GUI 결과 적용, 취소·전환·오류 복구 단위로 나눈다.",
+        "caveat": "KPI 경로는 원 이슈 제외 범위를 유지한다. 16곳 제거 자체가 완료 조건은 아니며 renderer 접근과 비취소 SDK 경계를 보존한다."
+      },
+      {
+        "issue": 463,
+        "relation": "분할",
+        "scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+        "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-08",
+      "module": "Preprocess / Load·Preview",
+      "title": "결과 파일 Load와 일반 Preview 조회를 워커 실행으로 옮긴다",
+      "outcome": "큰 결과 파일을 열고 선택하는 동안 UI가 응답하며 오래된 결과가 새 Set에 붙지 않는다.",
+      "scope": [
+        "reader·catalog·geometry 조회를 작업별 소유 payload/reader 경계로 분리한다.",
+        "GUI는 입력 snapshot과 결과 적용만 수행하며 VTK 렌더러 객체 접근은 GUI에 유지한다.",
+        "취소·실패·Set 전환마다 진행 상태를 회수한다."
+      ],
+      "acceptance": [
+        "큰 rst/odb/dfr 로드 중 UI 응답 및 취소 가능",
+        "새 Set/프로젝트로 바뀐 뒤 이전 조회 결과 폐기; 실패 후 재시도 가능"
+      ],
+      "validation": [
+        "reader session 회귀와 큰 파일 응답시간 계측",
+        "빠른 선택 연속 변경·프로젝트 종료 테스트"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "E"
+      ],
+      "sources": [
+        454,
+        463
+      ],
+      "evidence": [
+        "model/DashAnalysisLauncher.cpp:413",
+        "model/DashAnalysisLauncher.cpp:510",
+        "model/preprocessor/DashReaderSession.h",
+        "model/DashAnalysisLauncher.cpp:1220/requestVtkPreview"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "공통 실행기 계약/표준 진행 UI와 연결한다. reader를 GUI·worker에서 동시에 공유하는 방식은 피한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-09",
+    "title": "일반 배치 처리·XML 생성을 워커로 옮기고 이벤트 펌핑을 제거한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      454,
+      463
+    ],
+    "parent_rollups": [
+      451,
+      460
+    ],
+    "supporting_issues": [
+      433
+    ],
+    "scope_proposals": [
+      {
+        "issue": 454,
+        "relation": "분할",
+        "scope": "결과 Load·Preview와 일반 배치 Process·XML 생성을 각각 작업 소유 입력/reader, GUI 결과 적용, 취소·전환·오류 복구 단위로 나눈다.",
+        "caveat": "KPI 경로는 원 이슈 제외 범위를 유지한다. 16곳 제거 자체가 완료 조건은 아니며 renderer 접근과 비취소 SDK 경계를 보존한다."
+      },
+      {
+        "issue": 463,
+        "relation": "분할",
+        "scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+        "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-09",
+      "module": "Preprocess / Process",
+      "title": "일반 배치 처리·XML 생성을 워커로 옮기고 이벤트 펌핑을 제거한다",
+      "outcome": "여러 케이스의 Process가 UI 재진입 없이 진행·취소·실패를 처리한다.",
+      "scope": [
+        "ResultBatch/Processor/Writer의 일반 처리에 immutable 요청·경로·설정 snapshot을 넘긴다.",
+        "일반 경로 processEvents를 제거하고 진행·최종 결과를 GUI에 전달한다.",
+        "부분 실패·취소 산출물을 완료 결과로 노출하지 않으며 reader 수명을 작업 단위로 유지한다."
+      ],
+      "acceptance": [
+        "입력 변경/Set 전환이 진행 중 결과를 바꾸지 않는다.",
+        "취소와 오류에서 UI 가드가 풀리고 완료 목록은 확정 산출물만 포함한다."
+      ],
+      "validation": [
+        "일부/전체 파일 누락·후속 요청·취소·실패 후 재시도 fixture",
+        "일반 배치 결과 XML 전후 비교 및 이벤트 펌핑 정적 검사"
+      ],
+      "dependencies": [
+        "RES-08"
+      ],
+      "tags": [
+        "A",
+        "B",
+        "E"
+      ],
+      "sources": [
+        433,
+        454,
+        463
+      ],
+      "evidence": [
+        "model/DashAnalysisLauncher.cpp:850/processResults",
+        "model/preprocessor/DashResultProcessor.cpp:69",
+        "model/preprocessor/DashResultProcessor.cpp:334"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "KPI 경로 펌핑은 #454의 명시 제외를 유지한다. RES-07의 완료 집계와 동시 수정 순서를 정한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-10",
+    "title": "남은 시점·모달 이름·직렬화 사본을 검증된 질의 함수로 모은다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P3",
+    "mapped_issues": [],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      433
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "RES-10",
+      "module": "Preprocess / 공통 질의",
+      "title": "남은 시점·모달 이름·직렬화 사본을 검증된 질의 함수로 모은다",
+      "outcome": "동일한 요청이 초기화·Preview·XML 경로에서 같은 의미로 해석된다.",
+      "scope": [
+        "#642가 이미 처리한 writer leaf/frequency/compact는 재작업하지 않는다.",
+        "Launcher/Initializer의 남은 TimeSteps·modalNames·compact 사본을 공통 함수로 치환한다.",
+        "Motion time/component는 RES-04, ModeShape 선택은 RES-05 소유로 중복 제외한다."
+      ],
+      "acceptance": [
+        "같은 요청이 모든 일반 처리 경로에서 동일 query/time을 만든다.",
+        "외부 설정·XML 결과·오류 신호 순서 변화 없음"
+      ],
+      "validation": [
+        "ResultKeys/Query/Batch/XmlWriter 기존 회귀 및 경계값 비교"
+      ],
+      "dependencies": [],
+      "tags": [
+        "E"
+      ],
+      "sources": [
+        433
+      ],
+      "evidence": [
+        "model/preprocessor/DashResultQuery.cpp:modalNames",
+        "model/preprocessor/DashResponseInitializer.cpp:186",
+        "model/DashAnalysisLauncher.cpp:719"
+      ],
+      "status": "ready",
+      "priority": "P3",
+      "notes": "줄 수 감소가 완료 조건이 아니다. RES-04/05/08/09와 같은 파일 병렬 변경을 피한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-11",
+    "title": "Modal·Motion·fe-safe 실제 파일 회귀와 처리 경계 검증을 완성한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "needs_runtime_check",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      433
+    ],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      635,
+      664
+    ],
+    "scope_proposals": [
+      {
+        "issue": 433,
+        "relation": "부분",
+        "scope": "이미 끝난 클래스 분해를 반복하지 않고 Motion component/Kind, Modal 선택 및 실파일 회귀의 남은 완료 조건을 추적한다. 응답 키와 worker 이관은 각각의 후속 작업으로 연결한다.",
+        "caveat": "PR656 병합으로 RES-10의 modalNames/직렬화/TimeSteps 공통화는 새 구현 후보에서 제외한다. PR662의 State 통일도 완료이며 RES-04 전체를 잔여로 세지 않는다. PR663/665/658 통합과 실파일 검증을 구별한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-11",
+      "module": "Preprocess / 실파일 검증",
+      "title": "Modal·Motion·fe-safe 실제 파일 회귀와 처리 경계 검증을 완성한다",
+      "outcome": "정적 fixture로 확인하지 못한 solver 경로의 정확성을 재현 가능한 테스트/기록으로 남긴다.",
+      "scope": [
+        "TestRealResultFiles에 Modal rst/odb·Motion dfr·>=2023 fe-safe step 검증을 추가한다.",
+        "Preview 없이 Process, batch 후 Preview, 일부·전체 Missing, 실패 후 재시도를 포함한다.",
+        "KPI enabled 빌드와 외부 SDK/fixture 조건·SKIP 이유를 명시한다."
+      ],
+      "acceptance": [
+        "선택 시점/부품/성분과 산출값 비교가 재현되고 PASS/SKIP/환경 제약이 분리된다.",
+        "현재 분해 경계의 실파일 검증 결과를 남긴다. RES-02/07/09가 미완료면 sub-result/완료집계/worker 경계 최종 승인은 미검증으로 표시하고 완료 뒤 해당 시나리오를 재검증한다."
+      ],
+      "validation": [
+        "Windows Release 앱 및 관련 Level1/실파일 Level3 검증"
+      ],
+      "dependencies": [
+        "RES-01",
+        "RES-04",
+        "RES-05",
+        "RES-06"
+      ],
+      "tags": [
+        "A",
+        "F"
+      ],
+      "sources": [
+        433,
+        494,
+        630,
+        631,
+        634,
+        635,
+        637
+      ],
+      "evidence": [
+        "tests/TestRealResultFiles.cpp",
+        "sources/issues/433.md:8단계 미완료"
+      ],
+      "status": "needs_runtime_check",
+      "priority": "P2",
+      "notes": "실제 SDK/fixture 필요, 이번 조사에서 실행하지 않았다. 도메인 검증은 먼저 할 수 있으며 worker 전체 완료를 기다리지 않는다. 최종 후속경계 승인은 RES-02/07/09 완료 후 해당 검증을 충족해야 한다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-12",
+    "title": "응답별 XML을 Set 단위 결과 파일로 전환하고 소비자를 함께 이행한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "needs_decision",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      643
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 643,
+        "relation": "분할",
+        "scope": "Set 단위 결과 작성과 생산자/Builder·Analyzer 소비자 포맷 이행을 RES-12로 묶고, 증분 정책·XML/HDF5/USD 선택의 측정과 결정을 RES-13으로 구분한다.",
+        "caveat": "HDF5/USD 채택은 확정 요구가 아니다. 1차도 서로 다른 uuid/tableId를 섞지 않는 최소 교체 규칙은 먼저 필요하다. PRJ-11의 포맷 중립 generation 계약을 쓰며 PR530 전체 병합이나 최종 포맷 선택이 모든 stale 경고의 하드 선행은 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-12",
+      "module": "Preprocess / 저장 포맷",
+      "title": "응답별 XML을 Set 단위 결과 파일로 전환하고 소비자를 함께 이행한다",
+      "outcome": "같은 Set의 응답이 한 파일에 모이며 공통 정보 중복이 줄고 하류가 그대로 읽는다.",
+      "scope": [
+        "Set·응답·part·case의 명시적 구조와 버전을 정하고 writer를 전환한다.",
+        "DV·공통 node index/connectivity 저장을 묶되 case마다 변하는 node_location은 올바르게 보존한다.",
+        "Builder 개발 중 multi-part 포맷·외부 학습 reader와 조율하고 Launcher/Builder/DashXmlParser/Analyzer 캐시를 함께 이행한다.",
+        "기존 XML 읽기 호환 또는 명시적 이행 정책을 포함한다.",
+        "1차 구현 전에 전체 재생성·원자 교체 또는 증분 추가 중 최소 정책을 확정하고, 다른 uuid/tableId 결과에 병합하지 않는 규칙을 포함한다.",
+        "USD 원본/내보내기 후보의 논리 구조를 검토하되 1차 구현에 HDF5/USD 채택을 강제하지 않는다."
+      ],
+      "acceptance": [
+        "다중 응답/part/모핑 case가 손실 없이 왕복하고 GUI와 외부 학습 도구가 같은 값을 읽는다.",
+        "대표 데이터의 파일 크기·피크 메모리·첫 읽기 비용을 전후 비교한다.",
+        "기존 산출물을 침묵 오독하지 않는다.",
+        "실패/취소에 기존 완료 파일을 보존하고 서로 다른 실행/참조 식별자의 결과를 한 Set 파일에 섞지 않는다."
+      ],
+      "validation": [
+        "old/new schema roundtrip 및 실제 Builder 학습 smoke",
+        "모핑·조건-only·다중 part 데이터 비교"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C",
+        "E"
+      ],
+      "sources": [
+        643
+      ],
+      "evidence": [
+        "model/preprocessor/DashResultXmlWriter.cpp",
+        "model/preprocessor/DashResultBatch.cpp:outputFileName",
+        "sources/issues/643.md",
+        "sources/issues/411.md"
+      ],
+      "status": "needs_decision",
+      "priority": "P2",
+      "notes": "현재 referenceModel.uuid/tableId로 1차 정책을 세울 수 있으므로 PR530 전체 통합은 하드선행이 아니다. PRJ-11의 산출물 세대 의미를 보존하고 PR530 stamp와 접점을 맞춘다. 외부 reader·multi-part·호환 정책은 구현 관문이며 PR 크기는 생산자/소비자 일관성 기준으로 유연하게 잡는다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RES-13",
+    "title": "Set 결과의 이어쓰기·덮어쓰기와 XML/HDF5/USD 방향을 측정해 결정한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "needs_decision",
+    "catalog_priority": "P3",
+    "mapped_issues": [
+      643
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 643,
+        "relation": "분할",
+        "scope": "Set 단위 결과 작성과 생산자/Builder·Analyzer 소비자 포맷 이행을 RES-12로 묶고, 증분 정책·XML/HDF5/USD 선택의 측정과 결정을 RES-13으로 구분한다.",
+        "caveat": "HDF5/USD 채택은 확정 요구가 아니다. 1차도 서로 다른 uuid/tableId를 섞지 않는 최소 교체 규칙은 먼저 필요하다. PRJ-11의 포맷 중립 generation 계약을 쓰며 PR530 전체 병합이나 최종 포맷 선택이 모든 stale 경고의 하드 선행은 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RES-13",
+      "module": "Preprocess / 포맷 결정",
+      "title": "Set 결과의 이어쓰기·덮어쓰기와 XML/HDF5/USD 방향을 측정해 결정한다",
+      "outcome": "두 번째 포맷 전환을 선결하지 않고 Set 식별·성능·소비자 계약으로 선택한다.",
+      "scope": [
+        "RES-12에서 정한 1차 안전한 교체/충돌 방지를 유지하며, 식별자 기반 증분 append/overwrite 확장 정책을 실측으로 정한다.",
+        "Set XML 개선 후 크기·생성 메모리·부분 읽기 비용을 측정한다.",
+        "vtkIOHDF 실제 빌드 가용성, 외부 reader 변경, USD 원본/내보내기 역할과 migration 비용을 비교한다."
+      ],
+      "acceptance": [
+        "XML 유지/HDF5 전환/USD 관계에 대한 근거 있는 결정과 조건부 후속 구현 범위가 남는다.",
+        "uuid/tableId 불일치가 잘못된 기존 결과에 이어쓰지 않는다."
+      ],
+      "validation": [
+        "대표 대용량 Set 실측과 후보 minimal prototype 비교"
+      ],
+      "dependencies": [
+        "RES-12"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "sources": [
+        411,
+        643
+      ],
+      "evidence": [
+        "sources/issues/643.md:2026-10-02 USD 댓글",
+        "sources/issues/411.md:2026-10-02 후속 이관"
+      ],
+      "status": "needs_decision",
+      "priority": "P3",
+      "notes": "HDF5 또는 USD 구현을 이미 승인된 확정 작업으로 세지 않는다. XML 유지도 유효한 결론이다.",
+      "owner_document": "modules/execution.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "BLD-01",
+    "title": "학습 입력과 생성 모델의 Set·산출물 버전을 기록하고 상류 변경을 표시한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      650
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [
+      368,
+      643
+    ],
+    "scope_proposals": [
+      {
+        "issue": 650,
+        "relation": "분할",
+        "scope": "조합 id와 다른 산출물 generation 계약, 모듈별 upstream 참조 저장/복원, 공통 검사와 트리 경고 적용으로 나눈다.",
+        "caveat": "PRJ-03은 관련 조합 핀 기반이지 #650 전 범위와 동일하지 않다. Claude PRJ-23은 Geometry/Condition→DOE 세대 결정으로 Codex PRJ-11의 AL 결과 generation 첫 적용과 부분 대응이다. 과거 소비 대장(#471)을 제외해도 현재 stale 경고 요구는 남는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "BLD-01",
+      "module": "Model Builder (Sim/MCU)",
+      "title": "학습 입력과 생성 모델의 Set·산출물 버전을 기록하고 상류 변경을 표시한다",
+      "outcome": "같은 조합 안에서 Preprocess를 다시 만든 경우에도 학습에 사용한 입력과 현재 입력의 차이를 알 수 있다.",
+      "scope": [
+        "Sim dataset 연결·학습 완료 시 상류 Set id/산출물 generation 및 생성 model id 기록",
+        "Module Tree refreshUpstreamStaleness에 Builder 소비자 등록",
+        "MCU는 geometry 조합 핀의 예외를 유지하고 CSV/모델 계보 범위는 PRJ-03 계약에 맞춤"
+      ],
+      "acceptance": [
+        "조합 id 동일·XML 재생성 시 stale 표시",
+        "정상 재학습 완료 후 새 입력 버전으로 갱신",
+        "열기·Set 선택·Run 완료에서 경고 일관; 자동 재실행 없음"
+      ],
+      "validation": [
+        "같은 조합 두 XML generation·동명 Set 삭제/재생성 회귀",
+        "Sim·MCU 학습 결과 및 재시작 후 계보 확인"
+      ],
+      "dependencies": [
+        "PRJ-03",
+        "PRJ-11"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "D"
+      ],
+      "sources": [
+        368,
+        650
+      ],
+      "evidence": [
+        "model/DashModelBuilder.cpp:434 onTrainingStartButtonClicked",
+        "model/DashProject.cpp:1657 refreshUpstreamStaleness (AL만 등록)",
+        "sources/pr-530.diff T22: 조합 핀·전사 진행 중"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "PR530 조합 검증과 PRJ-11의 포맷 중립 산출물 세대 계약을 사용한다. RES-12 전체 포맷 전환을 하드선행으로 두지 않고 새 포맷에서도 같은 metadata를 보존하는 접점만 둔다. MCU deck-무관 예외를 유지한다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "BLD-02",
+    "title": "학습 시작 거절·실패·취소를 하나의 종료 상태로 화면에 반영한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      461,
+      463
+    ],
+    "parent_rollups": [
+      460,
+      465
+    ],
+    "supporting_issues": [
+      466
+    ],
+    "scope_proposals": [
+      {
+        "issue": 461,
+        "relation": "분할",
+        "scope": "Builder 시작 거절/실제 job 종료와 Optimizer 중복 설정 제출을 버튼 상태·terminal에 연결한다.",
+        "caveat": "ASY-02는 규약/Analyzer 첫 적용의 보조 근거다. Load 재클릭·모듈 진입 계약은 명시적 제외이며 전체 모듈 실행 가드가 이 두 카드로 모두 커버된다고 보지 않는다."
+      },
+      {
+        "issue": 463,
+        "relation": "분할",
+        "scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+        "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "BLD-02",
+      "module": "Model Builder (Sim/MCU)",
+      "title": "학습 시작 거절·실패·취소를 하나의 종료 상태로 화면에 반영한다",
+      "outcome": "설정 저장 실패나 학습 준비 실패 뒤 Start가 잠기거나 완료 전에 다시 열리지 않는다.",
+      "scope": [
+        "Sim 시작 전 설정 파일 쓰기 실패·필수 경로 누락을 명시적 실패로 반환",
+        "ProcessJob 종료 전 모델별 Done만으로 Start를 재활성하지 않음",
+        "MCU daemon ready와 학습 busy/Stop 상태를 함께 반영; 기존 virtual Stop 유지"
+      ],
+      "acceptance": [
+        "읽기 전용 설정 경로에서 실행되지 않고 오류 표시 후 재시도 가능",
+        "성공·실패·취소가 정확히 한 번 UI를 종료 상태로 전환",
+        "Set 복귀 시 실제 실행 상태 복원"
+      ],
+      "validation": [
+        "파일 열기 실패 주입 및 두 모델 순차 상태 갱신 시험",
+        "MCU 시작·Stop·데몬 사고사 수동 확인"
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "D"
+      ],
+      "sources": [
+        460,
+        461,
+        466,
+        548
+      ],
+      "evidence": [
+        "view/DashModelBuilderWidget.cpp:958 시작 버튼 비활성",
+        "model/DashModelBuilder.cpp:522 설정 open 실패 return (trainingFailed 없음)",
+        "model/DashModelBuilder.cpp:439 guard 주석: 모델 Done 후 실제 job 잔존",
+        "view/DashModelBuilderMCUWidget.cpp:202 observeDaemonReady"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "공통 ASY-02 UI 규약과 정렬하되 결함 수정에 하드 선행 불필요. 파일 원자성 자체는 IO-04. #548 stopTraining virtual 수정은 이미 완료.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RUN-02",
+    "title": "ND·1D 동시 선택을 실행별 입력 스냅샷과 결과로 처리한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P1",
+    "mapped_issues": [],
+    "parent_rollups": [
+      460
+    ],
+    "supporting_issues": [
+      463
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "RUN-02",
+      "module": "Model Runner (Sim)",
+      "title": "ND·1D 동시 선택을 실행별 입력 스냅샷과 결과로 처리한다",
+      "outcome": "한 번의 Run에서 선택한 두 종류가 실제 실행되고 각각의 결과가 올바르게 표시된다.",
+      "scope": [
+        "ND·1D를 명시적인 순차 요청으로 구성하고 설정 파일 재작성은 해당 요청 제출 직전에 수행",
+        "요청별 선택 모델·DV·케이스·출력 CSV/VTU 귀속 보존",
+        "중간 실패·취소 정책과 진행 안내 및 재클릭 방지"
+      ],
+      "acceptance": [
+        "ND 실행 중 1D 요청이 busy로 조용히 버려지지 않음",
+        "실행 중 두 번째 설정 저장이 첫 실행 입력을 바꾸지 않음",
+        "1D CSV와 ND field preview를 각 완료 요청에 연결"
+      ],
+      "validation": [
+        "ND+1D·1D 다중응답·첫 job 실패·중간 취소 시나리오",
+        "Set 전환 후 옛 결과가 다른 Set을 덮지 않는 회귀"
+      ],
+      "dependencies": [
+        "RUN-01"
+      ],
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "sources": [
+        370,
+        460
+      ],
+      "evidence": [
+        "view/DashModelRunnerWidget.cpp:1341 ND/1D 연속 시작",
+        "model/DashModelRunner.cpp:191 단일 m_currentJob busy 거절",
+        "view/DashModelRunnerWidget.cpp:1318 m_lastPredictionIsND 단일 값",
+        "view/DashModelRunnerWidget.cpp:1351 onPredictionSucceeded"
+      ],
+      "status": "after_dependency",
+      "priority": "P1",
+      "notes": "동시 실행 지원을 새로 추가하는 대신 현재 다중 체크 UI의 약속을 순차 실행으로 충족한다. 첫 실패 후 후속 실행 여부는 사용자에게 보이는 계약으로 명시한다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RUN-03",
+    "title": "예측 케이스와 산출물 목록을 영속 식별자로 생성·복원·삭제한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      474,
+      475,
+      477
+    ],
+    "parent_rollups": [
+      473
+    ],
+    "supporting_issues": [
+      514
+    ],
+    "scope_proposals": [
+      {
+        "issue": 474,
+        "relation": "부분",
+        "scope": "Runner 케이스 도메인 키와 MCU Builder/Runner 표의 삭제 후 현재 항목 해석을 구분해 적용한다.",
+        "caveat": "UI-06은 widget→현재 row 해석이고 모든 표를 영속 ID 모델로 바꾸는 작업은 아니다. 원문의 DOE-D8 표시 텍스트 파싱 제거에 직접 대응하는 명시적 Codex 카드가 없어 전체 동일범위로 처리하지 않는다. Runner preview row는 이미 미사용 인자여서 다른 케이스 preview라는 옛 증상을 그대로 재발행하지 않는다."
+      },
+      {
+        "issue": 475,
+        "relation": "통합",
+        "scope": "예측 케이스의 영속 ID·다음 번호 또는 충돌 회피를 생성/재진입/삭제와 같은 저장 레코드 안에서 해결한다.",
+        "caveat": "RUN-03은 #475보다 넓으며 #477 및 DV·경로 복원 결함도 함께 다룬다. 서로 다른 이슈가 같은 한 작업을 가리키므로 PR 수를 중복 세지 않는다."
+      },
+      {
+        "issue": 477,
+        "relation": "통합",
+        "scope": "접두사 glob 삭제를 케이스별 소유 파일 목록으로 바꾸고 생성 VTU와 재조회 dat/inp의 경로·DV 정합을 복원한다.",
+        "caveat": "범위는 실제 케이스 파일 소유와 재조회이다. #471의 전체 파이프라인 산출물 대장이 없어도 수정 가능하며 대장 설계를 하드 선행시키지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RUN-03",
+      "module": "Model Runner (Sim)",
+      "title": "예측 케이스와 산출물 목록을 영속 식별자로 생성·복원·삭제한다",
+      "outcome": "재시작 때 기존 파일을 덮지 않고, 새 케이스 생성이나 삭제 뒤에도 다른 케이스의 DV와 입력 경로가 유지된다.",
+      "scope": [
+        "케이스 ID·다음 번호/충돌 회피·생성 파일 집합·원본 입력/preview 경로·DV·active 저장",
+        "Generate·refresh·재진입을 동일 케이스 레코드에서 구성; 필요시 기존 파일 발견을 별도 import 처리",
+        "개별/선택 삭제를 정확한 소유 파일 목록 기준으로 정리; row map을 케이스 ID로 치환"
+      ],
+      "acceptance": [
+        "재시작/Set 재진입 후 Generate가 기존 Predict_* 내용을 변경하지 않음",
+        "A 생성 후 B 생성/refresh 시 A의 값·부호변환·VTU 경로 보존",
+        "Predict_1 삭제가 Predict_1x를 지우지 않음",
+        "파일 없는 DV-only 행·선택 상태도 저장 왕복"
+      ],
+      "validation": [
+        "두 세션 채번·외부 동명 파일 충돌·접두사 충돌 삭제 회귀",
+        "Morphing/CAD/Condition/DV-only 생성→재진입→실행→삭제 E2E"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "C",
+        "E"
+      ],
+      "sources": [
+        370,
+        474,
+        475,
+        477,
+        478
+      ],
+      "evidence": [
+        "view/DashModelRunnerWidget.cpp:73 m_predictionCount(0)",
+        "view/DashModelRunnerWidget.cpp:1114 populateFileTable clears DV and scans dat/inp/stp/step",
+        "view/DashModelRunnerWidget.cpp:1753 generated VTU row",
+        "viewmodel/DashModelRunnerPresentationModel.cpp:40 prefix+* 삭제",
+        "view/DashModelRunnerWidget.cpp:1158 syncFileTableToJson no-op"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "한 저장 모델을 만드는 목적이므로 채번·복원·삭제를 임의로 잘게 나누지 않았다. 공통 산출물 원장 계약이 생기면 재사용하되 전체 파이프라인 원장 신설을 선행시키지 않는다. #514 셀 browse 행 버그는 UI 공통 카드 소유.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RUN-05",
+    "title": "선택한 학습 Set·모델 버전을 복원하고 재학습 변경을 표시한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      650
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [
+      443,
+      368
+    ],
+    "scope_proposals": [
+      {
+        "issue": 650,
+        "relation": "분할",
+        "scope": "조합 id와 다른 산출물 generation 계약, 모듈별 upstream 참조 저장/복원, 공통 검사와 트리 경고 적용으로 나눈다.",
+        "caveat": "PRJ-03은 관련 조합 핀 기반이지 #650 전 범위와 동일하지 않다. Claude PRJ-23은 Geometry/Condition→DOE 세대 결정으로 Codex PRJ-11의 AL 결과 generation 첫 적용과 부분 대응이다. 과거 소비 대장(#471)을 제외해도 현재 stale 경고 요구는 남는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RUN-05",
+      "module": "Model Runner (Sim/MCU)",
+      "title": "선택한 학습 Set·모델 버전을 복원하고 재학습 변경을 표시한다",
+      "outcome": "재진입 시 다른 모델 폴더를 묵시적으로 선택하지 않고 실제 사용 모델의 버전 차이를 표시한다.",
+      "scope": [
+        "학습 Set id·model artifact id/generation과 응답·모델 선택을 Set에 기록·복원",
+        "Runner의 upstreamStaleReasons를 공통 refresh에 연결",
+        "MCU 다중 폴더/모델 입력은 각 모델 출처를 개별 기록"
+      ],
+      "acceptance": [
+        "Builder 재학습 이후 같은 조합이어도 Runner stale 경고",
+        "Set 재진입/프로젝트 열기 시 저장된 상류 선택 복원",
+        "상류 삭제·이름 변경 시 동명 다른 Set에 자동 재바인딩하지 않음"
+      ],
+      "validation": [
+        "Sim 한 폴더/MCU 다중 모델 선택 저장 왕복",
+        "Builder generation 변경 및 삭제 회귀"
+      ],
+      "dependencies": [
+        "PRJ-03",
+        "BLD-01"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "D"
+      ],
+      "sources": [
+        368,
+        478,
+        650
+      ],
+      "evidence": [
+        "model/DashModelRunner.cpp:1378 loadModelInfoFromFolder",
+        "view/DashModelRunnerWidget.cpp:782 populateModelBuilderFolderComboBox",
+        "view/DashModelRunnerMCUWidget.cpp:459 mergeModelInfoFolders",
+        "sources/pr-530.diff T23 조합 핀은 구현 중"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "PR530 조합 id·geometryDeck 핀은 중복 구현하지 않는다. MCU geometry stamp 면제와 model artifact provenance는 구분한다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RUN-06",
+    "title": "모델 폴더 로드를 비동기 스냅샷으로 바꾸고 중복 읽기를 줄인다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      513
+    ],
+    "parent_rollups": [
+      451
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 513,
+        "relation": "직접",
+        "scope": "Model Runner 폴더 메타데이터 스캔을 요청별 snapshot 작업으로 옮기고 재선택·닫기 때 오래된 결과 적용을 차단한다.",
+        "caveat": "AST-003의 공통 RW 적재와 다른 경로이며 별도 전체 워커 기반 신설은 필요하지 않다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "RUN-06",
+      "module": "Model Runner (Sim)",
+      "title": "모델 폴더 로드를 비동기 스냅샷으로 바꾸고 중복 읽기를 줄인다",
+      "outcome": "큰 모델 폴더 선택 중 화면이 응답하며 늦게 완료된 이전 선택이 최신 표를 덮지 않는다.",
+      "scope": [
+        "폴더 열거·model_info/metric/GeometryParameter 읽기를 한 로드 결과로 수집",
+        "기존 async 실행층을 사용하고 UI 적용만 GUI에서 수행",
+        "프로젝트·Set·선택 요청 세대에 맞는 결과만 반영; 취소/실패 종료 표시"
+      ],
+      "acceptance": [
+        "느린 폴더 선택 중 이벤트 루프 응답",
+        "A→B 선택에서 A가 늦게 완료되어도 B 유지",
+        "읽기 실패 시 새 선택과 오래된 값이 섞이지 않음"
+      ],
+      "validation": [
+        "지연 I/O fixture와 빠른 재선택·프로젝트 전환 시험",
+        "실제 큰 폴더에서 응답성 및 JSON read 수 전후 측정"
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "E"
+      ],
+      "sources": [
+        513
+      ],
+      "evidence": [
+        "view/DashModelRunnerWidget.cpp:1621 switchToSet",
+        "model/DashModelRunner.cpp:1378 loadModelInfoFromFolder",
+        "view/DashModelRunnerWidget.cpp:844 populateSurrogateTable / 1074 populateDesignVariableTable"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "#458의 FEM parser/read lane은 별도 공통/geometry 소유다. 이미 reader Document/co_await가 들어온 현재 구조에서 폴더·메타데이터 잔여를 대상으로 한다. MCU 데몬 전체를 재작성하지 않는다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "RUN-07",
+    "title": "입력 생성 요청을 Set에 고정하고 늦은 완료·취소를 처리한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [],
+    "parent_rollups": [],
+    "supporting_issues": [
+      431,
+      281,
+      463,
+      551
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "RUN-07",
+      "module": "Model Runner (Sim)",
+      "title": "입력 생성 요청을 Set에 고정하고 늦은 완료·취소를 처리한다",
+      "outcome": "모핑 입력 생성 중 Set을 바꾸어도 이전 결과가 새 Set의 행이나 상태를 변경하지 않는다.",
+      "scope": [
+        "생성 시작 시 project/Set/model·DV·출력 경로 스냅샷과 요청 id 보관",
+        "co_await 이후 widget 생존뿐 아니라 요청 소유자/세대 확인",
+        "모핑 실행의 취소 token과 상태 표시를 요청별로 회수한다. 공유 NX 서비스 계약과 그 소비 이행은 RUN-11이 소유한다."
+      ],
+      "acceptance": [
+        "A Set에서 생성→B Set 전환 후 A 완료가 B 표/설정을 변경하지 않음",
+        "연속 Generate에서 결과와 DV가 각 요청에 귀속",
+        "실패·취소·프로젝트 닫기 뒤 성공 문구/빈 행이 추가되지 않음"
+      ],
+      "validation": [
+        "지연 morph callback 및 실패 주입",
+        "NodeSet/morph 수동 실행과 Set 전환; NX 왕복은 RUN-11 검증"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "sources": [
+        281,
+        460
+      ],
+      "evidence": [
+        "view/DashModelRunnerWidget.cpp:1730 self만 검사 후 현재 fileTable에 행 추가",
+        "view/DashModelRunnerWidget.cpp:520 m_pendingCadParams 단일 저장",
+        "view/DashModelRunnerWidget.cpp:460 morph return 후 항상 generated 상태 메시지",
+        "model/geometry/DashMorphingUtils.cpp:164,189 std::stop_token{}"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "계산 워커 이관은 #586으로 이미 있음. PRJ-01 공통 모델 수명 방어와 협력하되 이 카드는 모듈 요청 귀속/취소를 소유. 정적 결함 경로 확인; 런타임 미재현.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "OPT-01",
+    "title": "학습 모델·Geometry·Condition 참조 버전을 기록하고 변경을 표시한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      650
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [
+      443,
+      368
+    ],
+    "scope_proposals": [
+      {
+        "issue": 650,
+        "relation": "분할",
+        "scope": "조합 id와 다른 산출물 generation 계약, 모듈별 upstream 참조 저장/복원, 공통 검사와 트리 경고 적용으로 나눈다.",
+        "caveat": "PRJ-03은 관련 조합 핀 기반이지 #650 전 범위와 동일하지 않다. Claude PRJ-23은 Geometry/Condition→DOE 세대 결정으로 Codex PRJ-11의 AL 결과 generation 첫 적용과 부분 대응이다. 과거 소비 대장(#471)을 제외해도 현재 stale 경고 요구는 남는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "OPT-01",
+      "module": "Optimizer",
+      "title": "학습 모델·Geometry·Condition 참조 버전을 기록하고 변경을 표시한다",
+      "outcome": "최적화에 사용한 모델과 설계 기준의 변경이 Module Tree에 드러난다.",
+      "scope": [
+        "선택 Builder Set/model artifact 및 Geometry/Condition Set generation 기록",
+        "재진입에서 선택 복원하고 공통 staleness 검사에 등록",
+        "실행/프리뷰가 사용하는 출처와 경고 출처 일치"
+      ],
+      "acceptance": [
+        "같은 조합의 모델 재학습·Geometry/Condition 재생성 시 경고",
+        "다른 상류 Set으로 묵시 전환 없음",
+        "최신 기준 실행 완료 후 warning 갱신"
+      ],
+      "validation": [
+        "각 상류 변경과 프로젝트 열기/Set 선택/완료 이벤트 매트릭스"
+      ],
+      "dependencies": [
+        "PRJ-03",
+        "BLD-01"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "D"
+      ],
+      "sources": [
+        368,
+        650
+      ],
+      "evidence": [
+        "model/DashOptimizer.cpp:236 m_activeModelBuilderFolder",
+        "view/DashOptimizerWidget.cpp:748 폴더 선택 복원/추정",
+        "sources/pr-530.diff T23 geometryDeck 1건 프리뷰 구현 중"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "geometryDeck 한 건만 morph하도록 바꾸는 PR530 범위는 PRJ-03 통합 검증에 둔다. live Geometry 데이터 완전 동봉은 합의된 범위가 아니므로 추가하지 않는다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "OPT-02",
+    "title": "프리뷰 요청 완료를 호출 Set으로 돌려주고 취소·재진입을 처리한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      281,
+      457
+    ],
+    "parent_rollups": [
+      451
+    ],
+    "supporting_issues": [
+      431,
+      316,
+      463,
+      551
+    ],
+    "scope_proposals": [
+      {
+        "issue": 281,
+        "relation": "재판정",
+        "scope": "옛 모핑 워커화 Phase를 그대로 변환하지 않고 완료된 값 경계/서비스 이관을 제거한다. 실제 잔여가 확인되는 Optimizer 요청·펌핑/취소는 OPT-02, 모핑 교차 모듈·프로젝트 전환 검증은 GEO-007로 받는다. 범위 이관 근거를 남긴 뒤 기존 광역 이슈 종료 여부를 판단한다.",
+        "caveat": "기존 crosswalk의 GEO-006은 QC 결과창의 별도 #512 결함이라 단순 #281 직접 대체가 아니다. Runner 요청 귀속 RUN-07, RW 실제 clone/edit/export GUI 이탈 AST-003도 연결된 독립 잔여다. Claude MOR-18은 본체 완료·잔여 OPT 이관을 제안하지만 MOR-16 계측·MOR-04 dead code 등 부수 요구는 기존 Codex 카드와 1:1 대응하지 않으므로 필요 여부를 따로 확인한다. 최신 PR654/655는 이 이슈 전부를 닫는 PR가 아니다."
+      },
+      {
+        "issue": 457,
+        "relation": "분할",
+        "scope": "Optimizer 모핑 preview의 요청 귀속·펌핑 제거와 NX 응답 태그 소비자 전환을 분리한다.",
+        "caveat": "모핑 본체 worker는 이미 존재한다. OPT-07 NX 소비자는 CAD-001 공통 태그 계약 결정 후의 deferred 범위이며 OPT-02 전체를 기다리게 하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "OPT-02",
+      "module": "Optimizer",
+      "title": "프리뷰 요청 완료를 호출 Set으로 돌려주고 취소·재진입을 처리한다",
+      "outcome": "프리뷰가 여러 번 실행되거나 Set이 바뀌어도 결과·진행 표시가 엉키지 않는다.",
+      "scope": [
+        "남은 processEvents 두 곳 제거하고 이미 있는 async morph를 요청 상태로 감쌈",
+        "모핑 요청 id/Set generation과 취소 가능성을 UI에 연결한다. 공유 NX request/result 계면 변경은 CAD-001 및 OPT-07이 소유한다.",
+        "요청별 출력 경로 충돌 방지와 실패/취소 terminal 처리"
+      ],
+      "acceptance": [
+        "연타/Set 전환/프로젝트 닫기에도 다른 요청 결과 표시 안 됨",
+        "모핑 완료/실패가 해당 Optimizer 요청을 한 번만 종결한다.",
+        "취소 후 새 프리뷰가 정상 실행되며 늦은 완료 무시"
+      ],
+      "validation": [
+        "지연 모핑 완료·실패·취소·두 입력 경합 fixture",
+        "NX 이외 프리뷰 반복/Set 전환 GUI 회귀; NX는 OPT-07"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "sources": [
+        281,
+        457,
+        460
+      ],
+      "evidence": [
+        "view/DashOptimizerWidget.cpp:1690 co_await 후 self만 확인",
+        "view/DashOptimizerWidget.cpp:1698,1724 processEvents",
+        "view/DashOptimizerWidget.cpp:1864 enqueueUpdatePrtGeometry 무태그·MainWindow render",
+        "model/geometry/DashMorphingUtils.cpp:164,189 stop_token{}"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "VIS-001이 비파괴 overlay 표시를 소유한다. 렌더 소유권과 요청 귀속은 병렬 구현 가능하므로 불필요 선행을 두지 않는다. 계산 전체 워커 신설은 이미 완료된 #586 중복이다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "OPT-03",
+    "title": "최적화 진행·실패·취소를 Run 버튼과 결과 화면에 연결한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      461,
+      463
+    ],
+    "parent_rollups": [
+      460,
+      465
+    ],
+    "supporting_issues": [
+      466
+    ],
+    "scope_proposals": [
+      {
+        "issue": 461,
+        "relation": "분할",
+        "scope": "Builder 시작 거절/실제 job 종료와 Optimizer 중복 설정 제출을 버튼 상태·terminal에 연결한다.",
+        "caveat": "ASY-02는 규약/Analyzer 첫 적용의 보조 근거다. Load 재클릭·모듈 진입 계약은 명시적 제외이며 전체 모듈 실행 가드가 이 두 카드로 모두 커버된다고 보지 않는다."
+      },
+      {
+        "issue": 463,
+        "relation": "분할",
+        "scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+        "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "OPT-03",
+      "module": "Optimizer",
+      "title": "최적화 진행·실패·취소를 Run 버튼과 결과 화면에 연결한다",
+      "outcome": "실행 거절이나 backend 실패가 로그 밖에서도 보이고 실행 중 중복 설정 제출을 막는다.",
+      "scope": [
+        "optimizationFailed 연결 및 실패 이유 표시",
+        "Run busy/terminal 상태·취소 지원 여부를 실제 ProcessJob과 연결",
+        "실행 중 설정 제출/저장이 현재 실행 입력에 영향을 주지 않도록 snapshot 또는 편집 정책 적용"
+      ],
+      "acceptance": [
+        "잘못된 제약·실행 파일 실패·비정상 종료가 화면에 표시",
+        "실행 중 재클릭으로 설정 파일을 덮지 않음",
+        "종료·Set 복귀 시 버튼과 결과 상태 일관"
+      ],
+      "validation": [
+        "비교 연산자 없는 제약·프로세스 시작 실패·성공/취소 회귀"
+      ],
+      "dependencies": [],
+      "tags": [
+        "A",
+        "B",
+        "D"
+      ],
+      "sources": [
+        460,
+        461,
+        466
+      ],
+      "evidence": [
+        "view/DashOptimizerWidget.cpp:119 setModel success만 connect",
+        "model/DashOptimizer.cpp:164 busy guard",
+        "model/DashOptimizer.cpp:195 emit optimizationFailed",
+        "view/DashOptimizerWidget.cpp:588 guard 전 updateObjectiveFunction/updateConstraints"
+      ],
+      "status": "ready",
+      "priority": "P1",
+      "notes": "ASY-02 공통 UI 규약의 Optimizer 적용. 취소 API가 없는 경로는 가능하다고 표시하지 않는다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "ANA-03",
+    "title": "표시 중인 결과의 출처 Set과 상류 버전 경고를 보여준다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      650
+    ],
+    "parent_rollups": [
+      649
+    ],
+    "supporting_issues": [
+      643
+    ],
+    "scope_proposals": [
+      {
+        "issue": 650,
+        "relation": "분할",
+        "scope": "조합 id와 다른 산출물 generation 계약, 모듈별 upstream 참조 저장/복원, 공통 검사와 트리 경고 적용으로 나눈다.",
+        "caveat": "PRJ-03은 관련 조합 핀 기반이지 #650 전 범위와 동일하지 않다. Claude PRJ-23은 Geometry/Condition→DOE 세대 결정으로 Codex PRJ-11의 AL 결과 generation 첫 적용과 부분 대응이다. 과거 소비 대장(#471)을 제외해도 현재 stale 경고 요구는 남는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "ANA-03",
+      "module": "Results Analyzer",
+      "title": "표시 중인 결과의 출처 Set과 상류 버전 경고를 보여준다",
+      "outcome": "Analyzer가 오래된 결과를 보고 있는지 알 수 있다.",
+      "scope": [
+        "읽는 Set/산출물 id와 버전을 target 선택에 연결",
+        "공통 staleness 조회로 표시만 수행",
+        "상류 삭제·재생성에서 target 목록 갱신과 기존 plot 출처 안내"
+      ],
+      "acceptance": [
+        "같은 Set의 결과 재생성 뒤 현재 표시와 최신 버전 차이를 표시",
+        "경고 때문에 자동 재실행·자동 데이터 교체 안 함",
+        "프로젝트/Set 전환 뒤 이전 plot 출처를 새 Set으로 오인하지 않음"
+      ],
+      "validation": [
+        "Launcher/Runner/Optimizer 결과 선택·재생성·삭제·재진입 시험"
+      ],
+      "dependencies": [
+        "PRJ-03",
+        "PRJ-11"
+      ],
+      "tags": [
+        "C",
+        "D"
+      ],
+      "sources": [
+        650
+      ],
+      "evidence": [
+        "view/DashResultsAnalyzerWidget.cpp:455 initializeTargetData",
+        "view/DashResultsAnalyzerWidget.cpp:701 onTargetDataChanged",
+        "model/DashProject.cpp:1657 refreshUpstreamStaleness AL-only"
+      ],
+      "status": "after_dependency",
+      "priority": "P2",
+      "notes": "PR530 조합 검증과 PRJ-11의 포맷 중립 산출물 세대 계약을 사용한다. RES-12 전체 포맷 전환을 하드선행으로 두지 않고 새 포맷에서도 같은 metadata를 보존하는 접점만 둔다. 별도 Analyzer Set을 새로 만들지 않고 현재 호스트 UI에 표시한다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "ANA-07",
+    "title": "플롯 생성·내보내기 실패를 표시하고 지원하는 메뉴만 활성화한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [
+      465
+    ],
+    "supporting_issues": [
+      466
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "ANA-07",
+      "module": "Results Analyzer",
+      "title": "플롯 생성·내보내기 실패를 표시하고 지원하는 메뉴만 활성화한다",
+      "outcome": "Plot/CSV/JSON을 눌렀을 때 아무 반응이 없는 경로를 없앤다.",
+      "scope": [
+        "수동 Plot의 요청 작성 실패와 build() null/미지원 command를 구조화된 사유로 알린다. 자동 debounce의 일시적 입력부족·busy는 비모달 상태/로그로 처리한다.",
+        "DashExportable capability에 따라 CSV/JSON 메뉴 활성화",
+        "PNG/CSV/JSON 쓰기 실패·부분 쓰기 오류를 사용자에게 알림"
+      ],
+      "acceptance": [
+        "미지원 plot widget의 CSV/JSON은 미리 비활성/미노출",
+        "수동 Plot 실패는 원인을 안내하고 자동 재플롯의 편집 중 입력부족에는 반복 모달을 띄우지 않는다; 실제 build 실패도 무음으로 버리지 않는다.",
+        "읽기 전용 경로 내보내기 실패가 성공처럼 끝나지 않음"
+      ],
+      "validation": [
+        "지원/미지원 plot widget menu 검사",
+        "invalid plot request·파일 open/write 실패 주입·PNG 저장 회귀",
+        "수동 클릭과 자동 debounce 각각의 입력부족·busy·build null·연속 실패 통지 횟수 검증"
+      ],
+      "dependencies": [],
+      "tags": [
+        "B",
+        "D",
+        "G"
+      ],
+      "sources": [
+        466
+      ],
+      "evidence": [
+        "view/DashResultsAnalyzerWidget.cpp:1997 processed false/empty command 무음 return",
+        "view/DashResultsAnalyzerWidget.cpp:3766 CSV menu 항상 추가·cast 실패 return",
+        "view/DashResultsAnalyzerWidget.cpp:3788 JSON 동형",
+        "view/DashResultsAnalyzerWidget.cpp:3782/3804 write 결과 미확인"
+      ],
+      "status": "ready",
+      "priority": "P2",
+      "notes": "내보내기 미지원 위젯 전부에 CSV/JSON 구현을 새로 추가하는 작업은 아니다. 기존 capability를 정확하게 노출한다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "OPT-07",
+    "title": "NX CAD 프리뷰 완료를 Optimizer 요청으로 수신한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "deferred",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      457
+    ],
+    "parent_rollups": [
+      451
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 457,
+        "relation": "분할",
+        "scope": "Optimizer 모핑 preview의 요청 귀속·펌핑 제거와 NX 응답 태그 소비자 전환을 분리한다.",
+        "caveat": "모핑 본체 worker는 이미 존재한다. OPT-07 NX 소비자는 CAD-001 공통 태그 계약 결정 후의 deferred 범위이며 OPT-02 전체를 기다리게 하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "OPT-07",
+      "module": "Optimizer / CAD",
+      "title": "NX CAD 프리뷰 완료를 Optimizer 요청으로 수신한다",
+      "outcome": "NX의 늦은 완료·실패가 다른 Set/요청의 화면과 결과를 바꾸지 않는다.",
+      "scope": [
+        "CAD-001의 공유 요청 id·의도·결과 계면을 소비자에 배선한다.",
+        "Set generation·출력 경로·진행 상태를 요청에 보관하고 취소/전환 시 결과를 무효화한다.",
+        "공유 서비스 계면을 모듈별로 중복 구현하지 않는다."
+      ],
+      "acceptance": [
+        "동시/연속 NX 요청 완료가 해당 소비자에게만 적용된다.",
+        "실패·취소·프로젝트 전환에서 성공 표시와 오래된 결과 적용이 없다."
+      ],
+      "validation": [
+        "NX 수동 load/update 성공·실패·취소·전환 회귀",
+        "지연 결과 요청 귀속 fixture"
+      ],
+      "dependencies": [
+        "CAD-001",
+        "OPT-02"
+      ],
+      "tags": [
+        "A",
+        "B",
+        "C"
+      ],
+      "sources": [
+        249,
+        457,
+        460
+      ],
+      "evidence": [
+        "view/DashOptimizerWidget.cpp:1864 enqueueUpdatePrtGeometry",
+        "controller/DashSolverNxCad.h:enqueue 및 signal 계면"
+      ],
+      "status": "deferred",
+      "priority": "P2",
+      "notes": "공유 NX 계약 CAD-001의 보류를 승계한다. 모핑 요청 수명 수정은 이 작업과 독립적으로 먼저 진행한다.",
+      "owner_document": "modules/downstream.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-01",
+    "title": "프로젝트 교체 전에 모든 모듈의 모델 연결과 진행 중 요청을 정리한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      431,
+      551
+    ],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 431,
+        "relation": "통합",
+        "scope": "setModel(nullptr)/clear·연결 해제·모델 삭제 순서·늦은 완료 폐기를 공통 프로젝트 전환 계약과 실제 적용으로 묶는다.",
+        "caveat": "#431 원문은 문서/리뷰 게이트 중심이지만 PRJ-01은 #551 등의 실제 수선까지 포함한다. 요청별 ID·Set 세대 처리는 RUN-07/OPT-02가 담당하며 PRJ-01 하나로 모두 끝난다고 보지 않는다."
+      },
+      {
+        "issue": 551,
+        "relation": "통합",
+        "scope": "프로젝트 모델 삭제 전 위젯 연결/포인터/외부 sender 콜백을 정리해 새 프로젝트 진입 시 해제 모델 접근을 막는다.",
+        "caveat": "#551의 나머지 7곳 수정은 PRJ-01의 공통 수명 계약 안에 흡수된다. #549로 이미 끝난 Runner QPointer 교체를 다시 세지 않는다. 비동기 결과의 Set 귀속은 지원 카드 범위다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-01",
+      "module": "프로젝트 / 모듈 수명",
+      "title": "프로젝트 교체 전에 모든 모듈의 모델 연결과 진행 중 요청을 정리한다",
+      "outcome": "프로젝트 A의 모델·비동기 결과가 프로젝트 B의 화면에 사용되지 않는다.",
+      "scope": [
+        "Open/New/Close 경로에서 모델 삭제 전 모듈 위젯·PM 해제 순서를 한곳에 둔다",
+        "Analysis Launcher/Builder/Runner/Optimizer/Condition/CAD/Geometry의 setModel(nullptr)·clear 계약과 null 진입을 맞춘다",
+        "기존 Runner QPointer·Morphing reset을 보존하고 실행 중 전환의 차단/취소/결과폐기 경계를 기록한다"
+      ],
+      "acceptance": [
+        "어느 모듈을 연 상태에서도 A→B→A 전환에 해제 모델 역참조·중복 연결이 없다",
+        "실패한 프로젝트 열기 뒤에도 이전 화면/선택을 새 프로젝트 상태로 오인하지 않는다",
+        "늦은 완료 콜백은 삭제된 Set/이전 프로젝트에 쓰지 않는다"
+      ],
+      "validation": [
+        "모듈별 전환·Set 삭제 QSignalSpy/수명 테스트",
+        "느린 작업 완료 직전 프로젝트 전환 Windows GUI 회귀"
+      ],
+      "sources": [
+        246,
+        431,
+        551
+      ],
+      "evidence": [
+        "model/DashProject.cpp:60 SetProjectPath, :1350 clearAllSets",
+        "controller/DashProjectManager.cpp:115 OpenProjectFromFolder",
+        "view/DashMainWindow.cpp:985 setModel(nullptr), :4209 resetMorphingEntry"
+      ],
+      "tags": [
+        "A",
+        "B",
+        "E"
+      ],
+      "priority": "P1",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "Runner/Optimizer 개별 실행의 요청 귀속은 downstream 카드가 소유한다. 옛 7개라는 수를 고정하지 않고 현재 모듈 목록으로 검증한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-02",
+    "title": "Set 개명 시 설정·산출물·참조를 함께 바꾸고 실패를 되돌린다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      443
+    ],
+    "parent_rollups": [],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 443,
+        "relation": "부분",
+        "scope": "기존 setId 발급은 재구현하지 않고 Set 정본/복원과 허용된 Set의 산출물 동반 개명을 나누어 평가한다.",
+        "caveat": "PRJ-02는 개명/롤백으로 Claude PRJ-18에 대응한다. Claude PRJ-16 삭제 시 산출물 제거와 PRJ-17 생성 시 고아 폴더 거부는 별도 요구이며 기존 Codex 카드에 명시적 완료 조건이 없다. PRJ-04의 원장 도입은 Claude의 현재 config 기반 보존 전략과 동일하지 않아 설계 선택을 확인해야 한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-02",
+      "module": "프로젝트 / Set 관리",
+      "title": "Set 개명 시 설정·산출물·참조를 함께 바꾸고 실패를 되돌린다",
+      "outcome": "허용된 Set의 개명 뒤 기존 결과와 참조를 계속 사용할 수 있다.",
+      "scope": [
+        "현재 Rename 허용 모듈만 대상으로 config·모듈 폴더·참조 표기 변경 계획을 계산한다",
+        "파일 작업 성공 후 메모리·트리 이름을 전환하고 중간 실패는 복구한다",
+        "setId를 유지하고 동명 충돌·부분 변경·없는 설정파일의 의미를 명확히 한다"
+      ],
+      "acceptance": [
+        "변경 후 재시작해도 이전 결과/상류 참조를 찾는다",
+        "폴더 충돌·권한 실패 시 기존 이름/파일/참조가 모두 유지된다",
+        "고정명 Geometry/DOE의 Rename 금지 정책을 유지한다"
+      ],
+      "validation": [
+        "임시 디렉터리에서 중간 실패 주입 및 rename 왕복",
+        "Builder/Runner/Optimizer Set 개명 후 실행/조회"
+      ],
+      "sources": [
+        443,
+        562
+      ],
+      "evidence": [
+        "model/DashProject.cpp:1700 renameSet",
+        "sources/pr-654.diff: VTP 영속 제거 예정",
+        "sources/issues/599.md: 고정 Set명"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "D"
+      ],
+      "priority": "P1",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "PR654 이후 Geometry VTP를 새로 개명하는 코드를 만들지 않는다. 파일 이름 기준 저장을 유지하는 모듈의 실제 잔여만 대상으로 한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-03",
+    "title": "진행 중인 조합 스탬프 PR을 현재 파이프라인에 통합하고 전 구간 검증한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "in_flight",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      368
+    ],
+    "parent_rollups": [
+      470,
+      649
+    ],
+    "supporting_issues": [
+      650
+    ],
+    "scope_proposals": [
+      {
+        "issue": 368,
+        "relation": "재판정",
+        "scope": "PRJ-03의 조합 스탬프 생산→snapshot 전파→Preprocess/Builder/Runner/Optimizer 핀·검증이라는 기능 범위는 유지하되, 폐기된 PR530 병합 대신 현재 dev에 필요한 공통부와 홉별 변경을 재이식·통합 검증하는 작업으로 읽는다.",
+        "caveat": "2026-10-07 relevant-prs.json에서 PR530 CLOSED, mergedAt=null. 기존 카탈로그 in_flight/병합 추적 설명은 오래됨. Claude PER-06/07＋DOE-16/PRE-32/BLD-20/RUN-34/OPT-26은 재이식 분할이다. BLD-01/RUN-05/OPT-01은 #650 세대 경고 후속이므로 #368의 직접 구현과 중복 집계하지 않는다. DOE 기록-only, MCU 예외, templateDecks 철회, kSnapshotKeys 전파를 보존한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-03",
+      "module": "프로젝트 / 파이프라인 참조",
+      "title": "진행 중인 조합 스탬프 PR을 현재 파이프라인에 통합하고 전 구간 검증한다",
+      "outcome": "DOE→Preprocess→Builder→Runner/Optimizer의 조합 불일치를 입력 시점에 검출한다.",
+      "scope": [
+        "열린 PR530의 parameterizationId·deck 핀 생산/전파/검증을 dev의 새 모듈명·Launcher 구조와 대조한다",
+        "동명 Set 재생성·무스탬프 입력·Condition 순서 변경·MCU 예외를 검증한다. PR 리뷰에서 철회된 templateDecks 기록은 다시 요구하지 않는다.",
+        "이 PR의 전체 소비자 이관을 하나의 진행 작업으로 추적한다"
+      ],
+      "acceptance": [
+        "DOE Table에 실행 당시 parameterizationId와 parameterization 동결 사본을 기록한다. solver 실행 입구에서 조합 차단을 추가하지 않고, PR530 리뷰에서 철회된 D21 templateDecks 부속도 복원하지 않는다.",
+        "Preprocess·Sim Builder·Sim Runner/Optimizer 최초 연결에서 조합 id를 pin하고 이후 다른 조합/무스탬프 구산출물을 이유·재실행 안내와 함께 차단한다.",
+        "MCU의 deck 무관/조합 미지정 허용 예외, 같은 조합 안의 여러 deck 허용, 이미 만든 산출물의 스탬프 불변성을 유지한다.",
+        "PR530의 생산자·소비자 21파일 범위를 현재 Launcher/모핑 구조와 합친 회귀로 검증한다."
+      ],
+      "validation": [
+        "PR530 신규 테스트와 기존 set identity/upstream tests",
+        "대표 end-to-end: Set 재생성·상류 재실행·오래된 모델 로드"
+      ],
+      "sources": [
+        368,
+        470,
+        650
+      ],
+      "evidence": [
+        "sources/pr-530.json",
+        "sources/pr-530.diff",
+        "model/DashProject.cpp:1657 refreshUpstreamStaleness"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "priority": "P1",
+      "status": "in_flight",
+      "dependencies": [],
+      "notes": "PR530은 draft OPEN이다. 새 구현 티켓으로 중복 발행할 범위가 아니다. 산출물 generation/version 경고 확장은 각 모듈 후속 카드가 소유한다. 원 이슈보다 최신 PR530의 판정 기록을 우선한다. templateDecks 기록은 철회됐으며 필요하면 run 대장 계약에서 새로 판단한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-04",
+    "title": "Set 목록의 정본을 파일명 탐색에서 setId 원장으로 옮긴다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      443
+    ],
+    "parent_rollups": [],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 443,
+        "relation": "부분",
+        "scope": "기존 setId 발급은 재구현하지 않고 Set 정본/복원과 허용된 Set의 산출물 동반 개명을 나누어 평가한다.",
+        "caveat": "PRJ-02는 개명/롤백으로 Claude PRJ-18에 대응한다. Claude PRJ-16 삭제 시 산출물 제거와 PRJ-17 생성 시 고아 폴더 거부는 별도 요구이며 기존 Codex 카드에 명시적 완료 조건이 없다. PRJ-04의 원장 도입은 Claude의 현재 config 기반 보존 전략과 동일하지 않아 설계 선택을 확인해야 한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-04",
+      "module": "프로젝트 / Set 관리",
+      "title": "Set 목록의 정본을 파일명 탐색에서 setId 원장으로 옮긴다",
+      "outcome": "Set의 존재·종류·표시명·설정 위치를 id로 관리한다.",
+      "scope": [
+        "이미 구현된 DashSetIdentity 발급/중복보정은 재사용한다",
+        "프로젝트 Set 원장을 도입하고 생성/삭제/복원/개명이 같은 경계를 통과하게 한다",
+        "기존 config 스캔에서 1회 전환하고 불완전한 config는 원본 보존·진단한다"
+      ],
+      "acceptance": [
+        "앱 재시작·개명에서 setId가 유지되고 삭제 후 같은 이름 재생성은 다른 id를 갖는다",
+        "원장과 파일 불일치가 조용한 새 Set 생성/기존 Set 소실로 이어지지 않는다",
+        "현재 모듈별 설정 스키마를 일괄 변경하지 않는다"
+      ],
+      "validation": [
+        "test_set_identity 확장: 중복/손상/rename/delete/recreate",
+        "구 프로젝트 fixture의 원장 전환과 실패 롤백"
+      ],
+      "sources": [
+        443
+      ],
+      "evidence": [
+        "model/DashSetIdentity.cpp:14 modulePrefixes, :96 ensureAll",
+        "model/DashProject.cpp:1350 clearAllSets, :1403 restoreExistingModules"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "E"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "setId 자체는 완료된 기반이다. 원장 저장 위치·파일명에서 id 디렉터리로의 전환은 최소 호환 설계로 확정하며 물리 디렉터리 전면 개편은 요구하지 않는다. PRJ-02의 결함 수정은 이 작업을 기다릴 필요가 없다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-05",
+    "title": "실행과 산출물의 생성·소비 관계를 파일 대장에 기록한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      471
+    ],
+    "parent_rollups": [
+      470
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 471,
+        "relation": "재판정",
+        "scope": "Codex 변환은 파일 대장 기반과 AL→Builder 첫 연결, Builder 모델 생산/소비, DOE/예측/최적화/Analyzer 확산이다. 시행 전에 과거 run별 소비 이력 요구를 유지할지 명시적으로 재판정한다.",
+        "caveat": "Claude FINAL PER-11은 대장 불요 CLOSE 제안이다. 조합 핀/현재 tableId 참조 스캔으로 알 수 있는 현재 관계와 과거 실행별 소비 이력은 동일 정보가 아니므로 자동으로 동등 대체됐다고 보지 않는다. 대장을 제외하더라도 #650의 산출물 세대 경고(PRJ-11)는 독립 목적이므로 함께 제외하지 않는다. 이번 overlay는 원 이슈를 닫거나 Codex 정본을 변경하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-05",
+      "module": "프로젝트 / 산출물 기록",
+      "title": "실행과 산출물의 생성·소비 관계를 파일 대장에 기록한다",
+      "outcome": "파일명 추측 없이 어떤 Set/실행/조합에서 결과가 왔는지 추적한다.",
+      "scope": [
+        "실행 id·산출물 id·Set id·조합 stamp·경로·종결 상태의 최소 대장 스키마를 정한다",
+        "Analysis Launcher 결과 생성과 Builder의 첫 소비까지 대장에 연결한다",
+        "표시용 목록 UI와 자동 재실행은 만들지 않는다"
+      ],
+      "acceptance": [
+        "한 결과의 생산 실행과 최초 소비 Set을 조회할 수 있다",
+        "실패·취소 결과를 성공 산출물로 등록하지 않는다",
+        "삭제·재실행·부분 기록 후 다시 읽을 때 모호한 참조를 진단한다"
+      ],
+      "validation": [
+        "임시 프로젝트에서 생성/실패/소비/재열기 대장 테스트",
+        "Launcher→Builder 경로에서 실제 파일과 대장 대조"
+      ],
+      "sources": [
+        470,
+        471
+      ],
+      "evidence": [
+        "sources/issues/471.md",
+        "model/preprocessor/DashDoeTableFile.cpp",
+        "model/DashAnalysisLauncher.cpp"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "priority": "P2",
+      "status": "after_dependency",
+      "dependencies": [
+        "PRJ-03",
+        "PRJ-11"
+      ],
+      "notes": "단일 PR 첫 생산/소비 연결을 포함한다. 모든 모듈에 한 번에 강제하지 않으며 downstream 확산은 실제 소비 경계와 함께 진행한다. #442/#476 조회 UI 철회를 존중한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-06",
+    "title": "Save와 Save As의 성공 판정을 실제 저장 결과와 일치시킨다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [],
+    "parent_rollups": [],
+    "supporting_issues": [
+      432
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "PRJ-06",
+      "module": "프로젝트 / 저장·열기",
+      "title": "Save와 Save As의 성공 판정을 실제 저장 결과와 일치시킨다",
+      "outcome": "저장 실패를 성공으로 표시하지 않고 복사 실패로 원본/대상 프로젝트를 잃지 않는다.",
+      "scope": [
+        "SaveProject() true 고정의 의미를 명시하고 모듈의 미저장 편집을 실제 저장하거나 실패를 반환한다",
+        "Save As에서 원본/동일·하위 대상 경로를 검사하고 임시 대상에 완성한 뒤 교체한다",
+        "파일별 복사 결과·외부 참조/프로젝트 assets 포함 범위를 검증하고 전부 성공한 뒤 프로젝트 root를 전환한다"
+      ],
+      "acceptance": [
+        "복사 실패 시 활성 프로젝트 경로와 기존 대상이 보존된다",
+        "동일 경로/원본 하위 경로 저장이 원본 삭제나 무한 재귀를 만들지 않는다",
+        "새 위치에서 열었을 때 설정뿐 아니라 참조 파일·결과를 찾는다"
+      ],
+      "validation": [
+        "임시 디렉터리 동일경로/권한실패/기존대상/부분복사 테스트",
+        "Save As 뒤 원래 폴더 접근 없이 새 프로젝트 재열기"
+      ],
+      "sources": [
+        394,
+        432,
+        485
+      ],
+      "evidence": [
+        "controller/DashProjectManager.cpp:181 SaveProject, :186 SaveProjectAs",
+        "view/DashMainWindow.cpp:4415 onFileSave, :4458 onFileSaveAs",
+        "sources/issues/394.md"
+      ],
+      "tags": [
+        "A",
+        "D"
+      ],
+      "priority": "P1",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "#394는 보드 밖 추가 근거. 파괴적 대상 선삭제와 오류 무시는 코드로 확인, 실제 복사 실험은 하지 않았다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-09",
+    "title": "프로젝트의 Set 복원·개명·참조 조회에 필요한 IO 경계를 명시한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      432
+    ],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      434,
+      468
+    ],
+    "scope_proposals": [
+      {
+        "issue": 432,
+        "relation": "분할",
+        "scope": "DashProject 네 IO 경계의 첫 주입 후 파라미터, DOE/Launcher, 학습/예측/최적화 모델의 전역 ProjectManager 역접근을 소비자군별로 이행한다.",
+        "caveat": "PRJ-06은 저장 성공/Save As의 관련 기능 결함이며 #432의 의존 주입 자체와 동일 작업이 아니다. Claude PRJ-34 공통 베이스 결정은 다른 구현 전략이며 Codex의 작은 계면 주입에 자동 강제 선행으로 추가하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-09",
+      "module": "프로젝트 / 모델 의존",
+      "title": "프로젝트의 Set 복원·개명·참조 조회에 필요한 IO 경계를 명시한다",
+      "outcome": "모델 로직이 전역 ProjectManager를 되불러 다른 프로젝트 상태를 읽지 않는다.",
+      "scope": [
+        "DashProject의 registerReferenceModel/referenceModelChangedOnDisk/restoreExistingModules/renameSet에서 필요한 root·config·참조 파일 조회를 생성 시 주입한다.",
+        "DashProjectManager의 SetProjectDirectory에서 DashIOController와 DashProject의 초기화 순서를 정리하고 root 교체 시 전달값을 갱신한다.",
+        "모델별 소비 이관용 작은 계면을 이 첫 실제 소비와 함께 정의한다; 전역 객체를 하나 더 포장하는 서비스 로케이터는 만들지 않는다."
+      ],
+      "acceptance": [
+        "위 네 경로가 전역 ProjectManager를 읽지 않고 전달된 프로젝트 IO만 사용한다.",
+        "두 root fixture에서 복원·참조 등록·개명이 격리되어 동작한다.",
+        "실패 가능한 IO의 오류가 호출자에게 반환되고 PRJ-02·PRJ-06의 실패 정책과 맞는다."
+      ],
+      "validation": [
+        "프로젝트 두 개의 경로 격리 단위검증",
+        "변경한 모델의 저장/실행 기존 테스트"
+      ],
+      "sources": [
+        246,
+        432,
+        508
+      ],
+      "evidence": [
+        "research/root_evidence_project_dependency.txt",
+        "controller/DashIOController.cpp",
+        "model/DashProject.cpp:97 registerReferenceModel"
+      ],
+      "tags": [
+        "A",
+        "E"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "첫 완결 경계를 DashProject의 네 함수와 생성/전환부로 고정했다. 모듈 소비 이관은 IO-07~09가 소유한다. #570 대기는 해소됨.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-10",
+    "title": "DashManager의 프로세스·설정 접근을 명시적인 소유자로 이관한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      434
+    ],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      468
+    ],
+    "scope_proposals": [
+      {
+        "issue": 434,
+        "relation": "부분",
+        "scope": "현재 DashManager가 보유하는 프로세스·설정 소유와 실제 소비자 접근을 명시적으로 이관한다. renderer/interaction과 morphing 데이터 소유는 해당 모듈 접점으로 분리한다.",
+        "caveat": "PRJ-10은 #434 전체 4단계 중 프로세스·설정 중심이다. VIS-003의 씬 소유권이 모든 renderer/interaction 의존 주입과 같지는 않으므로 전체 전역 접근 제거 완료로 환산할 수 없다. 전면 해체는 최신 남은 접근 목록을 기준으로 판정한다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-10",
+      "module": "공통 서비스 / 소유권",
+      "title": "DashManager의 프로세스·설정 접근을 명시적인 소유자로 이관한다",
+      "outcome": "모핑 이관 뒤 남은 전역 서비스 접근의 수명과 생성 순서가 드러난다.",
+      "scope": [
+        "현재 남은 NxCad/journal/MCU/sensitivity daemon·solver paths·CPU 설정 접근을 소비자 생성부에 주입한다",
+        "실행 서비스의 앱 수명과 창 닫힘 후 지속 계약을 유지한다",
+        "render/interaction은 VIS 작업과, 프로젝트 경로는 PRJ-09와 경계를 나눈다"
+      ],
+      "acceptance": [
+        "창 닫힘이 실행을 죽이지 않고 앱 종료만 모든 프로세스를 회수한다",
+        "한 소비자 교체가 다른 서비스의 준비 상태를 바꾸지 않는다",
+        "이미 제거된 morphing facade/service lane을 다시 만들지 않는다"
+      ],
+      "validation": [
+        "TestDaemonLifecycle/TestProcessRuntime",
+        "NX/MCU/sensitivity 소비자 생성·종료 smoke"
+      ],
+      "sources": [
+        246,
+        434,
+        508
+      ],
+      "evidence": [
+        "controller/DashManager.h:88 daemon members, :119 solver paths",
+        "sources/issues/586.md",
+        "sources/issues/605.md"
+      ],
+      "tags": [
+        "B",
+        "E"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "광범위 God-object 해체 부모를 유지하지 않고 현존 소유 묶음만 다룬다. 렌더 주입은 geometry 보고와 통합한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "IO-03",
+    "title": "DOE·Launcher 설정과 결과 메타데이터의 쓰기 실패를 보존·보고한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [],
+    "supporting_issues": [
+      441
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "IO-03",
+      "module": "DOE / Analysis Launcher 설정 저장",
+      "title": "DOE·Launcher 설정과 결과 메타데이터의 쓰기 실패를 보존·보고한다",
+      "outcome": "실행 설정 저장이 실패했는데 성공한 설정으로 실행하거나 원본을 손상하지 않는다.",
+      "scope": [
+        "DOE 직접 Truncate 쓰기와 Launcher의 이미 원자화된 Config 계면을 같은 오류 계약으로 연결한다",
+        "실행 state journal과 설정 저장의 책임을 AL 상태분리 카드와 맞춘다",
+        "모듈 JSON의 version/round-trip coverage를 추가한다"
+      ],
+      "acceptance": [
+        "공간 부족·쓰기실패에서 이전 설정 유지 및 실행 전 오류 보고",
+        "케이스 상태 갱신이 정적 설정/선택 DV를 덮어쓰지 않는다"
+      ],
+      "validation": [
+        "DOE/Launcher 설정 왕복·쓰기실패·동시 상태갱신 fixture"
+      ],
+      "sources": [
+        478,
+        479,
+        480
+      ],
+      "evidence": [
+        "model/DashDoeSampler.cpp:1310",
+        "model/preprocessor/DashAnalysisLauncherConfig.cpp:44 QSaveFile"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "priority": "P2",
+      "status": "after_dependency",
+      "dependencies": [
+        "IO-01"
+      ],
+      "notes": "#638 empty-file/error 문구는 RES/AL specific 카드가 소유한다. 이미 구현된 QSaveFile을 재도입하지 않는다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "ASY-02",
+    "title": "작업 상태에 따른 진행 표시·입력 차단·취소 표시를 한 방식으로 연결한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      462,
+      463,
+      543
+    ],
+    "parent_rollups": [
+      460
+    ],
+    "supporting_issues": [
+      454,
+      461,
+      464
+    ],
+    "scope_proposals": [
+      {
+        "issue": 462,
+        "relation": "부분",
+        "scope": "ASY-02 안에서 상태·유한/무한 진행·반려·취소 가능 표시 규약을 정하는 부분으로 흡수한다.",
+        "caveat": "원 이슈는 규약 정의다. ASY-02의 Analyzer 첫 구현과 창 이동/리사이즈 개선까지 동일 이슈의 원 요구였다고 확장하지 않는다."
+      },
+      {
+        "issue": 463,
+        "relation": "분할",
+        "scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+        "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다."
+      },
+      {
+        "issue": 543,
+        "relation": "통합",
+        "scope": "기존 비동기 작업의 내용 입력 차단·작업 문구·진행 표시·반려/종료 복구를 표준화하고 창 이동/리사이즈를 유지한다.",
+        "caveat": "#462 및 #460 공통 UI 부분과 한 번만 구현한다. 비동기 실행기 자체 신설이나 리소스별 scheduler·협력취소 API 구현을 이 UI 항목의 선행으로 부풀리지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "ASY-02",
+      "module": "공통 실행 UI",
+      "title": "작업 상태에 따른 진행 표시·입력 차단·취소 표시를 한 방식으로 연결한다",
+      "outcome": "어떤 작업이 도는지 보이고 작업 중에도 창을 움직일 수 있다.",
+      "scope": [
+        "DashAsyncJobRunner block hooks와 MainWindow setUIEnabled/loading 표시의 중복 책임을 정리한다",
+        "작업 문구·유한/무한 진행·반려 안내·중복 실행 가드 계약을 정하고 Analyzer에 적용한다",
+        "실제 취소를 지원하는 작업에만 취소 버튼을 연결한다"
+      ],
+      "acceptance": [
+        "성공/실패/반려/프로젝트 종료 후 UI가 항상 복구된다",
+        "제목줄 이동·리사이즈를 작업 입력과 분리한다",
+        "취소 불가 SDK 작업에 작동하지 않는 취소 버튼을 내지 않는다"
+      ],
+      "validation": [
+        "빠른 완료/실패/중복제출 UI 테스트",
+        "Analyzer 큰 XML 작업 중 창 이동 및 종료 수동검증"
+      ],
+      "sources": [
+        460,
+        461,
+        462,
+        463,
+        543
+      ],
+      "evidence": [
+        "controller/async/DashAsyncJobRunner.cpp:59 onUnblock",
+        "view/DashMainWindow.cpp: setUiBlockHooks, setUIEnabled",
+        "sources/issues/543.md"
+      ],
+      "tags": [
+        "B",
+        "D"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "BLD/RUN/OPT/AL 각 실행 배선은 모듈 카드 소유. 작업 진행률 생산 API의 없는 기능을 UI만으로 약속하지 않는다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "ASY-03",
+    "title": "데몬 명령 응답에 요청별 시한과 종결 처리를 둔다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      467
+    ],
+    "parent_rollups": [
+      465
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 467,
+        "relation": "부분",
+        "scope": "이미 존재하는 ready/stop timeout을 유지하고 명령 제출 후 무응답 시한·늦은 응답 격리·한 번의 terminal 처리를 추가한다.",
+        "caveat": "기동 timeout을 신규로 만드는 작업은 제외한다. 시한과 timeout 뒤 데몬 재사용/대기 큐 정책은 명령 종류별 결정이 필요하다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "ASY-03",
+      "module": "공통 데몬 실행",
+      "title": "데몬 명령 응답에 요청별 시한과 종결 처리를 둔다",
+      "outcome": "준비된 데몬이 응답을 잃어도 current command와 대기열이 영구 정지하지 않는다.",
+      "scope": [
+        "이미 있는 ready/stop timeout은 유지하고 trySendNext 이후 명령 시한을 적용한다",
+        "timeout 시 한 번의 failure와 현재/대기 요청 처리 정책을 연결한다",
+        "timeout 이후 도착한 응답을 다음 요청의 성공으로 소비하지 않는다"
+      ],
+      "acceptance": [
+        "무응답 명령은 유한 시간 안에 사유와 함께 종결된다",
+        "늦은 결과·강제 종료·재기동에서 중복 완료/다음 요청 오염이 없다"
+      ],
+      "validation": [
+        "daemon stub 무응답·늦은응답·재기동·queue cancel 테스트"
+      ],
+      "sources": [
+        465,
+        467
+      ],
+      "evidence": [
+        "controller/DashExtensionProcess.cpp:288 ready timeout, :391 trySendNext",
+        "controller/DashExtensionProcess.h: m_waitingFinished"
+      ],
+      "tags": [
+        "B"
+      ],
+      "priority": "P1",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "기동 타임아웃 부재라는 옛 진단은 해결됨. 정책상 길이와 timeout 후 daemon 재사용 여부는 명령 종류별로 결정한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "ASY-04",
+    "title": "외부 프로그램 인코딩·nullable 서비스 경계를 실제 호출 계약에 맞춘다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      468,
+      469
+    ],
+    "parent_rollups": [
+      465
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 468,
+        "relation": "부분",
+        "scope": "실제로 null 가능한 process/session 경계만 실패를 명시적으로 전달하도록 보강한다.",
+        "caveat": "항상 존재하는 singleton에 기계적으로 가드를 더하지 않는다. 소유권/의존 주입은 PRJ 카드의 별도 범위이며 ASY-04의 인코딩 절반은 #469 소유다."
+      },
+      {
+        "issue": 469,
+        "relation": "부분",
+        "scope": "한글·공백 경로와 분할된 멀티바이트 출력을 보존하도록 외부 exe별 실제 인코딩 계약과 경계 어댑터를 정리한다.",
+        "caveat": "이미 UTF-8인 ProcessJob/ExtensionProcess 경로를 반복 수정하지 않는다. 외부 SDK가 다른 인코딩이면 전역 UTF-8 치환 대신 해당 경계에서 명시적으로 처리한다. #468과 같은 카드의 다른 부분이다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "ASY-04",
+      "module": "외부 프로세스 공통",
+      "title": "외부 프로그램 인코딩·nullable 서비스 경계를 실제 호출 계약에 맞춘다",
+      "outcome": "한글 경로/실패 출력을 보존하고 초기화되지 않은 서비스 호출을 명시적으로 거절한다.",
+      "scope": [
+        "ProcessJob·ExtensionProcess의 이미 UTF-8인 경로를 기준으로 남은 fromLocal8Bit/명령줄 조립을 분류한다",
+        "SDK/외부 exe가 다른 인코딩이면 경계 어댑터에 명시하고 임의 전역 치환을 피한다",
+        "실제로 null 가능한 process/session 경계만 가드하고 오류를 모듈에 전달한다"
+      ],
+      "acceptance": [
+        "한글·공백 경로와 멀티바이트 분할 출력이 손상되지 않는다",
+        "미기동/종료중 서비스 호출은 crash나 무음 무시 대신 실패로 귀결된다"
+      ],
+      "validation": [
+        "LineAssembler/ProcessRuntime 비ASCII·split-byte 테스트",
+        "대상 exe별 Windows 출력 인코딩 smoke"
+      ],
+      "sources": [
+        465,
+        468,
+        469
+      ],
+      "evidence": [
+        "controller/DashExtensionProcess.cpp:414 toUtf8",
+        "controller/async/LineAssembler.h",
+        "research/root_evidence_process.txt"
+      ],
+      "tags": [
+        "B"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "외부 SDK/exe별 실측 필요. 항상 존재하는 singleton 가드 제거(#508)는 PRJ 의존 주입/접근계약 변경에 흡수한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "ASY-05",
+    "title": "FEM 읽기·변환을 워커로 옮기고 진행 중 창 수명을 분리한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      455
+    ],
+    "parent_rollups": [
+      451
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 455,
+        "relation": "분할",
+        "scope": "TopOpt FEM 파싱의 worker/창 수명과 앱·오버레이 레이아웃의 강제 이벤트 flush 제거로 구분한다.",
+        "caveat": "GEO 결정 신호 유실은 #512/GEO-006 소유로 중복 발행하지 않는다. UI-03 전체 동적 표 개선이 #455와 동일한 범위는 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "ASY-05",
+      "module": "TopOpt 후처리 도구",
+      "title": "FEM 읽기·변환을 워커로 옮기고 진행 중 창 수명을 분리한다",
+      "outcome": "TopOpt 도구에서 큰 FEM을 열 때 이벤트 펌핑 없이 UI가 응답한다.",
+      "scope": [
+        "onBrowseFem/parseFemToUnstructuredGrid의 입력 스냅샷·워커 파싱·GUI 반영을 분리한다",
+        "showProgressMessage의 processEvents를 상태 신호로 바꾼다",
+        "닫힘/재선택/실패 시 늦은 결과와 진행 표시를 정리한다"
+      ],
+      "acceptance": [
+        "긴 파싱 중 창 조작이 가능하고 이전 요청 결과가 새 선택을 덮지 않는다",
+        "오류/닫힘 후 작업·스피너·메모리가 정상 정리된다"
+      ],
+      "validation": [
+        "유효/손상 FEM 파싱 테스트",
+        "큰 FEM 로드 중 닫기·재선택 Windows GUI 검증"
+      ],
+      "sources": [
+        451,
+        455
+      ],
+      "evidence": [
+        "view/dialog/TopOptPostprocessDialog.cpp:240, :418, :1088, :1811"
+      ],
+      "tags": [
+        "B",
+        "D"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "VTK 순수 데이터 생성과 renderer 반영 경계는 VIS 소유권 규칙을 따른다. 카운트 10곳을 목표로 하지 않는다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "UI-01",
+    "title": "혼합 DPI 이동과 도크 재배치의 재진입·화면 이탈을 막는다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "needs_runtime_check",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      447,
+      450
+    ],
+    "parent_rollups": [
+      446
+    ],
+    "supporting_issues": [
+      448,
+      449
+    ],
+    "scope_proposals": [
+      {
+        "issue": 447,
+        "relation": "직접",
+        "scope": "혼합 DPI 실기 재현→정지 지배 구간 확인→화면 밖 복구 불가/재진입 차단으로 변환한다. runtime 검증 항목으로 두고 검증된 원인에 필요한 안전 조치만 적용한다.",
+        "caveat": "원 이슈의 Round 정책 처방은 현 Qt 정책을 확인한 뒤 적용해야 한다. Claude UIC-02는 Qt6 전환 뒤 옛 rounding 가정 대신 DPI awareness와 프로파일 실측을 강조한다. UI-02의 기동 시 off-screen 복원, UI-03의 상시 크기 재분배 제거는 접점이며 #447과 동일 범위가 아니다. 최신 W4 입력의 하위 행은 별도 iteration이 없다는 이유로 자동 미선정 처리하지 않는다."
+      },
+      {
+        "issue": 450,
+        "relation": "재판정",
+        "scope": "UI-01 실측과 UI-03 개선 후에도 남는 문제를 근거로 (1) frame OS 위임 경로 선택, (2) 중첩 QMainWindow 유지/단일화 여부를 각각 결정한다. 선택된 경우에만 구체 구현 작업으로 확장한다.",
+        "caveat": "UI-01은 재현·제한된 안전조치와 필요성 판단을 포함하지만 Win32 nativeEvent 구현이나 nested MainWindow 해체 전체를 확정 범위로 담고 있지는 않다. 따라서 UI-01 완료=#450 전체 완료가 아니다. Claude UIC-08/09/11의 결정·조건부 구현 분리는 참고할 수 있으나 그 구체 Win32 방안을 이미 승인된 해법으로 가져오지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "UI-01",
+      "module": "앱 창 / 도크",
+      "title": "혼합 DPI 이동과 도크 재배치의 재진입·화면 이탈을 막는다",
+      "outcome": "배율이 다른 모니터 이동 후 창과 도크가 조작 가능한 영역에 남는다.",
+      "scope": [
+        "수제 drag/resize 및 resizeDocks 재호출을 실제 mixed-DPI 시나리오로 재현한다",
+        "창 이동의 Qt/OS 위임과 재배치 중첩 방지·availableGeometry 보정을 적용한다",
+        "기동 QT_SCALE_FACTOR와 모니터 DPR 적용이 겹치는 경계를 정리한다"
+      ],
+      "acceptance": [
+        "100/150/200% 모니터 왕복·최대화·복원·도킹에서 멈춤/팽창이 없다",
+        "VTK/OCCT 뷰와 마우스 picking 좌표가 정합하다"
+      ],
+      "validation": [
+        "Windows 다중모니터 재현 행렬/수정전후 영상 또는 로그",
+        "크기 경계 계산 단위테스트"
+      ],
+      "sources": [
+        446,
+        447,
+        450
+      ],
+      "evidence": [
+        "view/DashTitleBar.cpp:82 mousePressEvent, :103 mouseMoveEvent",
+        "view/DashMainWindow.cpp:5033 resizeEvent",
+        "main.cpp:67 UI/scaleFactor"
+      ],
+      "tags": [
+        "D"
+      ],
+      "priority": "P1",
+      "status": "needs_runtime_check",
+      "dependencies": [],
+      "notes": "macOS 정적 조사에서 Windows 프리즈를 실증하지 않았다. 프레임리스/중첩 QMainWindow 전체 교체는 필요성 입증 뒤 선택; 즉시 필수 작업으로 확정하지 않는다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "UI-02",
+    "title": "창 위치·크기·도크 구성을 저장하고 안전하게 복원한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      448
+    ],
+    "parent_rollups": [
+      446
+    ],
+    "supporting_issues": [
+      447,
+      449,
+      450
+    ],
+    "scope_proposals": [
+      {
+        "issue": 448,
+        "relation": "직접",
+        "scope": "창 geometry와 outer/inner dock state를 version 있는 설정 키로 저장·복원하고, 모니터 제거/해상도 변경/손상 상태 시 안전한 초기 배치로 복구한다.",
+        "caveat": "UI-04 전체 최근 프로젝트 메뉴 기능은 이 이슈 범위가 아니다. 설정 키 namespace 부분만 접점이다. 강제 resize가 복원값을 덮는다면 UI-03의 해당 부분을 먼저 또는 같은 PR에 적용한다. Claude UIC-05가 명시한 이 순서는 Codex UI-02의 독립 완료 가능성 검토에 유용하다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "UI-02",
+      "module": "앱 창 / 도크",
+      "title": "창 위치·크기·도크 구성을 저장하고 안전하게 복원한다",
+      "outcome": "재기동 후 사용자 작업 배치가 복원되고 없는 모니터로 창이 사라지지 않는다.",
+      "scope": [
+        "saveGeometry/saveState와 버전 있는 QSettings 키로 저장·복원한다",
+        "도크 objectName과 초기 생성 순서를 고정한다",
+        "배치 초기화 및 모니터 제거/해상도 변경 복구를 제공한다"
+      ],
+      "acceptance": [
+        "재기동 후 도크/창 배치가 유지된다",
+        "손상·구버전 설정이나 모니터 제거 시 화면 내 기본 배치로 복원된다"
+      ],
+      "validation": [
+        "설정 round-trip/구버전·손상값 테스트",
+        "도크 분리·다중모니터 제거 후 재기동"
+      ],
+      "sources": [
+        446,
+        448
+      ],
+      "evidence": [
+        "view/DashMainWindow.cpp:4299 QSettings, :5040 resetLayout",
+        "research/root_evidence_storage.txt: geometry/state 저장 부재"
+      ],
+      "tags": [
+        "D"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "UI-03",
+    "title": "내용 크기와 도크 크기 결정을 레이아웃에 맡기고 강제 이벤트 flush를 없앤다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      449,
+      455
+    ],
+    "parent_rollups": [
+      446,
+      451
+    ],
+    "supporting_issues": [
+      447,
+      448,
+      450,
+      543
+    ],
+    "scope_proposals": [
+      {
+        "issue": 449,
+        "relation": "부분",
+        "scope": "MainWindow dock 재분배·ViewOptions 강제 flush·동적 표 크기라는 확인된 소비 지점부터 레이아웃/sizePolicy로 돌린다. 앱 shell과 동적 표 개선을 필요하면 별 PR로 나눈다.",
+        "caveat": "원 이슈의 25건 카탈로그 전체가 Codex UI-03 한 카드와 정확히 같지는 않다. Claude는 UI Scale 유지/제거·stylesheet px 정책·DPI cache 등 결정/후속을 더 분리한다. 모든 setFixedSize·px가 결함은 아니며 UI Scale 제거를 자동 확정하지 않는다. 현재 사용자 흐름에 해당하는 잔여를 목록화한 후 나머지를 후순위로 두는 부분 변환이다."
+      },
+      {
+        "issue": 455,
+        "relation": "분할",
+        "scope": "TopOpt FEM 파싱의 worker/창 수명과 앱·오버레이 레이아웃의 강제 이벤트 flush 제거로 구분한다.",
+        "caveat": "GEO 결정 신호 유실은 #512/GEO-006 소유로 중복 발행하지 않는다. UI-03 전체 동적 표 개선이 #455와 동일한 범위는 아니다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "UI-03",
+      "module": "앱 레이아웃 / 오버레이",
+      "title": "내용 크기와 도크 크기 결정을 레이아웃에 맡기고 강제 이벤트 flush를 없앤다",
+      "outcome": "모듈 전환·창 크기 변경에서 표와 오버레이가 일관되게 배치된다.",
+      "scope": [
+        "MainWindow 도크·ViewOptions adjustSize/processEvents·동적 표 높이를 우선 대상으로 sizeHint/sizePolicy로 정리한다",
+        "명령형 고정 크기 중 아이콘·디자인 토큰 의도값과 내용 의존값을 구분한다",
+        "Geometry/CAD 동적 행 및 Analyzer 표의 잘림을 현재 구조로 회귀 확인한다"
+      ],
+      "acceptance": [
+        "모듈 전환·글꼴 배율·도크 폭 변경에서 내용이 복구 불가능하게 잘리지 않는다",
+        "ViewOptions 강제 processEvents 두 곳이 제거되고 다음 이벤트에서 올바르게 배치된다"
+      ],
+      "validation": [
+        "대표 모듈 small/large font·resize screenshot 비교",
+        "overlay show/hide/resize 반복 smoke"
+      ],
+      "sources": [
+        446,
+        449,
+        455
+      ],
+      "evidence": [
+        "view/overlay/DashViewOptionsWidget.cpp:82, :94",
+        "view/DashMainWindow.cpp:4956 eventFilter",
+        "research/root_evidence_ui.txt"
+      ],
+      "tags": [
+        "D",
+        "E"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "모든 setFixedSize 호출을 결함으로 간주하지 않는다. 작업이 커지면 앱 shell과 동적 표 묶음으로 PR을 나눌 수 있다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "UI-04",
+    "title": "QSettings 위치를 통일하고 최근 프로젝트를 다시 열 수 있게 한다",
+    "view_role": "묶음/관련 참조만",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [],
+    "parent_rollups": [],
+    "supporting_issues": [
+      448
+    ],
+    "scope_proposals": [],
+    "catalog_definition": {
+      "id": "UI-04",
+      "module": "앱 설정 / 최근 프로젝트",
+      "title": "QSettings 위치를 통일하고 최근 프로젝트를 다시 열 수 있게 한다",
+      "outcome": "앱·UI·로그 설정이 한 정책을 따르고 최근 프로젝트 접근이 가능하다.",
+      "scope": [
+        "NohLab/DashOptiAnalyzer와 NumeReal/DashOpti 키의 이전/호환 규칙을 둔다",
+        "최근 프로젝트 목록의 중복·사라진 경로 처리를 File 메뉴에 연결한다",
+        "새로 열기 실패 시 현재 프로젝트 처리 정책을 기존 전환 계약과 맞춘다"
+      ],
+      "acceptance": [
+        "기존 설정을 한 번 이관해 UI 배율/최근 경로를 잃지 않는다",
+        "최근 항목 삭제·없는 경로·같은 경로 표기 차이를 처리한다"
+      ],
+      "validation": [
+        "QSettings 임시 store migration 및 목록 테스트",
+        "최근 항목 열기 성공/실패 GUI 확인"
+      ],
+      "sources": [
+        481
+      ],
+      "evidence": [
+        "main.cpp:41, :67 QSettings",
+        "view/DashMainWindow.cpp:259, :4299"
+      ],
+      "tags": [
+        "D"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "UI-05",
+    "title": "실패·정보·확인의 통지 규칙과 공통 호출 표면을 맞춘다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      466
+    ],
+    "parent_rollups": [
+      465
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 466,
+        "relation": "통합",
+        "scope": "#482와 공유하는 실패 통지 규약을 UI-05에 통합하고 실제 실패 연결 누락은 모듈 카드의 적용 근거로 연결한다.",
+        "caveat": "원 이슈는 규칙만이고 개별 수정은 제외한다. 따라서 BLD/OPT/ANA/AL 카드는 보조 적용처이며 전부 #466의 주된 변환으로 중복 계산하지 않는다. UI-05의 영어 표기/일반 확인 대화상자 전체도 #466보다 넓다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "UI-05",
+      "module": "사용자 통지",
+      "title": "실패·정보·확인의 통지 규칙과 공통 호출 표면을 맞춘다",
+      "outcome": "같은 실패가 로그에만 숨거나 중복 모달로 나타나지 않는다.",
+      "scope": [
+        "이미 있는 DashNotify를 사용하고 process/system failure·입력검증·사용자 확인을 구분한다",
+        "MainWindow 파일 조작과 공통 다이얼로그의 직접 QMessageBox를 첫 적용 대상으로 정리한다",
+        "영어 고정 정책에 따라 바꾸는 호출부의 불완전 tr을 함께 정리한다"
+      ],
+      "acceptance": [
+        "실패가 실행당 적절한 위치에서 한 번 보고되고 상세 사유를 확인할 수 있다",
+        "확인 대화상자의 Yes/No/Cancel 흐름이 유지된다",
+        "모듈별 terminal 실패 누락은 해당 BLD/OPT/AL 카드로 추적한다"
+      ],
+      "validation": [
+        "파일열기/저장실패 및 취소 UI 시나리오",
+        "변경한 메시지 호출/중복 알림 점검"
+      ],
+      "sources": [
+        466,
+        482,
+        490
+      ],
+      "evidence": [
+        "utils/log/DashNotify.h",
+        "view/DashMainWindow.cpp:4415 onFileSave",
+        "research/root_evidence_process.txt"
+      ],
+      "tags": [
+        "D",
+        "G"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "래퍼를 또 만들지 않는다. 이미 처리된 시스템 실패 79콜이나 현재 미확인 212콜 수를 새 완료 기준으로 쓰지 않는다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "UI-06",
+    "title": "삭제 가능한 표의 콜백을 현재 항목에 결합한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P1",
+    "mapped_issues": [
+      474,
+      514
+    ],
+    "parent_rollups": [
+      473
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 474,
+        "relation": "부분",
+        "scope": "Runner 케이스 도메인 키와 MCU Builder/Runner 표의 삭제 후 현재 항목 해석을 구분해 적용한다.",
+        "caveat": "UI-06은 widget→현재 row 해석이고 모든 표를 영속 ID 모델로 바꾸는 작업은 아니다. 원문의 DOE-D8 표시 텍스트 파싱 제거에 직접 대응하는 명시적 Codex 카드가 없어 전체 동일범위로 처리하지 않는다. Runner preview row는 이미 미사용 인자여서 다른 케이스 preview라는 옛 증상을 그대로 재발행하지 않는다."
+      },
+      {
+        "issue": 514,
+        "relation": "직접",
+        "scope": "살아 있는 MCU Builder/Runner Browse 캡처를 현재 행으로 해석하고 공용 헬퍼 및 Runner preview의 죽은 row 인자를 정리한다.",
+        "caveat": "삭제된 ReferenceFileWidget과 PR652에서 제거된 Direct 입력표의 구 결함은 재생성하지 않는다. 최신 PR652 MERGED. RUN-03의 영속 케이스 ID는 연관되지만 다른 변경 범위다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "UI-06",
+      "module": "공통 표 위젯",
+      "title": "삭제 가능한 표의 콜백을 현재 항목에 결합한다",
+      "outcome": "중간 행 삭제 후 Browse·미리보기·콤보가 다른 항목을 수정하지 않는다.",
+      "scope": [
+        "공용 cell widget→현재 행 조회를 추가하고 MCU Builder/Runner의 Browse row 캡처를 치환한다.",
+        "Runner preview의 미사용 row 인자를 제거하고 살아 있는 constraint/physics 행 해석 헬퍼를 정리한다.",
+        "ReferenceFileWidget 삭제와 PR652 Direct 입력표 삭제로 소멸한 결함은 완료/대체로 처분한다. 새 단일파일 Dialog에 없는 행별 Browse를 구현하지 않는다."
+      ],
+      "acceptance": [
+        "중간 행 삭제 후 아래 행 조작은 그 항목만 변경한다",
+        "분리/삭제된 위젯 콜백은 파일선택·저장 등 부수효과 전에 중단한다"
+      ],
+      "validation": [
+        "중첩 cellWidget descendant 행 해석 테스트",
+        "MCU Builder/Runner 중간 행 삭제 후 Browse·Runner preview 회귀",
+        "PR652 반영 후 옛 Direct 입력표 제거 확인"
+      ],
+      "sources": [
+        473,
+        514
+      ],
+      "evidence": [
+        "view/DashModelRunnerMCUWidget.cpp:321",
+        "view/DashModelBuilderMCUWidget.cpp:1515",
+        "view/DashDoeSamplerDirectWidget.cpp:180",
+        "view/DashModelRunnerWidget.cpp:2005",
+        "sources/pr-652.diff"
+      ],
+      "tags": [
+        "A",
+        "C",
+        "D"
+      ],
+      "priority": "P1",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "항목 자체의 id/산출물 삭제는 RUN/BLD 카드 소유. PR652가 삭제할 위젯에 먼저 수정하지 말고 머지 대상 구조로 옮긴다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "IO-07",
+    "title": "모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      432
+    ],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      434
+    ],
+    "scope_proposals": [
+      {
+        "issue": 432,
+        "relation": "분할",
+        "scope": "DashProject 네 IO 경계의 첫 주입 후 파라미터, DOE/Launcher, 학습/예측/최적화 모델의 전역 ProjectManager 역접근을 소비자군별로 이행한다.",
+        "caveat": "PRJ-06은 저장 성공/Save As의 관련 기능 결함이며 #432의 의존 주입 자체와 동일 작업이 아니다. Claude PRJ-34 공통 베이스 결정은 다른 구현 전략이며 Codex의 작은 계면 주입에 자동 강제 선행으로 추가하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "IO-07",
+      "module": "Geometry / Condition 모델 경계",
+      "title": "모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다",
+      "outcome": "모델이 전역 현재 프로젝트 대신 자기 Set에 속한 IO/참조를 사용한다.",
+      "scope": [
+        "DashGeometryParameter·DashGeometryParameterCAD·DashConditionParameterization의 ProjectManager/PrjMgr 접근을 PRJ-09 계면 또는 기존 함수 인자로 치환한다.",
+        "모델 생성·프로젝트 교체 시 의존을 갱신하고 PM/위젯의 직접 전역 경유 호출도 같은 경계로 이동한다.",
+        "항상 유효한 접근과 실제 실패 가능한 접근을 구분해 중복 null 가드를 제거한다."
+      ],
+      "acceptance": [
+        "대상 모델의 프로젝트 경로·참조 획득에서 전역 ProjectManager 접근이 남지 않는다.",
+        "새 프로젝트를 열어도 이전 모델/요청이 새 root에 쓰지 않는다.",
+        "알고리즘·파일 형식·GUI 정책은 바뀌지 않는다."
+      ],
+      "validation": [
+        "설정 왕복·참조파일 교체·프로젝트 두 개의 경로 격리",
+        "변경 경로 rg 잔여 확인과 compile/test"
+      ],
+      "sources": [
+        247,
+        432,
+        508
+      ],
+      "evidence": [
+        "model/DashGeometryParameter.cpp",
+        "model/DashGeometryParameterCAD.cpp",
+        "model/DashConditionParameterization.cpp",
+        "research/root_evidence_project_dependency.txt"
+      ],
+      "tags": [
+        "A",
+        "E"
+      ],
+      "priority": "P2",
+      "status": "after_dependency",
+      "dependencies": [
+        "PRJ-09"
+      ],
+      "notes": "저장 파일 원자화(IO-02~04)와 다른 책임이다. 변경 표면이 겹치면 한 PR로 합칠 수 있고 적용 클래스별 독립 증분도 허용한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "IO-08",
+    "title": "모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      432
+    ],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      434
+    ],
+    "scope_proposals": [
+      {
+        "issue": 432,
+        "relation": "분할",
+        "scope": "DashProject 네 IO 경계의 첫 주입 후 파라미터, DOE/Launcher, 학습/예측/최적화 모델의 전역 ProjectManager 역접근을 소비자군별로 이행한다.",
+        "caveat": "PRJ-06은 저장 성공/Save As의 관련 기능 결함이며 #432의 의존 주입 자체와 동일 작업이 아니다. Claude PRJ-34 공통 베이스 결정은 다른 구현 전략이며 Codex의 작은 계면 주입에 자동 강제 선행으로 추가하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "IO-08",
+      "module": "DOE / Analysis Launcher 모델 경계",
+      "title": "모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다",
+      "outcome": "모델이 전역 현재 프로젝트 대신 자기 Set에 속한 IO/참조를 사용한다.",
+      "scope": [
+        "DashDoeSampler·DashAnalysisLauncher·DashAnalysisLaunchExecutor·DashJobRunner 및 solver TU의 ProjectManager/PrjMgr 접근을 PRJ-09 계면 또는 기존 함수 인자로 치환한다.",
+        "모델 생성·프로젝트 교체 시 의존을 갱신하고 PM/위젯의 직접 전역 경유 호출도 같은 경계로 이동한다.",
+        "항상 유효한 접근과 실제 실패 가능한 접근을 구분해 중복 null 가드를 제거한다."
+      ],
+      "acceptance": [
+        "대상 모델의 프로젝트 경로·참조 획득에서 전역 ProjectManager 접근이 남지 않는다.",
+        "새 프로젝트를 열어도 이전 모델/요청이 새 root에 쓰지 않는다.",
+        "알고리즘·파일 형식·GUI 정책은 바뀌지 않는다."
+      ],
+      "validation": [
+        "DOE 입력 생성·solver 실행경로·결과읽기를 두 프로젝트 fixture로 검증",
+        "변경 경로 rg 잔여 확인과 compile/test"
+      ],
+      "sources": [
+        247,
+        432,
+        508
+      ],
+      "evidence": [
+        "model/DashDoeSampler.cpp",
+        "model/DashAnalysisLauncher.cpp",
+        "model/DashAnalysisLaunchExecutor.cpp",
+        "model/DashJobRunner.cpp",
+        "research/root_evidence_project_dependency.txt"
+      ],
+      "tags": [
+        "A",
+        "E"
+      ],
+      "priority": "P2",
+      "status": "after_dependency",
+      "dependencies": [
+        "PRJ-09"
+      ],
+      "notes": "저장 파일 원자화(IO-02~04)와 다른 책임이다. 변경 표면이 겹치면 한 PR로 합칠 수 있고 적용 클래스별 독립 증분도 허용한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "IO-09",
+    "title": "모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      432
+    ],
+    "parent_rollups": [
+      246
+    ],
+    "supporting_issues": [
+      434
+    ],
+    "scope_proposals": [
+      {
+        "issue": 432,
+        "relation": "분할",
+        "scope": "DashProject 네 IO 경계의 첫 주입 후 파라미터, DOE/Launcher, 학습/예측/최적화 모델의 전역 ProjectManager 역접근을 소비자군별로 이행한다.",
+        "caveat": "PRJ-06은 저장 성공/Save As의 관련 기능 결함이며 #432의 의존 주입 자체와 동일 작업이 아니다. Claude PRJ-34 공통 베이스 결정은 다른 구현 전략이며 Codex의 작은 계면 주입에 자동 강제 선행으로 추가하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "IO-09",
+      "module": "Builder / Runner / Optimizer 모델 경계",
+      "title": "모델의 프로젝트 경로와 참조 조회를 전달된 계면으로 바꾼다",
+      "outcome": "모델이 전역 현재 프로젝트 대신 자기 Set에 속한 IO/참조를 사용한다.",
+      "scope": [
+        "DashModelBuilder·DashModelBuilderMCU·DashModelRunner·DashOptimizer의 ProjectManager/PrjMgr 접근을 PRJ-09 계면 또는 기존 함수 인자로 치환한다.",
+        "모델 생성·프로젝트 교체 시 의존을 갱신하고 PM/위젯의 직접 전역 경유 호출도 같은 경계로 이동한다.",
+        "항상 유효한 접근과 실제 실패 가능한 접근을 구분해 중복 null 가드를 제거한다."
+      ],
+      "acceptance": [
+        "대상 모델의 프로젝트 경로·참조 획득에서 전역 ProjectManager 접근이 남지 않는다.",
+        "새 프로젝트를 열어도 이전 모델/요청이 새 root에 쓰지 않는다.",
+        "알고리즘·파일 형식·GUI 정책은 바뀌지 않는다."
+      ],
+      "validation": [
+        "학습·예측·최적화 설정/산출물 경로 격리 및 해당 module 회귀",
+        "변경 경로 rg 잔여 확인과 compile/test"
+      ],
+      "sources": [
+        247,
+        432,
+        508
+      ],
+      "evidence": [
+        "model/DashModelBuilder.cpp",
+        "model/DashModelBuilderMCU.cpp",
+        "model/DashModelRunner.cpp",
+        "model/DashOptimizer.cpp",
+        "research/root_evidence_project_dependency.txt"
+      ],
+      "tags": [
+        "A",
+        "E"
+      ],
+      "priority": "P2",
+      "status": "after_dependency",
+      "dependencies": [
+        "PRJ-09"
+      ],
+      "notes": "저장 파일 원자화(IO-02~04)와 다른 책임이다. 변경 표면이 겹치면 한 PR로 합칠 수 있고 적용 클래스별 독립 증분도 허용한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "IO-10",
+    "title": "학습 모델 생산과 Runner·Optimizer 소비를 대장에 연결한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      471
+    ],
+    "parent_rollups": [
+      470
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 471,
+        "relation": "재판정",
+        "scope": "Codex 변환은 파일 대장 기반과 AL→Builder 첫 연결, Builder 모델 생산/소비, DOE/예측/최적화/Analyzer 확산이다. 시행 전에 과거 run별 소비 이력 요구를 유지할지 명시적으로 재판정한다.",
+        "caveat": "Claude FINAL PER-11은 대장 불요 CLOSE 제안이다. 조합 핀/현재 tableId 참조 스캔으로 알 수 있는 현재 관계와 과거 실행별 소비 이력은 동일 정보가 아니므로 자동으로 동등 대체됐다고 보지 않는다. 대장을 제외하더라도 #650의 산출물 세대 경고(PRJ-11)는 독립 목적이므로 함께 제외하지 않는다. 이번 overlay는 원 이슈를 닫거나 Codex 정본을 변경하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "IO-10",
+      "module": "Model Builder / 산출물 대장",
+      "title": "학습 모델 생산과 Runner·Optimizer 소비를 대장에 연결한다",
+      "outcome": "모델 파일이 어떤 데이터로 학습되고 어디에서 사용됐는지 실행 이력으로 확인한다.",
+      "scope": [
+        "Builder 학습 성공 시 model artifact id·입력 dataset artifact id를 대장에 기록한다.",
+        "Runner/Optimizer 모델 선택·실행 시 해당 model artifact 소비를 기록한다.",
+        "재학습/모델삭제가 이전 실행 이력의 출처를 소급 변경하지 않게 한다."
+      ],
+      "acceptance": [
+        "동일 Set 재학습 전후의 서로 다른 모델 생산/소비가 구분된다.",
+        "실패한 학습은 유효 모델로 기록하지 않고 파일 삭제 뒤에도 과거 출처와 현재 가용성을 구분한다."
+      ],
+      "validation": [
+        "학습2회→Runner/Optimizer 소비→삭제/재열기 대장 fixture"
+      ],
+      "sources": [
+        470,
+        471
+      ],
+      "evidence": [
+        "model/DashModelBuilder.cpp: model_info 쓰기",
+        "model/DashModelRunner.cpp: onRunClicked",
+        "model/DashOptimizer.cpp: optimization process"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "priority": "P2",
+      "status": "after_dependency",
+      "dependencies": [
+        "PRJ-05"
+      ],
+      "notes": "BLD-01/RUN-05/OPT-01의 현재 버전 경고와 달리 과거 생산/소비 이력을 기록한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "IO-11",
+    "title": "DOE 입력과 예측·최적화 결과의 생산·소비 기록을 완결한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "after_dependency",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      471
+    ],
+    "parent_rollups": [
+      470
+    ],
+    "supporting_issues": [],
+    "scope_proposals": [
+      {
+        "issue": 471,
+        "relation": "재판정",
+        "scope": "Codex 변환은 파일 대장 기반과 AL→Builder 첫 연결, Builder 모델 생산/소비, DOE/예측/최적화/Analyzer 확산이다. 시행 전에 과거 run별 소비 이력 요구를 유지할지 명시적으로 재판정한다.",
+        "caveat": "Claude FINAL PER-11은 대장 불요 CLOSE 제안이다. 조합 핀/현재 tableId 참조 스캔으로 알 수 있는 현재 관계와 과거 실행별 소비 이력은 동일 정보가 아니므로 자동으로 동등 대체됐다고 보지 않는다. 대장을 제외하더라도 #650의 산출물 세대 경고(PRJ-11)는 독립 목적이므로 함께 제외하지 않는다. 이번 overlay는 원 이슈를 닫거나 Codex 정본을 변경하지 않는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "IO-11",
+      "module": "DOE / Runner / Optimizer / Analyzer 산출물 대장",
+      "title": "DOE 입력과 예측·최적화 결과의 생산·소비 기록을 완결한다",
+      "outcome": "DOE부터 최종 결과 표시까지 모듈 경계의 산출물 출처를 추적한다.",
+      "scope": [
+        "DOE Table·생성 해석 입력과 Launcher 실행의 연결을 대장에 기록한다.",
+        "Runner 예측/Generate·Optimizer 결과 생산을 실행id로 기록하고 Analyzer의 선택 결과 소비를 연결한다.",
+        "이동/재실행/취소/삭제에서 과거 기록과 현재 파일 가용성을 분리한다."
+      ],
+      "acceptance": [
+        "대표 DOE→AL→Builder→Runner/Optimizer→Analyzer 흐름의 생산/소비 연결에 누락이 없다.",
+        "외부 파일은 외부 출처로 명시하고 없는 생산 실행을 추측하지 않는다.",
+        "별도의 실행이력 목록 UI는 추가하지 않는다."
+      ],
+      "validation": [
+        "전체 pipeline의 synthetic artifact 연결 테스트",
+        "실제 대표 프로젝트 산출물과 대장 대조"
+      ],
+      "sources": [
+        470,
+        471
+      ],
+      "evidence": [
+        "model/DashDoeSampler.cpp:saveResultsAsDvTable",
+        "model/DashModelRunner.cpp",
+        "model/DashOptimizer.cpp",
+        "view/DashResultsAnalyzerWidget.cpp"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "priority": "P2",
+      "status": "after_dependency",
+      "dependencies": [
+        "PRJ-05",
+        "IO-10"
+      ],
+      "notes": "변경이 크면 DOE 생산과 downstream 결과 두 PR로 나눌 수 있다. UI 위젯별 log가 아니라 산출물 소비 경계에서 기록한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  },
+  {
+    "task_id": "PRJ-11",
+    "title": "포맷과 독립적인 산출물 세대 계약을 만들고 결과 생성에 적용한다",
+    "view_role": "범위 대조 대상",
+    "catalog_status_2026_10_05": "ready",
+    "catalog_priority": "P2",
+    "mapped_issues": [
+      650
+    ],
+    "parent_rollups": [
+      470,
+      649
+    ],
+    "supporting_issues": [
+      471,
+      368,
+      643
+    ],
+    "scope_proposals": [
+      {
+        "issue": 650,
+        "relation": "분할",
+        "scope": "조합 id와 다른 산출물 generation 계약, 모듈별 upstream 참조 저장/복원, 공통 검사와 트리 경고 적용으로 나눈다.",
+        "caveat": "PRJ-03은 관련 조합 핀 기반이지 #650 전 범위와 동일하지 않다. Claude PRJ-23은 Geometry/Condition→DOE 세대 결정으로 Codex PRJ-11의 AL 결과 generation 첫 적용과 부분 대응이다. 과거 소비 대장(#471)을 제외해도 현재 stale 경고 요구는 남는다."
+      }
+    ],
+    "catalog_definition": {
+      "id": "PRJ-11",
+      "module": "Analysis Launcher / 공통 산출물 식별",
+      "title": "포맷과 독립적인 산출물 세대 계약을 만들고 결과 생성에 적용한다",
+      "outcome": "같은 조합에서 결과를 다시 만들었는지 하류가 파일 형식 변경 없이 구분한다.",
+      "scope": [
+        "Set id·artifact id·generation/revision과 완료 시점 갱신 규칙을 기존 조합 stamp와 구분해 정의한다.",
+        "Analysis Launcher 결과 writer의 공용 metadata에 첫 적용하고 파일/metadata가 함께 완료되는 경계를 보장한다.",
+        "현재 응답별 XML과 향후 Set 결과 구조가 같은 논리 id 계약을 공유하게 한다."
+      ],
+      "acceptance": [
+        "같은 parameterizationId로 결과를 다시 생성하면 하류가 구분할 수 있는 새 generation이 생긴다.",
+        "실패/취소/미완료 쓰기는 유효 generation을 갱신하지 않는다.",
+        "포맷을 바꿔도 producer·consumer의 id 의미가 유지된다."
+      ],
+      "validation": [
+        "동일조합 두번생성·실패재생성·metadata 왕복 fixture"
+      ],
+      "sources": [
+        471,
+        650
+      ],
+      "evidence": [
+        "model/preprocessor/DashResultXmlWriter.cpp:writeModelInfoToXml",
+        "model/DashProject.cpp:1657 refreshUpstreamStaleness",
+        "sources/issues/650.md"
+      ],
+      "tags": [
+        "A",
+        "C"
+      ],
+      "priority": "P2",
+      "status": "ready",
+      "dependencies": [],
+      "notes": "PR530 조합 pin과 접점이 있지만 전체 PR530 병합이나 RES-12 파일 포맷 전환을 하드선행으로 삼지 않는다. 과거 소비 대장(PRJ-05)은 이 id 계약을 재사용한다.",
+      "owner_document": "modules/common.md"
+    },
+    "conversion_note": "검토용 대응 뷰. 원본 카드 전체를 W4 범위로 가져오거나 새로 발행하라는 뜻이 아니다. source별 범위 제안은 이슈 전체를 설명할 수 있으므로 분할 대응은 카드별 범위를 다시 확인한다."
+  }
+]

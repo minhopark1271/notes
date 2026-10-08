@@ -1,0 +1,24 @@
+{
+  "result": "PASS",
+  "root_markdown_inventory": 68,
+  "root_markdown_covered": 68,
+  "findings": 26,
+  "main_findings": 13,
+  "classification_counts": {
+    "document_drift": 12,
+    "proposal_alternative": 7,
+    "historical_resolved": 6,
+    "active_conflict": 1
+  },
+  "cross_review_corrections": [
+    "DS-01",
+    "DS-03",
+    "DS-04",
+    "EXDC-01",
+    "EXDC-02",
+    "EXDC-03"
+  ],
+  "source_files_changed": [],
+  "errors": [],
+  "not_tested": "원격 상태·최신 구현·빌드·GUI·solver; 문서 검토만 수행"
+}

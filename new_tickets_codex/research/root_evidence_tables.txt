@@ -1,0 +1,13 @@
+$ rg -n "\[this, row|\[this, i\]|\[.*, row," view
+exit=0
+view/DashDoeSamplerWidget.cpp:1231:                    [this, model, row, minSpin, maxSpin](const QString& text) {
+view/DashModelRunnerMCUWidget.cpp:321:    connect(browseButton, &QPushButton::clicked, this, [this, row]() {
+view/DashModelBuilderMCUWidget.cpp:1515:    connect(browseButton, &QPushButton::clicked, this, [this, row]() { browseDatasetFile(row); });
+view/DashGeometryParameterCADWidget.cpp:417:                connect(spin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [this, row, col](double value) {
+view/DashModelRunnerWidget.cpp:2005:    connect(previewButton, &QPushButton::clicked, this, [this, row, filePath]() {
+view/DashDoeSamplerDirectWidget.cpp:180:    connect(browseButton, &QPushButton::clicked, this, [this, row]() { browseInputCaseFile(row); });
+view/common/SurrogateTableController.cpp:34:    connect(checkBox, &QCheckBox::stateChanged, this, [this, row](int) {
+view/common/SurrogateTableController.cpp:88:            [this, row, responseName, originalResponseName, isND](const QString& text) {
+view/DashOptimizerWidget.cpp:1011:        connect(fixedCheckBox, &QCheckBox::stateChanged, this, [this, i](int state) {
+view/dialog/SurfaceFittingWidget.cpp:317:    connect(cb, &QCheckBox::stateChanged, this, [this, table, row, segmentId](int state){
+view/ai/blocks/DashAiSuggestionChipsBlock.cpp:68:        connect(chip, &QPushButton::clicked, this, [this, i]() {

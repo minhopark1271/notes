@@ -1,0 +1,117 @@
+[
+  {
+    "path": "193-1-async-execution-models.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "교육/온보딩 지위와 Job·취소·스레드 개념 절. 신규 구현 지시가 아님."
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "Job 취소 P1~P5, worker 선결, DLL 3등급, coroutine 보류 및 단계별 적용. EXDC-06의 역사 근거."
+  },
+  {
+    "path": "199-1-jsonrpc2-protocol-introduction-example-cadnx.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "머리말·메서드/에러·Before/After·최소 구현. 명시적 개선 제안 예제라 현 NX 프로토콜과 활성 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "201-1-qprocess-antipattern-catalog.md",
+    "review_depth": "문서 지위·목차·취소/종료/소유권 관련 키워드 훑기",
+    "notes": "P1~P8·정상 대조군·소멸자 대기 예외·분석 시점. 옛 지점 수치/처방을 현재 완료 기준으로 재사용하지 않음."
+  },
+  {
+    "path": "203-1-worker-precondition-concepts-qa.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "학습용 Q&A와 8절 재검증, rdbuf 이미 제거 정정. D4 신규 제거 작업을 생성하지 않음."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "재검증 우선순위·D1~D5 소유권/DeepCopy/접근 규약. 7월 처방을 현재 actor/서비스와 동시 적용하는 의무로 보지 않음."
+  },
+  {
+    "path": "205-1-w6-w10-ticket-summary.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "요약표·취소 P4·풀 구조·안전 4개념·#211 폐기. 계획 시점 기록을 205-2/215-1/운영 이력과 대조."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "브랜치 기준, ProcessJob/WorkerJob 취소·소유·종료 예산, #277/#279/#280 계획, 장부/Track B 및 #269 방향 변경. EXDC-06."
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "개정 2/3, ProcessRunner 병합, DaemonCommandJob 폐기, WorkerJob 취소/수명, 부록 지위. 보존 코드 스케치를 현재 요구로 세지 않음."
+  },
+  {
+    "path": "206-1-w6-w10-thread-execution-design.md",
+    "review_depth": "문서 지위·목차·취소/종료/소유권 관련 키워드 훑기",
+    "notes": "머리말 기준시점, W6/W10 전환, 스레드/소유권/창 수명 도식. 대체된 세 갈래 예시는 역사; 교육용 Qt 문장 사실검증은 이번 설계 충돌 범위 아님."
+  },
+  {
+    "path": "215-1-w10-f-design-decision-review-snapshot.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "폐기 안내 및 280/281/282/279 결정·철회·최종본 아님. 명시 스냅샷은 active conflict 제외."
+  },
+  {
+    "path": "215-2-sync-pumping-to-async-conversion-checklist.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "2~13절 재요청/자원/취소/종료/상태 writer/교착, Q&A 3~16. 레인 일반화 강제 여부와 EXE-02 drain 완료조건 비교."
+  },
+  {
+    "path": "264-2-batch-stage-ledger-concepts.md",
+    "review_depth": "문서 지위·목차·취소/종료/소유권 관련 키워드 훑기",
+    "notes": "브랜치·commit 고정, 장부 경계/수명 및 264~269 역할. 실행중 인메모리 stage 장부와 #471 영속 산출물/소비이력 대장은 다른 개념; 같은 단어만으로 충돌 지적하지 않음."
+  },
+  {
+    "path": "269-1-jobrunner-case-decomposition-design.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "기계적 분해, 상태 통지 보존, 철회 동작 6건, 후속 계약 수선. EXDC-07."
+  },
+  {
+    "path": "525-1-rc-hotfix-plan-and-dev-root-fix.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "rc/dev 차이, 부트스트랩·볼륨 소유권 분리·backmerge drop 규칙. 동시에 적용할 영구 설계 충돌 아님."
+  },
+  {
+    "path": "Code-Map-User-Flow-Analysis-Launcher.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "머리말, 단계별 입력/샘플링/실행/상태·종료/Direct, 상태 JSON writer 및 D 진단. 고정시점 조사이므로 새 목록과의 현황 차이를 정책 충돌로 세지 않음."
+  },
+  {
+    "path": "Code-Map-User-Flow-Data-Preprocessor.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "머리말, Load/Preview/Process/저장·상태 출처·진단, 고정 커밋. 변경 예정 Set XML과 현재 요청별 XML은 as-is/to-be 차이."
+  },
+  {
+    "path": "Preprocessor-XML-Generation-And-Provenance.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "일반 DOE 생성 전 과정·메타 출처·shape/순서·제약·고정커밋. 현재 메타 추론 동작과 향후 #368 금지 정책은 as-is/to-be라 독립 충돌 아님."
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "전문 검토",
+    "notes": "반영 이력/아직 반영하지 않은 추가 계획/팀 설계 논의를 분리. AL-07 실패 시 직전 결과 보존은 영구 이력 대장과 달라 21/63행의 이력 보존 불요와 충돌 아님. #646 교체 시점은 팀 결정 대상으로 유지."
+  },
+  {
+    "path": "new_tickets_claude/05-final/FINAL.md",
+    "review_depth": "EXE·LCH·PRE 실행/포맷 카드 집중 대조",
+    "notes": "EXE-01/02/03/07/14/22, LCH-07/08/09/29/32, PRE-28/29 중심. PRE-30/32는 해당 카드의 참조 문맥만 확인. RW Stage2는 명시 선택지/조건부라 별도 활성 충돌 아님(geometry와 조율)."
+  },
+  {
+    "path": "new_tickets_codex/03_TASK_CATALOG.json",
+    "review_depth": "Execution 및 ASY 관련 카드 대조",
+    "notes": "AL-03/05/06/07/09/12, DIR-01, RES-03/04/08~13, ASY-01/02. 10월 5일 기준을 최신 설계로 소급하지 않고 착수 재사용시 조정 대상으로 기록."
+  },
+  {
+    "path": "Project-Board-Intake-And-Operations.md",
+    "review_depth": "W6/W10 폐기 안내·이관 표",
+    "notes": "EXDC-06의 권위 근거로만 사용. 전체 보드 운영 범위는 root 담당."
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "review_depth": "결정 표·불개입 적용 범위",
+    "notes": "EXDC-05. CAD 개별 cleanup 충돌은 geometry, 원장/조합 결정 전반은 downstream 담당."
+  }
+]

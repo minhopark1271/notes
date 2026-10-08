@@ -1,0 +1,1156 @@
+diff --git a/model/DashDataProcessor.cpp b/model/DashDataProcessor.cpp
+index 5fd26949..d5479727 100644
+--- a/model/DashDataProcessor.cpp
++++ b/model/DashDataProcessor.cpp
+@@ -6,6 +6,7 @@
+ #include "controller/DashIOController.h"
+ #include "model/AnalysisFileDefines.h"
+ #include "model/DashDoeSelection.h"
++#include "model/DashPipelineStamp.h"
+ #include "model/preprocessor/DashUtils.h"
+ #include "model/preprocessor/DashResultXmlWriter.h"
+ #include "model/preprocessor/DashFileLocator.h"
+@@ -229,6 +230,39 @@ void DashDataProcessor::loadDvTable(const QString& filePath)
+ 
+     m_dvTableRoot = doc.object();
+ 
++    // T21·D20: 입력 run 묶음의 조합 id 는 DOE Table 의 동결 기록에서 읽는다 — launcher 의
++    // parameterization 은 편집 상태라 선택 변경이 과거 run 에 소급한다 (D26).
++    m_inputParameterizationId.clear();
++    m_inputGeometryDeck = QJsonObject();
++    const QJsonObject doeTable = m_dvTableRoot.value("DOE Table").toObject();
++    if (!doeTable.isEmpty()) {
++        m_inputParameterizationId =
++            doeTable.value(QLatin1String(DashPipelineStamp::kParameterizationId)).toString();
++        if (m_inputParameterizationId.isEmpty()) {
++            // 무스탬프 구산출물 — 연결 차단 + 재실행 안내, 폴백 불도입 (D20 재개정)
++            m_dvTableRoot = QJsonObject();
++            m_dvTablePath.clear();
++            emit dvTableBlocked(DashPipelineStamp::unstampedMessage());
++            return;
++        }
++        const QString pinned = pinnedParameterizationId();
++        if (pinned.isEmpty()) {
++            // 핀은 id 를 든 첫 입력에서 1회, 연결 즉시 저장 (D19·D20)
++            pinParameterizationId(m_inputParameterizationId);
++        } else if (pinned != m_inputParameterizationId) {
++            m_dvTableRoot = QJsonObject();
++            m_dvTablePath.clear();
++            m_inputParameterizationId.clear();
++            emit dvTableBlocked(DashPipelineStamp::mismatchMessage(pinned));
++            return;
++        }
++        const DashParameterization frozen = DashDoeSelection::readParameterization(doeTable);
++        if (frozen.geometry.deck.isPinned()) {
++            m_inputGeometryDeck = frozen.geometry.deck.toObject();
++        }
++    }
++    // DOE Table 부재 = 아직 실행 전 Set — 산출물이 없으니 검증 대상이 아니다.
++
+     // 파일시스템 스캔으로 해석 타입 폴더 탐색
+     // (JSON output 키 대신 실제 디렉토리 구조를 기준으로 함)
+     QStringList analysisKeys;
+@@ -747,6 +781,9 @@ void DashDataProcessor::loadRstDataDirectly(const QString& filePath)
+     // Clear dvTable related data since this is a direct file load
+     m_dvTablePath.clear();
+     m_dvTableRoot = QJsonObject();
++    // 단일 파일 임포트는 DOE 계보가 없다 — 산출물은 무스탬프로 남는다 (T21, 사용자 확정)
++    m_inputParameterizationId.clear();
++    m_inputGeometryDeck = QJsonObject();
+     m_currentAnalysisType.clear();
+ 
+     // Verify file exists
+@@ -2209,8 +2246,9 @@ void DashDataProcessor::processResults(const QList<QVariantMap>& resultRequests)
+             // Add model_info section with parameter information
+             if (!parameterInfo.isEmpty()) {
+                 DashResultXmlWriter xmlWriter(m_preprocessor.get());
+-                xmlWriter.writeModelInfoToXml(
+-                    doc, root, parameterInfo, m_currentAnalysisType, responseInfo);
++                xmlWriter.writeModelInfoToXml(doc, root, parameterInfo, m_currentAnalysisType,
++                                              responseInfo, m_inputParameterizationId,
++                                              m_inputGeometryDeck);
+             }
+ 
+             DASH_LOG_INFO(DataProcessor) << QString("Saving XML file: %1").arg(fileName);
+@@ -2847,6 +2885,48 @@ void DashDataProcessor::updateDatasetConfig(const QString& dvTableName,
+     }
+ }
+ 
++QString DashDataProcessor::pinnedParameterizationId() const
++{
++    DashProjectManager* prjMgr = DashProjectManager::Instance();
++    DashIOController* ioCtrl = prjMgr ? prjMgr->GetIOController() : nullptr;
++    if (!ioCtrl || m_setName.isEmpty()) {
++        // Set 미지정 시 Set1 기본값을 타면 엉뚱한 Set 의 핀을 기준으로 삼는다.
++        return QString();
++    }
++    QFile file(ioCtrl->getConfigFilePath(ModuleType::DataPreprocessor, m_setName));
++    if (!file.open(QIODevice::ReadOnly)) {
++        return QString();
++    }
++    const QJsonObject root = QJsonDocument::fromJson(file.readAll()).object();
++    return root.value(QLatin1String(DashPipelineStamp::kParameterizationId)).toString();
++}
++
++void DashDataProcessor::pinParameterizationId(const QString& id)
++{
++    DashProjectManager* prjMgr = DashProjectManager::Instance();
++    DashIOController* ioCtrl = prjMgr ? prjMgr->GetIOController() : nullptr;
++    if (!ioCtrl) {
++        return;
++    }
++    if (m_setName.isEmpty()) {
++        // Set 미지정 시 Set1 기본값을 타면 엉뚱한 Set 에 핀이 박힌다 — 기록 거부.
++        DASH_LOG_WARN(DataProcessor) << "Parameterization pin skipped — no Set context";
++        return;
++    }
++    QFile file(ioCtrl->getConfigFilePath(ModuleType::DataPreprocessor, m_setName));
++    QJsonObject root;
++    if (file.open(QIODevice::ReadOnly)) {
++        root = QJsonDocument::fromJson(file.readAll()).object();
++        file.close();
++    }
++    root[QLatin1String(DashPipelineStamp::kParameterizationId)] = id;
++    if (file.open(QIODevice::WriteOnly)) {
++        file.write(QJsonDocument(root).toJson());
++        file.close();
++    }
++    DASH_LOG_INFO(DataProcessor) << "Parameterization pinned:" << id << "→" << file.fileName();
++}
++
+ void DashDataProcessor::beginProcessing(const QString& message)
+ {
+     if (m_loadingDepth++ == 0) {
+diff --git a/model/DashDataProcessor.h b/model/DashDataProcessor.h
+index 4a239238..caee2a22 100644
+--- a/model/DashDataProcessor.h
++++ b/model/DashDataProcessor.h
+@@ -110,6 +110,8 @@ public slots:
+     void datasetReady(const QList<DatasetItem>& dataset);
+     void keysExtracted(const ExtractedKeys& keys);
+     void errorOccurred(const QString& message);
++    // D20 차단 — 위젯이 안내를 띄우고 DV-Table 선택을 되돌린다 (errorOccurred 와 달리 선택 복원 필요)
++    void dvTableBlocked(const QString& message);
+     void infoMessage(const QString& message);
+     void namesUpdated(const QMap<QString, QStringList>& names);
+     void processFinished(const QString& outputPath);
+@@ -131,6 +133,9 @@ public slots:
+     QString m_setName;
+     QString m_dvTablePath;
+     QJsonObject m_dvTableRoot;
++    // 입력 run 묶음의 조합 스탬프 — DOE Table 동결 기록에서 읽는다 (T21·D26)
++    QString m_inputParameterizationId;
++    QJsonObject m_inputGeometryDeck;
+     QJsonObject m_availableResponses;
+     QJsonObject m_geometries;
+     QString m_currentAnalysisType;
+@@ -149,6 +154,9 @@ public slots:
+     void updateDatasetConfig(const QString& dvTableName, const QString& analysisFileName);
+     void saveDoeTableSnapshot(const QJsonArray& samples, const QJsonArray& headers,
+                               const QString& analysisType, const QJsonArray& outputArr);
++    // {Set}.json 의 조합 id 핀 — 키 부재 = 핀 전(신규 Set) (T21·D20)
++    QString pinnedParameterizationId() const;
++    void pinParameterizationId(const QString& id);
+ 
+     // Helper functions for VTK query construction
+     bool parseLoadStep(const QString& loadStep, int& step, int& substep);
+diff --git a/model/DashDataProcessorKPI.cpp b/model/DashDataProcessorKPI.cpp
+index 3cceaa72..0638e36d 100644
+--- a/model/DashDataProcessorKPI.cpp
++++ b/model/DashDataProcessorKPI.cpp
+@@ -510,8 +510,9 @@ void DashDataProcessor::processModalFrequencyKPI(const KPIConfig& kpiConfig)
+                 }
+                 if (!parameterInfo.isEmpty()) {
+                     DashResultXmlWriter xmlWriter(m_preprocessor.get());
+-                    xmlWriter.writeModelInfoToXml(
+-                        doc, root, parameterInfo, m_currentAnalysisType, responseInfo);
++                    xmlWriter.writeModelInfoToXml(doc, root, parameterInfo, m_currentAnalysisType,
++                                                  responseInfo, m_inputParameterizationId,
++                                                  m_inputGeometryDeck);
+                 }
+             }
+ 
+@@ -865,8 +866,9 @@ void DashDataProcessor::processSideForceKPI(const KPIConfig& kpiConfig)
+         }
+         if (!parameterInfo.isEmpty()) {
+             DashResultXmlWriter xmlWriter(m_preprocessor.get());
+-            xmlWriter.writeModelInfoToXml(
+-                doc, root, parameterInfo, m_currentAnalysisType, responseInfo);
++            xmlWriter.writeModelInfoToXml(doc, root, parameterInfo, m_currentAnalysisType,
++                                          responseInfo, m_inputParameterizationId,
++                                          m_inputGeometryDeck);
+         }
+     }
+ 
+@@ -1232,8 +1234,9 @@ void DashDataProcessor::processCriticalBucklingLoadKPI(const KPIConfig& kpiConfi
+         }
+         if (!parameterInfo.isEmpty()) {
+             DashResultXmlWriter xmlWriter(m_preprocessor.get());
+-            xmlWriter.writeModelInfoToXml(
+-                doc, root, parameterInfo, m_currentAnalysisType, responseInfo);
++            xmlWriter.writeModelInfoToXml(doc, root, parameterInfo, m_currentAnalysisType,
++                                          responseInfo, m_inputParameterizationId,
++                                          m_inputGeometryDeck);
+         }
+     }
+ 
+@@ -1558,8 +1561,9 @@ void DashDataProcessor::processMaxPEEQKPI(const KPIConfig& kpiConfig)
+         }
+         if (!parameterInfo.isEmpty()) {
+             DashResultXmlWriter xmlWriter(m_preprocessor.get());
+-            xmlWriter.writeModelInfoToXml(
+-                doc, root, parameterInfo, m_currentAnalysisType, responseInfo);
++            xmlWriter.writeModelInfoToXml(doc, root, parameterInfo, m_currentAnalysisType,
++                                          responseInfo, m_inputParameterizationId,
++                                          m_inputGeometryDeck);
+         }
+     }
+ 
+@@ -1895,8 +1899,9 @@ void DashDataProcessor::processMinFatigueLifeKPI(const KPIConfig& kpiConfig)
+         }
+         if (!parameterInfo.isEmpty()) {
+             DashResultXmlWriter xmlWriter(m_preprocessor.get());
+-            xmlWriter.writeModelInfoToXml(
+-                doc, root, parameterInfo, m_currentAnalysisType, responseInfo);
++            xmlWriter.writeModelInfoToXml(doc, root, parameterInfo, m_currentAnalysisType,
++                                          responseInfo, m_inputParameterizationId,
++                                          m_inputGeometryDeck);
+         }
+     }
+ 
+diff --git a/model/DashDoeConfigManager.cpp b/model/DashDoeConfigManager.cpp
+index 39daba71..6dedaabb 100644
+--- a/model/DashDoeConfigManager.cpp
++++ b/model/DashDoeConfigManager.cpp
+@@ -1,6 +1,7 @@
+ #include "model/DashDoeConfigManager.h"
+ #include "model/DashDesignVariableModel.h"
+ #include "model/DashDoeSelection.h"
++#include "model/DashPipelineStamp.h"
+ #include "model/SharedTypes.h"
+ #include "controller/DashProjectManager.h"
+ #include "controller/DashIOController.h"
+@@ -125,6 +126,22 @@ QJsonArray DashDoeConfigManager::loadInputFileSettings() const
+     return QJsonArray();
+ }
+ 
++// T27: 조합 id + 동결 사본을 DOE Table 에 싣는다. launcher 루트의 `parameterization` 은
++// 편집 상태라 하류가 직접 읽으면 선택 변경이 과거 run 의 출처까지 소급한다 — Table 에
++// 박아 실행 묶음에 고정한다 (D26). 사본이 SI-5 의 병기 조인 필드이자 geometryDeck 출처다.
++static void stampParameterization(const QJsonObject& launcherRoot, QJsonObject& doeTableObj)
++{
++    const DashParameterization combination = DashDoeSelection::readParameterization(launcherRoot);
++    const QString id = combination.derivedId();
++    if (id.isEmpty()) {
++        // setId 결손(pre-T29 기록·백필 실패)은 id 미발급 — 하류는 무스탬프로 취급한다.
++        DASH_LOG_WARN(Analysis) << "DOE Table 조합 스탬프 생략 — 조합에 setId 없는 Set 이 있습니다";
++        return;
++    }
++    doeTableObj[QLatin1String(DashPipelineStamp::kParameterizationId)] = id;
++    DashDoeSelection::writeParameterization(doeTableObj, combination);
++}
++
+ bool DashDoeConfigManager::saveResultsAsDvTable(const dash::doe::JsonWrapper& samplesWrapper,
+                                                 const QMap<QString, QStringList>& categoricalMappings,
+                                                 DashDesignVariableModel* designVariableModel,
+@@ -360,6 +377,8 @@ bool DashDoeConfigManager::saveResultsAsDvTable(const dash::doe::JsonWrapper& sa
+         doeTableObj["std"] = rootStdArray;
+         doeTableObj["sigmaLevel"] = sigmaLevel;
+     }
++    // Run 버튼이 saveSettings() 를 선행하므로 루트의 parameterization 이 이 실행의 선택이다.
++    stampParameterization(analysisLauncherRoot, doeTableObj);
+     analysisLauncherRoot["DOE Table"] = doeTableObj;
+ 
+     QJsonDocument outputDoc(analysisLauncherRoot);
+@@ -402,6 +421,13 @@ bool DashDoeConfigManager::saveResampledSamples(const QJsonArray& newSamplesFlat
+     if (referenceDoeTable.contains("sigmaLevel")) doeTableObj["sigmaLevel"] = referenceDoeTable.value("sigmaLevel");
+     if (referenceDoeTable.contains("source")) doeTableObj["source"] = referenceDoeTable.value("source");
+     if (referenceDoeTable.contains("mode")) doeTableObj["mode"] = referenceDoeTable.value("mode");
++    // 조합 스탬프도 재파종 대상이다 — 이 Table 의 열이 곧 참조 Set 의 조합이다 (T27).
++    // 참조가 무스탬프(pre-T27)면 이 Table 도 무스탬프로 남아 하류에서 차단된다 (D20).
++    const QLatin1String stampKey(DashPipelineStamp::kParameterizationId);
++    if (referenceDoeTable.contains(stampKey)) {
++        doeTableObj[stampKey] = referenceDoeTable.value(stampKey);
++        doeTableObj["parameterization"] = referenceDoeTable.value("parameterization");
++    }
+ 
+     // Earlier iterations' points, and the Set this Run was based on. Both come from the
+     // parameters rather than being copied out of referenceDoeTable — see the header.
+diff --git a/model/DashDoeSelection.cpp b/model/DashDoeSelection.cpp
+index 4703fd22..84ac5922 100644
+--- a/model/DashDoeSelection.cpp
++++ b/model/DashDoeSelection.cpp
+@@ -84,6 +84,22 @@ bool DashParameterization::isEmpty() const
+            && conditions.isEmpty();
+ }
+ 
++QString DashParameterization::derivedId() const
++{
++    if (geometry.setId.isEmpty()) {
++        return QString();
++    }
++    QStringList conditionIds;
++    for (const Entry& entry : conditions) {
++        if (entry.setId.isEmpty()) {
++            return QString();
++        }
++        conditionIds.append(entry.setId);
++    }
++    std::sort(conditionIds.begin(), conditionIds.end());
++    return geometry.setId + QLatin1Char('+') + conditionIds.join(QLatin1Char(','));
++}
++
+ namespace DashDoeSelection {
+ 
+ DashDoeSelectedSets readSelectedSets(const QJsonObject& doeConfiguration)
+diff --git a/model/DashDoeSelection.h b/model/DashDoeSelection.h
+index a4d78c30..d1eb629d 100644
+--- a/model/DashDoeSelection.h
++++ b/model/DashDoeSelection.h
+@@ -44,6 +44,12 @@ struct DashParameterization
+     QList<Entry> conditions;  // setName 정렬·중복 없음 — make/read 가 정규화한다
+ 
+     bool isEmpty() const;
++
++    // SI-5: "{geometry setId}+{condition setId 연접 \",\"}" — 해시 없음, 멱등, 되파싱 금지
++    // (조인은 병기 필드). 정렬은 setId 기준 — make/read 의 이름 정렬을 쓰면 rename 이 id 를
++    // 바꿔 멱등성이 깨진다. 성분 하나라도 setId 결손(pre-T29)이면 미발급("") — 하류는
++    // 무스탬프로 취급한다.
++    QString derivedId() const;
+ };
+ 
+ namespace DashDoeSelection {
+diff --git a/model/DashModelBuilder.cpp b/model/DashModelBuilder.cpp
+index 206dffdd..a300e640 100644
+--- a/model/DashModelBuilder.cpp
++++ b/model/DashModelBuilder.cpp
+@@ -4,6 +4,7 @@
+ #include "controller/DashExtensionProcess.h"
+ #include "controller/async/ProcessJob.h"
+ #include "model/builder/ModelBuilderConfigHelper.h"
++#include "model/DashPipelineStamp.h"
+ #include "model/DashXmlTailLocator.h"
+ #include <QBuffer>
+ #include <QElapsedTimer>
+@@ -308,7 +309,29 @@ void DashModelBuilder::onLoadButtonClicked(const QString& selectedFile) {
+         emit labelsUpdated();
+         return;
+     }
+-    
++
++    // T22·D20: dataset 조합 스탬프 검증 — 핀은 id 를 든 첫 dataset 에서 1회, 즉시 저장.
++    // 무스탬프(구산출물·단일 파일 임포트 계열)는 차단 + 재실행 안내, 폴백 불도입.
++    if (requiresParameterizationPin()) {
++        const QString datasetId =
++            loadModelInfoFromXml(loadedDatasetPath)
++                .value(QLatin1String(DashPipelineStamp::kParameterizationId))
++                .toString();
++        if (datasetId.isEmpty()) {
++            emit datasetBlocked(DashPipelineStamp::unstampedMessage());
++            emit labelsUpdated();
++            return;
++        }
++        const QString pinned = pinnedParameterizationId();
++        if (pinned.isEmpty()) {
++            pinParameterizationId(datasetId);
++        } else if (pinned != datasetId) {
++            emit datasetBlocked(DashPipelineStamp::mismatchMessage(pinned));
++            emit labelsUpdated();
++            return;
++        }
++    }
++
+     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+         QString errorMsg = QString("Could not open XML file: %1 (Reason: %2)")
+                           .arg(loadedDatasetPath).arg(file.errorString());
+@@ -554,6 +577,16 @@ void DashModelBuilder::onTrainingStartButtonClicked(const QString& trainedModelD
+         } else {
+             DASH_LOG_WARN(ModelBuilder) << "'selected_response' key not found in XML dataset.";
+         }
++        // 조합 스탬프 전사 (T22·D26) — write-once: 스탬프는 불변, 이미 있으면 덮지 않는다.
++        // read(:535)가 기존 키를 보존해도 write 가 전체 truncate 라 명시 가드가 필요하다.
++        const QLatin1String idKey(DashPipelineStamp::kParameterizationId);
++        if (!modelInfoRoot.contains(idKey) && xmlModelInfo.contains(idKey)) {
++            modelInfoRoot[idKey] = xmlModelInfo[idKey];
++            const QLatin1String deckKey(DashPipelineStamp::kGeometryDeck);
++            if (xmlModelInfo.contains(deckKey)) {
++                modelInfoRoot[deckKey] = xmlModelInfo[deckKey];
++            }
++        }
+     } else {
+         DASH_LOG_WARN(ModelBuilder) << "Dataset path is empty, cannot load parameter/selected_response from XML.";
+     }
+@@ -876,6 +909,50 @@ void DashModelBuilder::saveDataLabelConfig()
+     emit configurationSaved();
+ }
+ 
++QString DashModelBuilder::pinnedParameterizationId() const
++{
++    DashProjectManager* prjMgr = DashProjectManager::Instance();
++    DashIOController* ioCtrl = prjMgr ? prjMgr->GetIOController() : nullptr;
++    if (!ioCtrl || m_setName.isEmpty()) {
++        // Set 미지정 시 Set1 기본값을 타면 엉뚱한 Set 의 핀을 기준으로 삼는다.
++        return QString();
++    }
++    QFile file(ioCtrl->getConfigFilePath(ModuleType::ModelBuilder, m_setName));
++    if (!file.open(QIODevice::ReadOnly)) {
++        return QString();
++    }
++    return QJsonDocument::fromJson(file.readAll())
++        .object()
++        .value(QLatin1String(DashPipelineStamp::kParameterizationId))
++        .toString();
++}
++
++void DashModelBuilder::pinParameterizationId(const QString& id)
++{
++    DashProjectManager* prjMgr = DashProjectManager::Instance();
++    DashIOController* ioCtrl = prjMgr ? prjMgr->GetIOController() : nullptr;
++    if (!ioCtrl) {
++        return;
++    }
++    if (m_setName.isEmpty()) {
++        // Set 미지정 시 Set1 기본값을 타면 엉뚱한 Set 에 핀이 박힌다 — 기록 거부.
++        DASH_LOG_WARN(ModelBuilder) << "Parameterization pin skipped — no Set context";
++        return;
++    }
++    QFile file(ioCtrl->getConfigFilePath(ModuleType::ModelBuilder, m_setName));
++    QJsonObject root;
++    if (file.open(QIODevice::ReadOnly)) {
++        root = QJsonDocument::fromJson(file.readAll()).object();
++        file.close();
++    }
++    root[QLatin1String(DashPipelineStamp::kParameterizationId)] = id;
++    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
++        file.write(QJsonDocument(root).toJson(QJsonDocument::Indented));
++        file.close();
++    }
++    DASH_LOG_INFO(ModelBuilder) << "Parameterization pinned:" << id << "→" << file.fileName();
++}
++
+ // createInputLabelsJsonObject and createOutputLabelsJsonObject are now using ModelBuilderConfigHelper
+ QJsonObject DashModelBuilder::createInputLabelsJsonObject() const {
+     return ModelBuilderConfigHelper::createInputLabelsJsonObject(m_inputLabels);
+@@ -1214,6 +1291,11 @@ void DashModelBuilder::loadLabelMetadata()
+         QJsonObject rootObj = doc.object();
+         int keysAdded = 0;
+         for (const QString& key : rootObj.keys()) {
++            // 조합 스탬프 키는 라벨 메타데이터가 아니다 — 방어 필터 (T22)
++            if (key == QLatin1String(DashPipelineStamp::kParameterizationId)
++                || key == QLatin1String(DashPipelineStamp::kGeometryDeck)) {
++                continue;
++            }
+             if (rootObj[key].isObject()) {
+                 m_labelMetadata[key] = rootObj[key].toObject();
+                 keysAdded++;
+@@ -1626,6 +1708,8 @@ QJsonObject DashModelBuilder::parseModelInfoStream(QXmlStreamReader& xml) const
+     QJsonObject result;
+     QJsonObject parameterObj;
+     QJsonObject selectedResponseObj;
++    QString parameterizationId;
++    QJsonObject geometryDeckObj;
+ 
+     // XML 탐색 시작
+     while (!xml.atEnd() && !xml.hasError()) {
+@@ -1706,6 +1790,35 @@ QJsonObject DashModelBuilder::parseModelInfoStream(QXmlStreamReader& xml) const
+                                 selectedResponseObj = readSelectedResponseFromStream(xml);
+                                 DASH_LOG_DEBUG(ModelBuilder) << "Loaded selected_response with" << selectedResponseObj.keys().size() << "fields";
+                             }
++                        } else if (key == QLatin1String(DashPipelineStamp::kParameterizationId)) {
++                            // 조합 스탬프 (T22·D26) — <string> 하나
++                            parameterizationId =
++                                xml.readElementText(QXmlStreamReader::IncludeChildElements).trimmed();
++                        } else if (key == QLatin1String(DashPipelineStamp::kGeometryDeck)) {
++                            // 조합 스탬프 (T22·D26) — 문자열 값의 평면 <dict> (uuid·path)
++                            bool foundDeckDict = false;
++                            while (!xml.atEnd()) {
++                                xml.readNext();
++                                if (xml.isStartElement() && xml.name() == "dict") {
++                                    foundDeckDict = true;
++                                    break;
++                                }
++                                if (xml.isEndElement() && xml.name() == "dict_item") break;
++                            }
++                            if (foundDeckDict) {
++                                while (!xml.atEnd()) {
++                                    xml.readNext();
++                                    if (xml.isEndElement() && xml.name() == "dict") break;
++                                    if (xml.isStartElement() && xml.name() == "dict_item") {
++                                        const QString deckKey =
++                                            xml.attributes().value("key").toString();
++                                        geometryDeckObj[deckKey] =
++                                            xml.readElementText(
++                                                   QXmlStreamReader::IncludeChildElements)
++                                                .trimmed();
++                                    }
++                                }
++                            }
+                         } else {
+                             // parameter나 selected_response가 아닌 형제 노드는 건너뜀
+                             xml.skipCurrentElement();
+@@ -1720,6 +1833,13 @@ QJsonObject DashModelBuilder::parseModelInfoStream(QXmlStreamReader& xml) const
+                 if (!selectedResponseObj.isEmpty()) {
+                     result["selected_response"] = selectedResponseObj;
+                 }
++                if (!parameterizationId.isEmpty()) {
++                    result[QLatin1String(DashPipelineStamp::kParameterizationId)] =
++                        parameterizationId;
++                }
++                if (!geometryDeckObj.isEmpty()) {
++                    result[QLatin1String(DashPipelineStamp::kGeometryDeck)] = geometryDeckObj;
++                }
+ 
+                 return result;
+             } else {
+diff --git a/model/DashModelBuilder.h b/model/DashModelBuilder.h
+index a270b807..74b46f07 100644
+--- a/model/DashModelBuilder.h
++++ b/model/DashModelBuilder.h
+@@ -90,6 +90,8 @@ public slots:
+     void trainingSucceeded();
+     void trainingFailed(const QString& errorMessage);
+     void modelStatusUpdated(const QString& modelName, const QString& status);
++    // D20 차단 — 조합 id 불일치·무스탬프 dataset. 위젯이 안내를 띄운다 (T22)
++    void datasetBlocked(const QString& message);
+ 
+ private slots:
+     // 실행 엔진(ProcessJob)이 통지하는 결과를 도메인 시그널로 번역한다.
+@@ -117,7 +119,13 @@ private slots:
+     QJsonObject readSelectedResponseFromStream(QXmlStreamReader& xml) const;
+     QJsonObject parseModelInfoStream(QXmlStreamReader& xml) const;
+     QJsonObject loadModelInfoFromXml(const QString& xmlFilePath) const;
+-    
++
++    // MCU 는 사용자 CSV 입력이라 deck-무관 계보 — 조합 미지정 허용, 검증·핀 없음 (T22)
++    virtual bool requiresParameterizationPin() const { return true; }
++    // ModelBuilder_{Set}.json 의 조합 id 핀 — 키 부재 = 핀 전(신규 Set) (T22·D20)
++    QString pinnedParameterizationId() const;
++    void pinParameterizationId(const QString& id);
++
+     // Protected members for derived classes
+     QString m_configJsonPath;
+     QString m_datasetPath;
+diff --git a/model/DashModelBuilderMCU.h b/model/DashModelBuilderMCU.h
+index 346d34c9..77a6eaf9 100644
+--- a/model/DashModelBuilderMCU.h
++++ b/model/DashModelBuilderMCU.h
+@@ -48,6 +48,9 @@ class DashModelBuilderMCU : public DashModelBuilder
+     // Override: refreshes model info from userPath instead of projectPath
+     void refreshTrainedModelInfo() override;
+ 
++    // MCU 는 deck-무관 계보 — 조합 검증·핀을 걸지 않는다 (T22, "-MCU" 구조 예외)
++    bool requiresParameterizationPin() const override { return false; }
++
+     // Validation helpers for CSV datasets
+     // transformHeaders: when true, CSV column names are sanitized before comparing with
+     // requiredHeaders (needed when requiredHeaders come from model_info.json "parameter" keys which
+diff --git a/model/DashModelRunner.cpp b/model/DashModelRunner.cpp
+index 3651afc2..707f4164 100644
+--- a/model/DashModelRunner.cpp
++++ b/model/DashModelRunner.cpp
+@@ -1,6 +1,7 @@
+ #include "model/DashModelRunner.h"
+ #include "model/DashDoeSelection.h"
+ #include "model/DashModelBuilder.h"
++#include "model/DashPipelineStamp.h"
+ #include "controller/DashAnalysisModelContextRegistry.h"
+ #include "controller/DashAnalysisModelContext.h"
+ #include "controller/DashManager.h"
+@@ -618,6 +619,30 @@ bool DashModelRunner::writeConfigFile(const QString& configPath, const QJsonObje
+     return true;
+ }
+ 
++QString DashModelRunner::pinnedParameterizationId() const
++{
++    const QString filePath = calculateConfigFilePath(m_runtimeContext.setName);
++    if (filePath.isEmpty()) {
++        return QString();
++    }
++    return readConfigFile(filePath)
++        .value(QLatin1String(DashPipelineStamp::kParameterizationId))
++        .toString();
++}
++
++void DashModelRunner::pinParameterizationId(const QString& id)
++{
++    // 핀은 활성 Set 몫이다 — 뷰 소스 폴더가 아니라 m_runtimeContext (설정 저장 규칙과 동일).
++    const QString filePath = calculateConfigFilePath(m_runtimeContext.setName);
++    if (filePath.isEmpty()) {
++        return;
++    }
++    QJsonObject root = readConfigFile(filePath);
++    root[QLatin1String(DashPipelineStamp::kParameterizationId)] = id;
++    writeConfigFile(filePath, root);
++    DASH_LOG_INFO(ModelRunner) << "Parameterization pinned:" << id << "→" << filePath;
++}
++
+ QJsonObject DashModelRunner::readModelInfoJson(const QString& modelInfoPath) const
+ {
+     QJsonObject root;
+@@ -1432,6 +1457,29 @@ void DashModelRunner::loadModelInfoFromFolder(const QString& folderName)
+         return;
+     }
+ 
++    // T23·D20: 조합 id 검증·핀 — 차단 시 m_viewSourceContext 를 대입하지 않아 거부된
++    // 폴더가 뷰 소스가 되지 않는다. MCU Set 은 deck-무관 계보라 예외 ("-MCU" 구조 예외).
++    if (!sourceSetName.endsWith(QLatin1String("-MCU"))
++        && !m_runtimeContext.setName.endsWith(QLatin1String("-MCU"))) {
++        const QString modelInfoId =
++            modelInfoRoot.value(QLatin1String(DashPipelineStamp::kParameterizationId)).toString();
++        if (modelInfoId.isEmpty()) {
++            // 무스탬프 구산출물 — 연결 차단 + 재실행 안내, 폴백 불도입 (D20 재개정)
++            emit modelInfoBlocked(DashPipelineStamp::unstampedMessage());
++            emit dataLoaded();
++            return;
++        }
++        const QString pinned = pinnedParameterizationId();
++        if (pinned.isEmpty()) {
++            // 핀은 id 를 든 첫 입력에서 1회, 연결 즉시 저장 (D19·D20)
++            pinParameterizationId(modelInfoId);
++        } else if (pinned != modelInfoId) {
++            emit modelInfoBlocked(DashPipelineStamp::mismatchMessage(pinned));
++            emit dataLoaded();
++            return;
++        }
++    }
++
+     // Store the source folder's context so resolveParameterSourceLabel() and
+     // getReferenceFileAndPart() read from the correct ModelBuilder folder.
+     m_viewSourceContext = viewCtx;
+@@ -1602,6 +1650,15 @@ DashModelRunner::ReferenceFileInfo DashModelRunner::getReferenceFileAndPart() co
+         return info;
+     }
+ 
++    // T23·D20 재개정: deck 1차 출처는 model_info 의 조합 스탬프(산출물 전사값) — 라이브
++    // 체인은 part 명 조회 용도만 잔존한다. 스탬프 path 는 루트 상대라 호출부의
++    // resolveSourceFilePath 를 그대로 통과한다.
++    const QString stampedDeckPath =
++        modelInfoRoot.value(QLatin1String(DashPipelineStamp::kGeometryDeck))
++            .toObject()
++            .value(QStringLiteral("path"))
++            .toString();
++
+     if (!modelInfoRoot.contains("parameter") || !modelInfoRoot["parameter"].isObject()) {
+         return info;
+     }
+@@ -1639,7 +1696,10 @@ DashModelRunner::ReferenceFileInfo DashModelRunner::getReferenceFileAndPart() co
+                 if (dvSource.startsWith("Morphing|")) {
+                     QStringList parts = dvSource.split("|");
+                     if (parts.size() >= 3) {
+-                        info.inputFileName = parts[1];
++                        // 스탬프가 있으면 deck 은 스탬프에서, part 는 라이브 조인에서 (D20).
++                        // 무스탬프는 연결 단계에서 이미 차단되므로 라이브 값은 잔존 경로다.
++                        info.inputFileName =
++                            stampedDeckPath.isEmpty() ? parts[1] : stampedDeckPath;
+                         info.componentName = parts[2];
+                         info.geometryParameterJsonPath = jsonFilePath;
+                         info.sourceType = ReferenceFileInfo::SourceType::Morphing;
+diff --git a/model/DashModelRunner.h b/model/DashModelRunner.h
+index f998ebf7..c1e8f7fc 100644
+--- a/model/DashModelRunner.h
++++ b/model/DashModelRunner.h
+@@ -212,6 +212,8 @@ public slots:
+ 
+ signals:
+     void dataLoaded();
++    // D20 차단 — 조합 id 불일치·무스탬프 model_info. 위젯이 안내를 띄운다 (T23)
++    void modelInfoBlocked(const QString& message);
+     void surrogateModelUpdated(int index);
+     void predictionSucceeded();
+     void predictionFailed(const QString& errorMessage);
+@@ -267,6 +269,10 @@ private slots:
+     bool writeConfigFile(const QString& configPath, const QJsonObject& root) const;
+     QJsonObject readModelInfoJson(const QString& modelInfoPath) const;
+ 
++    // ModelRunner_{Set}.json(활성 Set)의 조합 id 핀 — 키 부재 = 핀 전 (T23·D20)
++    QString pinnedParameterizationId() const;
++    void pinParameterizationId(const QString& id);
++
+     // Daemon communication
+     void sendSensitivityCommand(const QString& command,
+                                 const QJsonObject& inputJson,
+diff --git a/model/DashOptimizer.cpp b/model/DashOptimizer.cpp
+index 0688976c..7113ef64 100644
+--- a/model/DashOptimizer.cpp
++++ b/model/DashOptimizer.cpp
+@@ -1,5 +1,6 @@
+ #include "model/DashOptimizer.h"
+ #include "model/DashDoeSelection.h"
++#include "model/DashPipelineStamp.h"
+ #include "model/analyzer/DashPlotSpecBuilder.h"
+ #include "controller/DashProjectManager.h"
+ #include "controller/DashIOController.h"
+@@ -775,13 +776,44 @@ void DashOptimizer::loadModelInfoFromFolder(const QString& folderName)
+         return;
+     }
+ 
++    // 핀 RMW 가 쓰는 경로 — 차단 조기 반환보다 먼저 확정해야 한다 (T23).
++    QString optSetName = m_setName.isEmpty() ? "Set1" : m_setName;
++    m_optimizationJsonPath = ioCtrl->getConfigFilePath(ModuleType::Optimizer, optSetName);
++
++    // T23·D20: 조합 id 검증·핀 — MCU Set 은 deck-무관 계보라 예외 ("-MCU" 구조 예외).
++    // 차단 시 m_modelInfoJsonPath 를 비워 프리뷰·performMorphing 이 거부된 파일을 읽지
++    // 않게 한다 (:744 에서 선대입되므로).
++    if (!setName.endsWith(QLatin1String("-MCU")) && !optSetName.endsWith(QLatin1String("-MCU"))) {
++        const QString modelInfoId = modelInfoDoc.object()
++                                        .value(QLatin1String(DashPipelineStamp::kParameterizationId))
++                                        .toString();
++        QString blockMessage;
++        if (modelInfoId.isEmpty()) {
++            // 무스탬프 구산출물 — 연결 차단 + 재실행 안내, 폴백 불도입 (D20 재개정)
++            blockMessage = DashPipelineStamp::unstampedMessage();
++        } else {
++            const QString pinned = pinnedParameterizationId();
++            if (pinned.isEmpty()) {
++                // 핀은 id 를 든 첫 입력에서 1회, 연결 즉시 저장 (D19·D20)
++                pinParameterizationId(modelInfoId);
++            } else if (pinned != modelInfoId) {
++                blockMessage = DashPipelineStamp::mismatchMessage(pinned);
++            }
++        }
++        if (!blockMessage.isEmpty()) {
++            m_modelInfoJsonPath.clear();
++            m_surrogateModels.clear();
++            m_designVariables.clear();
++            emit modelInfoBlocked(blockMessage);
++            emit dataLoaded();
++            return;
++        }
++    }
++
+     loadSurrogateModelsFromJson(modelInfoDoc);
+     loadDesignVariablesFromJson(modelInfoDoc);
+ 
+     // Load selectedModel and symbol from optimization section
+-    QString optSetName = m_setName.isEmpty() ? "Set1" : m_setName;
+-    m_optimizationJsonPath = ioCtrl->getConfigFilePath(ModuleType::Optimizer, optSetName);
+-
+     QFile optFile(m_optimizationJsonPath);
+     if (optFile.open(QIODevice::ReadOnly)) {
+         QJsonDocument doc = QJsonDocument::fromJson(optFile.readAll());
+@@ -807,6 +839,46 @@ void DashOptimizer::loadModelInfoFromFolder(const QString& folderName)
+     emit dataLoaded();
+ }
+ 
++QString DashOptimizer::pinnedParameterizationId() const
++{
++    if (m_setName.isEmpty() || m_optimizationJsonPath.isEmpty()) {
++        // Set 미지정 시 경로가 Set1 기본값으로 풀려 엉뚱한 Set 의 핀을 기준으로 삼는다.
++        return QString();
++    }
++    QFile file(m_optimizationJsonPath);
++    if (!file.open(QIODevice::ReadOnly)) {
++        return QString();
++    }
++    return QJsonDocument::fromJson(file.readAll())
++        .object()
++        .value(QLatin1String(DashPipelineStamp::kParameterizationId))
++        .toString();
++}
++
++void DashOptimizer::pinParameterizationId(const QString& id)
++{
++    if (m_setName.isEmpty()) {
++        // Set 미지정 시 경로가 Set1 기본값으로 풀려 엉뚱한 Set 에 핀이 박힌다 — 기록 거부.
++        DASH_LOG_WARN(Optimizer) << "Parameterization pin skipped — no Set context";
++        return;
++    }
++    if (m_optimizationJsonPath.isEmpty()) {
++        return;
++    }
++    QFile file(m_optimizationJsonPath);
++    QJsonObject root;
++    if (file.open(QIODevice::ReadOnly)) {
++        root = QJsonDocument::fromJson(file.readAll()).object();
++        file.close();
++    }
++    root[QLatin1String(DashPipelineStamp::kParameterizationId)] = id;
++    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
++        file.write(QJsonDocument(root).toJson(QJsonDocument::Indented));
++        file.close();
++    }
++    DASH_LOG_INFO(Optimizer) << "Parameterization pinned:" << id << "→" << m_optimizationJsonPath;
++}
++
+ void DashOptimizer::loadOptimizationSettings(const QJsonObject& optimizationSection)
+ {
+     if (!optimizationSection.contains(JsonKeys::OPTIMIZATION_SETTINGS)) {
+diff --git a/model/DashOptimizer.h b/model/DashOptimizer.h
+index 55c6604d..0b95f09d 100644
+--- a/model/DashOptimizer.h
++++ b/model/DashOptimizer.h
+@@ -91,6 +91,8 @@ private slots:
+ 
+ signals:
+     void dataLoaded();
++    // D20 차단 — 조합 id 불일치·무스탬프 model_info. 위젯이 안내를 띄운다 (T23)
++    void modelInfoBlocked(const QString& message);
+     void optimizationSucceeded(const QString& convergenceImagePath);
+     void optimizationFailed(const QString& errorMessage);
+     void settingsSaved(); 
+@@ -118,6 +120,11 @@ private slots:
+     void loadSurrogateModelsFromJson(const QJsonDocument& doc);
+     void loadDesignVariablesFromJson(const QJsonDocument& doc);
+ 
++    // Optimizer_{Set}.json 최상위의 조합 id 핀 — 키 부재 = 핀 전 (T23·D20).
++    // saveSettings() 는 Optimization 섹션만 재기록하므로 top-level 핀은 침범되지 않는다.
++    QString pinnedParameterizationId() const;
++    void pinParameterizationId(const QString& id);
++
+ 
+     QString m_optimizationJsonPath;
+     QString m_modelInfoJsonPath;
+diff --git a/model/DashPipelineStamp.h b/model/DashPipelineStamp.h
+new file mode 100644
+index 00000000..2467da61
+--- /dev/null
++++ b/model/DashPipelineStamp.h
+@@ -0,0 +1,30 @@
++#pragma once
++
++#include <QString>
++
++// Pipeline stamp vocabulary (D26) and the D20 block messages. The stamp is written once
++// at creation time (DOE Table → dataset XML → model_info.json); each hop pins the first
++// input's id into its own {Set}.json and blocks any other id afterwards. Every hop uses
++// these keys and the one sentence shape, so they live in one header.
++namespace DashPipelineStamp {
++
++// SI-5 combination id (DashParameterization::derivedId).
++inline constexpr char kParameterizationId[] = "parameterizationId";
++// {uuid, path} of the combination's geometry deck — DashSetReferenceModel::toObject shape.
++inline constexpr char kGeometryDeck[] = "geometryDeck";
++
++inline QString mismatchMessage(const QString& pinnedId)
++{
++    return QStringLiteral("이 Set 은 %1 기준으로 고정되어 있습니다. "
++                          "다른 기준 조합은 새 Set 을 만들어 사용하세요.")
++        .arg(pinnedId);
++}
++
++// D20 re-revision: no fallback for unstamped legacy outputs — block and ask for a rerun.
++inline QString unstampedMessage()
++{
++    return QStringLiteral("스탬프 없는 구산출물입니다. "
++                          "이전 단계를 다시 실행해 만든 산출물을 사용하세요.");
++}
++
++}  // namespace DashPipelineStamp
+diff --git a/model/preprocessor/DashResultXmlWriter.cpp b/model/preprocessor/DashResultXmlWriter.cpp
+index 052b6a65..cfabd9b8 100644
+--- a/model/preprocessor/DashResultXmlWriter.cpp
++++ b/model/preprocessor/DashResultXmlWriter.cpp
+@@ -2,6 +2,7 @@
+ #include "DashUtils.h"
+ #include "PreprocessorQueryHelpers.h"
+ #include "../DashDataProcessor.h" // For ModalModeDef
++#include "model/DashPipelineStamp.h"
+ #include "model/extensions/enterprise/LGE_BoreBossComponentRule.h"
+ #include "wrapper/IPreprocessorWrapper.h"
+ #include <QJsonDocument>
+@@ -934,7 +935,9 @@ void DashResultXmlWriter::writeParameterSectionToXml(QDomDocument& doc, QDomElem
+ 
+ void DashResultXmlWriter::writeModelInfoToXml(QDomDocument& doc, QDomElement& root,
+                                               const QJsonObject& parameterInfo, const QString& currentAnalysisType,
+-                                              const QJsonObject& responseInfo)
++                                              const QJsonObject& responseInfo,
++                                              const QString& parameterizationId,
++                                              const QJsonObject& geometryDeck)
+ {
+     if (parameterInfo.isEmpty()) {
+         return;
+@@ -947,6 +950,32 @@ void DashResultXmlWriter::writeModelInfoToXml(QDomDocument& doc, QDomElement& ro
+     QDomElement modelInfoDict = doc.createElement("dict");
+     modelInfoItem.appendChild(modelInfoDict);
+ 
++    // 조합 스탬프 (T21·D26) — Builder 가 두 키를 model_info.json 최상위로 전사한다.
++    if (!parameterizationId.isEmpty()) {
++        QDomElement idItem = doc.createElement("dict_item");
++        idItem.setAttribute("key", QLatin1String(DashPipelineStamp::kParameterizationId));
++        QDomElement idString = doc.createElement("string");
++        idString.appendChild(doc.createTextNode(parameterizationId));
++        idItem.appendChild(idString);
++        modelInfoDict.appendChild(idItem);
++
++        if (!geometryDeck.isEmpty()) {
++            QDomElement deckItem = doc.createElement("dict_item");
++            deckItem.setAttribute("key", QLatin1String(DashPipelineStamp::kGeometryDeck));
++            QDomElement deckDict = doc.createElement("dict");
++            deckItem.appendChild(deckDict);
++            for (auto it = geometryDeck.constBegin(); it != geometryDeck.constEnd(); ++it) {
++                QDomElement kvItem = doc.createElement("dict_item");
++                kvItem.setAttribute("key", it.key());
++                QDomElement kvString = doc.createElement("string");
++                kvString.appendChild(doc.createTextNode(it.value().toString()));
++                kvItem.appendChild(kvString);
++                deckDict.appendChild(kvItem);
++            }
++            modelInfoDict.appendChild(deckItem);
++        }
++    }
++
+     writeParameterSectionToXml(doc, modelInfoDict, parameterInfo);
+ 
+     if (!responseInfo.isEmpty()) {
+diff --git a/model/preprocessor/DashResultXmlWriter.h b/model/preprocessor/DashResultXmlWriter.h
+index cf13b9d2..8c72369a 100644
+--- a/model/preprocessor/DashResultXmlWriter.h
++++ b/model/preprocessor/DashResultXmlWriter.h
+@@ -39,9 +39,13 @@ class DashResultXmlWriter
+                                std::function<void(const QString&)> logCallback = nullptr,
+                                const QString& runKey = QString());
+     
++    // parameterizationId·geometryDeck: 조합 스탬프 (T21·D26) — model_info 섹션 안에
++    // write-once 로 실린다. 빈 id 는 무스탬프 산출물(단일 파일 임포트 등).
+     void writeModelInfoToXml(QDomDocument& doc, QDomElement& root,
+                             const QJsonObject& parameterInfo, const QString& currentAnalysisType,
+-                            const QJsonObject& responseInfo = QJsonObject());
++                            const QJsonObject& responseInfo = QJsonObject(),
++                            const QString& parameterizationId = QString(),
++                            const QJsonObject& geometryDeck = QJsonObject());
+ 
+     void writeParameterSectionToXml(QDomDocument& doc, QDomElement& parentDict,
+                                     const QJsonObject& parameterInfo);
+diff --git a/tests/test_doe_selection.cpp b/tests/test_doe_selection.cpp
+index e6a92191..1a4d41a2 100644
+--- a/tests/test_doe_selection.cpp
++++ b/tests/test_doe_selection.cpp
+@@ -41,6 +41,13 @@ DashParameterization::Entry entry(const QString& setName, const QString& uuid, c
+     return e;
+ }
+ 
++DashParameterization::Entry idEntry(const QString& setName, const QString& setId)
++{
++    DashParameterization::Entry e = entry(setName, QStringLiteral("u-") + setName, setName + ".dat");
++    e.setId = setId;
++    return e;
++}
++
+ QJsonObject conditionsOf(const QJsonObject& root)
+ {
+     return root.value(QStringLiteral("parameterization"))
+@@ -95,6 +102,10 @@ private slots:
+     void setIdRecordsJoinByIdAndCarryTheName();
+     void aLegacyRecordReadsTheNameAsTheKey();
+     void aSetIdlessEntryKeepsTheLegacyShape();
++    void derivedIdJoinsGeometryAndConditionSetIds();
++    void derivedIdSortsConditionsBySetIdNotByName();
++    void derivedIdSurvivesARename();
++    void derivedIdIsEmptyWhenAnySetIdIsMissing();
+ 
+ private:
+     // geometry Set 의 DV-Geometry 키 목록만 열 출처 합성에 쓰인다.
+@@ -736,5 +747,64 @@ void TestDoeSelection::aSetIdlessEntryKeepsTheLegacyShape()
+     QVERIFY(!condition.contains(QStringLiteral("name")));
+ }
+ 
++void TestDoeSelection::derivedIdJoinsGeometryAndConditionSetIds()
++{
++    // SI-5: "{geometry setId}+{condition setIds ','-joined}" — 해시 없음, deck·이름 무관
++    const DashParameterization combination = DashDoeSelection::makeParameterization(
++        idEntry(QStringLiteral("Geo1"), QStringLiteral("geoid1111111")),
++        { idEntry(QStringLiteral("Cond1"), QStringLiteral("cond11111111")),
++          idEntry(QStringLiteral("Cond2"), QStringLiteral("cond22222222")) });
++
++    QCOMPARE(combination.derivedId(),
++             QStringLiteral("geoid1111111+cond11111111,cond22222222"));
++
++    // geometry 단독 조합도 유효한 id 를 낸다 — 조건부는 빈 연접
++    const DashParameterization geometryOnly = DashDoeSelection::makeParameterization(
++        idEntry(QStringLiteral("Geo1"), QStringLiteral("geoid1111111")), {});
++    QCOMPARE(geometryOnly.derivedId(), QStringLiteral("geoid1111111+"));
++}
++
++void TestDoeSelection::derivedIdSortsConditionsBySetIdNotByName()
++{
++    // makeParameterization 은 이름 정렬 — id 는 setId 정렬이어야 이름과 무관하게 멱등이다
++    const DashParameterization combination = DashDoeSelection::makeParameterization(
++        idEntry(QStringLiteral("Geo1"), QStringLiteral("geoid1111111")),
++        { idEntry(QStringLiteral("Aaa"), QStringLiteral("zzz999999999")),
++          idEntry(QStringLiteral("Zzz"), QStringLiteral("aaa111111111")) });
++
++    QCOMPARE(combination.derivedId(),
++             QStringLiteral("geoid1111111+aaa111111111,zzz999999999"));
++}
++
++void TestDoeSelection::derivedIdSurvivesARename()
++{
++    // Set rename 은 setId 를 바꾸지 않으므로 id 도 불변이어야 한다
++    const DashParameterization before = DashDoeSelection::makeParameterization(
++        idEntry(QStringLiteral("Geo1"), QStringLiteral("geoid1111111")),
++        { idEntry(QStringLiteral("Cond1"), QStringLiteral("cond11111111")) });
++
++    const DashParameterization after = DashDoeSelection::makeParameterization(
++        idEntry(QStringLiteral("GeoRenamed"), QStringLiteral("geoid1111111")),
++        { idEntry(QStringLiteral("CondRenamed"), QStringLiteral("cond11111111")) });
++
++    QCOMPARE(after.derivedId(), before.derivedId());
++}
++
++void TestDoeSelection::derivedIdIsEmptyWhenAnySetIdIsMissing()
++{
++    // setId 결손(pre-T29 기록·백필 실패)은 id 미발급 — 하류는 무스탬프로 취급한다
++    const DashParameterization geometryIdless = DashDoeSelection::makeParameterization(
++        entry(QStringLiteral("Geo1"), QStringLiteral("u-geo"), QStringLiteral("a.dat")),
++        { idEntry(QStringLiteral("Cond1"), QStringLiteral("cond11111111")) });
++    QVERIFY(geometryIdless.derivedId().isEmpty());
++
++    const DashParameterization conditionIdless = DashDoeSelection::makeParameterization(
++        idEntry(QStringLiteral("Geo1"), QStringLiteral("geoid1111111")),
++        { entry(QStringLiteral("Cond1"), QStringLiteral("u-c1"), QStringLiteral("a.dat")) });
++    QVERIFY(conditionIdless.derivedId().isEmpty());
++
++    QVERIFY(DashParameterization().derivedId().isEmpty());
++}
++
+ QTEST_MAIN(TestDoeSelection)
+ #include "test_doe_selection.moc"
+diff --git a/view/DashDataProcessorWidget.cpp b/view/DashDataProcessorWidget.cpp
+index ec41fa5b..7feb54a3 100644
+--- a/view/DashDataProcessorWidget.cpp
++++ b/view/DashDataProcessorWidget.cpp
+@@ -348,6 +348,11 @@ void DashDataProcessorWidget::setModel(DashDataProcessor* model)
+     });
+ 
+ 
++    // D20 차단 — 안내 후 DV-Table 선택을 되돌린다 (빈 선택이 하위 콤보·테이블을 정리한다)
++    connect(m_model, &DashDataProcessor::dvTableBlocked, this, [this](const QString& message){
++        DashNotify::warning(DashLog::Module::DataProcessor, this, "Parameterization", message);
++        dvTableComboBox->setCurrentIndex(-1);
++    });
+     connect(m_model, &DashDataProcessor::errorOccurred, this, [this](const QString& message){
+         DashNotify::warning(DashLog::Module::DataProcessor, this, "Error", message);
+     });
+diff --git a/view/DashModelBuilderWidget.cpp b/view/DashModelBuilderWidget.cpp
+index 7087d1ee..206e2def 100644
+--- a/view/DashModelBuilderWidget.cpp
++++ b/view/DashModelBuilderWidget.cpp
+@@ -84,6 +84,10 @@ void DashModelBuilderWidget::setModel(DashModelBuilder* model, const QString& pr
+         connect(setButton, &QPushButton::clicked, this, &DashModelBuilderWidget::onSetButtonClicked, Qt::UniqueConnection);
+         connect(m_modelBuilder, &DashModelBuilder::configLoaded, this, &DashModelBuilderWidget::onConfigLoaded);
+         connect(m_modelBuilder, &DashModelBuilder::labelsUpdated, this, &DashModelBuilderWidget::updateLabelTable);
++        // D20 차단 안내 (T22) — 시스템 상태 거부라 로그 대상, DashNotify 사용
++        connect(m_modelBuilder, &DashModelBuilder::datasetBlocked, this, [this](const QString& message){
++            DashNotify::warning(DashLog::Module::ModelBuilder, this, "Parameterization", message);
++        });
+         connect(m_modelBuilder, &DashModelBuilder::fileListUpdated, this, &DashModelBuilderWidget::updateDataPreprocessorDirComboBox);
+         connect(m_modelBuilder, &DashModelBuilder::modelStatusUpdated, this, &DashModelBuilderWidget::onModelStatusUpdated);
+         connect(m_modelBuilder, &DashModelBuilder::trainingSucceeded, this, &DashModelBuilderWidget::onTrainingFinished);
+diff --git a/view/DashModelRunnerWidget.cpp b/view/DashModelRunnerWidget.cpp
+index 514f6762..fb334567 100644
+--- a/view/DashModelRunnerWidget.cpp
++++ b/view/DashModelRunnerWidget.cpp
+@@ -117,6 +117,15 @@ void DashModelRunnerWidget::setModel(DashModelRunner* model)
+                 this,
+                 &DashModelRunnerWidget::onModelDataLoaded,
+                 Qt::UniqueConnection);
++        // D20 차단 안내 (T23) — 시스템 상태 거부라 로그 대상, DashNotify 사용
++        connect(
++            m_modelRunner,
++            &DashModelRunner::modelInfoBlocked,
++            this,
++            [this](const QString& message) {
++                DashNotify::warning(DashLog::Module::ModelRunner, this, "Parameterization", message);
++            },
++            Qt::UniqueConnection);
+         // Note: designVariablesChanged, surrogateModelsChanged, fileTableUpdated signals are not
+         // connected here to avoid circular calls during initial population. They are emitted but
+         // handled through dataLoaded signal.
+diff --git a/view/DashOptimizerWidget.cpp b/view/DashOptimizerWidget.cpp
+index aa2306e8..37c3e405 100644
+--- a/view/DashOptimizerWidget.cpp
++++ b/view/DashOptimizerWidget.cpp
+@@ -9,6 +9,7 @@
+ #include "view/DashMainWindow.h"
+ #include "model/DashOptimizer.h"
+ #include "model/DashDoeSelection.h"
++#include "model/DashPipelineStamp.h"
+ #include "controller/DashProjectManager.h"
+ #include "controller/DashIOController.h"
+ #include "controller/DashManager.h"
+@@ -126,6 +127,10 @@ void DashOptimizerWidget::setModel(DashOptimizer* model)
+ 
+     if (m_optimizerModel) {
+         connect(m_optimizerModel, &DashOptimizer::dataLoaded, this, &DashOptimizerWidget::onModelDataLoaded);
++        // D20 차단 안내 (T23) — 시스템 상태 거부라 로그 대상, DashNotify 사용
++        connect(m_optimizerModel, &DashOptimizer::modelInfoBlocked, this, [this](const QString& message) {
++            DashNotify::warning(DashLog::Module::Optimizer, this, "Parameterization", message);
++        });
+         connect(m_optimizerModel, &DashOptimizer::optimizationSucceeded, this, &DashOptimizerWidget::onOptimizationSucceeded);
+         connect(m_optimizerModel, &DashOptimizer::surrogateModelUpdated, this, &DashOptimizerWidget::onSurrogateModelUpdated);
+ #ifdef DASH_BUILD_LGE_COMPSPRING
+@@ -1457,37 +1462,42 @@ void DashOptimizerWidget::onPreviewButtonClicked()
+             return;
+         }
+ 
+-        // Find all .dat and .inp template files in configs folder
+-        QDir configsDirObj(configsDir);
+-        QStringList templateFilters;
+-        templateFilters << "*.dat" << "*.inp";
+-        QStringList templateFiles = configsDirObj.entryList(templateFilters, QDir::Files);
+-
+-        if (templateFiles.isEmpty()) {
+-            DashNotify::warning(DashLog::Module::Optimizer, this, "File Not Found", "No DAT or INP files found in configs folder.");
++        // T23·D26: 프리뷰는 model_info 의 geometryDeck 1건만 morph — configs 전수 스캔을
++        // 대체한다. 산출물 전사값이라 Launcher Set 이 지워져도 deck 선택은 풀린다.
++        // deck 은 기록에서, part 는 라이브 조인(resolveGeometrySource)에서 (D20 재개정).
++        const QString stampedDeckPath =
++            modelInfoRoot.value(QLatin1String(DashPipelineStamp::kGeometryDeck))
++                .toObject()
++                .value(QStringLiteral("path"))
++                .toString();
++        if (stampedDeckPath.isEmpty()) {
++            DashNotify::warning(DashLog::Module::Optimizer, this, "Parameterization",
++                                DashPipelineStamp::unstampedMessage());
+             return;
+         }
++        QString templateFilePath = ioCtrl->resolveSourceFilePath(stampedDeckPath);
++        if (templateFilePath.isEmpty()) {
++            DashNotify::warning(DashLog::Module::Optimizer, this, "File Not Found",
++                                QString("Deck not found: %1").arg(stampedDeckPath));
++            return;
++        }
++        templateFilePath = QDir::toNativeSeparators(QFileInfo(templateFilePath).absoluteFilePath());
+ 
+         QString lastOutputFilePath;
+-        int processedCount = 0;
+-
+-        for (const QString& templateFileNameInConfigs : templateFiles) {
+-            QString templateFilePath = QDir(configsDir).filePath(templateFileNameInConfigs);
+-            templateFilePath = QDir::toNativeSeparators(QFileInfo(templateFilePath).absoluteFilePath());
+ 
+-            QString vtuFileName = QString("Preview_%1_%2_%3.vtu").arg(colName).arg(QFileInfo(templateFileNameInConfigs).completeBaseName()).arg(timestamp);
+-            QString vtuFilePath = QDir(optimizerDir).filePath(vtuFileName);
+-
+-            if (!m_optimizerModel->performMorphing(designVariableValues, templateFilePath, componentName, vtuFilePath)) {
+-                DASH_LOG_WARN(Optimizer) << "Failed to perform morphing for:" << templateFileNameInConfigs;
+-                QCoreApplication::processEvents();
+-                continue;
+-            }
++        QString vtuFileName = QString("Preview_%1_%2_%3.vtu")
++                                  .arg(colName)
++                                  .arg(QFileInfo(templateFilePath).completeBaseName())
++                                  .arg(timestamp);
++        QString vtuFilePath = QDir(optimizerDir).filePath(vtuFileName);
+ 
++        if (!m_optimizerModel->performMorphing(designVariableValues, templateFilePath, componentName, vtuFilePath)) {
++            DASH_LOG_WARN(Optimizer) << "Failed to perform morphing for:" << templateFilePath;
++        } else {
+             // Output analysis file has the same base name as the VTU file, suffix matches input
+             QFileInfo vtuFileInfo(vtuFilePath);
+             QString vtuBaseName = vtuFileInfo.completeBaseName();
+-            QString inputSuffix = QFileInfo(templateFileNameInConfigs).suffix().toLower();
++            QString inputSuffix = QFileInfo(templateFilePath).suffix().toLower();
+             QString outputAnalysisFileName = vtuBaseName + "." + inputSuffix;
+             QString outputAnalysisPath = QDir(optimizerDir).filePath(outputAnalysisFileName);
+ 
+@@ -1503,9 +1513,6 @@ void DashOptimizerWidget::onPreviewButtonClicked()
+                     QFile::remove(inputGeometryVtuPath);
+                 }
+             }
+-
+-            processedCount++;
+-            QCoreApplication::processEvents();
+         }
+ 
+         if (lastOutputFilePath.isEmpty()) {

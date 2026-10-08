@@ -1,0 +1,352 @@
+[
+  {
+    "id": "EXDC-01",
+    "title": "Launcher 기록 분리의 양극단을 최신 조건부 결정으로 좁혀야 한다",
+    "classification": "document_drift",
+    "severity": "medium",
+    "summary": "10월 8일 반영된 #444는 갱신 비용과 기존 구조 개선을 먼저 확인하고 필요한 경우에만 파일을 분리한다. Codex AL-05의 분리 계약·ready와 Claude LCH-32의 분할하지 않음 확정은 둘 다 현재 착수 기준으로 그대로 재사용할 수 없다. 10월 5일 목록이 당시 제안이었다는 사실은 보존해야 한다.",
+    "evidence": [
+      {
+        "path": "Issue-Revision-History.md",
+        "line": 16,
+        "end_line": 17,
+        "excerpt": "| 2026-10-08 | [#444](https://github.com/NumeRealWorks/DashOpti_GUI/issues/444) Set 기록 분리 | 개정 반영 | #443 하위에서 변경 빈도별 파일 분할을 전제로 추진 | 상태 갱신 비용을 확인하고 기존 구조로 해결 가능한지 먼저 판단. 필요한 경우에만 파일 분리하고 저장·읽기·화면 갱신 개선을 검증 | GitHub 하위 관계를 #443에서 #441로 이동. Set ID 도입과 분리하며 모든 Set JSON의 일괄 분할을 요구하지 않음 |\n| 2026-10-08 | [#441](https://github.com/NumeRealWorks/DashOpti_GUI/issues/441) 상태 기록과 재시작 복구 | 개정 반영 | #444와 파일 분할 설계를 공유하는 연관 관계 | #444가 저장 경계를 정리하고 #441이 그 기록을 사용하는 증분 갱신·재시작 복구를 담당 | #438 하위 유지, #444를 하위에 편입. 저장 포맷 중복 설계를 피하고 상태 기록 개선 후 재시작 복구 순서로 진행 |",
+        "role": "개정 반영: 현재 #444/#441 범위와 관계"
+      },
+      {
+        "path": "new_tickets_codex/03_TASK_CATALOG.json",
+        "line": 1081,
+        "end_line": 1085,
+        "excerpt": "    \"outcome\": \"N건 상태 변경이 Set JSON 전체 쓰기와 표 전량 재구성을 반복하지 않는다.\",\n    \"scope\": [\n      \"설정·DOE snapshot과 빈번한 실행 상태를 분리하는 기록 계약을 공통 IO와 정한다.\",\n      \"러너/Executor의 상태 기록 책임을 정리하고 status·resultFiles·tableId를 한 케이스 전이로 저장한다.\",\n      \"watcher의 전량 갱신을 행 단위 갱신으로 전환하고 기존 파일을 읽는 이행을 포함한다.\"",
+        "role": "Codex 실행 제안: 설정/상태 분리 계약"
+      },
+      {
+        "path": "new_tickets_codex/03_TASK_CATALOG.json",
+        "line": 1111,
+        "end_line": 1113,
+        "excerpt": "    \"status\": \"ready\",\n    \"priority\": \"P2\",\n    \"notes\": \"공통 파일 원자화는 IO-01/IO-03의 범위. 여기서는 실행 기록 구조·소유권·UI 증분 반영을 담당한다.\",",
+        "role": "Codex 상태: ready"
+      },
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 1055,
+        "end_line": 1060,
+        "excerpt": "#### LCH-32 · Set 기록 파일 분할 여부를 정한다 — 분할하지 않음\n- 종류: DEC | 규모: S | 태그: A, C\n- 목표: #444 \"Set 기록 파일을 변경 빈도 단위로 분할\" 의 처분을 **분할하지 않음**으로 기록한다. 근거: 설정·DOE Table 스냅샷·`Launcher Cases` 는 `tableId` 로 묶여 한 파일에 있어야 stale 판정이 한 번에 읽히고, 쓰기 증폭(상태 1건당 전문 재기록)은 LCH-07 단일 라이터로 케이스당 1회로 줄고 표 전량 재구축은 LCH-08 이 억제한다. #444 의 다른 반쪽 \"모듈 로드도 이 파일들을 통째로 읽는다\" 는 로드 시간 실측이 없어 분할 사유가 되지 못한다 — 실측은 분할을 다시 꺼낼 때의 선행 조건으로 적는다.\n- 완료 기준: 결정 기록 — 분할 안 함 + 두 대안(LCH-07·LCH-08)이 덮는 범위 + 재검토 조건(로드 시간 실측치)\n- 변경 범위: (결정만)\n- 선행: LCH-07 · LCH-08 (두 항목이 쓰기 증폭·재구축을 실제로 없애는지가 결정 근거)",
+        "role": "Claude 제안: 무분리 결론을 미리 고정"
+      }
+    ],
+    "impact": "AL-05/06 착수 시 불필요한 새 파일·이행 작업을 만들거나 반대로 실측상 필요한 분리를 배제할 수 있다. 단일 writer·변경 행 갱신과 물리 저장 경계 선택은 같은 결정이 아니다.",
+    "recommendation": "후속 실행 목록에서는 측정→기존 파일 내 단일 writer/행 갱신→필요 시 분리의 관문을 명시한다. #444가 저장 경계, #441이 그 기록을 이용하는 갱신·복구를 소유하게 하고 옛 목록에는 최신 결정 링크만 둔다.",
+    "confidence": "높음"
+  },
+  {
+    "id": "EXDC-02",
+    "title": "협조적 취소 카드가 drainAll 즉시 반환을 무조건 완료 조건으로 쓴다",
+    "classification": "active_conflict",
+    "severity": "medium",
+    "summary": "Claude EXE-02는 cancelAll 뒤 drainAll이 즉시 돌아오는 테스트를 요구하면서 같은 카드에서 첫 소비자 prefetchXml은 끊을 수 없고 SDK 내부 파싱은 협조 지점까지 기다린다고 명시한다. 작업과 캡처 수명이 끝나는 drain을 뜻한다면 두 요구를 일반적으로 동시에 보장할 수 없다. 현 코드 결함 확정이 아니라 카드 완료 조건의 범위 충돌이다.",
+    "evidence": [
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 3003,
+        "end_line": 3007,
+        "excerpt": "- 목표: `QtConcurrent::run` 을 `QPromise<DashJobResult>&` 오버로드로 바꾸고 `Job::cancel()` 을 오버라이드해 `watcher_.future().cancel()` 로 잇는다. `DashAsyncJobRunner::cancel(QUuid)`·`cancelAll()` 을 공개하고 `main.cpp` 종료 경로를 `cancelAll() → drainAll()` 로 바꾼다. `onWorkFinished` 가 `isCanceled()` 를 먼저 보고 `State::Cancelled` 로 가게 해 빈 결과 읽기를 막는다. `QPromise::setProgressValue` 를 `Job::progressed(int)` 의 소스로 잇는다.\n- 완료 기준:\n  1. tests/TestAsyncJob.cpp 에 \"cancel 중 작업은 Cancelled 로 끝나고 onSuccess/onFailure 가 돌지 않는다\" · \"cancelAll 뒤 drainAll 이 즉시 돌아온다\" · \"setProgressValue 가 progressed 를 낸다\" 3건 추가·통과\n  2. `git grep \"취소는 없다\" controller/async` 0건 · `git grep \"소비자 없음\" controller/async` 0건(`Job.h:37` 의 `progressed` 주석이 거짓이 되지 않게 함께 고친다) · `Job::cancel()` 기본 no-op 을 쓰는 Context 없음\n  3. 대용량 XML 플롯 중 창 닫기에서 종료 지연이 \"현재 work 종료까지\" 에서 \"협조 지점까지\" 로 줄어듦(실측 기록) — SDK 내부 파싱은 안 끊기는 한계를 PR 본문에 명시",
+        "role": "같은 제안의 구현 방향·즉시 drain 검증·SDK 대기 한계"
+      },
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 3011,
+        "end_line": 3012,
+        "excerpt": "- 흡수: #552 · #543(취소 표면의 전제) · EXE-c12, c13, c20(drainAll 부분)\n- 비고: 취소는 협조적이다 — 첫 소비자 `DashDataLoader::prefetchXml` 은 안 끊긴다. 이 사실을 PR 과 헤더 주석에 적지 않으면 \"취소가 안 된다\" 가 버그로 올라온다. 선점(도는 작업 취소 후 새 것 시작)은 범위 밖.",
+        "role": "첫 소비자 비취소 명시"
+      },
+      {
+        "path": "215-2-sync-pumping-to-async-conversion-checklist.md",
+        "line": 51,
+        "end_line": 53,
+        "excerpt": "### 5. 취소 완료의 정의 — 신호 발신인가 자원 반납인가\n\n취소 요청이 곧 정지 보장은 아니다. kill 은 신호만 쏘고, 상태 기계가 그 자리에서 terminal 로 잠기면 \"취소 완료\" 와 \"자원 반납 완료\" 가 분리된다. 다음 실행의 가드는 이미 풀렸는데 파일은 아직 잡혀 있는 창이 생기므로, 취소의 완료 정의를 둘 중 무엇으로 둘지 정하고 후자라면 종료를 관측할 주체를 지정한다.",
+        "role": "일반론: 취소 완료와 자원 반납을 구분해야 함"
+      }
+    ],
+    "impact": "종료 시간을 잘못 약속하거나 논리적 Cancelled만 보고 실제 worker 수명이 끝나기 전에 자원을 정리하는 구현으로 이어질 수 있다. 현재 실행 기반이 그런 동작이라는 주장은 아니다.",
+    "recommendation": "취소 요청 즉시성, 논리적 terminal, 실제 worker 반환/자원 회수 완료를 별도 조건으로 쓴다. 즉시 drain 테스트는 미실행·이미 종료된 작업에 한정하거나 협조 체크포인트에 도달한 fixture로 제한하고, 비협조 SDK 실행 중에는 완료 대기/종료 예산을 명시한다.",
+    "confidence": "중간"
+  },
+  {
+    "id": "EXDC-03",
+    "title": "결과 파일 append 기준에 옛 uuid/tableId·PR530 스탬프 전제가 남아 있다",
+    "classification": "document_drift",
+    "severity": "medium",
+    "summary": "Codex RES-12/13은 referenceModel.uuid/tableId 및 PR530 stamp 접점을, Claude PRE-29는 기존 #368의 스탬프 두 키 확정을 포맷 결정의 전제로 둔다. 최신 반영 이력은 조합 ID/영구 핀을 폐기하고 출처와 버전을 분리했다. 다만 #643의 새 append 판정·#411 소유권 정리는 아직 추가 개정 계획이며 구체 새 포맷이 확정된 것은 아니다.",
+    "evidence": [
+      {
+        "path": "new_tickets_codex/03_TASK_CATALOG.json",
+        "line": 1880,
+        "end_line": 1881,
+        "excerpt": "      \"1차 구현 전에 전체 재생성·원자 교체 또는 증분 추가 중 최소 정책을 확정하고, 다른 uuid/tableId 결과에 병합하지 않는 규칙을 포함한다.\",\n      \"USD 원본/내보내기 후보의 논리 구조를 검토하되 1차 구현에 HDF5/USD 채택을 강제하지 않는다.\"",
+        "role": "옛 결과 병합 키 조건"
+      },
+      {
+        "path": "new_tickets_codex/03_TASK_CATALOG.json",
+        "line": 1910,
+        "end_line": 1910,
+        "excerpt": "    \"notes\": \"현재 referenceModel.uuid/tableId로 1차 정책을 세울 수 있으므로 PR530 전체 통합은 하드선행이 아니다. PRJ-11의 산출물 세대 의미를 보존하고 PR530 stamp와 접점을 맞춘다. 외부 reader·multi-part·호환 정책은 구현 관문이며 PR 크기는 생산자/소비자 일관성 기준으로 유연하게 잡는다.\",",
+        "role": "옛 PR530 stamp 접점"
+      },
+      {
+        "path": "new_tickets_codex/03_TASK_CATALOG.json",
+        "line": 1923,
+        "end_line": 1925,
+        "excerpt": "    \"acceptance\": [\n      \"XML 유지/HDF5 전환/USD 관계에 대한 근거 있는 결정과 조건부 후속 구현 범위가 남는다.\",\n      \"uuid/tableId 불일치가 잘못된 기존 결과에 이어쓰지 않는다.\"",
+        "role": "RES-13의 uuid/tableId 완료 조건"
+      },
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 1369,
+        "end_line": 1375,
+        "excerpt": "- 목표: #643 1차(Set 단위 파일 1개 + 응답 추가)·2차(uuid 확인 → 이어쓰기/덮어쓰기)·중복 1회 저장·HDF5(vtkHDF) 전환 여부를 결정한다. 결정 입력: **DeepOpt 리더 계약 — `root` 의 첫 자식만 학습 데이터로 읽고 샘플 dict 는 동형이어야 한다(BLD-c26·BLD-14 비고 · 위키 Model-Builder-XML-DeepOpt-Pipeline)**, Builder 다중 part 포맷(BLD), `vtkIOHDF` 가용(DEV), 저장 포맷 버전 키 A3/N9(**PER-03 ⑦** — 결과 XML 이 같은 규약을 쓰는지), `DashXmlParser` 전환(ANA), HDF5·중복 1회 판단에는 PRE-28 수치, 현행 포맷 기준선에는 **PR #658** (주파수 `dict_item` 에 `quantity`·`unit` 속성 + Eigenvalue 는 무차원 `Eigenvalue` 키, 벡터 `resItem` 에 `component_labels` 속성 — 머지되면 기준선이 이것이다)\n- 완료 기준: 결정 기록 — 파일 단위·식별자·중복 규칙·포맷, 소비자(BLD·ANA) 변경 여부, 마이그레이션 방침. `model_info` 위치·샘플 dict 동형을 깨지 않는지 DeepOpt 계약 대조 결과를 함께 적는다\n- 변경 범위: -\n- 선행: PER-03 (저장 포맷 버전 키 규약 ⑦ — 결과 XML 이 그 규약을 쓰는지 정해져야 포맷 결정이 닫힌다) · PR #658 (포맷 기준선). 1차 포맷·2차 식별자 결정 자체는 실측과 무관하고, HDF5 전환·중복 1회만 PRE-28 수치를 본다 — #643 은 W5 배정이라 측정 대기로 묶지 않는다\n- 충돌: -\n- 흡수: #643(1차·2차·추가 1·3) · #411(결정 1~4) · PRE-c52(결정부), PRE-c53, PRE-c55(결정부) · 범위밖 입력 PRE-c54, PRE-c56, PRE-c58, PRE-c59, PRE-c60 · ANA-c30 · PRE-c77 (ANA 파서 전환 검토 — 같은 결정 입력)\n- 비고: \"안 바꾼다\" 도 정상 종료(#411). PER-03 은 코드 변경 없는 DEC 이므로 선행이어도 일정을 막지 않는다 — ⑦ 의 답(결과 XML 에 `schemaVersion` 을 둘지)이 이 결정의 입력이고, 기록 구현은 PRE-30 이 받는다. 2차의 uuid 기록은 #368 스탬프(PRE-32)와 같은 `model_info` 자리 — 다만 스탬프 2키의 자리는 #368 D26 으로 확정이라 여기서 정하는 것은 Set uuid 키의 병기뿐이다(그래서 PRE-32 의 선행이 아니다). DeepOpt 제약 때문에 `model_info` 를 샘플 앞으로 옮기는 안은 배제하고 검토한다",
+        "role": "Claude 포맷 제안: uuid 및 확정된 #368 스탬프 전제"
+      },
+      {
+        "path": "Issue-Revision-History.md",
+        "line": 9,
+        "end_line": 9,
+        "excerpt": "| 2026-10-08 | [#368](https://github.com/NumeRealWorks/DashOpti_GUI/issues/368) 출처 기록과 공통 판독 계약 | 기존 개정 수록 | 조합 ID의 생성·전파·비교와 입력 고정 규칙을 포함하고, Runner·Optimizer 처리까지 함께 다룸 | `parameterizationId`와 최초 입력 영구 고정을 폐기. 개별 `setId`와 실제 입력 선택·deck 정보를 산출물에 기록. 현재 입력 참조와 생성 당시 출처를 분리 | 완료 지점을 Builder의 `model_info.json` 생성으로 한정. 공통 기록·판독 계약을 제공하고 소비 측 T23은 #685로 이관. 버전·최신성은 #650에서 별도 설계 |",
+        "role": "반영된 출처 계약 변경"
+      },
+      {
+        "path": "Issue-Revision-History.md",
+        "line": 25,
+        "end_line": 27,
+        "excerpt": "## 추가 개정 계획 — 2026-10-08\n\n[프로젝트 16의 By week 뷰](https://github.com/orgs/NumeRealWorks/projects/16/views/8)를 점검해 찾은 후속 개정 후보다. 아래는 **팀 논의용 계획이며 GitHub에 아직 반영하지 않았다.** 위의 개정 이력과 구분하며, 반영할 때에는 실제 변경 내용을 새 이력으로 남긴다.",
+        "role": "아래 항목들은 아직 팀 논의용 계획"
+      },
+      {
+        "path": "Issue-Revision-History.md",
+        "line": 35,
+        "end_line": 35,
+        "excerpt": "| 우선 | [#643](https://github.com/NumeRealWorks/DashOpti_GUI/issues/643) XML Set 단위화 | `referenceModel.uuid`와 DOE `tableId`를 “Set의 uuid”로 묶어 이어쓰기·덮어쓰기 기준으로 사용 | Set ID·deck 식별자·입력 버전을 구분. 출처 형식은 #368, 버전·최신성 규칙은 #650과 맞추고, 본 이슈는 저장 구조·중복 제거·포맷 검토에 집중 | 어떤 입력 변경에서 이어쓰기를 허용할지 결정. 포맷 전환과 출처 기록이 서로의 불필요한 선행이 되지 않도록 접점 정의 |",
+        "role": "#643 변경 예정: Set/deck/version 분리와 append 결정"
+      },
+      {
+        "path": "Issue-Revision-History.md",
+        "line": 41,
+        "end_line": 41,
+        "excerpt": "| 경계 보완 | [#411](https://github.com/NumeRealWorks/DashOpti_GUI/issues/411) 포맷 교체 검토 | 댓글에서는 #643의 2차로 이어받기로 했지만 본문은 독립 계획. 구 산출물 호환의 의미도 넓게 기술 | 포맷 검토의 담당을 #643과 정리. 구 포맷을 읽을 수 있는 것과 출처 없는 산출물을 파이프라인 입력으로 허용하는 것을 구분 | 독립 검토 티켓을 유지할지 #643에 흡수할지 결정. 기존 USD 검토 요청을 포함한 후보 비교는 해당 포맷 작업에서 다룸 |",
+        "role": "#411 변경 예정: 판독 호환과 파이프라인 출처 적격성 구분"
+      }
+    ],
+    "impact": "같은 Set ID를 유지한 입력 참조 교체·재생성이 허용되므로 예전 식별 키만으로 이어쓰기 가능성을 판정하면 다른 입력/버전 결과를 섞을 수 있다. 반대로 포맷 결정이 출처 전체 개편을 기다리는 과도한 선행이 될 수 있다.",
+    "recommendation": "Set 묶음 키, 실제 입력 출처, 생성 버전, append 허용 조건을 별도 항목으로 정의한다. 새 출처 기록은 포맷과 무관하게 연결하고 #643/#411의 담당·기존 파일 판독 범위는 미결 관문으로 남긴다. 식별 계약 자체의 최종 개정은 downstream 검토와 통합한다.",
+    "confidence": "높음"
+  },
+  {
+    "id": "EXDC-04",
+    "title": "레인·취소·UI 규약의 필수 선행 범위는 두 목록의 계획 대안이다",
+    "classification": "proposal_alternative",
+    "severity": "medium",
+    "summary": "Claude는 EXE-01의 단일 슬롯/자원별 슬롯 결정 뒤 모듈 펌핑 제거를 착수시키고 EXE-07 UI 규약도 EXE-01에 의존시킨다. Codex는 기존 실행 기반을 이용해 모듈 이관을 먼저 허용하고 ASY 공통층을 무조건 선행으로 두지 않는다. 215-2는 자원 충돌과 재요청 정책을 먼저 확인하라는 일반 원칙이지 중앙 레인 구현을 모든 경로에 강제하는 결정은 아니다.",
+    "evidence": [
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 2987,
+        "end_line": 2987,
+        "excerpt": "> 순서 골격: EXE-01(계약) → EXE-02(취소) → EXE-03(훅) → EXE-04(레인, 조건부). 표시·가드 축은 EXE-07(규약) → EXE-08 · EXE-09. 프로세스 축은 EXE-10(통지 규칙) → EXE-11 · EXE-12. RW 축은 EXE-14(실측·결정) → EXE-22(#458 적재 워커화, 조건부). 모듈 펌핑 제거(#454 #456 #457 #512 #513) 는 EXE-04 또는 EXE-01 의 \"단일 슬롯 유지\" 결정 뒤에 착수한다.",
+        "role": "Claude 착수 순서 전체 문장"
+      },
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 2993,
+        "end_line": 2999,
+        "excerpt": "- 목표: DashAsyncJobRunner 의 \"전역 단일 슬롯 · 거부\" 를 유지할지, 215-2 3절·9절대로 자원 ID 별 레인(예: `PreprocessReader` · `AnalyzerCache` · `ModelRunnerScan`)으로 넓힐지 정한다. 레인을 두면 레인마다 재요청 처분(거부/대기)과 10절 큐 4정책(깊이·합치기·대기 취소·순서)의 미도입 사실을 함께 기록한다. 워커 기제 3종(DashAsyncJobRunner · DashMorphingService · DashDoeSampler 직접 QtConcurrent)의 병존 범위와 종료 경로 동기 대기 상한(drainAll · shutdownBlocking · MorphingService waitForDone)도 같은 기록에 넣는다.\n- 완료 기준: 결정 기록 1건 — (1) 레인 목록 표(자원 → 키 → 재요청 처분) 또는 \"단일 슬롯 유지\" 선언 (2) #454 #456 #513 각 작업이 어느 레인에 제출하는지 1행씩 (3) 종료 대기 상한 표 3행 (4) 215-2 4절 \"통지 출처 식별\" 이 현행 수단으로 이미 충족된다는 1행 — 작업은 `QUuid`(`DashAsyncJobRunner.cpp:43`), 데몬 명령은 `commandId`(`currentCommandId()`), 완료 핸들러가 훅보다 먼저 `contexts_.take(jobId)` 로 자기 작업만 뺀다(`:52`). 레인을 도입해도 키가 `QUuid` 라 전제는 유지됨을 함께 적는다\n- 변경 범위: 문서만 (docs/ThreadingContract.md 초안의 \"실행 계약\" 절 — EXE-05 가 파일을 만들면 거기에, 아니면 notes)\n- 선행: -\n- 충돌: B2 교집합: ThreadingContract.md → EXE-05 EXE-07\n- 흡수: #451(공통 기반) · EXE-c01, c02, c03, c20, c61 · 215-2 2·3·4·9·10·13절\n- 비고: #552 범위 밖 절이 \"선점·예약·큐잉 안 함\" 을 이미 고정했으므로 현실적 선택지는 \"단일 슬롯 유지\" 와 \"자원별 단일 슬롯\" 둘. 모듈 셋이 서로 반려하는 것이 수용 가능하면 전자가 가장 싸다. 모핑 서비스는 mesh-ops 스레드 예산과 결합돼 통합 대상에서 뺀다.",
+        "role": "명시적으로 열려 있는 단일 슬롯/자원별 슬롯 선택"
+      },
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 3067,
+        "end_line": 3073,
+        "excerpt": "- 목표: Job 상태 → 화면 매핑 1종 — `Running(진행률 없음)` = 상태바 무한 진행바 + 문구, `Running(진행률 있음)` = 결정 진행바, `Cancelled/Failed` = 통지 규칙(EXE-10) 으로 위임. 차단 범위(최상단 전체 vs 콘텐츠만 — DashTitleBar·QSizeGrip 제외 여부), 반려 안내(비모달 상태바 문구 vs 침묵), `setUIEnabled`+`showLoadingIndicator` 짝과의 관계(통합/용도 분리), 취소 버튼의 자리(상태바 진행바 옆), 모달 여부를 결정한다. 현행 6방식(EXE-c21) 의 처분(수렴/존치)을 표로 남긴다. 215-2 7절 \"상태 writer 단일화\" 의 횡단 조항도 여기에 둔다 — **진행 표시·버튼 활성의 근거는 Job/프로세스 상태이고 외부 도구가 쓰는 상태 파일 폴링에 묶지 않는다**, 상태 항목마다 writer 1명, 늦은 쓰기 우선순위는 \"종결 고정\"(터미널 락과 같은 규칙).\n- 완료 기준: 결정 기록 1건 — (1) 상태 → 표시 매핑 표 (2) 차단 대상 목록 (3) 6방식 처분 표 (4) 반려 안내 형태 (5) 상태 writer 조항 1항 + 현행 위반 사례 2행(BLD 1Hz status 폴링 EXE-c37 · 설정 JSON RMW EXE-c41) — 수정은 각 모듈\n- 변경 범위: 문서만 (docs/ThreadingContract.md 의 \"표면\" 절 또는 별도 docs)\n- 선행: EXE-01 (취소·재요청 정책이 표면을 정한다)\n- 충돌: B2 교집합: ThreadingContract.md → EXE-05\n- 흡수: #462 · #543(결정 4축) · EXE-c16, c17, c18, c19, c21, c62 · 215-2 7·11절 · OPT-D13(표준 몫)\n- 비고: 저비용 선행 — #463 확산과 EXE-08·09 가 이 규약을 소비한다. 프레임리스 창(`DashMainWindow.cpp:172`) 이라 \"창 이동을 살린다\" 는 결정은 곧 DashTitleBar·QSizeGrip 을 차단 목록에서 빼는 결정이다.",
+        "role": "UI 결정 범위·EXE-01 선행"
+      },
+      {
+        "path": "new_tickets_codex/03_TASK_CATALOG.json",
+        "line": 3779,
+        "end_line": 3779,
+        "excerpt": "    \"notes\": \"이미 비동기 기반은 존재한다. 각 모듈 worker 이관의 무조건 선행으로 삼지 않는다.\",",
+        "role": "Codex 무조건 선행 배제"
+      },
+      {
+        "path": "215-2-sync-pumping-to-async-conversion-checklist.md",
+        "line": 39,
+        "end_line": 45,
+        "excerpt": "### 2. 재요청 정책 — 수락 / 거부 / 대기\n\n실행 중에 같은 실행 요청이 들어올 때의 처분을 경로마다 정한다. 정하지 않으면 기제의 기본값이 정책을 대신하고, 그 기본값은 기제를 바꿀 때 함께 바뀐다 — 공유 핸들 한 개를 쓰던 시절 프레임워크가 두 번째 기동을 거부해 주던 보호는 \"실행 1회 = 객체 1개\" 로 바꾸는 순간 사라진다. 기제 교체가 암묵 정책을 삭제하는지 먼저 확인한다.\n\n### 3. 배제의 키 — 객체가 아니라 자원\n\n`m_currentJob` 류의 인스턴스 핸들은 \"이 객체에서 하나\" 만 뜻한다. 실제 충돌 대상은 출력 디렉터리 · 설정 JSON · 도구 실행 파일 · DLL 세션이고, 서로 다른 소비자가 같은 자원을 쓰면 각자의 핸들 가드는 서로에 대해 무효다. 자원별로 해로움의 실재를 따로 확인해야 한다 — 예컨대 여러 소비자가 같은 도구를 동시에 돌려도 되는지는 그 도구가 작업 디렉터리·출력을 어떻게 쓰는지에 달렸고, 호출하는 쪽에서는 알 수 없다. \"자원과 기능을 분리한다\" 의 구체적 실행은 **배제 키를 객체 신원에서 자원 ID 로 옮기는 일** 이다.",
+        "role": "경로별 재요청·실제 자원 충돌 원칙"
+      },
+      {
+        "path": "215-2-sync-pumping-to-async-conversion-checklist.md",
+        "line": 71,
+        "end_line": 73,
+        "excerpt": "### 10. 큐를 두면 따라오는 정책 4종\n\n\"대기\" 를 선택하면 네 가지가 새로 생긴다 — ⑴ 큐 깊이 상한 ⑵ 같은 대상 중복 요청의 합치기(coalescing) ⑶ 대기 중 항목의 취소(큐에서 제거 vs 실행 후 취소) ⑷ 순서 보장(FIFO vs 우선순위). \"거부\" 만 구현하면 이 넷을 피할 수 있고, 그게 대개의 초기 선택이다. 피했다는 사실을 기록해 두지 않으면 나중에 큐를 넣을 때 네 항목이 미결로 드러난다.",
+        "role": "대기를 선택할 때만 생기는 큐 정책"
+      }
+    ],
+    "impact": "의존성 그래프를 그대로 합치면 작은 입력 차단/종료 복구와 독립 스캔까지 전체 스케줄러 결정에 묶인다. 반대로 자원 공유 검증 없이 독립 이관을 허용하면 동시성 안전성을 놓칠 수 있다.",
+    "recommendation": "모듈마다 현재 슬롯으로 안전한지·공유 reader/session/경로가 있는지 한 줄로 확인한 뒤, 필요한 계약만 하드 선행으로 둔다. 레인 확장·큐 정책·표시 규약은 선택적 결정으로 구분한다. 실제 자원 소유권 검증 자체는 생략하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "id": "EXDC-05",
+    "title": "wbpj 불개입의 적용 범위와 현재 지원 유지 여부는 재결정 경계다",
+    "classification": "proposal_alternative",
+    "severity": "medium",
+    "summary": "CAD 처분 문서는 매니페스트 작업 묶음에서 wbpj 경로를 사장 예정·불개입으로 격리한다. Codex AL-09/DIR-01은 특수포맷 및 Direct 운용 지원을 통합하고 Claude LCH-29는 이를 알고 유지/동결/제거 결정을 제안한다. 현재 지원과 매니페스트 개선 범위는 다를 수 있어, 문서만으로 wbpj 지원을 삭제해야 한다거나 제품 방침이 철회됐다고 확정할 수 없다.",
+    "evidence": [
+      {
+        "path": "Project-Manifest-CAD-Path-Disposition.md",
+        "line": 3,
+        "end_line": 4,
+        "excerpt": "> 작업 묶음: 프로젝트 매니페스트 도입과 모듈 의존성 관리\n> 소관: [Project-Manifest-0-Work-Order](Project-Manifest-0-Work-Order.md) 결정 표 D29\\~D31(유보) · D32·D33(철회)의 원문과 근거. 착수는 마스터 후속작업 13(미래 CAD 경로)",
+        "role": "불개입 결정의 작업 묶음 범위"
+      },
+      {
+        "path": "Project-Manifest-CAD-Path-Disposition.md",
+        "line": 24,
+        "end_line": 26,
+        "excerpt": "| 정규 경로 | `.inp`·`.dat` 을 parameterize — **기준 deck** 이 원장·커서·Set 키·조합·스탬프의 대상이다 | 이 묶음의 개선 대상 |\n| 현행 CAD 실행 경로 | `.prt`→`.stp` 재생성 + `.wbpj` 조합 + ANSYS Journal(`DashJobRunner.cpp:1395-1435`). **deck 층을 통째로 우회한다** — 조건은 `.wbpj` 안에 동결되고(Journal 설정에 형상 파라미터만 실린다 — `:2579-2617`) 케이스 deck 은 Journal 산출물일 뿐 파이프라인의 기준이 아니다 | **특화된 일회성 경로 — 사장 예정, 개선 불개입** |\n| 미래 CAD 경로 | CAD 생성 형상 → meshing → 파트·NSET 매칭 → `.inp`/`.dat` 생성 → **기준 deck 으로 등록해 정규 경로에 합류** | 후속작업 13. 코드맵 3-6(Meshing 다이얼로그·Match NSET 자리표시자)이 이 방향의 착수 흔적이다 |",
+        "role": "사장 예정 제품 방향"
+      },
+      {
+        "path": "Project-Manifest-CAD-Path-Disposition.md",
+        "line": 40,
+        "end_line": 40,
+        "excerpt": "수렴이 성립하면 **CAD 는 기준 deck 의 업스트림 생성기**이고 deck 층 이후 개념에 CAD 분기가 없다. 그래서 **이 묶음은 CAD 에 손대지 않는다** — 처분은 #366 봉합(M5 제외·죽은 전역 읽기 제거)까지이고, 형상 출처 영속화(D29\\~D31)는 유보해 미래 경로 설계(후속작업 13)에 동반시키며, 실행 경로에 붙였던 결정(D32·D33)은 철회했다. `.prt` 는 지금 고려하지 않는다.",
+        "role": "이 묶음은 CAD에 손대지 않는다는 한정"
+      },
+      {
+        "path": "new_tickets_claude/05-final/FINAL.md",
+        "line": 1025,
+        "end_line": 1029,
+        "excerpt": "#### LCH-29 · wbpj 배치·Direct 실행 경로의 처분을 정한다\n- 종류: DEC | 규모: S | 태그: A, C\n- 목표: `.wbpj`(ANSYS Workbench) 경로를 (a) **현행 유지** — #616 결정표가 정본이고, 매니페스트의 \"사장·불개입\" 은 기준모델·조합·스탬프 묶음 안의 불개입(D32·D33 철회)으로 한정한다 / (b) **동결** — 버그만 고치고 기능 확장 없음 / (c) **제거** — 코드·UI 를 걷어낸다 중 무엇으로 할지 정한다. 입력 자료가 시간순으로 모순된다: `01-sources/wiki/Project-Manifest-CAD-Path-Disposition.md`(2026-09-18) \"특화 일회성 경로 — 사장 예정, 개선 불개입 · wbpj DOE 전체 격리\" vs #616 결정표(2026-10-02) wbpj 열 \"Add File 복사 · Launcher Set `{파일명}_wbpj` · Target Part `.prt` 콤보 현행 유지 · 결과 `.rst` → #640 콤보\" + PR #651(wbpj Project Assets·`_files` 한정) · PR #652(Direct Dialog 가 wbpj+`_files` 스테이징).\n- 완료 기준: 결정 기록 — (1) 선택지 (a) 현행 유지 / (b) 동결 / (c) 제거 중 하나와 근거(어느 문서가 정본인지) (2) 소비자별 축소·되돌림 범위 (3) **PRJ 원장 조항** — (c) 제거(사장 확정)면 `.wbpj`·`.stli` 의 원장 비편입을 확정하고 PRJ 신규 항목은 0, (a) 현행 유지면 PRJ 에 `.wbpj`·`.stli` 원장 편입 항목 1건을 신설한다(`model/DashReferenceModelLedger` · Project Assets 트리 · `DashMainWindow::copyFileIntoProject`), (b) 동결이면 신규 편입 없이 현행 취급만 유지한다\n- 변경 범위: (결정만) 후속 후보 `model/DashJobRunnerAnsysJournal.cpp`(wbpj TU 전체), `view/DashAnalysisLauncherWidgetLauncher.cpp`(`fillTargetPartCombo` wbpj 분기), PR #651·#652 의 wbpj 분기",
+        "role": "유지/동결/제거가 아직 DEC인 후속 제안"
+      },
+      {
+        "path": "new_tickets_codex/03_TASK_CATALOG.json",
+        "line": 1226,
+        "end_line": 1234,
+        "excerpt": "    \"id\": \"AL-09\",\n    \"module\": \"Project Assets / Analysis Launcher 특수포맷\",\n    \"title\": \"특수 입력 포맷의 Assets·Set·Launcher·fe-safe ODB 연결을 통합·검증한다\",\n    \"outcome\": \"dfsxml/wbpj/stli가 약정 복사 단위·Set 정책·실행 입력으로 등록되고 실행된다.\",\n    \"scope\": [\n      \"PR #651의 Assets/Project 부분을 검토·통합한다: 포맷 분류, wbpj 필터/동반 폴더, stli 폴더명, 읽기 검사 분기.\",\n      \"Launcher Set 이름 충돌을 복사 전에 막고 Condition Set 생성을 생략한다.\",\n      \"삭제 시 연동 Set·원장·동반 폴더의 대상 범위를 일치시킨다.\",\n      \"PR651의 Launcher 포맷 분기·wbpj prt 범위·core 비활성·stli Material/ODB Source Sets 저장을 통합 검증한다.\",",
+        "role": "Codex 현재 지원을 통합하는 제안의 범위"
+      }
+    ],
+    "impact": "LCH-29를 이미 승인된 삭제 작업으로 읽으면 지원 포맷을 불필요하게 걷어낼 수 있다. 반대로 운영 지원 PR만으로 형상 출처·매니페스트 일반화까지 승인됐다고 보면 범위가 팽창한다.",
+    "recommendation": "운영 지원/결함 수정, 매니페스트 편입, 장기 경로 폐기의 세 범위를 구분하고 LCH-29의 권위 선택을 기록한다. .stli는 별도 포맷이므로 wbpj 처분의 자동 결과로 묶지 않는다. 구체 CAD temp 파일 불개입 충돌은 geometry 담당 지적으로 통합한다.",
+    "confidence": "높음"
+  },
+  {
+    "id": "EXDC-06",
+    "title": "폐기된 W6/W10의 풀·게이트·즉시취소·강제종료는 현행 충돌에서 제외한다",
+    "classification": "historical_resolved",
+    "severity": "low",
+    "summary": "194/205 계열은 즉시 Cancelled/UI 해방, 별도 직렬 풀·게이트, 종료 상한 초과 _Exit 등의 설계·구현 이력을 갖는다. 215-1과 운영 문서가 refactor/async-execution 미병합 폐기를 명시하므로 이 내용을 현 dev의 의무 규약이나 이미 완료된 기반으로 계산하면 안 된다. 상속된 일부 일반 원칙과 개별 후속은 별개다.",
+    "evidence": [
+      {
+        "path": "194-1-async-execution-patterns.md",
+        "line": 188,
+        "end_line": 191,
+        "excerpt": "| P1 | 취소 시 **부분 결과물**은? | 완료된 케이스의 결과는 **보존** — 배치 결과에 케이스별 종료 상태(Succeeded/Failed/Cancelled/NotRun)를 기록해 어디까지 유효한지 보이게 한다. 취소로 **중단된 케이스**의 쓰다 만 산출물(kill된 외부 프로세스의 미완성 파일 등)은 **폐기 또는 격리** — \"파일 존재 = 완료\" 오탐으로 다음 실행을 오염시키지 않게 (로드맵 3-2절 flush 레이스와 동류 위험) |\n| P2 | 배치 취소의 **범위와 시점**은? | 배치 취소 = 배치 전체 중단: 잔여 케이스는 시작하지 않고, 진행 중 케이스는 **가능한 가장 이른 지점**에서 중단 — ProcessJob 구간이면 즉시 kill, WorkerJob이면 다음 취소 체크 지점, DLL 호출 도중이면 완주 후 결과 폐기(계약의 협조적 취소 그대로). 케이스 단위 선택 취소는 도입하지 않음(단순성). 실행 중 앱 종료(W7)는 이 경로의 특수 호출자 — closeEvent가 같은 배치 취소를 호출한다 |\n| P3 | 케이스 **실패 시 배치**는 계속? 중단? | **계속(continue-on-error)이 기본** — DOE 케이스는 상호 독립이라 하나의 실패가 나머지의 가치를 없애지 않는다 (현행 암묵 동작 `DashJobRunner.cpp:2673`의 명문화). 실패는 케이스 상태로 기록하고 배치 종료 시 **실패 요약**으로 통지 — W12 규칙 적용(전건 실패 등 개입 필요 → 모달, 부분 실패 → 로그 도크). 예외 — **연쇄 실패 차단기**: 동일 유형 실패가 연속 k건(제안 3)이면 배치 중단 — 환경 원인(데몬 사망·라이선스)으로 밤새 전 케이스가 케이스당 600s 타임아웃만 소진하는 낭비 방지 |\n| P4 | **취소 불가 구간**(DLL 실행 중)의 UX는? | 취소 클릭에 UI는 **즉시** 반응: 버튼 비활성 + \"취소됨\" 표시 + Job 상태 즉시 Cancelled(계약 그대로). WorkerJob의 잔여 DLL 실행은 백그라운드에서 소진되고 결과는 폐기된다 — 사용자에게 약속하는 것은 **\"취소 = UI 즉시 해방\"이지 \"CPU 즉시 해방\"이 아님**을 명시적으로 수용한다(협조적 취소의 대가). 소진 중 동일 서브시스템 재실행은 직렬 풀(5-2절)이 자연스럽게 뒤에 줄 세운다 |",
+        "role": "당시 취소 정책 P1~P4"
+      },
+      {
+        "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+        "line": 9,
+        "end_line": 9,
+        "excerpt": "[205-1-w6-w10-ticket-summary](205-1-w6-w10-ticket-summary.md) 가 **계획 시점**의 티켓 9건 요약이라면, 본 문서는 W6·W10 브랜치(`refactor/async-execution`)에 **머지 완료된 13건**의 실제 변경 항목을 커밋 기준으로 열거하고, 아직 열려 있는 티켓의 범위를 같은 수준으로 정리한다.",
+        "role": "구현 기록의 브랜치 기준"
+      },
+      {
+        "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+        "line": 830,
+        "end_line": 834,
+        "excerpt": "- **`Job::finished` 는 스레드 종료를 뜻하지 않는다.** [#214](https://github.com/NumeRealWorks/DashOpti_GUI/issues/214) 12항 — `ProcessJob::cancel()` 은 `QProcess` 를 떼어내 자기 종료를 자기가 회수하게 만든 뒤 즉시 터미널로 가는데, 풀 스레드는 그 \"떼어내기\" 가 불가능해 DLL 을 계속 쥔다. 같은 규약을 쓰면 `Morph()` 가 도는 중에 게이트가 풀려 **정확히 막으려던 등급 2 위반**이 열린다. 취소의 즉시성과 자원 해방을 **두 축으로 갈라야** 한다 — 약속은 \"UI 즉시 해방\" 이지 \"CPU 즉시 해방\" 이 아니다.\n- **워커화는 잠들어 있던 방어선을 처음 발화시킨다.** [#214](https://github.com/NumeRealWorks/DashOpti_GUI/issues/214) — 공유 컨텍스트 변이 창의 GUI 편집 거부는 배치가 GUI 스레드를 점유해 **도달 불가**였다. 스레드를 넣는 순간 실제로 동작하기 시작하며, 그 판정 근거의 스레드 안전성이 새로 문제가 된다. 반대 방향의 [#213](https://github.com/NumeRealWorks/DashOpti_GUI/issues/213) F1(발동한 적 없던 게이트를 교체하니 전면 차단)과 대칭이다.\n- **가드를 한 곳으로 모으면 그 앞의 경로가 노출된다.** [#274](https://github.com/NumeRealWorks/DashOpti_GUI/issues/274) 10항 — 진입점별 인라인 재진입 가드를 `beginBatch` 로 내리자, 그 **이전에** `abortBatch` 를 부르던 15곳이 남의 장부를 취소하게 됐다. 종전에는 인라인 가드가 우연히 앞을 막고 있었다. 판정을 단일화하는 변경은 **단일 지점 이전 구간의 부작용 목록**을 함께 만들어야 한다.\n- **워커화 대상 목록은 실측 없이 만들면 과대추정된다.** 부록 8-5 의 6행 중 순위 5 는 재판정으로 폐기(이미 워커 안 6/7 + 이득 없는 1), 순위 6 은 별 티켓([#283](https://github.com/NumeRealWorks/DashOpti_GUI/issues/283))을 만들었다가 전수 실측 후 흡수(live 4곳은 동반 이동 · 1곳 dead · CSV 는 이미 워커)됐다. \"무거워 보이는 작업\" 을 세는 것과 \"GUI 스레드에서 실제로 도는 작업\" 을 세는 것은 다르다.\n- **직렬 풀 하나가 종료 정책의 빈도를 바꾼다.** `waitForAllSerialPools` 의 상한은 원래부터 완료 대기가 아니라 **포기 판정**(초과 시 `_Exit(1)`)이다. 풀을 더하는 것은 새 실패 모드가 아니라 **빈도 승격**이고, 결과 처리는 모핑 배치보다 훨씬 흔해 예외가 상시가 된다. [#277](https://github.com/NumeRealWorks/DashOpti_GUI/issues/277) 이 \"풀 추가는 드레인 예산의 재판정 대상이 아니다\" 를 규약으로 올린 이유이며, 실해악을 줄이는 것은 예산이 아니라 **워커가 디스크에 쓰지 않는다는 계약**이다. 그리고 그 수용 범위가 실측으로 확정됐다 — DPF 에 협조적 취소·라이선스 반납 표면이 없으므로 `_Exit` 상시화가 유일한 답이고, 남는 실해악은 **라이선스 미반납 하나**다.",
+        "role": "당시 취소 두 축·_Exit 정책"
+      },
+      {
+        "path": "215-1-w10-f-design-decision-review-snapshot.md",
+        "line": 6,
+        "end_line": 8,
+        "excerpt": "> 🛑 **2026-09-17 — 이 문서가 다루는 네 티켓 중 셋이 폐기됐다.** 부모 #215 와 #279·#280·#282 가 `not_planned`+`Won't do` 로 닫혔다. 좌표였던 `refactor/async-execution` 이 dev PR #256 미머지로 폐기되고 remote 에서 삭제됐기 때문이다(#281 만 존치 — [#403](https://github.com/NumeRealWorks/DashOpti_GUI/issues/403)·PR [#406](https://github.com/NumeRealWorks/DashOpti_GUI/pull/406) 이 결합 ⑴⑵ 승계). 아래 본문의 설계 결정은 **삭제된 브랜치 tip 기준**이므로 dev 에 그대로 적용되지 않는다. 경위와 재정의 범위는 [Project-Board-Intake-And-Operations](Project-Board-Intake-And-Operations.md).\n\n> ⚠ **검토용 스냅샷 — 확정 문서가 아니다.** 네 티켓 모두 OPEN·미착수이고 본문이 계속 개정된다. 여기 실린 것은 2026-08-20 시점 Issue 본문의 **요약**이며, 착수 근거로 인용할 정본은 각 Issue 본문이다. 이 문서의 역할은 네 티켓에 흩어진 결정을 한 자리에 모아 **되짚어 볼 수 있게** 하는 것 하나다. 티켓과 어긋나면 티켓이 옳다.",
+        "role": "명시된 폐기 및 스냅샷 지위"
+      },
+      {
+        "path": "Project-Board-Intake-And-Operations.md",
+        "line": 11,
+        "end_line": 11,
+        "excerpt": "`refactor/async-execution` 의 dev PR [#256](https://github.com/NumeRealWorks/DashOpti_GUI/pull/256) 이 머지 없이 닫히고 [#292](https://github.com/NumeRealWorks/DashOpti_GUI/pull/292)(rollback)가 W10-c 이후를 배제한 채 들어가면서, 프로젝트 16 의 `Done` 중 9건이 dev 에 존재하지 않는 상태로 남아 있었다. 그 9건과 같은 좌표를 본문에 박고 있던 `Deferred` 5건까지 **총 14건을 2026-09-17 에 `not_planned` + `Won't do` 로 폐기**하고 각 Issue 에 사유·코드 좌표를 코멘트로 고정했다.",
+        "role": "14건 폐기와 미병합 기준"
+      },
+      {
+        "path": "269-1-jobrunner-case-decomposition-design.md",
+        "line": 63,
+        "end_line": 63,
+        "excerpt": "| C. 케이스별 전략 클래스 (#269 원안 ⑴) | 계약을 구조로 강제 | 런처 · task 맵 · 시그널 · 취소를 공유하는 설계가 추가로 필요. `DashBatchLedger` 선례가 dev 에 없어 전제가 사라짐 | 기각 — 후속 판단 |",
+        "role": "후속 #269도 dev에 장부 선례가 없음을 반영"
+      }
+    ],
+    "impact": "옛 문서를 현재 정책으로 적용하면 이미 폐기한 WorkerJob/MorphingGate/BatchLedger 체계를 재도입하거나 worker 완료 검증을 잘못 생략하게 된다.",
+    "recommendation": "옛 문서는 보존하고 읽기 안내에서 폐기/승계 경계를 표시한다. 새 취소·종료 정책은 현재 DashAsyncJobContext/MorphingService 기준으로 별도 결정한다. 이 지적은 새로운 worker/게이트 구현 요구가 아니다.",
+    "confidence": "높음"
+  },
+  {
+    "id": "EXDC-07",
+    "title": "고정시점 코드맵·기계적 분해·rc 임시 복구는 단계 차이로 제외한다",
+    "classification": "historical_resolved",
+    "severity": "low",
+    "summary": "Launcher/Preprocessor Code Map과 XML 생성 설명은 커밋 고정 조사이며 수정 계획이 아니다. 269는 기존 상태 배선을 보존하는 기계적 분해 단계이고 실패 terminal 개선을 후속으로 명시했다. 525의 live GUI 부트스트랩은 rc 임시안이며 dev 소유권 분리 뒤 제거하도록 처분을 명시했다. 이를 새 실행 카드와 동시에 적용할 영구 설계로 읽는 것은 부적절하다.",
+    "evidence": [
+      {
+        "path": "Code-Map-User-Flow-Analysis-Launcher.md",
+        "line": 5,
+        "end_line": 6,
+        "excerpt": "> **성격**: 독립 참조 문서. 사용자 행위가 밟는 함수 체인의 대응표 — 수정 계획·우선순위는 담지 않는다.\n> **좌표 기준**: `dev` @ `4c7608e` 실측 (유효기간 있음). 정적 코드 근거만 — 빌드·실행 검증 없음. 외부 데몬(NX CAD · Ansys Journal · DashOptiMBD)과 cae-launcher 내부는 GUI 호출측 코드로만 확인했다.",
+        "role": "독립 참조·고정 커밋·실행 미검증"
+      },
+      {
+        "path": "Code-Map-User-Flow-Data-Preprocessor.md",
+        "line": 3,
+        "end_line": 5,
+        "excerpt": "> **성격**: 독립 참조 문서. 사용자 행위 하나하나가 밟는 함수 체인의 대응표 — 수정 계획·우선순위는 담지 않는다.\n> **좌표 기준**: `dev` @ `4c7608e` 실측, 유효기간 있음 (이전 `ac6e4e6` 대비 `DashMainWindow.cpp`·`DashProject.cpp`·`.ui` 만 이동).\n> **검증 수준**: 정적 근거만 — `.ui`·`connect`·함수 본문·키 문자열 grep 전수. 빌드·실행 검증 없고, preprocessor DLL 내부는 호출측 파싱 코드로만, 고객사 KPI 경로(D6·D11·D12)는 Dev 빌드에서 컴파일되지 않아 소스로만 확인했다.",
+        "role": "정적 대응표·고정 커밋"
+      },
+      {
+        "path": "Preprocessor-XML-Generation-And-Provenance.md",
+        "line": 5,
+        "end_line": 7,
+        "excerpt": "2026-10-02 GUI 커밋 `f71b8e82510cabf9b882163388637f47eaa5bdef`의 소스를 정적으로 검토했다. 링크는 해당 커밋에 고정했다. 일반 DOE 배치 경로를 중심으로 설명하고 단일 파일, 모달, Function Expression, KPI는 별도로 구분한다. 실제 결과 파일을 이용한 실행 검증과 solver 플러그인 내부의 보간·외삽 알고리즘 검증은 수행하지 않았다.\n\n생성된 XML을 ModelBuilder와 DeepOpt가 소비하는 과정은 [Model Builder XML 구성과 DeepOpt 학습 입출력](Model-Builder-XML-DeepOpt-Pipeline.md)을 참고한다. 두 문서는 서로 다른 기준 커밋을 명시한 조사 기록이다.",
+        "role": "XML 설명의 고정 커밋·조사 지위"
+      },
+      {
+        "path": "269-1-jobrunner-case-decomposition-design.md",
+        "line": 10,
+        "end_line": 12,
+        "excerpt": "**기계적 분해가 기본이다.** Extract Method 와 파일 이동뿐이고 배선(분기 순서 · 상태 보고 · 런처 초기화 · 로그) 은 원문 그대로다. 예외는 하나 — 폴백 분기가 엉뚱한 케이스로 지정돼 명백히 동작하지 않는 경로 2곳은 ERROR 로그 + return 으로 바꾼다. 공용부 추출(run dir 경로 · 상태 보고 · 결과 파일 탐색 등)은 이번에 하지 않고 후속에서 일괄 정리한다.\n\n측정 기준: `dev` @ `ca68a57` (2026-09-28). 줄 번호는 서식 커밋(Phase 0) **이전**의 `model/DashJobRunner.cpp`.",
+        "role": "기계적 분해와 기준 시점"
+      },
+      {
+        "path": "269-1-jobrunner-case-decomposition-design.md",
+        "line": 44,
+        "end_line": 44,
+        "excerpt": "| 상태 보고 | JSON 영속만: 모핑 dat/inp/dfsxml 실패 (1700/1716/1740/1750/1767, 1836/1845/1853, 1895/1908/1927/1931, 1987-2018). 영속 + 시그널: stli, inp 제출. 시그널이 빠진 실패는 `DashAnalysisLauncher::onCaseStatusUpdated` 의 완료 추적에 닿지 않는다 — **이번엔 그대로 둔다** (후속) |",
+        "role": "상태 신호 누락은 후속이라는 명시"
+      },
+      {
+        "path": "525-1-rc-hotfix-plan-and-dev-root-fix.md",
+        "line": 55,
+        "end_line": 62,
+        "excerpt": "### backmerge 처분 규칙\n\n| backmerge 시점 상황 | 처분 |\n|---|---|\n| dev 근본 해소 완료됨 | rc 조각 드롭 — 충돌 시 dev 측 채택 |\n| dev 근본 해소 미완료 | rc 부트스트랩을 dev 구조(`Result` 반환·basis 분리)에 맞게 이식하고 근본 해소 작업에 승계 기록 |\n\n이 규칙이 성립하려면 dev 근본 해소가 계획으로 먼저 존재해야 한다 — 아래 절이 그 스펙이다.",
+        "role": "rc 조각과 dev 근본 해소의 backmerge 처분"
+      }
+    ],
+    "impact": "고정시점의 Direct Set, XML 요청별 파일, 과거 미연결 상태를 현재 지시로 오인하면 완료 작업 재생성 또는 올바른 후속 수선의 기각으로 이어진다.",
+    "recommendation": "후속 카드의 변경 이유로만 참조하고 현재 구현 확정 근거로 쓰지 않는다. 스냅샷 본문을 소급 수정하지 말고 필요하면 최신 코드/작업 문서 링크를 머리말에 추가한다.",
+    "confidence": "높음"
+  }
+]

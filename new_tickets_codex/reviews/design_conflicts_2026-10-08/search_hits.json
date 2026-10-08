@@ -1,0 +1,3440 @@
+[
+  {
+    "path": "Project-Store-Design-Wiring-Project-To-Launcher.md",
+    "line": 225,
+    "patterns": [
+      "version"
+    ],
+    "text": "| `version_number()` · `is_nil()` | 손상된 값과 미발급 값을 구별하는 수단 |"
+  },
+  {
+    "path": "Project-Store-Design-Wiring-Project-To-Launcher.md",
+    "line": 235,
+    "patterns": [
+      "version"
+    ],
+    "text": "**그래서 v7 에 의존하지 않게 설계한다.** 위 발급 둘은 전부 v7 이전부터 있는 API 다 — `from_namespace` · `from_string` · `to_string()` · `version_number()` · `is_nil()`."
+  },
+  {
+    "path": "192-1-architecture-analysis-mvc-mvvm.md",
+    "line": 147,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "①의 두 경로는 **즉시 수정 권장** — 릴리스 빌드에 포함되면 해당 기능이 사용자 환경에서 그냥 동작하지 않는다."
+  },
+  {
+    "path": "192-1-architecture-analysis-mvc-mvvm.md",
+    "line": 173,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "└─ 하드코딩 dev 경로 2곳 즉시 제거"
+  },
+  {
+    "path": "192-1-architecture-analysis-mvc-mvvm.md",
+    "line": 467,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    // 비동기 시작. 즉시 JobHandle 반환 (블로킹 없음)."
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 9,
+    "patterns": [
+      "D14"
+    ],
+    "text": "`MOR` [Morphing](Code-Map-User-Flow-Geometry-Parameterization-Morphing.md) (D14·U2) · `CAD` [CAD](Code-Map-User-Flow-Geometry-Parameterization-CAD.md) (D17·U3) · `CON` [Condition Parameterization](Code-Map-User-Flow-Condition-Parameterization.md) (D13·U3) · `DOE` [Analysis Launcher](Code-Map-User-Flow-Analysis-Launcher.md) (D25·U4) · `PRE` [Data Preprocessor](Code-Map-User-Flow-Data-Preprocessor.md) (D12·U3) · `BLD` [Model Builder](Code-Map-User-Flow-Model-Builder.md) (D15·U2) · `RUN` [Model Runner](Code-Map-User-Flow-Model-Runner.md) (D37·U6) · `ANA` [Results Analyzer](Code-Map-User-Flow-Results-Analyzer.md) (D15·U4) · `OPT` [Optimizer](Code-Map-User-Flow-Optimizer.md) (D24·U2)"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 71,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 3 조용한 실패 | CAD-D14 | NX 표현식 적용 실패가 ListingWindow 에만 기록되고 stdout 으로 안 나감 | 값이 반영되지 않은 STEP 이 성공으로 처리되고, DOE 배치는 전 케이스가 같은 형상을 낼 수 있다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 79,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 3 조용한 실패 | BLD-D14 | MCU 의 `stopTraining` 이 `virtual` 이 아니라 베이스 no-op 이 불린다 | [Stop] 이 데몬을 멈추지 못하고 아무 일도 하지 않는다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 80,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 3 조용한 실패 | RUN-D14 | `SetBoxHandles` 가 렌더러 부재 시 데이터 없이 반환, 최종 가드는 \"비어 있지 않은가\" 뿐 | 직전 Set 의 핸들이 남아 있으면 `true` 를 돌려주고 그 핸들로 모핑이 돈다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 86,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 3 조용한 실패 | **ANA-D14** | 타깃 콤보 스캔이 Set 필터 없이 전량을 나열하고 항상 0번을 자동 선택 | 다른 Set 의 산출물이 콤보에 섞이고, 진입 직후 뜨는 것은 현재 Set 이 아니라 이름순 첫 Set 이다 (RUN-D30 이 그 ModelRunner 사례) |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 87,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 3 조용한 실패 | OPT-D8 | [+] 가 심는 예시 구속이 회색 placeholder 가 아니라 보통 아이템이고 즉시 모델에 들어간다 | 편집하지 않으면 의도하지 않은 구속이 그대로 실행에 실린다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 111,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 8 암묵 계약 | CAD-U4 | 데몬 성공·실패 판정이 `[FINISHED]` 전체 일치와 `[ERROR]` 부분 일치 | 프로토콜 계약이 코드가 아니라 로그 포맷이고, `[ERROR]` 를 stdout 에 안 쓰는 실패는 성공으로 마감된다 (CAD-D14) |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 129,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 8 암묵 계약 | OPT-D14 | 검증 표 헤더 분류가 `startsWith(\"r\")` + 두 번째 글자 숫자 규칙 | `r2_thickness` 같은 이름이 응답으로 오분류되고 그대로 프리뷰의 DV 열 선택까지 간다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 131,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 9 위치·순서 결합 | **MOR-D14** | Geometry 카테고리는 트리 루트 1개에 모델 배열 2벌인데 Morphing 갈래만 행 인덱스로 조회 | `-CAD` Set 이 앞에 오면 뒤의 Morphing Set 이 `rowIndex >= size` 로 조기 반환돼 클릭해도 경고 없이 열리지 않는다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 172,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| 12 순서 의존 | CON-D7 | `loadFromJson` 이 행을 만드는 `refreshFromLoadedAnalysis` 보다 먼저 돈다 | 세션 최초 진입에서 FE 탭 체크가 전부 해제돼 보이고, 그 상태의 [Set Design Variable] 이 절을 빈 객체로 덮는다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 175,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| 12 순서 의존 | **RUN-D38** | Set 불일치 시 표를 비우는 방어에 `!currentSetName.isEmpty()` 예외가 붙어 있다 | Set 이름이 아직 비어 있는 최초 진입에서 방어가 돌지 않아 이전 표가 남고 Generate 가 섞인 입력을 만든다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 192,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 14 고정 지연·폴링 | DOE-D14 | `msleep(1000)` 이 이미 끝난 동기 호출 뒤에 있다 | 실행 순서와 주석이 어긋난, 케이스 수와 무관한 고정 지연이다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 193,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 14 고정 지연·폴링 | BLD-D13 | MCU 가 쓰지 않는 1Hz 상태 폴링 타이머를 켠 채 두고 멈추는 경로도 안 탄다 | 슬롯이 매번 즉시 반환하는 타이머가 계속 돈다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "line": 202,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 15 죽은 코드 | DOE-U4 | 호출부가 0인 함수 8종 (`createRunsFolders` 2종 · `getStatusFromFileSystem` 53줄 등) | `applySmartSelectionRules` 는 플래그를 세웠다 즉시 내리는 빈 스텁 |"
+  },
+  {
+    "path": "Project-Store-Design-Dependency-State-Display.md",
+    "line": 243,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**부분 무효화를 설계하지 않는다.** 트리거마다 전 인스턴스를 다시 판정한다 — 파일을 읽지 않고 메모리의 정수·문자열을 견주는 일이라 인스턴스 수십 개에서 즉시 끝난다. 역방향 인덱스(\"누가 나를 계보에 갖고 있나\")를 배지 때문에 만들지 않는다. 저장 규칙 2 가 역방향을 이미 로드 시 계산으로 두었고, 배지는 그 계산을 다시 돌리면 된다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 184,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "         1. m_currentJob 있으면 즉시 반환 :404-408  (잠금이 마지막 \"Done\" 에 풀려 재클릭 가능)"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 212,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`checkModelStatus` 는 `m_currentJob` 이 없으면 즉시 반환하고(`M:1306-1308`), 판독은 `checkModelStatusInternal` 이 하며 `m_lastKnownStatus` 와 다른 값만 올린다(`M:1366-1375`). 하나라도 `\"Done\"` 이면 `loadTrainedModelInfo()`(`M:885`)로 지표를 다시 읽는다(`M:1403-1413`). `finalizeStaleStatuses` 는 **실패로 끝났는데 `\"In Progress\"` 로 남은 항목만** `\"Failed\"` 로 마감하고 도구가 쓴 `\"Done\"` 은 걸러낸다(`M:1445-1447`) — 기동 실패는 도구가 뜨지도 못하므로 이 마감이 유일한 종결점이다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 291,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **[...]** | `browseDatasetFile(row)`(`MW:1391`) | 파일 선택 후 즉시 검증 → State 에 `valid`/`failed` |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 332,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "위젯은 Set 을 붙이는 순간(`MW:setModel:85`) 데몬을 띄우고 **준비될 때까지 버튼 2개를 잠근다**(`MW:141-167`) — start·preview 를 `\"(Preparing engine...)\"` 라벨로 비활성화 → `connect(daemonReady, onEngineReady)`(`:160`) → `startDaemon()`(`:162`) → `isDaemonReady()` 면 즉시 1회 더(`:165-167`). `daemonReady` 가 부팅당 1회뿐이라 위젯 재생성이 놓치는 것에 대한 보정이다(`MW:163-164` 주석)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 343,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "        ├─ variant = \"MCU\" :521 · MLP 이 아니면 즉시 실패 :545-549"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 388,
+    "patterns": [
+      "D14"
+    ],
+    "text": "MCU 위젯은 Stop 을 자기 슬롯이 아니라 **베이스 슬롯**에 연결한다(`MW:119`) — `&DashModelBuilderMCUWidget::onStopTrainingClicked` 라는 이름이 MCU 위젯에 없어 상속된 `Base:onStopTrainingClicked:69` 로 해석된다. 그 슬롯의 `modelBuilder()->stopTraining()`(`Base:75`)은 반환형이 `DashModelBuilder*` 이고 `stopTraining` 이 `virtual` 이 아니라(`DashModelBuilder.h:82`) 정적 디스패치로 베이스 구현(`M:1225`)을 부르는데, 그 안의 `if (m_currentJob)` 이 MCU 에서는 언제나 거짓이라 버튼 상태만 되돌리고 끝난다(`Base:77-78`). `\"Running\"` 을 `\"Interrupted\"` 로 바꾸고 데몬을 재기동하는 `MCU:stopTraining:408` 은 호출처가 0곳이다. → D14"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 451,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **D13** | 실행 모델 | MCU 가 쓰지 않는 폴링 타이머를 켠 채 둔다 | 4-4 | `MCU:721` 은 실행되지만 슬롯(`M:1304`)이 `m_currentJob` 부재로 즉시 반환하고(`M:1306-1308`) 멈추는 두 지점(`M:1229`·`:1241`)도 MCU 경로에선 안 돈다 → 1Hz 로 계속 돌며 매번 즉시 반환한다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 452,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D14** | 구조·결합 | MCU 의 [Stop] 이 데몬을 멈추지 못한다 | 4-7 | `stopTraining` 이 `virtual` 이 아니고(`DashModelBuilder.h:82`) 호출처가 베이스 포인터 경유(`Base:75`)라 정적 디스패치로 `M:1225` 가 불리고 `m_currentJob` 이 없어 아무 일도 없다. `MCU:408` 의 재정의는 호출처 0곳이고 `MCU:762` 에 그와 모순되는 `// stopTraining is inherited` 주석이 남아 있다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "line": 453,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D15** | 진입·수명 | 학습이 정상 종료해도 MCU 의 Start 버튼이 잠긴 채 남는다 | 4-7 | `MW:1022` 가 Sim(`W:1181-1190`)과 달리 잠금을 되돌리지 않고 `MW:104-107` 이 `trainingSucceeded`·`trainingFailed` 를 연결하지 않는다 → 푸는 경로가 아무것도 멈추지 않는 [Stop](→ D14)과 Set 전환 둘뿐이다 |"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 185,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| P2 | content uuid 는 **최초 1회만** 발급(상대경로 파생)하고 이후 원장 값을 쓴다. 이 uuid 가 원장의 1차 키다(D24) — 경로와 식별자를 갈라 두는 것이 이관(후속작업 1)의 전제다 | 프로젝트 이동·`SaveProjectAs` 에 견딤. rename 내성은 이관 도입 후 |"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 288,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| 최초 등록 | 삽입 | **발급** | 기록 |"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 345,
+    "patterns": [
+      "사장"
+    ],
+    "text": "| `.wbpj`, `.dfsxml`, `.cdb` | 솔버 프로젝트·입력 파일 | 추후 — `.wbpj` 는 사장 경로 소속([Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md)) |"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 371,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "**마이그레이션 코드는 필요 없다.** DV-Condition 항목은 조건 이름으로 키가 잡혀 있고 uuid 는 항목 안의 위치 지정 필드다 — content uuid 산식이 바뀌면 그 필드만 어긋나고 값이 딸린 항목은 이름으로 그대로 찾힌다. 로더는 어긋난 uuid 를 이름으로 대신 붙이고(`DashConditionParameterization.cpp:495-497`) 다음 저장 때 `syncDvFromCheckedFeConditions` 가 새 uuid 를 backfill 한다(`:444-447`). DOE 샘플로 중계된 uuid(`DashMorphingDoeExecutor.cpp:528`)도 소비 측에 같은 폴백이 있고(`:451-453`) 실행마다 재생성된다."
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 399,
+    "patterns": [
+      "사장"
+    ],
+    "text": "| 2   | 형태 확장 — `.stli` 는 지문을 폴더에 어떻게 매길지. `.prt` 는 마스터 D29\\~D31 유보와 한 묶음(\"파일 둘이 한 항목\" 스케치는 폐기), `.wbpj` 는 사장 경로 소속이라 보류 — 근거는 [Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md)                                                                           |"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 417,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "| DV `source` = `CAD\\|<prtFileName>`              | `DashGeometryParameterCADPresentationModel.cpp:28`      | `.prt`                    | 불개입 — 사장 경로 소속(마스터 D32 철회) |"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 419,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "소비자 값이 원장 키와 같아지므로 역조회도 uuid 마이그레이션도 없다. bare filename 만 상대경로로 올리면 되고, 그 값으로 `QDir(root).filePath()` 가 바로 성립해 `DashAnalysisLauncher.cpp:1742-1748` 의 경로 후보 4개 추측이 사라진다."
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 428,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 좌표 재실측 (2026-09-14) | **강** | `5caf8b0..c989257` 변경 175파일. 전 인용 좌표를 diff 라인 매핑으로 재계산했고, 커서 API·핵심 심볼(getOrLoad·rwResolveContentIdentity·populate 등)을 담은 라인의 추가·삭제가 0이라 집계(34지점·시그널 4·죽은 include 3·getOrLoad 16 등)는 불변이다. 이동의 주원인은 로깅 마이그레이션(qDebug→DASH_LOG) |"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "line": 439,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 마이그레이션 불요 (7절) | **강** | `\"uuid\"` JSON 키 사용처가 4파일뿐 — DV-Condition·DOE 계열 3 + 폐기 대상 identity store(`DashRwSession.cpp`). 로더 폴백(`DashConditionParameterization.cpp:495-497`) · backfill(`DashConditionParameterizationWidget.cpp:548`) · DOE 폴백(`DashMorphingDoeExecutor.cpp:451-453`) 본문 확인 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 51,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 매니페스트 | 69 | **72** | −RUN-D1(철회, C축) · +CAD-D17(A) · +DOE-D26(D) · +ANA-D14(F) · +ANA-D15(F) |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 54,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 소유 경계 | 31 | **33** | +MOR-D14 · +OPT-D24 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 137,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **실행 모델** | 워커·직렬 큐·재진입 게이트·취소 계약. 없어서 `processEvents` 가 동기 대기와 응답성을 겸한다 | 19 | MOR-D7 · MOR-D8 · CAD-D2 · CON-D2 · CON-D9 · CON-D11 · DOE-D4 · DOE-D9 · DOE-D11 · DOE-D14 · DOE-D23 · PRE-D2 · PRE-D3 · PRE-D9 · RUN-D5 · ANA-D4 · ANA-D13 · OPT-D16 · OPT-D17 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 138,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **요청↔완료 상관자** | 요청 식별자와 실패 채널. 없어서 짝짓기가 전역 1비트·문자열 비교·도착 순서로 정해지고 실패가 화면에 도달하지 않는다 | 23 | CAD-D1 · CAD-D3 · CAD-D7 · CAD-D8 · CAD-D9 · CAD-D14 · CON-D12 · DOE-D15 · DOE-D16 · DOE-D19 · DOE-D21 · BLD-D15 · RUN-D3 · RUN-D15 · RUN-D16 · RUN-D23 · RUN-D27 · RUN-D32 · ANA-D10 · ANA-D12 · OPT-D11 · OPT-D13 · OPT-D19 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 139,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **소유 경계** | 뷰↔모델 정본 규약과 공유 자원의 소유자. 없어서 위젯이 정본이 되고 하위 계층이 GUI 싱글턴·부모 위젯을 되부른다 | 33 | MOR-D4 · MOR-D9 · MOR-D13 · **MOR-D14** · CAD-D6 · CAD-D12 · CON-D4 · CON-D6 · DOE-D2 · DOE-D17 · DOE-D18 · PRE-D12 · BLD-D5 · BLD-D10 · RUN-D10 · RUN-D13 · RUN-D14 · RUN-D17 · RUN-D22 · RUN-D25 · RUN-D28 · ANA-D1 · ANA-D2 · ANA-D5 · ANA-D6 · ANA-D11 · OPT-D3 · OPT-D6 · OPT-D7 · OPT-D8 · OPT-D18 · OPT-D22 · **OPT-D24** |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 140,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **판정 규칙의 단일 선언 지점** | 종류·차원·모드 판정을 한 곳에서 선언하는 자리. 없어서 문자열·구조 휴리스틱이 사본으로 흩어진다 | 18 | MOR-D3 · CAD-U4 · CON-D1 · DOE-D3 · DOE-D10 · PRE-D5 · PRE-D11 · BLD-D2 · BLD-D3 · RUN-D11 · RUN-D18 · RUN-D19 · RUN-D29 · ANA-D3 · ANA-D8 · OPT-D1 · OPT-D4 · OPT-D14 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 141,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **배선 완결성** | 구현↔호출부의 배선과 그것을 지키는 검증. 구현이 있는데 연결이 없거나, 연결이 있는데 소비가 없다 | 30 | MOR-U1 · MOR-U2 · CAD-U3 · CAD-U5 · CON-U1 · CON-U3 · CON-U5 · **DOE-D25** · DOE-U2 · DOE-U3 · DOE-U4 · DOE-U5 · PRE-U1 · PRE-U2 · PRE-U3 · BLD-D13 · BLD-D14 · BLD-U1 · RUN-U2\\~U6 · ANA-D7 · ANA-U2 · ANA-U3 · ANA-U5 · OPT-D9 · OPT-U2 · OPT-U3 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 148,
+    "patterns": [
+      "D14"
+    ],
+    "text": "- **요청↔완료 상관자** 는 두 갈래가 한 축이다. 요청에 식별자가 없어서 생기는 것 — 전역 `m_batchMode` 1비트로 방출 대상을 스위칭(CAD-D8) · 짝짓기가 멤버 문자열 비교(RUN-D15) · 완료 수신처가 `DashMainWindow` 이고 부모 탐색이 조용히 실패(OPT-D19) — 과, 실패에 채널이 없어서 생기는 것 — `optimizationFailed` 의 `connect` 가 레포 전체에 없다(OPT-D11) · `dynamic_cast` 실패 시 무반응(ANA-D12) · 적용 실패가 stdout 으로 안 나감(CAD-D14) — 이다. 성격 4(피드백 부재) 5건과 6(통지 미결합) 7건이 전량 여기다."
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 151,
+    "patterns": [
+      "D14"
+    ],
+    "text": "- **배선 완결성** 은 판단 비용이 가장 낮지만 201건판에서 규모 1위 자리를 소유 경계에 넘겼다(39→30). 예정 기능 갈래 10건이 빠지면서 \"미구현 = 범위 결정\" 종류가 사라져 잔여 30건은 셋으로 정리된다 — **죽은 코드 20건은 삭제**, **검증 부재 3건은 신규 작성**, **나머지 7건은 개별 정리**(BLD-D13 쓰지 않는 폴링 타이머 · BLD-D14 `virtual` 누락 · OPT-D9 빌드 가드 없는 디버그 코드 · MOR-U1 `switch` case 누락 · PRE-U1 확장자 라우팅 누락 · DOE-D25 릴리스 빌드에 위젯 부재 · DOE-U2 상태 갱신 미배선). 개별 정리 7건은 206건판의 3건에서 늘었는데, 늘어난 4건이 미구현으로 뭉뚱그려져 있던 실제 결함이다."
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 152,
+    "patterns": [
+      "최초"
+    ],
+    "text": "- **진입·복원 순서 계약** 은 6건뿐이고, 매니페스트 축의 F(Set 1급 개체 부재)에 같은 기제 2건(CAD-D4 · CON-D7 — 복원 프로토콜 부재)이 이미 들어가 있다. 신설된 RUN-D38(최초 진입에서 방어가 돌지 않는다)도 F 와 같은 기제여서 편입 후보가 3건이 됐다. 독립 축으로 세울지 매니페스트 축에 넘길지가 열려 있다."
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 154,
+    "patterns": [
+      "D14"
+    ],
+    "text": "**판정 규칙 축과 매니페스트 축 B·C 의 경계**를 밝혀 둔다. B(파일명·경로가 스키마 노릇) · C(variant 판정 산재)는 매니페스트가 기록할 자리를 만들면 판정 자체가 사라지는 것들이다. 판정 규칙 축은 판정 대상이 매니페스트에 담을 값이 아니라 코드 내부 상태·헤더 문자열·응답 이름이라서 자리를 만들어도 남는다 — `startsWith(\"r\")` + 두 번째 글자 숫자(OPT-D14) · 쉼표 개수로 차원 판정(BLD-D3) · `contains(\"modal\")`(PRE-D5) 계열이다. 그럼에도 두 축이 중복 집계에서 25건 겹치므로, 경계는 정의로만 서 있고 실물에서는 두껍게 맞물려 있다."
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 205,
+    "patterns": [
+      "D14"
+    ],
+    "text": "201건판 증감분의 판정 — 신설 4건 중 3건이 개별(DOE-D26 심볼을 DOE Table 에 싣고 치환도 거기서 · ANA-D14 타깃 열거에 Set 필터 · ANA-D15 폴백 7벌 제거)이고 1건이 동반이다(CAD-D17 — 저장 JSON 에 `.prt` 키를 넣어도 그 보관본을 데몬 `_cleanup_temp` 가 지우므로 CAD-D15 와 함께 가야 실효가 있다 → 요청↔완료). 빠진 RUN-D1 은 개별이었다."
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "line": 229,
+    "patterns": [
+      "D14"
+    ],
+    "text": "`model 계층 렌더 자원` 5건(MOR-D2 · MOR-D4 · MOR-D13 · RUN-D14 · OPT-D18)은 전량이 `핸들 인스턴스` 의 부분집합이어서 독립 자원으로 세우지 않았다. 나머지 6종은 서로 겹치지 않는다."
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 1,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "# DashGUI2 CI 구축 TODO — lint 즉시 가동 → vcpkg 전환 → 캐싱 → 빌드 CI"
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 18,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| ① lint CI | clang-format 검사 + grep 게이트 (cloud runner) | **즉시** — 전제는 `.clang-format` 커밋(W5)뿐 | 0.5일 |"
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 45,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 내부 (포트 있음) | `core-lib` · `reader-writer` | **레지스트리에 이미 존재** (baseline 2026-04-15.1 / 2026-05-03.0) | HINTS 제거, 레지스트리 소비로 전환 — 즉시 가능 |"
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 51,
+    "patterns": [
+      "version"
+    ],
+    "text": "- **Registry** — git 레지스트리 구조(`ports/` + `versions/baseline.json`), `vcpkg_from_git` 포트 패턴(REF 고정), `pr-update-ports.yml`(REF 검증 자동화 워크플로) 운영 중."
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 59,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "### 2-1. 단계 ① — lint CI (즉시)"
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 73,
+    "patterns": [
+      "version"
+    ],
+    "text": "          clang-format --version   # 러너 기본 탑재. 버전 고정 필요 시 설치 스텝 추가"
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 95,
+    "patterns": [
+      "version"
+    ],
+    "text": "    \"version-string\": \"dev\","
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 114,
+    "patterns": [
+      "version"
+    ],
+    "text": "내부 포트 7종 작성 — 기존 `core-lib` 포트가 템플릿(`vcpkg_from_git` + REF 고정 + `versions/` 등재). 전제: 각 모듈 저장소가 `cmake_install`로 config 패키지를 내보낼 것 (이미 `find_package(... CONFIG)`로 소비되고 있으므로 대부분 충족). **리드타임이 지배하는 작업**이라 (모듈별 저장소 협의) 가장 먼저 킥오프."
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "line": 164,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "[즉시] ① lint CI"
+  },
+  {
+    "path": "264-2-batch-stage-ledger-concepts.md",
+    "line": 82,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │      Failed / Cancelled             → 그 문자열 + caseClosed  (칸 무관 즉시 종료)"
+  },
+  {
+    "path": "264-2-batch-stage-ledger-concepts.md",
+    "line": 104,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 존재 이유 | 케이스별 성패 회계 | 취소 처리가 단계별로 갈림 (Stp = 협조적 / Analysis = 즉시 중단) |"
+  },
+  {
+    "path": "264-2-batch-stage-ledger-concepts.md",
+    "line": 137,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   1. hasBatch() 아니면 즉시 return        ← 배치당 1회, 중복 종료 차단"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 13,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "> 개정 4: 2026-07-14 — 4-1절 \"취소·실패 사용자 정책\" 신설: 검토 피드백(\"사용자의 작업 취소 및 실패 관리 정책이 중요\") 대응 — 계약 4종(메커니즘) 위의 **정책 계층** 5건 판정(P1 완료분 보존·중단분 산출물 폐기, P2 배치 취소 = 가장 이른 중단 지점 + 잔여 케이스 미시작, P3 continue-on-error + 연쇄 실패 차단기, P4 취소 UX 즉시 반응 — \"UI 즉시 해방\"만 약속, P5 자동 재시도 없음). 0절 질문 5·1절 결론 표 7행 추가\\"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 40,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 2 | 완료 처리 방식 | **Qt 시그널(이벤트) 기반 Job 상태머신이 표준** (W10 정의 그대로). C 콜백은 외부 API 경계 어댑터로만(수신 즉시 시그널 변환), 코루틴은 **보류**(Qt 5.15 + QCoro 최신판 Qt 6.8+ 전용 — 배타적 선택이 아니므로 나중에 additive 승격 가능) |"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 45,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 7 | 취소·실패 사용자 정책 (개정 4) | **메커니즘(전파·통지)은 기존 계약 4종이 커버, 사용자 정책 계층 5건은 공백이었음 — 4-1절로 신설**: 완료분 보존·중단분 폐기(P1), 배치 취소 = 가장 이른 지점 중단 + 잔여 미시작(P2), continue-on-error + 연쇄 실패 차단기(P3), 취소 UX 즉시 반응 — \"UI 즉시 해방\"만 약속(P4), 자동 재시도 없음(P5) |"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 125,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| C 콜백 (함수 포인터) | 언어 무관 — C API 경계에서 유일한 선택지 | 콜백 실행 스레드 문맥 불명 · 수신자 수명 관리 수동(dangling 위험) · 일대일 | X | **경계 어댑터로만** — 수신 즉시 시그널 변환 |"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 158,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   2. 호출은 즉시 반환 — 메인스레드는 이벤트 루프 상주"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 174,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **취소** — 협조적 취소. ProcessJob = 추적 PID kill(W6의 killOrphans 축소와 결합). WorkerJob = `std::atomic<bool>` 체크 지점 — 단 **DLL 함수 실행 도중에는 중단 불가**(비협조 코드)이므로 \"취소 = 상태는 즉시 Cancelled, 늦게 도착한 결과는 폐기\" 의미론을 명시한다. DLL이 취소 콜백을 제공하면 활용."
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 189,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| P2 | 배치 취소의 **범위와 시점**은? | 배치 취소 = 배치 전체 중단: 잔여 케이스는 시작하지 않고, 진행 중 케이스는 **가능한 가장 이른 지점**에서 중단 — ProcessJob 구간이면 즉시 kill, WorkerJob이면 다음 취소 체크 지점, DLL 호출 도중이면 완주 후 결과 폐기(계약의 협조적 취소 그대로). 케이스 단위 선택 취소는 도입하지 않음(단순성). 실행 중 앱 종료(W7)는 이 경로의 특수 호출자 — closeEvent가 같은 배치 취소를 호출한다 |"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 191,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| P4 | **취소 불가 구간**(DLL 실행 중)의 UX는? | 취소 클릭에 UI는 **즉시** 반응: 버튼 비활성 + \"취소됨\" 표시 + Job 상태 즉시 Cancelled(계약 그대로). WorkerJob의 잔여 DLL 실행은 백그라운드에서 소진되고 결과는 폐기된다 — 사용자에게 약속하는 것은 **\"취소 = UI 즉시 해방\"이지 \"CPU 즉시 해방\"이 아님**을 명시적으로 수용한다(협조적 취소의 대가). 소진 중 동일 서브시스템 재실행은 직렬 풀(5-2절)이 자연스럽게 뒤에 줄 세운다 |"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "line": 232,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "(개정 5) **워커 투입** = WorkerJob·직렬 풀 도입(7절 서브태스크 e) — 외부 축(ProcessJob, 서브태스크 a\\~c)은 스레드를 만들지 않으므로 본 선결 조건과 무관하게 즉시 착수 가능하다. 아래 5건이 지금 사고를 안 내는 유일한 이유는 모든 코드가 GUI 스레드 하나에서 돌아 자동 직렬화되기 때문(프리즈가 안전장치 역할) — 두 번째 스레드 등장 순간 그 보호가 사라진다. 순서 강제: d(본 절) → e."
+  },
+  {
+    "path": "203-1-worker-precondition-concepts-qa.md",
+    "line": 42,
+    "patterns": [
+      "최초"
+    ],
+    "text": "    static DashManager instance;   // magic static — 최초 호출 때 1회 생성, 이후엔 그대로 반환"
+  },
+  {
+    "path": "203-1-worker-precondition-concepts-qa.md",
+    "line": 279,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "D4 는 다른 4건과 의존성이 없고 규모가 가장 작으며 이미 잠재 버그라, 원래 \"즉시 착수\" 권장 항목이었다. (그리고 실제로 그 사이 제거된 것으로 보인다 — <8>절.)"
+  },
+  {
+    "path": "525-1-rc-hotfix-plan-and-dev-root-fix.md",
+    "line": 31,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 2 | 핸들 복원 실패 시 샘플 루프 전 ERROR + 즉시 중단 | `Execute` 복원 직후 | 가드 수 줄 |"
+  },
+  {
+    "path": "525-1-rc-hotfix-plan-and-dev-root-fix.md",
+    "line": 48,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   3. VTP 부재·손상 → 샘플 루프 전 ERROR 1줄 + 즉시 중단"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 28,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 기준 deck | Set 이 편집·해석의 기준으로 삼는 해석 deck 파일. 모듈 JSON 의 키 이름은 `referenceModel`(D14) |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 34,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| 핀 | Set 이 자기 기준을 `{Set}.json` 에 1회 고정하고 이후 바꾸지 않는 것. Condition·Morphing 은 **deck 핀**(생성 시점 전역 커서의 deck), Preprocessor·Builder·Runner·Optimizer 는 **조합 핀**(최초 입력 연결 시점의 조합 id) |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 48,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| D14 (개정) | 모듈 `{Set}.json` 의 어느 키·어떤 스키마로 쓰나 | **`referenceModel` 객체 하나**에 `uuid`(조인 키 — D24)·`path`(표시·폴백). 스키마 버전은 올리지 않는다 — 키 부재가 곧 구버전 판정이다 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 59,
+    "patterns": [
+      "사장"
+    ],
+    "text": "| D18 부속 2 | CAD Set 도 `referenceModel` 키를 받나 | **받지 않는다 — `referenceModel` 미지정 허용(마스터 M5 제외)이고 형상 출처 `cadSource` 는 유보다(마스터 D31 — 후속작업 13 동반).** 해석 deck 소비가 없다는 실측(#366 — `m_loadedFilePath` 판독 0·표는 `applyNxCadParameterJson`)이 근거다. wbpj DOE 실행 경로는 사장 판정이라 조합·스탬프 개념 밖이다(마스터 D32·D33 철회 — [Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md)) |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 61,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| D19 (개정) | 파이프라인 전 구간이 같은 기준임을 무엇으로 보장하나 | **산출물 스탬프 + Set 핀 + 홉별 검증.** 단위는 deck 이 아니라 **조합**이다. Preprocessor 가 dataset XML 에, Builder 가 model_info.json 에 생성 시점 조합 id 를 write-once 로 찍고, 각 모듈은 최초 연결 시 핀한 id 와 입력 스탬프의 일치를 검증한다 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 66,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| D26 (산식 확정) | 산출물에는 조합의 무엇을 박나 | **조합 id + 형상 deck 둘만.** dataset XML 의 `model_info` 섹션과 `model_info.json` 최상위에 `parameterizationId`(검증용)와 `geometryDeck`(morph 원본 — uuid·path 병기)을 쓴다. id 산식은 **SI-5 확정** — 정렬 setId 연접(\"산출물이 드는 것\" 절). 조합 정의는 Launcher `{Set}.json` 이 갖고, 조합 상세·DV 키 매핑은 **후속**으로 미룬다 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 98,
+    "patterns": [
+      "D14"
+    ],
+    "text": "처분 — `ModelRunner_{Set}.json` 에 D14 와 같은 `path`·`uuid` 객체로 영속화하되 키는 **별도 키(가칭 `nodeSetSource`)** 다. D18 재개정으로 `referenceModel` 은 전 모듈에서 기준 deck 을 뜻하고, ModelRunner 의 그 키는 상위 deck 핀이 가져간다(아래 파이프라인 스탬프 절). 쓰기 지점은 다이얼로그 핸들러(`onDatFileEditClicked`) 하나이고, `updateReferenceFileAndPart` 의 무조건 클리어(`:1020`)는 저장값 복원으로 바뀐다. 키 부재·빈 값이면 morph 시 콤보를 채운 deck 으로 폴백한다 — 빈 경로 실패 결함이 함께 닫힌다. 사용자가 콤보 deck 과 다른 파일을 고르면 NSET 라벨이 어긋날 수 있는데, 그 위험은 영속화와 함께 수용한다(결정)."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 109,
+    "patterns": [
+      "최초"
+    ],
+    "text": "2. 각 모듈 Set 은 최초 연결한 입력의 id 를 핀하고, 이후 다른 id 의 입력·연결·사용을 차단한다(D20)."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 116,
+    "patterns": [
+      "parameterizationId",
+      "최초"
+    ],
+    "text": "| Preprocessor | 최초 입력 연결 시 조합 id 핀 | dataset XML `model_info` 섹션의 `parameterizationId` + `geometryDeck` | 입력(Launcher 의 조합 id)과 자기 핀 일치 — 불일치 차단(D20). **같은 조합 안의 deck 이 서로 달라도 정상이다** |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 117,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| Builder | 최초 dataset 연결 시 | `model_info.json` 최상위에 두 키 전사 | dataset id 와 자기 핀 일치 — 차단. MCU(사용자 CSV)는 deck-무관 소비 추적으로 미지정 허용 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 118,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| Runner · Optimizer | 최초 model_info 연결 시(`m_viewSourceContext` 대입 `DashModelRunner.cpp:1333` · `loadModelInfoFromFolder` `DashOptimizer.cpp:701-710`) | — | model_info id 와 자기 핀 일치 + morph 대상 deck 이 조합의 Geometry Set deck 과 일치 — 차단 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 123,
+    "patterns": [
+      "최초"
+    ],
+    "text": "- **핀은 최초 연결 1회.** 이후 다른 조합의 입력·연결·사용은 차단하고 \"다른 조합이면 새 Set\" 을 안내한다(D20) — D17 과 동형. \"연결 시점 갱신\" 개념은 없다."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 124,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **핀은 연결 즉시 저장한다** — 다음 저장 대기는 핀 없는 산출물 창(검증 기준값 부재)을 만든다. 연결 전 신규 Set 은 키 부재(미지정)가 정상이다. 차단 문구는 한 문형으로 통일한다 — \"이 Set 은 {조합} 기준으로 고정되어 있습니다. 다른 기준 조합은 새 Set 을 만들어 사용하세요.\""
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 139,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "스키마 자리(D26) — dataset XML 은 **`model_info` 섹션 안의 `parameterizationId` 문자열 + `geometryDeck` dict** 다. 루트 직하가 아닌 이유는 Builder 가 그 섹션만 head/tail 로 찾아 읽고 전사하기 때문이다(`DashModelBuilder.cpp:546-556` · `:1565-1620`) — 밖에 두면 새 스캔 경로가 생긴다. `model_info.json` 은 최상위 같은 이름 키이고, 전사는 기존 read-merge-write 에 한 줄이다. Launcher 쪽은 `{Set}.json` 의 `parameterization` 이 정의이고 `DOE Table` 이 실행 시점 id 를 든다(\"산출물이 드는 것\" 절). 조합 상세·DV 키 매핑 사이드카는 후속이다."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 178,
+    "patterns": [
+      "D14"
+    ],
+    "text": "### D14 — 스키마: `referenceModel` 객체 하나"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 198,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "### D15 — 마이그레이션: lazy backfill (재개정)"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 209,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "전역 출처를 버린 사유 — 전역은 첫 진입 시점의 우연(다른 deck Load 상태)을 영구 동결한다. G7 이 닫은 대표 결함이 마이그레이션 코호트에서 1회 재현된 채 D17(변경 UI 불요)로 정정 불가가 된다. 종전 현행은 매 진입 재평가라 복구 가능했으므로 이 케이스에 한해 개악이었다 — Set 자신의 DV `source` 가 더 충실한 역사적 증거다. 원문은 [Project-Manifest-Set-Identity-And-Decision-Revisions](Project-Manifest-Set-Identity-And-Decision-Revisions.md)."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 219,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "**구프로젝트의 multi-source Condition json**(한 json 에 여러 deck 의 조건이 `source` 로 구분 — D23 이전의 정상 워크플로우)은 **진입 시 1회 자동 분할한다** — deck 별로 Set 을 갈라 쓰고 원본은 `.bak` 으로 보존하며 결과를 통지한다(선택지 없음). D27 다중 선택이 같은 워크플로우의 정식 대체로 dev 에 있어, 상시 하위호환 기계장치 대신 1회 마이그레이션으로 치환한다."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 287,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| 동결 | Launcher 실행 | 그 Set 의 `DOE Table.parameterizationId` | 실행 시점 조합으로 id 를 계산해 Table 에 박는다. 하류가 읽는 것은 이 값이다 — 편집 중인 `parameterization` 이 아니다 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 301,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| `parameterizationId` | 조합 id 문자열 | 홉별 일치 검증 — Preprocessor·Builder·Runner·Optimizer |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 318,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "**조합 상세를 어디에 두나 — 산출물 단위의 문제다.** Set 단위 설정(`{Set}.json`)은 살아 있어 rename·이관 때 함께 갱신되므로 이 문제가 없다. 자리가 필요한 것은 나중에 못 고치는 산출물 쪽이고, **후속으로 미룬다**(D26). 지금 결정은 어느 방안과도 양립한다 — 산출물이 드는 `parameterizationId` 가 조인 키이므로, 상세가 어디에 오든 그 값으로 이어 붙는다."
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 351,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 2 | Condition·Morphing 2모듈에 `referenceModel` 멤버 + {Set}.json 영속화 + 생성·복원 주입 + 구버전 backfill — CAD 는 키 없음(D18 부속 2·#366 봉합) | D13 · D14 · D15 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 356,
+    "patterns": [
+      "parameterizationId",
+      "D14"
+    ],
+    "text": "| 7 | 파이프라인 스탬프·핀·검증(조합 id 단위 — D26) — Launcher 조합 기록(검증 없음) → 조합 id 발급 → Preprocessor 검증·핀 + dataset XML 에 `parameterizationId` → Builder 검증·핀 + model_info 전사 → Runner·Optimizer 스탬프 1차 핀 + morph 일치 검증. 티켓 = 문서 4 의 T20(G8) · T27·T21\\~T23(G9). **G8 부터 setId 뒤다** — 조합 키가 setId 이고 id 가 setId 파생(SI-5)이다. setId 정본은 [Project-Manifest-Set-Identity-And-Decision-Revisions](Project-Manifest-Set-Identity-And-Decision-Revisions.md) | D14 · D19 · D20 · D21 · D23 · D25 · D26 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 385,
+    "patterns": [
+      "최초",
+      "즉시"
+    ],
+    "text": "| 7 | ~~파생 소유자의 갱신·불일치 처리~~ | 최초 연결 1회 핀 + 연결 즉시 저장 + 이후 차단 — 갱신 개념 없음 | 파이프라인 스탬프 절 · T21\\~T23 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 388,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| 10 | ~~스탬프 스키마·부작용 상세~~ | 구스키마는 D23 재개정으로 무효 — D26 이 대체(`parameterizationId`·`geometryDeck`). `loadLabelMetadata` 키 필터는 유효 | 파이프라인 스탬프 절 · T21·T22 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 396,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| 11 | ~~DOE 조합 스탬프의 스키마 상세~~ | D25 개정 + D26 — 형상 1 + 조건 맵, 산출물에는 `parameterizationId` + `geometryDeck` 둘. 상세·DV 키 매핑은 후속 | \"조합의 표현\"·\"산출물이 드는 것\" 절 · T21\\~T23 |"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "line": 420,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| Preprocessor: 다른 조합 id 의 run 폴더 입력은 차단되고, 같은 조합은 — deck 이 서로 달라도 — 파싱 성공 + dataset XML `model_info` 에 `parameterizationId` 가 생긴다 | D19 · D20 · D23 · D26 |"
+  },
+  {
+    "path": "Project-Store-Design-Definition-Version-Minimal.md",
+    "line": 89,
+    "patterns": [
+      "대장"
+    ],
+    "text": "      reference.json                     ★ 신설 — 기준 해석 파일 대장            PM"
+  },
+  {
+    "path": "Project-Store-Design-Definition-Version-Minimal.md",
+    "line": 139,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**대장만 담고 인스턴스를 색인하지 않는다.** 여기 남을 자격은 하나다 — 인스턴스가 소유할 수 없는 것. Reference 는 인스턴스 여럿이 공유하므로(Geometry Set1 과 Set2 가 같은 `.inp` 를 본다) 그 기준을 통과하고, 인스턴스의 신원은 인스턴스 자신이 담을 수 있으므로 통과하지 못한다. 얻는 것 셋 — Set 생성·삭제·rename 이 PM 을 건드리지 않아 동기화 자리가 없고, PM 손상의 피해가 Reference 로 한정되며, 파일 이름이 `reference.json` 인 것과 내용이 일치한다."
+  },
+  {
+    "path": "Project-Store-Design-Definition-Version-Minimal.md",
+    "line": 788,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 실행 ID · 실행 이력 · 산출물 대장 | 실행을 개체로 두지 않는다 |"
+  },
+  {
+    "path": "Project-Store-Design-Definition-Version-Minimal.md",
+    "line": 794,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 마이그레이션 · 구버전 거부 | 승격으로 대체한다(3.5) |"
+  },
+  {
+    "path": "Project-Store-Design-Definition-Version-Minimal.md",
+    "line": 817,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 8 | `reference.json` 의 자리와 범위 | `.dproj/reference.json` · 기준 해석 파일 대장만. 인스턴스를 색인하지 않는다 |"
+  },
+  {
+    "path": "198-1-improvement-roadmap.md",
+    "line": 192,
+    "patterns": [
+      "최초"
+    ],
+    "text": "- 주의: 워커에서 비스레드-안전 싱글톤 최초 생성 가능 — `DashAnalysisLauncher.cpp:287`에서 `DashProjectManager::Instance()` 호출, 싱글톤은 락 없는 lazy-init (`DashProjectManager.cpp:13-18`). 워커 확대 전 선결 항목."
+  },
+  {
+    "path": "198-1-improvement-roadmap.md",
+    "line": 475,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **grep 게이트** — 각 Phase의 DoD를 grep 가능한 형태로 정의했으므로, 달성 즉시 grep으로 수동 검증 (선택적으로 로컬 훅·CI 정적 검사로 봉인 — CI 착수 시, 역행 방지)."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 155,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **문제**: 널 역참조 → \"선택 없이 실행\" 같은 평범한 조작에서 즉시 크래시 (accessor가 정상적으로 null을 반환해도 검사 없이 접근)."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 190,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "- **개선**: `main.cpp`에서 `QCoreApplication::setOrganizationName(\"NohLab\")` + `setApplicationName(\"DashOptiAnalyzer\")`을 1회 설정하고 **전 코드가 무인자 `QSettings`를 쓰도록 통일** (③이 사실상 정답 형태였고 스코프 선언만 없었던 것). 기존 `YourCompany\\DashApp` 키는 1회 마이그레이션."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 319,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**왜 문제인가** — 사용자가 X 버튼을 누르면 미저장 작업물이 **경고 한 번 없이** 소실된다. 티어 2 완료 전까지 크래시가 남아 있는 동안엔 더 치명적이다 — 크래시 = 즉시 작업물 소실. 데이터 손실은 크래시보다도 사용자 신뢰를 크게 깎는 계급의 결함이다."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 389,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**③ 최소 CI** (선택 — CI 파이프라인 미구축 결정 2026-07-21, 개정 12; grep 게이트는 CI 없이 로컬 훅으로도 가능) — 가능 시점 순: clang-format·grep 게이트는 cloud runner에서 즉시(저장소 텍스트만 필요) / cmake configure는 vcpkg 전환 전까지 로컬 훅(pre-commit/pre-push) / 풀빌드는 CoreLib·Registry에서 검증된 vcpkg manifest+커스텀 레지스트리 패턴 확장 + 바이너리 캐싱 (상세는 [196-1-ci-todo](196-1-ci-todo.md))."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 391,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**④ 달성 즉시 봉인** — 게이트는 테스트가 아니라 \"패턴 + 허용 상한\" 한 줄짜리 규칙이고, 정리가 진행될수록 이 **규칙 목록이 늘고 상한이 조여진다**는 뜻: 티어 DoD 달성 순간 상한 하향(W6 완료 → QProcess 0), 신규 규칙 추가(W8 완료 → 로컬 복사본 0건, W13 팔레트 확정 → 신규 hex 색 리터럴 동결 — 개정 8), 소프트 → 하드 승급(W19·W20 완료 시). 유지보수 대상은 기준값 파일의 숫자 몇 줄뿐. 이후의 역행은 사람이 아니라 기계가 잡는다."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 428,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   2. 즉시 return — GUI 스레드는 이벤트 루프로 복귀"
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 625,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**공통 — 실측과 처방** — 전체 실측: view .cpp의 hex 색 **고유 60종** vs QSS 정규 팔레트 8종, 간격 스케일 9값, 다이얼로그 버튼행 8개 중 7개 수동 조립, 섹션 구분 4방식 — 디자인을 바꾸려면 60종의 정의를 추적해야 한다. 처방은 인라인 반복 그룹을 `qtheme_light.qss` 셀렉터/팔레트 상수 네임스페이스로 수렴: 색 정의 60종 → UI 크롬 \\~15종, 간격 9값→4값, 버튼행 7곳→`QDialogButtonBox`, 진행 표시는 W11 산출을 정규형으로. **예외**: analyzer 플롯 서브시스템(tab10 팔레트·`PlotFont` 토큰)은 이미 정규화된 모범 사례 — 건드리면 후퇴. 주의: W8과 달리 **시각 변화 25\\~30곳** 포함 — 팔레트 \\~15종·간격 스케일 4값 확정안과 승인 주체·고객사 빌드 분기(`DASH_BUILD_*`) 확인은 코드 0줄 결정 사안이므로 티어 0\\~1 시기에 선행하고(백로그 1-1절 [② 게이트] 시기 첫날 킥오프 — 합의 리드타임이 지배), 확정 즉시 **W9 게이트에 신규 hex 리터럴 카운트를 고정**해 결정의 부패(stale)를 막는다. 시공은 착수 시 델타 1회 재확인 + 승인 후 (개정 8)."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 734,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**공통** — W20(God 해체) 전에 ①의 헤더 다이어트만 선행해도 증분 빌드가 즉시 단축된다."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 920,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   5. 크래시가 남아 있는 동안 → 미저장 작업물 즉시 소실 (W7 — 소속은 F, 백로그 개정 12)"
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "line": 975,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 2 | QSettings 스코프 파일 대응 | DashManager = `\"NohLab\"`, DashMainWindow = `\"YourCompany\"` | **반대** — DashManager.cpp:80 = `\"YourCompany\"/\"DashApp\"`(플레이스홀더), DashMainWindow.cpp:192 = `\"NohLab\"/\"DashOptiAnalyzer\"` | W4 마이그레이션 대상 키가 솔버 경로 쪽. 3종 분열 판정 자체는 동일 |"
+  },
+  {
+    "path": "Project-Board-Intake-And-Operations.md",
+    "line": 105,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| [#388](https://github.com/NumeRealWorks/DashOpti_GUI/issues/388) | DevEnv | 로컬 설정 절차를 조사해 모으고 스크립트 하나로 만든다 | 최초 셋업 자동화 |"
+  },
+  {
+    "path": "Project-Board-Intake-And-Operations.md",
+    "line": 271,
+    "patterns": [
+      "최초"
+    ],
+    "text": "`W0` 는 추적 시작 이전 항목을 담는 아카이브 칸이다. 시작일이 과거라 GitHub 이 `completedIterations` 로 자동 분류하고, 완료 iteration 에도 항목 배정은 된다. 기간은 보드 내 최초 종료일(2026-07-29)을 덮고 W1 시작에 정확히 맞닿게 잡았다."
+  },
+  {
+    "path": "Project-Board-Intake-And-Operations.md",
+    "line": 319,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 완료 전부 숨김 | 뷰 필터 `-status:Done,\"Won't do\"` | 70 → 35항목. API 로 즉시 가능 |"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 56,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "// [정상 패턴] 시그널 구동 — 즉시 반환, 이벤트 루프 상주"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 67,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    proc->start(exe, args);                // start 나중 — 즉시 반환"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 87,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "### 1-3. C API 경계 — 콜백은 즉시 시그널로 변환"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 186,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    m_proc->start(exe, args);                         // 즉시 반환 — 스레드 0개"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 231,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    void cancel() override {    // 추적 PID kill — 상태는 즉시 Cancelled, 늦은 finished 는 터미널 잠금이 삼킨다"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 367,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "// 변경 — 즉시 반환: 기동 완료는 시그널로 통지"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 375,
+    "patterns": [
+      "최초"
+    ],
+    "text": "`readyReadStandardOutput → onDaemonReadyRead` connect 는 이미 있다 — busy-wait 루프 2곳(`:97-108`·`:150-159`)과 `waitForStarted`(`:143`)만 삭제하면, 이미 연결된 시그널 경로가 `[READY]`를 배달한다. NX 데몬 최초 기동의 120초 프리즈가 소멸하는 지점이 여기다."
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 420,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    // 협조적 취소: DLL 실행 도중엔 중단 불가 → 상태는 즉시 Cancelled, 늦은 결과는 폐기."
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 422,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    // task 인자로 추가한다 — 맨 멤버 플래그는 금지 (즉시 Cancelled 방송 → 호출부 deleteLater"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 484,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    job->start();                              // 4. start 나중 — 즉시 반환, 이벤트 루프 상주"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 535,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │      cancel() 은 즉시 Cancelled 확정 — 늦은 결과는 터미널 잠금이 삼킨다"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 672,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "### 8-3. 동기 종료·취소 대기 (P2) → kill 발사 후 즉시 반환, 정리는 `finished` 슬롯"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 716,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**착수 성질**: 8-1~8-4·8-7은 외부 축 — 스레드 없이 즉시 착수 가능. 8-5만 워커 선결 조건 5건 게이트 뒤에 선다. 8-6은 독립 작업이 아니라 나머지 전환의 결과로 소멸한다."
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 744,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**Job 구조 — 비동기 (즉시 반환 · 완료는 시그널)**"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "line": 777,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "exe에서 취소 = kill = 프로세스 즉시 정지·finished 1회. 상태머신을 걷어내면 그것이 막던 버그도 같이 사라진다. **단**, W6 수렴(exe 검증·UTF-8·env·중복가드)은 유지해야 한다 — 호출부 5~6곳에 `QProcess` 인라인 산포는 안티패턴 복귀. 정답 형태는 \"상태머신 없는 얇은 러너\"(= 개정 2 병합 전 원래 `ProcessRunner`)."
+  },
+  {
+    "path": "Project-Manifest-Set-Identity-And-Decision-Revisions.md",
+    "line": 30,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| SI-3 | 발급·저장 시점 | **신규 Set = 생성 핸들러**(생성 시 json 이 어차피 써진다 — 추가 저장 규약 0). **구버전 Set(키 부재) = 열기 복원 시 발급 + 즉시 write-back 1회.** 쓰기 실패 = 로그 + 메모리 유지, 다음 열기 재발급. P5 와 무마찰 — P5 의 취지는 적재·해싱 지연이지 쓰기 금지가 아니다 |"
+  },
+  {
+    "path": "Project-Manifest-Set-Identity-And-Decision-Revisions.md",
+    "line": 40,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| D15 (재개정) | 키 부재 시 진입 1회 **전역 reference** 를 읽어 핀 + 다음 저장 backfill. multi-source json 은 핀 deck 밖 행을 읽기 전용 보존 | **핀 출처 = Set 자신의 DV `source`** — Condition 은 상대경로 그대로, Morphing 은 bare filename 을 configs 복사본 → 원장 `path` → 루트 스캔 순으로 해석. 복수 히트는 없다고 가정 — 결정적 1건(정렬 후 첫번째) + 로그. 유도분은 **원장에 등록한 뒤** 핀한다 — M3·P4 \"등록 지점은 Load 핸들러 하나\" 의 유일한 예외. 등록 없이는 다음 열기의 D16 해석이 미스라 backfill 이 자기 자신을 못 넘긴다. 등록 실패 시 핀하지 않고 다음 진입에 재시도. 유도 실패 시에만 전역 폴백, 빈 값이면 핀하지 않음(유지). 소급 없음 — 기존 핀 불문. **multi-source json 은 진입 시 1회 자동 분할**(deck 별 Set) + `.bak` 보존 + 결과 통지(선택지 없음) | 전역 출처는 첫 진입 시점의 우연(다른 deck Load 상태)을 영구 동결한다 — G7 이 닫은 대표 결함이 마이그레이션 코호트에서 1회 재현된 채 D17(변경 UI 불요)로 정정 불가가 된다. 종전 현행은 매 진입 재평가라 복구 가능했으므로 이 케이스에 한해 개악이었다. Set 자신의 DV source 가 더 충실한 역사적 증거다 |"
+  },
+  {
+    "path": "Project-Manifest-Set-Identity-And-Decision-Revisions.md",
+    "line": 41,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| D28 (폐기) | 핀 deck 밖 행을 회색 + 툴팁 + 편집 잠금 | **폐기 — 자동 분할(D15 재개정) 후 foreign 행이 성립하지 않는다.** 함께 걷는 것: `DashDesignVariableModel` 의 회색·잠금·툴팁 처리, `loadFromJsons` 의 핀 deck 인자, `FECondition` 예외 판정, DOE 의 구 multi-source 읽기 경로 | D27 다중 선택이 같은 워크플로우의 정식 대체로 dev 에 있어 다중 deck 메커니즘 두 벌이 영구 공존할 자리였다. 하위호환용 상시 기계장치를 1회 마이그레이션으로 치환한다 |"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 41,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 4   | **산출물 대장이 없다.** 산출물 포인터는 `AnalysisLauncher.DOE Table.input/output` 과 `DataPreprocessor.DOE Table.output` **2곳뿐**이고 나머지는 디스크 스캔(`*.dat` · `*.inp` 글로빙)으로 찾는다 | 스캔 필터와 생성 시 경로가 어긋난다. 자산 · 부산물 · 실패를 구분하지 못한다                              |"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 62,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 마이그레이션       | 불요                                        | 1회성 필요, 기존 자산 모두 폐기도 고려                  |"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 90,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 산출물 대장(`artifacts[]`) · 정리 표시 · 케이스 실패 사유 · 스테이지 상태 | **뺀다**  | 실행 메타에 종속. 축 E 8건이 통째로 남는다                                         |"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 96,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 마이그레이션 · 구버전 거부                                     | **뺀다**  | 승격으로 대체한다(4.4)                                                     |"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 193,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**셋 중 execution 만 사슬이 파일에 닿지 못한다.** 산출물 대장이 α 밖이라(0.1-4) \"그 인스턴스가 낸 것이 무엇인가\" 는 여전히 글로빙이 답한다. α 가 고치는 것은 **어느 인스턴스인가**까지이고, 그 앞의 `folders[0]` 추정·관례 탐색이 없어지는 것이 이득의 전부다(4.5 의 1·2번)."
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 323,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 15 | 산출물 경로 | 디스크 스캔 (`*.dat`·`*.inp` 글로빙) | 실행 메타 산출물 대장 | X — 대장이 α 밖 | RUN-D35 · ANA-U1 |"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 365,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 4 | 산출물 대장이 없다 | **남는다** — 대장이 실행 메타에 붙는다 |"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "line": 380,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| **E** 산출물 대장이 없어 자산·부산물·실패를 구분하지 못한다 | 8 | 산출물 대장 + 케이스 실패 사유 + 스테이지 | 밖 |"
+  },
+  {
+    "path": "197-1-gui-restructure-mvvm-qml.md",
+    "line": 60,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 헬퍼 12곳 중복 | `ModelBuilderUIHelper`로 통합 | 트랙 C-1 (즉시 가능) |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 44,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 4 | **산출물 대장이 없다.** 인덱스는 `AnalysisLauncher.DOE Table.input`/`output` 과 DataPreprocessor `output` **2곳뿐**이고 나머지는 디스크 스캔이다 | 스캔 필터와 생성 시 경로가 어긋난다. 자산 · 부산물 · 실패를 구분하지 못한다 |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 68,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| **마이그레이션** | **갈린다 — 불요.** 파일을 옮기지 않으므로 구버전을 거부하지 않고 **승격으로 1회 흡수**한다(8절). 되돌리기도 싸다 — `project.json` 과 `outputs/` 를 지우면 현행 경로로 복귀한다 |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 97,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 산출물 대장 | `artifacts[]` **전량** — `kind` · `purged` · `model` 역참조 + `cases[].reason` · `stages[]` | `outputs[]` — **소비자가 여는 것만 · 성공분만** |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 101,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 기존 프로젝트 | 마이그레이션 미수행 · **열기 거부** | **승격 1회 흡수** — 파일을 옮기지 않아 거부가 불요하다 |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 106,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "**두 안이 같은 것도 적지 않다.** 관리 단위 · 칸 좌표 6종 · 모듈 어휘 · 전역 ID 형식 · Reference 의 역할 맵 · 엣지 3종과 소비자 소유 규칙 · `upstream` 의 공통 키 셋 · 배지 6종 · 매니페스트가 variant 의 유일한 정본이 되는 것이 그것이다. 0.2 의 표에서 갈리는 것은 **물리 배치 · 실행 개체 · 로컬 ID · 지문의 자리 · 마이그레이션** 다섯 행뿐이다."
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 149,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 4 | 산출물 대장이 없다 | **부분** — `outputs` 가 소비자가 여는 것만 담는다. 부산물·실패 케이스·정리 표시는 없다(5.4) |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 171,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 실행 ID · 이력 · 정의 본문 스냅샷 · 산출물 대장 전량                  | **뺀다**  | 실행을 개체로 두지 않는다 (10절)                        |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 173,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 파일 이동 · 도구 계약 변경 · 마이그레이션                           | **뺀다**  | 3루트 유지가 전제다 (10절)                           |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 470,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**산출물 대장 전량이 아니다.** 부산물 · 실패 케이스 · 로그 · 정리 표시를 담지 않는다. **하류가 실제로 여는 것만** 적는다."
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 722,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 산출물 대장 전량 — 부산물 · 실패 케이스 · 케이스 실패 사유 · 스테이지 상태 · 정리 표시 | `outputs` 는 소비자가 여는 것만 (5.4) |"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "line": 731,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 마이그레이션 · 구버전 거부 | 승격으로 대체한다 (8절) |"
+  },
+  {
+    "path": "200-3-prioritized-backlog.md",
+    "line": 216,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **작업**: ① GUI에 `vcpkg.json`·`vcpkg-configuration.json`·`CMakePresets.json` 3파일(CoreLib 복제) ② 오픈소스 4종 manifest 선언 — 전부 공식 포트 존재(vcpkg qt5는 KDE 유지 5.15 패치 계열이라 5.15.16과의 격차 확인, VTK는 `IOOCCT` feature 노출 확인) ③ `core-lib`·`reader-writer`는 HINTS 경로 제거 → 레지스트리 소비 전환(즉시 가능) ④ 내부 포트 7종 신규 작성 — 모듈별 저장소 협의가 리드타임을 지배하므로 최우선 킥오프 ⑤ CMakeLists 경로 하드코딩 제거 · DLL 복사 \\~220행을 vcpkg 배포 + `windeployqt`로 대체 ⑥ `cmake_minimum_required` 3.10 → 3.25+ ⑦ CMake 함정 정비(구 W5 분할분: `CONFIGURE_DEPENDS` 추가 · VTK 컴포넌트 중복 제거 · C++ 표준 이중 지정 정리 · 경고 `/W4` 상향) ⑧ 바이너리 캐싱(GitHub Packages NuGet 피드 — Qt+VTK 소스 빌드 시간 흡수, 첫 시딩은 로컬 개발 PC 산출물로 가능)."
+  },
+  {
+    "path": "200-3-prioritized-backlog.md",
+    "line": 238,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- 주의: W8과 달리 **시각 변화 25\\~30곳** — 스크린샷 대조 + 고객사 빌드 분기(`DASH_BUILD_*`) 영향 확인 후 적용. 결정분(팔레트·스케일·승인 주체)은 ② 시기 첫날 킥오프(코드 0줄, 합의 리드타임 지배), 확정 즉시 W9 게이트에 신규 hex 리터럴 카운트 고정. analyzer 플롯 서브시스템(tab10 팔레트)은 이미 정규화된 모범 사례라 제외."
+  },
+  {
+    "path": "200-3-prioritized-backlog.md",
+    "line": 257,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "**W4. 설정 영속화 정비** (3일) — QSettings 스코프 1종 통일(플레이스홀더 `\"YourCompany\"` 제거 — 기존 저장값 마이그레이션 1회), `saveGeometry/restoreGeometry/saveState`로 창·도크 레이아웃 저장·복원, 파일 다이얼로그 마지막 경로 30건 일관화, 최근 프로젝트(MRU) 메뉴. 매 실행마다 체감되는 개선이라 ①에 편승."
+  },
+  {
+    "path": "200-3-prioritized-backlog.md",
+    "line": 409,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "단, Qt 구현 흐름에서 추론한 것이고 **실측하지 않았습니다.** stderr 로만 출력하고 즉시 종료하는 스텁을 만들어 `finished` 슬롯에서 `readAllStandardError()` 가 비는지 보면 확정됩니다 (`tests/daemon_stub.cpp` 에 모드 추가로 가능)."
+  },
+  {
+    "path": "Project-Store-Design-Rationale.md",
+    "line": 85,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| **E** 산출물 대장이 없어 자산·부산물·실패를 구분하지 못한다 | 8 | `artifacts[]` + `cases[].reason` + `cases[].stages` |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 53,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| T15 | G7 | Condition·Morphing Set 파일에 기준모델 저장 | D14 스키마(uuid 조인 — D24)를 Condition·Morphing {Set}.json 에 — 생성·복원 주입 + 구버전 backfill + D16 해석 + multi-source 읽기 전용 처분. 공유 코드는 `DashSetReferenceModel` 신설. CAD 는 키 없음(#366 봉합 — `cadSource` 는 D31 유보) | T12 · T14 |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 62,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| T21 | G9 | Preprocessor 입력 검증 + dataset XML 에 식별자 기록 | 최초 입력 연결 시 조합 id 핀, 다른 id 입력 차단. 무스탬프 구산출물은 연결 차단 + 재실행 안내(D20 재개정 — 폴백 불도입) | T27 |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 149,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "QA 는 회차당 한 패스다. 2회차 — 프로젝트 열기/닫기/재오픈·폴더 이동(#364·#365) · Set 기준모델 고정(#366) · DOE 다중 선택 + 해석파일별 수동 실행(#491). 3회차 — setId 발급·복원·rename 내성(G11) · 구프로젝트 마이그레이션: source 유도 핀·multi-source 자동 분할(G12) · Launcher 조합 기록·화면 출처(#367) · 산출물 식별자 기록·입력 차단(#368)."
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 214,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 하는 것 | **발급**(SI-1) — 12자리 랜덤 hex(v4 절단) + 발급 시 프로젝트 내 중복 검사. 생성 순서는 id 에 싣지 않는다. **영속**(SI-2) — 각 `{Module}_{Set}.json` 의 `setId` 키가 정본, 별도 Set 원장 없음. setId → Set 역조회는 열기 시 전 Set 스캔(`restoreExistingModules` 가 이미 전 파일을 읽는다 — `DashProject.cpp:1245-1258`). 열기 시 중복 감지(json 손 복제) → 나중 파일 재발급 + 로그. **시점**(SI-3) — 신규 Set 은 생성 핸들러(`createNewSet`, `DashProject.cpp:705` — json 이 어차피 써진다), 구버전 Set(키 부재)은 열기 복원 시 발급 + 즉시 write-back 1회. 쓰기 실패 = 로그 + 메모리 유지, 다음 열기 재발급 |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 424,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "마이그레이션 코드는 필요 없다 — DV-Condition 은 조건 이름으로 키가 잡혀 있고 로더 폴백(`DashConditionParameterization.cpp:495-497`)과 backfill(`:444-447`)이 이미 있다."
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 451,
+    "patterns": [
+      "D14"
+    ],
+    "text": "D14 스키마(uuid 조인 + path 병기 — D24)를 **Condition·Morphing 2모듈** {Set}.json 에 넣는다(CAD 는 키 없음 — #366 봉합, `cadSource` 는 D31 유보) — 키 읽기·쓰기·backfill·원장 해석이 디스크 포맷 한 몸이라 쪼개지 않고, 두 모델이 공유하는 `DashSetReferenceModel`(신설) 한 곳에 둔다. 구프로젝트의 multi-source Condition json 처분(핀 deck 외 `source` 행을 보존하되 읽기 전용)도 같은 티켓이다(문서 3 D15 절). 표시는 **모델 한 곳**이고(D28 개정 — #366 실측) 그 모델은 **`DashDesignVariableModel`** 이다 — `flags()` 에서 편집 플래그를 떼고 `data()` 에 `ForegroundRole`(`DashPalette::TextMuted`)·`ToolTipRole` 을 더한다. 핀 deck 은 `loadFromJsons` 의 기본값 있는 인자로 넘겨 호출별로 스코프하므로 공유 모델에 상태가 남지 않고 Geometry·Launcher 호출부는 무변경이다. **`DashConditionParameterization` 은 대상이 아니다** — FE Condition 표의 행은 `refreshFromLoadedAnalysis` 로만 생기는데 T16 이후 진입이 핀 deck 하나만 적재해 핀 deck 밖 `source` 행이 성립하지 않는다. 구 json 의 multi-source 행이 보이고 인라인 편집이 `saveToJsonFiles()` 로 되써지는 자리는 DV-Condition 탭이다(문서 3 D15 절 \"표시\")."
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 470,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 안 하는 것 | 위젯 읽기 교체 — 좌표 1·2·9 는 이 티켓 시점엔 여전히 전역을 읽는다(다음 티켓 T16). 스키마 버전 증가 없음 — 키 부재가 구버전 판정이다(D14) |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 596,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| 스탬프 형태 (D26) | 산출물에 박히는 것은 **`parameterizationId`(검증용) + `geometryDeck`{uuid, path}(morph 원본)** 둘이다. 자리는 dataset XML 의 `model_info` 섹션 안(Builder 가 그 섹션만 head/tail 로 찾아 전사하므로 — `DashModelBuilder.cpp:545-556`·`:1565-1620`)과 `model_info.json` 최상위. id 발급은 멱등(같은 조합 = 같은 id — 산식은 SI-5, 정렬 setId 연접)이고, 조합 정의는 Launcher `{Set}.json` 이 갖는다. 조합 상세를 산출물 쪽에 남기는 자리는 후속이다 |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 597,
+    "patterns": [
+      "최초",
+      "즉시"
+    ],
+    "text": "| 묶은 근거 | 3 스테이지 동승. 같은 D19·D20 패턴(최초 연결 시 id 핀 + 즉시 저장 + 다른 id 차단 + 무스탬프 차단·재실행 안내)의 반복이라 리뷰어가 패턴을 한 번 배우면 된다. 완화: 스테이지별 티켓. 되돌리기 반경 — 포맷 3종(dataset XML·model_info·{Set}.json)이 한 PR 에 담기나 전부 문자열 키 1개 추가라 개별 revert 필요성이 낮고, 필요시 커밋 revert 로 좁힌다 |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 606,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| 하는 것 | ① **id 파생 함수** — 산식은 SI-5 확정: `{geometry setId}+{condition setId 정렬 연접 \",\"}`, 해시 없음·멱등·**id 파싱 금지**(조인은 병기 필드) ② **DOE 실행 시 `DOE Table` 에 `parameterizationId` 기록** — Table 이 실행마다 통째로 재기록되므로(`DashDoeConfigManager.cpp:433-443`) Table 하나가 run 묶음 하나다. 실행 템플릿 deck 기록(구 ③)은 D21 부속 철회로 제외 — 처분 정본 참조 |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 616,
+    "patterns": [
+      "parameterizationId",
+      "최초",
+      "즉시"
+    ],
+    "text": "| 하는 것 | 최초 입력 연결 시 **입력 run 이 속한 DOE Table 의 조합 id** 를 자기 핀으로(라이브 `parameterization` 이 아니다 — D26) + `DataPreprocessor_{Set}.json` 에 즉시 저장. 이후 다른 id 의 입력은 **차단**(D20 문형 — \"이 Set 은 {조합} 기준으로 고정되어 있습니다…\"). dataset XML 의 `model_info` 섹션에 `parameterizationId` 와 `geometryDeck` 을 write-once 로 기록(D26) — 현행 source 치환(`DashDataProcessor.cpp:2825-2838`)은 유지하고 스탬프가 병행한다 |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 625,
+    "patterns": [
+      "parameterizationId",
+      "최초",
+      "즉시"
+    ],
+    "text": "| 하는 것 | 최초 dataset 연결 시 XML 의 `parameterizationId` 를 검증·핀 + `ModelBuilder_{Set}.json` 에 즉시 저장. 다른 id 의 dataset 선택은 차단(D20). `model_info.json` 최상위에 두 키를 전사 — `parameter`·`selected_response` 를 옮기는 read-merge-write(`DashModelBuilder.cpp:545-556`)에 얹는다. `loadLabelMetadata`(`:1149-1226`)에 키 필터를 넣는다 — 현재 `m_labelMetadata` 가 write-only 라 무해하나 방어 조치다(문서 3 해소 필요 사항 10) |"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "line": 634,
+    "patterns": [
+      "parameterizationId",
+      "최초",
+      "즉시"
+    ],
+    "text": "| 하는 것 | 최초 model_info 연결 시(`m_viewSourceContext` 대입 `DashModelRunner.cpp:1333` · `loadModelInfoFromFolder` `DashOptimizer.cpp:701-710`) model_info 의 `parameterizationId` 를 핀 + 각 {Set}.json 에 즉시 저장. 이후 다른 id 의 model_info 연결·사용은 차단(D20). deck 1차 출처가 조합이 되고 라이브 체인(`getReferenceFileAndPart` `:1473-1562`)은 part 명 조회 용도만 잔존(D20 재개정). Optimizer 프리뷰는 configs 전수 스캔(`DashOptimizerWidget.cpp:1468-1493`) 대신 **model_info 의 `geometryDeck` 1건만 morph** — 마스터 후속작업 9 편입분. 그 값이 산출물에 전사돼 있어 Launcher Set 이 지워져도 풀린다(D26) |"
+  },
+  {
+    "path": "246-1-singleton-inventory-and-dashmanager-decomposition.md",
+    "line": 99,
+    "patterns": [
+      "최초"
+    ],
+    "text": "- **테스트 불가** — `Mgr()` 최초 호출이 생성자(`DashManager.cpp:57-124`)에서 외부 프로세스 4개 + QSettings + `vtkGenericOpenGLRenderWindow` 를 만든다. DashManager 를 거치는 어떤 단위도 데몬을 띄우지 않고는 인스턴스화할 수 없다."
+  },
+  {
+    "path": "Project-Store-Survey-Reference-Entry-Upstream-Flows.md",
+    "line": 168,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "       ※ ODB 를 못 찾으면 대기가 아니라 그 케이스 즉시 Failed (:1352-1358)"
+  },
+  {
+    "path": "Project-Store-Survey-Reference-Entry-Upstream-Flows.md",
+    "line": 195,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 표 전체에서 유도 | `.stli` → 상류 `.odb` | 저장되지 않음 — `input_files[]` 의 basename 집합에서 자기 제외로 매번 계산 | 없음 (파생) | 상류 템플릿 행을 표에서 지우면 소스가 사라진다. ODB 부재는 대기가 아니라 즉시 Failed |"
+  },
+  {
+    "path": "281-1-morphing-entry-points-and-isolation-design-options.md",
+    "line": 271,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **A** | GUI 동기 | 게이트 | 증명형 유지 | **즉시 가능** |"
+  },
+  {
+    "path": "281-1-morphing-entry-points-and-isolation-design-options.md",
+    "line": 299,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "비블로킹 (C)      호출자 ──[요청]──▶ actor 스레드     호출자는 즉시 반환"
+  },
+  {
+    "path": "281-1-morphing-entry-points-and-isolation-design-options.md",
+    "line": 393,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **A** | **즉시 착수 가능** | 창이 안 어는 것까지. 게이트 배관과 결함 3건 존치 | **1 — 지금 착수** |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "line": 216,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "승격 이후 편집은 둘로 되돌아온다 — DV-Geometry 인테이블 편집(Min/Max/Cases) → `onSharedDvModelEdited:760-772` → `saveToJsonFiles()` 즉시 영속화 · 파일 외부 변경 → `fileChanged` → `onDvJsonChanged:715-753` → 공유 모델 재로드 + 뷰 reset. 모델 쪽 저장 경로는 없다(`saveSettings()`(`Model:117-120`)는 `qDebug` 한 줄, 호출처 0)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "line": 229,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "Set 을 **삭제**하면 `onDeleteSetRequested:659` 가 `setModel(nullptr, QString())` 을 걸지만(`:677`) 위젯 `:311-313` 의 `if (!model) return;` 이 즉시 빠져나가 `mModel` 이 남고, 직후 `DashProject.cpp:790` 이 그 모델에 `deleteLater()` 를 건다. → D13"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "line": 286,
+    "patterns": [
+      "D14"
+    ],
+    "text": "  │     └─ 이름별 try/except, 실패는 NX ListingWindow 에만 기록      :61-62   → D14"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "line": 396,
+    "patterns": [
+      "D14"
+    ],
+    "text": "3\\~6절 서술 중 동작이 의도와 어긋나거나 어긋날 수 있는 지점 20건 — `D` 잘못 구현된 것 17건, `U` 구현되지 않은 것 3건. ID 는 3절 등장 순서, D14\\~D16 은 데몬 왕복 고유라 뒤에 붙였다. 우선순위 판정은 하지 않는다. 9개 모듈 교차 색인은 [Cross-Module-Defect-Index](Cross-Module-Defect-Index.md)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "line": 414,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **D13** | 진입·수명 | Set 삭제가 위젯의 모델 포인터를 댕글링으로 남긴다 | 3-8 | `:677` 의 `setModel(nullptr, …)` 을 `:311-313` 이 즉시 return 으로 흘리고, 직후 `DashProject.cpp:790` 이 `deleteLater()` 를 건다. 시그널은 `DashMainWindow.cpp:679` 에서 끊기나 살아 있는 워처의 `onDvJsonChanged:717-721` 이 죽은 `mModel` 을 역참조할 수 있다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "line": 415,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D14** | 구조·결합 | 표현식 적용 실패가 GUI 에 닿지 않고 성공으로 보고된다 | 4-3 | `update_expressions`(`nx_helpers.py:56-62`)가 실패를 NX ListingWindow 에만 쓴다(`:62`) → `[ERROR]` 매칭(`:415`)에 안 걸리고 `main.py:325` 가 `[FINISHED]` 를 찍는다. **PRT 에 없는 이름이 DV 로 올라가면 값 미반영 STEP 이 성공 처리되고,** DOE 배치는 전 케이스가 같은 형상을 낼 수 있다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "line": 420,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **U4** | 미구현 | 성공·실패 판정이 데몬 로그 한 줄의 문자열 매칭이다 | 4-1 | `[FINISHED]` 라인 **전체 일치**(`ExtensionProcess:404`)와 `[ERROR]` **부분 일치**(`:415`)가 판정 전부다. 응답 라인에 요청 식별자가 없어 짝짓기는 순서에 의존하고(4-4), 데몬이 `[ERROR]` 를 stdout 에 쓰지 않는 실패 경로는 성공으로 마감된다(→ D14) → 프로토콜 계약이 코드가 아니라 로그 포맷이다. (JSON-RPC 도입은 예정 작업이고 여기서 말하는 결함은 그 부재가 아니라 현행 판정 근거다) |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 21,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| [키 단위 쓰기·읽기 왕복 대장](Project-Store-Survey-Key-IO-Ledger.md) | **단위는 키. 현황 사실의 정본**(`dev` @ `4c7608e`) — GUI 가 프로젝트에 무엇을 저장하고 그중 무엇을 다시 읽는지 전수 조사. 파일 12패턴 × 키 65개마다 라이터 좌표 · 리더 좌표 · 트리거 시점을 대조하고 읽는 코드가 0곳인 키를 이름으로 부른다 — **write-only 13건**(DOE/Data Analysis 플롯 설정 · DataPreprocessor 의 상위 선택 2건과 Output Response · ModelBuilder `transformation` · **MCU `Dataset` 배열**) · **고아 1건**(`Morphing.constraints` 는 파서만 있고 라이터가 없다). 라이터 다중 파일 4종과 **모듈 경계를 넘는 쓰기**(AnalysisLauncher 의 DV 표가 Geometry·Condition 정의 파일을 되쓴다). 귀속 3 × 성격 2 로 다시 세면 **프로젝트 메타가 비었고 실행 메타는 정의 파일에 눌려 있다**. 선행 조사가 기록한 `*_datapath` 계열은 현재 dev 에 **없다** | #239 |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 22,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| [입력 셋·페이로드·실행 경로](Project-Store-Survey-Inputs-Payloads-Runtime.md) | **위 대장의 여집합.** 대장이 축 밖으로 뺀 셋 — ① **입력 셋**: Morphing 은 `.inp` 1개로 서지만 CAD 는 `.prt`+`.wbpj` 2파일 + 솔버 2종이고 **NSET 매칭 미구현이라 CAD+Abaqus 는 end-to-end 미동작** · Set 번호는 카테고리마다 독립 · DOE 재실행은 이전 샘플 셋을 덮고 디스크에 고아를 남긴다 · 상위 선택의 UI 복원·경고 실태 6모듈 ② **페이로드**: DataPreprocessor XML = base64 텐서 자체 컨테이너로 **샘플마다 connectivity 재기록** · tet 패딩 2배 · 생산·소비 양쪽 전량 복원으로 증폭 3겹 · 파일명 규약 2종 ③ **실행 경로**: 전이 1회에 **두 벌**이 써지고(러너 직접 30곳 + 런처 릴레이) direct 는 평문 `status` 키를 오염, `\"Enqueued\"` 가 이전 실행을 리셋, 리더 3곳 중 하나는 **에러 없이 잘못된 결과**를 낸다 · 파일 표현이 없는 상태 9건 중 **케이스 실패 사유만 진짜로 소실**. 구 조사 3종을 흡수하며 드리프트 5건 갱신 | — |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 33,
+    "patterns": [
+      "대장",
+      "마이그레이션"
+    ],
+    "text": "| ★ [계층 재단과 배치](Project-Store-Design-Layer-Cut.md) | ⚠ **구상 — 확정 아님.** **설계 본체.** 초판 5계층안을 **귀속 3(프로젝트·Set·실행) × 종류 2(메타·벌크) = 6칸**으로 재단 — 가르는 축은 귀속·종류 둘이고 재생성 가능성은 층이 아니라 **정본/캐시**를 가른다. **칸마다 라이터 1곳**(단 실행 귀속만 EM·EB 라이터가 갈린다 — 규약 1 은 칸 단위이지 귀속 단위가 아니다). **단독으로 읽히도록 씀** — 전제(관리 단위 · 현황 8건 · 레이아웃 α/β · 안 β 판정과 대가 넷) · 규약 11개(기본값이며 상충 시 개정) · 전 모듈 배치 도면 · 칸별 현행 실체 대조 · 엣지 3종과 무효화 판정 · Reference 1급화와 역할 맵 · 파일 4종 스키마(`project.json` · `definition.json` · `execution.json` · `view.json`) · I/O 시점 표(행위 17종 × 4칸) · **사용자 확인과 차단**(Set 삭제 범위 · 실행 중 정의 읽기전용 잠금 · 비정상 종료는 `Failed` 처리 · `Stale` 착수 허용 / `Broken` 만 차단 — 미결 10건). 확정 33항 — 레이아웃 β · **실행 1회 = `execution`**(코드의 `run` 은 케이스 뜻으로 점유) · variant 전 모듈 명시 · `analysisType` 은 실행 파라미터 · ID = 전역 3종 + 로컬 3종 · **쓰기는 담당 칸 아래로만 미친다**(규약 9 — 가르는 선은 주체가 아니라 대상이다. 도구는 자기 실행의 EB 를 쓰되 EM 위로 올라가지 않는다) · **벌크 관리는 가장 후순위**(단 `artifacts[]` 대장 자체는 제외) · 마이그레이션 미수행 · RA 는 소실 허용 `view.json`. `.prt`·`.dat` 가 입력과 케이스 산출 **두 칸에 동시 존재**(확장자로 칸 판정 불가) · 학습 모델 디렉토리명에 점수가 박혀 있음 | #239 |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 34,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| [안 α 최소 착수](Project-Store-Design-Alpha-Minimal.md) | ⚠ **착수안 — 확정 아님.** 위 설계 본체의 **첫 배포 단위를 다시 자른 것**. 제약 셋 — 현행 3루트 유지 · 매니페스트만 최소 요건으로 · 의존성 단위는 프로젝트와 인스턴스(execution 은 개체가 아니라 **덮어쓰기**). **파일을 옮기지 않고 조인 키만 고친다** — 물리 변화는 `.dproj/project.json` 하나이고 파일명 접두사·variant 3벌·접미사 판정 14곳이 `instances[]` 로 내려온다. 매니페스트 필드는 β 18 → **11**(빠진 7 중 소실되는 값은 0 — `origin` 만 등록 순간에만 손에 있어 남기고 지문은 `AnalysisModelIdentity.json` 이 들고 있다). 엣지는 β 3종을 키째 유지하되 `executions[]` 의 원소가 `inst_` 다(\"그 인스턴스의 **현재** 산출\") — 분류가 곧 전환 정보라 β 전환이 재분류가 아니라 원소 수식이 된다. `bound`·지문을 빼 배지가 6종 → **4종**(Empty·Draft·Ready·Broken). **본체 9절의 마이그레이션 미수행이 승격으로 바뀐다** — 파일 이동이 0 이라 구프로젝트를 거부하지 않고 글로빙을 열기 경로에서 승격 경로로 한 번 옮긴다(하위호환 분기가 아니라 1회 입구). 현황 5건 중 **1·5 가 닫히고 2·3·4 가 남으며**(남는 셋은 전부 실행 귀속) 축 7개 중 **C 하나만 통째로 사정권**, A 는 읽기 배선 15건 중 우선순위 1·2 를 포함한 5건. 4단계 착수 순서와 단계별 verify. **α→β 전환에 값 발급이 `exec_` 뿐이고 그 대상이 0건**이라는 것이 순서의 근거이고, 줄이지 못하는 것은 로컬 ID 3종(키 교체)이다 | #239 |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 66,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| [Results Analyzer](Code-Map-User-Flow-Results-Analyzer.md) | 독립 모듈이 아니라 **한 클래스를 호스트 탭 5곳에 심는 구조** — 생성자 인자 `ViewType`(4종, ModelRunner Sim·MCU 가 공유) 하나가 타깃 콤보 구성·Method 목록·설정 수집 함수 4종을 전부 가른다. 왕복은 언제나 같다: 패널이 `plotRequested` 를 호스트 모델에 던지고, 파일 기반 command 는 spec 을 즉시 되받고 민감도 3종만 공용 데몬 왕복(캐시 히트면 없음), 되받은 spec 으로 **패널이 직접** 플롯 위젯을 만들어 MainWindow plot dock 에 꽂는다 — 요청자와 수신자가 같은 패널이고 호스트 모델은 경유지다. **플롯 데이터는 어디에도 남지 않는다** | — |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 90,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| [프로젝트 매니페스트 귀속](Cross-Module-Defect-Menifest-Axis.md) | 위 색인 206건 중 **70건을 프로젝트 매니페스트 부재로 귀속**(성격 18종 중 13종에 걸리고 나머지 5종 31건은 실행 모델·UI 축이라 무반응) 후 7축 분해 — 기준 모델·계보 미기록 12 / 파일명이 스키마 11 / variant 휴리스틱 6 / 스키마 명세 부재 14 / 산출물 대장 부재 8 / **Set 이 1급 개체가 아님** 13 / **설정 JSON 쓰기 주체·시점 규약 부재** 6. 2장이 동반 작업 의존을 직교 축으로 매김 — **28건은 기능 모듈·전역 데이터·실행 로직·외부 경계 수정을 함께 요구하고 42건은 개별 접근 가능**. 3·4장은 축 제거 시뮬레이션 — **Set 축** 제거는 21건만 움직이고(소멸 9·완화 12) D·E·G 축 무반응에 **Set 전환이 지금 암묵적 리셋 지점이라 RUN-D31 은 악화**, **Sim/MCU 축**을 걷어내고 git 브랜치로 분기하는 안은 14건(소멸 9·**이관 3**·완화 2)인데 MCU 전용은 저장소의 4.8%뿐이라 **203건의 수정을 두 브랜치에 각각** 적용해야 한다 — 둘 다 권하지 않음. 귀속 정의는 [Project-Store-Survey-Key-IO-Ledger](Project-Store-Survey-Key-IO-Ledger.md) 준거 | — |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 98,
+    "patterns": [
+      "version"
+    ],
+    "text": "| [동기 펌핑 → 비동기 전환 — 차이와 선행 항목](215-2-sync-pumping-to-async-conversion-checklist.md) | 일반론 — 전환의 값은 응답성이 아니라 **정책을 쓸 수 있게 되는 것**(재요청이 스택에 쌓이는가 큐에 쌓이는가). 선행 판정 14꼭지 — 재요청 정책 3종 · 배제의 키는 객체가 아니라 자원 · 통지 출처 식별 · 취소 완료의 정의 · 실패·지연의 마감 경로 · 상태 writer 단일화 · 프로세스 밖 생존과 재시작 조정 · 큐가 부르는 정책 4종 · 교착 방지 규율 · **전환이 없애지 못하는 것 3종**. Q&A 16문(고아 처리 4문 포함) | #215 |"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "line": 128,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| [워커 선결 조건 D1\\~D5 상세 분석](203-2-worker-preconditions-analysis.md) | 워커 투입 전 해소해야 하는 공유 상태 5건의 실측·실패 시나리오·처방 — 싱글톤 lazy-init 안전화 · 모핑 공유 상태 분리(위험 최고 등급) · `DashAnalysisModelContext` 접근 규약 · 전역 `std::cout` rdbuf 스왑 제거(즉시 착수 권장) · GUI·VTK 객체 규칙. 머리에 2026-07-28 재검증 정정본 | #203 |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 36,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| P2 | content uuid 는 최초 1회만 발급(상대경로 v5 파생)하고 이후 원장 값을 쓴다 — 원장의 1차 키(D24). 경로와 식별자 분리가 rename 이관(후속작업 1)의 전제 |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 60,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| D14 (개정) | 모듈 JSON 스키마                  | **`referenceModel` 객체 하나**에 `uuid`(조인 키)·`path`(표시·폴백 — D24). 스키마 버전은 올리지 않고 키 부재를 구버전 판정으로 쓴다                                                                                                                              |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 61,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| D15 (재개정)  | 구프로젝트 마이그레이션                 | **Lazy backfill — 핀 출처는 Set 자신의 DV `source`.** 키 없으면 진입 1회 자기 DV `source` 에서 유도해 핀 + 다음 저장 backfill — Condition 은 상대경로 그대로, Morphing 은 bare filename 을 configs 복사본 → 원장 `path` → 루트 스캔 순으로 해석(복수 히트는 정렬 후 첫번째 + 로그). 유도 실패 시에만 전역 폴백, 빈 값이면 핀 안 함. 소급 없음 — 기존 핀 불문. **multi-source json 은 진입 시 1회 자동 분할**(deck 별 Set) + `.bak` 보존 + 결과 통지. 라이터는 Condition·Morphing 2종(문서 3 D15 절) — CAD 는 키 미도입(D31 유보)                                                                                                                 |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 64,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| D18 (재개정) | 소유자 집합                       | **파이프라인 8모듈 — Condition·Morphing(생성 시점 핀) · CAD(키 미도입 — #366 · D31 유보) · Launcher(`referenceModel` 대신 `parameterization` — DOE 선택 시 조합 기록) + Preprocessor·Builder·Runner·Optimizer(최초 연결 시점 핀).** Analyzer·AIGeo 만 제외. ModelRunner 의 NodeSet 소스는 별도 키. 근거는 [Project-Manifest-3-Module-Deck-Ownership](Project-Manifest-3-Module-Deck-Ownership.md) \"소유자\" 절  |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 72,
+    "patterns": [
+      "parameterizationId"
+    ],
+    "text": "| D26 (산식 확정) | 조합 스탬프의 배치                   | **산출물에는 조합 id + 형상 deck 둘만** — `parameterizationId`(검증용) · `geometryDeck`{uuid, path}(morph 원본). 자리는 dataset XML `model_info` 섹션 안 + `model_info.json` 최상위, 홉별 검증은 id 문자열 비교(근거 문서 3). 조합 정의는 Launcher `{Set}.json` 소유, DV 키 매핑의 산출물 동봉은 범위 밖(후속). id 파생 산식은 **SI-5 로 확정** — `{geometry setId}+{condition setId 정렬 연접 \",\"}`, 해시 없음·멱등·**id 파싱 금지**(조인은 병기 필드), 계산·저장은 DOE 실행 시점의 `DOE Table` |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 76,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "| D32·D33 (철회) | wbpj 경로 결부 결정 | **철회 — 근거가 사장 판정된 wbpj 경로에 있었다.** DV `source` 의 `CAD\\|<part>` 교체(D32)와 조합·스탬프의 형상 kind 일반화(D33)를 거둔다 — D25·D26 원안(deck 단일) 유지 · `CAD\\|` 소비 불개입. 근거는 [Project-Manifest-CAD-Path-Disposition](Project-Manifest-CAD-Path-Disposition.md) |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 127,
+    "patterns": [
+      "D14"
+    ],
+    "text": "   │      + 구버전 backfill (D13 · D14 · D15)"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 141,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "   │      D32·D33 철회 · 사장 경로 (wbpj DOE · CAD| 소비) 불개입 — CAD-Path-Disposition 문서"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 189,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "| 10 | 모듈 JSON 의 deck 참조 전면 상대경로 통일 — 영속 형식 4개 중 [작업 3]-4 가 둘(DV `source` bare filename · `input_files` 의 deck 분)을 처리하고, `CAD\\|` 형식 분은 **사장 경로 소속이라 제외한다**(D32 철회 — 불개입). `input_files` 비-deck 분(`.wbpj`·`.stli`)만 잔여 — 후속작업 5 이후 | 문서 1 9절 후속작업 4 |"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "line": 273,
+    "patterns": [
+      "D14"
+    ],
+    "text": "모듈 JSON 의 스키마는 D14 가 확정했다 — `referenceModel` 객체 하나에 `uuid`(조인 키)·`path`(표시·폴백). 근거는 [Project-Manifest-3-Module-Deck-Ownership](Project-Manifest-3-Module-Deck-Ownership.md)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-Morphing.md",
+    "line": 42,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "             ※ 모드 진입 즉시 켜져 있던 프리뷰 강제 해제"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-Morphing.md",
+    "line": 47,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "5. 범위 확인  Kernel Radius(즉시 JSON 기록) → [Lower/Upper Preview] 배타 토글"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-Morphing.md",
+    "line": 186,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **Kernel Radius** — `:676` → `SetMorphingKernelRadius:13` → **설정 JSON 즉시 read-merge-write**(`:640-663`). 프리뷰 중이면 재실행. 스텝 버튼 값은 정수 강제 반올림(`:683-695`). 위의 Morphing Function 콤보는 숨김(`:625-627`)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-Morphing.md",
+    "line": 193,
+    "patterns": [
+      "최초"
+    ],
+    "text": "  ├─ [최초 1회] 고정점 샘플링                  :702-770"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-Morphing.md",
+    "line": 302,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D14** | 진입·수명 | Geometry 카테고리는 트리 루트 1개에 모델 배열 2벌인데 Morphing 갈래만 행 인덱스로 조회한다 | 3-1 | 트리는 `m_geometryParamRoot` 하나에 Morphing·CAD 항목을 함께 넣고(`DashProject.cpp:128`·`:166`) 모델은 `m_geometryParameters`·`m_geometryParametersCAD` 두 배열이다. 라우팅은 CAD 갈래만 이름 매칭이고(`DashMainWindow.cpp:1137-1144`) Morphing 갈래는 `index.row()` 로 배열을 첨자한다(`:1157-1164`). 프로젝트 재로드는 configs 파일명 순으로 적재하므로 `-CAD` Set 이 앞에 오면 뒤의 Morphing Set 은 `rowIndex >= params.size()` 로 조기 반환된다(`:1159-1161`) → **CAD Set 을 섞어 쓴 프로젝트에서 일부 Morphing Set 이 클릭해도 경고 없이 열리지 않는다.** Model Builder 는 Sim·MCU 양쪽을 이름 매칭으로 처리해(`:1391-1430`) 같은 구조에서 이 문제가 없다 |"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 14,
+    "patterns": [
+      "최초",
+      "사장",
+      "불개입"
+    ],
+    "text": "| D31 (유보) | CAD Set 의 형상 출처 키 | **유보 — 이 묶음의 CAD 처분은 #366 봉합(M5 제외·죽은 전역 읽기 제거)까지다.** 방향만 세이브 — `referenceModel`(미지정 허용)과 별개의 `cadSource`(가칭) {uuid, path}, 최초 승격 1회 핀, 다른 `.prt` 재승격 차단(D17·D20 문형). configs `.prt` 복사·재Load 보관본 삭제(코드맵 D15)·Set↔`.prt` 미저장(D17)은 전부 **불개입** — 사장 경로와 함께 격리되고, 결합의 영속화는 미래 CAD 경로(후속작업 13)에서 생성 deck 의 출처 기록으로 닫는다 |"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 15,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "| D32 (철회) | DV `source` 의 `CAD\\|<part>` | **철회 — wbpj 경로 사장 판정(아래 \"근거\" 절).** 라벨-locator 겸업(표시명에 `.prt` 를 붙여 configs 를 여는 `DashOptimizerPresentationModel.cpp:19-24` → `DashOptimizerWidget.cpp:1606` · `DashModelRunner.cpp:1530`)은 실측 결함이나 소비자 전부가 사장 경로다 — 교체하지 않고 `CAD\\|` 형식·소비 불개입 |"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 16,
+    "patterns": [
+      "사장"
+    ],
+    "text": "| D33 (철회) | 조합·스탬프의 형상 일반화 | **철회 — 조합·스탬프는 D25·D26 원안(deck 단일)을 유지한다.** kind 일반화(`geometry.source`·`geometrySource`)와 CAD 조합 `conditions` ∅(wbpj 배치가 형상 파라미터만 Journal 에 싣는다 — `DashJobRunner.cpp:2579-2617`)는 wbpj 경로를 조합 개념에 수용하려던 특례인데 그 경로가 사장 판정을 받았다. 미래 CAD 경로는 기준 deck 으로 수렴하므로(후속작업 13) 조합의 형상 원본은 그때도 deck 이다 |"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 25,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "| 현행 CAD 실행 경로 | `.prt`→`.stp` 재생성 + `.wbpj` 조합 + ANSYS Journal(`DashJobRunner.cpp:1395-1435`). **deck 층을 통째로 우회한다** — 조건은 `.wbpj` 안에 동결되고(Journal 설정에 형상 파라미터만 실린다 — `:2579-2617`) 케이스 deck 은 Journal 산출물일 뿐 파이프라인의 기준이 아니다 | **특화된 일회성 경로 — 사장 예정, 개선 불개입** |"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 45,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| Set 의 해석 기준 | `referenceModel` (D14·D18) | **미지정 허용**(M5 제외·#366) — 좌표 2(`DashGeometryParameterCADWidget.cpp:345`)의 소비 사슬은 현행 무산출이다(코드맵 D5) |"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 49,
+    "patterns": [
+      "사장"
+    ],
+    "text": "**D29(유보) — kind 로 넓히되 자격은 좁게 유지한다.** uuid 산식은 상대경로 v5 파생(P2)이라 RW 와 무관하게 성립하고, 등록·복원·rename 이관(D24)의 논리도 kind 무관이다. 반면 기준모델 자격의 근거(RW 세션 확장자·part 조회·커서 렌더)는 `.prt` 에서 성립하지 않으므로, 원장을 \"프로젝트가 채택한 입력 원본\" 목록으로 일반화하되 자격을 kind 로 가른다. 32dda58 항목은 `{path, sha256, size, mtimeMs}` 뿐이라(`DashReferenceModelLedger.cpp:99-101`) kind 는 후속작업 13 착수 시 도입하고 부재 = `deck` 로 무이관 판정한다. 문서 1 9절의 \"`.prt`+`.wbpj` 는 파일 둘이 한 항목\" 스케치는 채택하지 않는다 — 두 파일의 소비 주체가 갈리고(`.prt` 는 CAD 모듈·NX 데몬, `.wbpj` 는 사장 경로의 Launcher·Journal) 조인은 `input_files` 의 `target_component` 가 이미 든다(`DashReferenceFileWidget.cpp:1125`)."
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 51,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "**D31(유보) — 핀 시점이 생성이 아니라 승격인 이유.** 생성 시점에는 핀할 값이 없다 — `.prt` 는 Set 과 무관한 세션 전역 1개(`DashSolverNxCad.h:69` `m_originalPrtPath`)이고 Set 생성 전에 로드됐다는 보장이 없다. Launcher 가 `referenceModel` 대신 `parameterization` 을 DOE 선택 시점에 기록하는 것(D18 부속)과 같은 형태다. 승격([Set Design Variable])은 이 모듈의 유일한 영속화 지점이라, 그 시점 핀이 곧 \"값이 처음 생기는 시점\" 핀이다. configs `.prt` 복사는 현행 유지다 — 사장 경로(Optimizer CAD 프리뷰의 configs 조회 `DashOptimizerWidget.cpp:1606` · wbpj DOE)가 읽는 값이라 불개입이고, 결합의 정본이 `cadSource` 로 바뀌므로 재Load 보관본 삭제(코드맵 D15)는 사장 경로 안의 결함으로 격리된다."
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 53,
+    "patterns": [
+      "사장"
+    ],
+    "text": "**D32·D33 철회 — 근거가 사장 경로에 있었다.** D32 가 끊으려던 라벨-locator 겸업(`<part>` 는 NX 파트 표시명인데 — 데몬 `main.py:159` `DisplayName ?: Name ?: \"A\"` 폴백 — 소비자가 `.prt` 를 붙여 configs 파일명으로 쓴다: `DashOptimizerPresentationModel.cpp:19-24` → `DashOptimizerWidget.cpp:1606` · `DashModelRunner.cpp:1530`)은 실측 결함이지만, 소비자 전부가 사장 경로라 교체 없이 경로째 제외한다. D33 의 조합·스탬프 kind 일반화와 CAD 조합 `conditions` ∅ 는 wbpj 경로를 조합 개념에 수용하려던 특례라 함께 철회한다 — D25·D26 은 원안(deck 단일)이고, 미래 경로 합류 후에도 조합의 형상 원본은 deck 이다."
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 60,
+    "patterns": [
+      "사장",
+      "불개입"
+    ],
+    "text": "| 사장 경로로 격리 — 불개입 | 재Load 보관본 삭제(코드맵 D15) · 표시명-파일명 겸업(D32 철회) · temp `.prt` 누적(코드맵 D16) · wbpj DOE 전체 |"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "line": 71,
+    "patterns": [
+      "사장"
+    ],
+    "text": "| wbpj 경로 사장·기준 deck 수렴 방향 | — | 제품 방침 결정(2026-09-18)이다. 실측이 아니다 — 코드맵 3-6(Meshing 다이얼로그·Match NSET 자리표시자)이 방향을 뒷받침한다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 74,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "             · 민감도 3경로   → 공유 데몬 왕복 (캐시 히트면 즉시)"
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 80,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "9. 반응형    스타일 → 즉시 setter · 데이터 → 200ms 디바운스 후 6단계 전체 재실행"
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 116,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| `DashOptimizerWidget` | `onTabChanged:1163`, 분석 탭 분기 `:1208-1231` | `m_isPopulating` 이면 즉시 반환 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 152,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`updateMethodWidgetsWithVariables()`(`:1346`)는 진입 즉시 `m_lastMethodWidgetVariables` 와 비교해 같으면 반환하고(`:1349-1353`), 통과하면 Method 이름으로 8갈래 분기해 표를 갈아끼운다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 212,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**파일 기반 3경로** — 모델이 spec 을 만들어 즉시 되돌린다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 251,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "  |     +- 캐시 히트 -> processCachedResult -> plotSpecReady 즉시 :973-977 (정의 :305)"
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 390,
+    "patterns": [
+      "D14"
+    ],
+    "text": "3\\~5절 서술 중 동작이 의도와 어긋나거나 어긋날 수 있는 지점 19건 — `D` 잘못 구현 15건, `U` 미구현 4건 (`U4` 는 예정 기능이라 제외). ID 는 3절 등장 순서이고 D14·D15 는 5절 유래라 뒤에 붙였다. 우선순위 판정은 하지 않는다. 9개 모듈 교차 색인은 [Cross-Module-Defect-Index](Cross-Module-Defect-Index.md)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 406,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **D13** | 실행 모델 | 스핀박스 1회 변경이 두 경로를 동시에 탄다 | 3-9 | `connectReactiveSignals:3404` 가 스핀박스를 `onStyleSettingChanged:3479` 와 `onDataSettingChanged:3485` 양쪽에 건다 → 즉시 setter 반영 후 200ms 뒤 같은 변경이 `debouncedReplot:3493`→`onPlotButtonClicked` 로 전체 재플롯(파일 재파싱 또는 데몬 왕복 포함, 민감도는 캐시 히트면 왕복 없음). 주석(`:3423-3427`)은 직접 setter 없는 설정을 받아내려는 의도라 적지만 setter 가 있는 설정에서는 중복 실행이다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "line": 407,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D14** | 진입·수명 | 타깃 콤보 스캔에 Set 필터가 없고 항상 0번을 자동 선택한다 | 3-1 · 4절 | `initializeTargetData` 의 DataPreprocessor 분기(`:487-514`)는 `getUserPath()` 아래 `DataPreprocessor_*` 폴더 **전량**을, AnalysisLauncher 분기(`:516-534`)는 configs 의 `AnalysisLauncher_*.json` **전량**을 나열한 뒤 `setCurrentIndex(0)` 로 0번을 골라 `onTargetDataChanged()` 까지 실행한다 — `m_setName` 을 필터로 쓰지 않는다 → **다른 Set 의 산출물이 콤보에 섞이고, 진입 직후 화면에 뜨는 것은 현재 Set 이 아니라 이름순 첫 Set 이다.** ModelRunner 인스턴스에서 같은 코드가 낳는 결함이 Model Runner 의 D30 이다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Data-Preprocessor.md",
+    "line": 85,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`loadDvTable:190` 은 이름과 달리 **JSON 을 해석 타입 결정에 쓰지 않는다.** JSON 은 `m_dvTableRoot` 에 보관만 하고(`:214`), 콤보 항목은 파일시스템에서 뽑는다 — `{projectRoot}/{모듈폴더}` 하위 디렉토리를 순회해(`:229-238`) `^runs\\d+$` 폴더가 하나라도 있으면 후보로 채택하고 emit 한다(`:247`). 진입 직후엔 `m_dataset.clear()` + 빈 `datasetReady`(`:194-196`)로 표를 즉시 비운다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Data-Preprocessor.md",
+    "line": 186,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**Custom KPI** — General / Custom KPI 는 배타 토글이다(`onGeneralModeToggled:1103`·`onTargetKpiToggled:1118`). 켜면 즉시 `new KPIConfigDialog(nullptr)`(`:1142` — parent 를 주면 크래시, 헤더 주석 `:17-24`)가 뜨고, 현재 선택값을 고정값으로 주입(`:1147-1162`)한 뒤 Configuration 후보를 구성한다(`:1167-1191` — Modal 은 `\"Mode N\"` + `\"All\"`, 비-Modal 은 Name 트리를 `\"부모 / 자식\"` 으로 평탄화). Accepted 면 `addKpiToResultTable:1216` 이 0열 아이템의 `Qt::UserRole` 에 `KPIConfig` 를 심고(`:1227`) `collectResultRows:787` 이 `canConvert<KPIConfig>()` 로 식별한다. Rejected 면 두 토글 원위치(`:1206-1211`). 설정 JSON 은 쓰지 않는다. → D8"
+  },
+  {
+    "path": "Code-Map-User-Flow-Data-Preprocessor.md",
+    "line": 215,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "  ├─ plan.usesKpi → processResultsWithKPI 후 즉시 반환 :956-959   → D9"
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "line": 3,
+    "patterns": [
+      "대장"
+    ],
+    "text": "> **이 문서는 [Project-Store-Survey-Key-IO-Ledger](Project-Store-Survey-Key-IO-Ledger.md) 의 여집합이다.** 대장이 키 단위로 잰 것(파일 12패턴 · 키 65개 · 왕복 판정 · I/O 시점)은 여기에 없다. 대장이 축 밖으로 뺀 셋을 잰다 — 프로젝트를 시작하는 데 필요한 **입력 셋**, config 가 가리키는 **페이로드 내부**, 상태가 파일에 닿기까지의 **실행 경로**."
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "line": 5,
+    "patterns": [
+      "대장"
+    ],
+    "text": "> 통합 출처: `Project-Store-Survey-Layout-and-Sets`(2026-08-09) · `Project-Store-Survey-Config-Field-Layers`(2026-08-18) · `Project-Store-Survey-Artifact-Formats`(2026-08-19) 3종의 고유분. 중복분은 대장으로 넘기고 원본은 폐기했다."
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "line": 21,
+    "patterns": [
+      "최초"
+    ],
+    "text": "## 1. 최초 입력 셋"
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "line": 127,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 케이스 입력 | `runs{K}.dat` / `.inp` (조건값 inject → export → 즉시 restore) · `.dfsxml`(motion-writer) · `.stp`(NX 데몬) | 솔버 네이티브 |"
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "line": 285,
+    "patterns": [
+      "사장"
+    ],
+    "text": "### 7.1 중복·사장 코드"
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "line": 312,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 11 | DataPreprocessor 상위 선택 복원 (데이터는 이미 파일에 있다) | 2.4 | **소** — 계보 단절 1건 즉시 해소 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 8,
+    "patterns": [
+      "D14"
+    ],
+    "text": "색인 206→201건 재판정으로 귀속이 70→73건이 됐다 — RUN-D1(철회, C축)이 빠지고 CAD-D17(A) · DOE-D26(D) · ANA-D14(F) · ANA-D15(F) 넷이 들어왔다. 제외된 예정 기능 갈래 11건은 이 축에 하나도 없었다."
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 38,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 11 수명·정리 누락    |       13 |      19 | Set 전환·삭제 시 버릴 것을 모르는 계열 + 산출물 대장 부재 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 55,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| **E. 산출물 대장이 없어 자산·부산물·실패를 구분하지 못한다** | 8 | CAD-D15 · CAD-D16 · DOE-D5 · DOE-D12 · PRE-D10 · BLD-D6 · RUN-D31 · RUN-D34 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 56,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **F. Set 이 1급 개체가 아니라 전환·삭제·스코프에서 버릴 것을 모른다** — 8-4 | 15 | MOR-D12 · CAD-D4 · CAD-D13 · CON-D7 · PRE-D1 · PRE-D2 · PRE-D6 · RUN-D4 · RUN-D7 · RUN-D30 · RUN-D36 · ANA-D2 · **ANA-D14** · **ANA-D15** · OPT-D2 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 62,
+    "patterns": [
+      "D14"
+    ],
+    "text": "- **F** 는 Set 이 이름 문자열일 뿐 개체가 아니어서 생긴다. 전환 시 버릴 것(PRE-D1 · MOR-D12 · RUN-D36 · OPT-D2), 삭제 시 끊을 것(CAD-D13), 스코프로 걸러야 할 것(RUN-D30 · RUN-D7 · ANA-D2 · ANA-D14), 자기 Set 을 모를 때의 폴백(ANA-D15), 복원 순서(CAD-D4 · CON-D7)가 전부 호출부마다 다르게 처리된다. 신설 2건이 들어와 F 가 D 와 함께 최대 축(15건)이 됐다."
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 80,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**29건이 동반 작업을 요구하고 44건은 개별로 접근 가능하다.** 축별로는 C 축(variant·종류 판정)이 5건 전량 독립이고, E 축(산출물 대장)은 8건 중 6건이 동반 작업을 요구해 가장 얽혀 있다. 나머지는 A 7/6 · B 3/8 · D 5/10 · F 6/9 · G 2/4 (동반/독립)."
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 153,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 독립 | — | F | ANA-D14 | 타깃 열거에 Set 필터 추가 + 0번 자동 선택 제거 (RUN-D30 과 같은 수정) |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 168,
+    "patterns": [
+      "D14"
+    ],
+    "text": "201건판에서 21→26건이 된 내역 — RUN-D1(소멸)이 철회로 빠지고, 신설 6건 중 5건이 Set 축에 걸린다(소멸 MOR-D14 · DOE-D25 · ANA-D14 · ANA-D15 · RUN-D38 · 완화 CAD-D17). **신설분이 Set 축에 이렇게 몰린 것 자체가 근거다** — 색인이 놓치고 있던 결함을 찾으면 Set 이 1급 개체가 아닌 데서 나온다."
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 179,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 소멸 | Set 스코프 | ANA-D14 | 열거 대상이 모듈당 하나뿐이 되어 0번 자동 선택이 항상 맞는다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 180,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 소멸 | Set 다중·혼합 | MOR-D14 | 모듈당 설정 1벌이면 Morphing·CAD 가 한 카테고리에 공존하지 않아 배열 2벌·행 인덱스 조회가 성립하지 않는다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 187,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 완화 | 전환 축만 빠짐 | RUN-D14 | \"직전 Set 의 핸들\" 이 \"직전 진입의 핸들\" 이 된다. 가드 부실은 그대로다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 196,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| 완화 | 노출 빈도 감소 | MOR-D1 | \"신규 Set 진입\" 이 프로젝트 최초 진입 1회로 줄어 노출 빈도가 낮아진다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 209,
+    "patterns": [
+      "D14"
+    ],
+    "text": "이 장의 판정은 코드를 실측한 것이 아니라 각 결함의 성립 조건에서 Set 을 빼 본 사고 실험이다. 소멸 13건은 트리거 자체가 없어지는 것이라 근거가 강하고, 완화 13건은 정도의 판단이라 약하다. 201건판 신설 6건의 판정은 특히 약하다 — MOR-D14 의 \"모듈당 설정 1벌이면 variant 가 공존하지 않는다\" 와 DOE-D25 의 \"variant 선택이 Set 생성에 붙어 있다\" 는 제거 정의의 해석에 달렸다."
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 234,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| 소멸 | 상속 경계 | BLD-D14 | 정적 디스패치로 베이스 no-op 이 불릴 일이 없다 |"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "line": 254,
+    "patterns": [
+      "D14"
+    ],
+    "text": "**소멸 8건은 포크 없이 얻어진다.** C 축 3건은 갈래를 한 곳에서만 선언하면 닫히고(3장 대안의 안정 ID 와 같은 성격), BLD-D9·D12·D13·D14 는 상속 계약을 명시하면 — `virtual` 선언과 파생·베이스의 형 일치 — 닫힌다. ANA-D2 는 함수-로컬 `static` 을 멤버로 옮기는 것이고 같은 파일에 선례가 있다. 2장 판정으로 이 8건 중 C 축 3건은 전량 독립이고 나머지 5건은 M 축(기능 모듈 분해) 동반이다."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 70,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| 식별자·이벤트 | 객체 자체가 식별자 | 동일 | 동일 | **`commandId` 최초 활용** — 단 배치 전용 시그널 증설로 우회 | `ready()`/`died()`/`stopped()` 신설 · 완료 상관을 `commandId` 로 정정 | 해당 없음 (레지스트리 per-key 로드) |"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 361,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "7. [계획] **신설** 취소·상한 **UI 해방 2축** — Stop 직후 즉시: 스피너 해제·로그·잔여 케이스 Cancelled 기록(P4). 워커가 DLL 을 떠난 뒤: Start 재활성(등급 2 유지). `refreshRunControls()` 가 Start/Stop 활성의 단일 판정점"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 366,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "12. [파생] **설계 이탈** 국면 참가자를 **2토큰 카운트**(배치 축 / 워커 축)로 센다. 워커 축은 task 캡처에 실려 워커가 모핑 DLL 을 떠날 때 풀린다. **`Job::finished` 에 걸면 안 된다** — `cancel()` 은 즉시 터미널로 가지만 DLL 은 계속 돌아, 그 시점에 게이트를 놓으면 UI 해방 2축이 무너진다"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 368,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "14. [검증] **테스트 신설** `tests/tst_worker_job` **9케이스** — 성공 페이로드 · 실패 사유 · 예외→Failed 번역 · 취소 즉시성 + 늦은 완료 폐기 · 직렬 풀 최대 동시성 1 · 두 풀 구분/배수 · **task 실행 중 메인 이벤트 루프 생존**(AC \"샘플 내부까지 UI 반응\") · 취소 2축 순서 · `waitForAllSerialPools()` 배수 완결성"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 374,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **Stop 의 P1 의미가 바뀌었다.** [#260](https://github.com/NumeRealWorks/DashOpti_GUI/issues/260) 에서는 동기 실행이라 Stop 이 샘플 반환 뒤 처리돼 진행 1건의 결과가 보존됐다. 이제 Stop 은 진행 케이스를 즉시 `Cancelled` 로 닫고 늦은 결과를 폐기한다 — 약속은 \"UI 즉시 해방\" 이지 \"CPU 즉시 해방\" 이 아니고, DLL 은 계속 돈다."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 506,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "31. [파생] **정리** `advanceResultChain` 착수 불변식을 주석이 아니라 단정으로(증명 없이 불리면 `reserve()` 가 성립하지 않는다) · KPI 5종의 지역 `ProcessingScope` 제거(사슬 통지가 `processResultsWithKPI` 에 있고, 계획만 하고 즉시 반환하는 함수에서 스코프를 열고 닫는 것은 의미가 없다) · ModalFreq 산출물별 완료 로그 복구 · dead 조건·들여쓰기 정리"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 581,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| `tst_worker_job` | O | **([#214](https://github.com/NumeRealWorks/DashOpti_GUI/issues/214) 9 → [#274](https://github.com/NumeRealWorks/DashOpti_GUI/issues/274)·[#277](https://github.com/NumeRealWorks/DashOpti_GUI/issues/277) 갱신)** 성공 페이로드·실패 사유·예외→Failed · 취소 즉시성 + 늦은 완료 폐기 · 직렬 풀 동시성 1 · **task 실행 중 메인 이벤트 루프 생존** · 취소 2축 순서 · **3풀** 배수 완결성 · `ProgressSink` 마샬링 · 취소 폴링이 샘플 경계에서 걸림 |"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 658,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| `enqueueLoadPrt`/`enqueueUpdatePrtGeometry` `:124-126,147-149` — 첫 enqueue 가 동기 부팅 유발 | [#212](https://github.com/NumeRealWorks/DashOpti_GUI/issues/212) | `212-1·8항` | ✅ lazy 기동 + 즉시 반환, 순서는 큐가 흡수 |"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 663,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "### 8-3. 동기 종료·취소 대기 (P2) → kill 발사 후 즉시 반환"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 818,
+    "patterns": [
+      "최초"
+    ],
+    "text": "- **한 번도 실행되지 않던 소멸자를 살리는 것은 신설과 같다.** [#213](https://github.com/NumeRealWorks/DashOpti_GUI/issues/213) 의 magic static 전환으로 `~DashProjectManager()` 가 생애 최초 실행됐고, 그 안의 `delete m_project` 가 `QApplication` 사후에 QObject 트리를 해체하다 체인을 끊어 **데몬 4종이 고아로 남았다**. 정적 소멸 구간은 이벤트 루프가 없는 별세계이며, 여기 처음 들어가는 코드는 신규 코드로 취급해야 한다. [#274](https://github.com/NumeRealWorks/DashOpti_GUI/issues/274) 가 `AppShutdown::run()` 을 `aboutToQuit` 에 두고 소멸자를 멱등 백스톱으로 축소해 **정적 소멸 구간을 아예 피하는** 근본안으로 마감했다."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 825,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **종료 단조성은 공짜가 아니라 순서 요구를 만든다.** [#251](https://github.com/NumeRealWorks/DashOpti_GUI/issues/251) 7항이 \"종료 상태 재전이 무시\" 를 도입한 즉시 M3 회귀가 성립했다 — `kill()` 이 동기 호출하는 `finished` 핸들러가 케이스를 Failed 로 **먼저** 닫아 뒤이은 Cancelled 가 삼켜졌다. 해법은 단조성을 되돌리는 것이 아니라 **취소를 kill 보다 먼저 확정**하는 것이고, [#274](https://github.com/NumeRealWorks/DashOpti_GUI/issues/274) 는 그 순서 요구를 `releaseRunResources` 진입 assert 로 국소 검출 가능하게 만들었다. 불변식을 도입하면 그것을 지키는 순서도 코드로 강제해야 한다."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 830,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **`Job::finished` 는 스레드 종료를 뜻하지 않는다.** [#214](https://github.com/NumeRealWorks/DashOpti_GUI/issues/214) 12항 — `ProcessJob::cancel()` 은 `QProcess` 를 떼어내 자기 종료를 자기가 회수하게 만든 뒤 즉시 터미널로 가는데, 풀 스레드는 그 \"떼어내기\" 가 불가능해 DLL 을 계속 쥔다. 같은 규약을 쓰면 `Morph()` 가 도는 중에 게이트가 풀려 **정확히 막으려던 등급 2 위반**이 열린다. 취소의 즉시성과 자원 해방을 **두 축으로 갈라야** 한다 — 약속은 \"UI 즉시 해방\" 이지 \"CPU 즉시 해방\" 이 아니다."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 852,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- [ ] **`status_cancelled.svg` 리소스 추가** — `getStatusIcon`(`view/common/DashWidgetHelpers.cpp`)이 `Cancelled` 에 빈 아이콘을 반환. [#251](https://github.com/NumeRealWorks/DashOpti_GUI/issues/251)·[#214](https://github.com/NumeRealWorks/DashOpti_GUI/issues/214) 로 `Cancelled` 표기 빈도가 늘었다(취소 시 진행 케이스를 즉시 Cancelled 로 닫는다)."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 902,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- [ ] **`waitForAllSerialPools` 의 상한 분배** — 이제 **세 풀**이 상한 하나(3s)를 나눠 쓰므로 앞선 풀이 예산을 다 쓰면 뒤 풀이 `waitForDone(0)` 을 받아 즉시 초과 판정된다. [#277](https://github.com/NumeRealWorks/DashOpti_GUI/issues/277) 은 \"풀마다 상한을 주면 최악 대기가 풀 수만큼 늘어난다\" 를 근거로 분배를 유지했고, 최소 보장 필요 여부는 rw 풀 첫 소비자가 생기는 시점의 판단으로 남았다([#274](https://github.com/NumeRealWorks/DashOpti_GUI/issues/274) 리뷰 보류 항목). 초과 시 `_Exit(1)` 이므로 **결과 처리처럼 흔한 작업이 풀에 오르면 예외가 상시가 된다** — 실해악을 줄이는 것은 예산이 아니라 \"워커가 디스크에 쓰지 않는다\" 는 축 한정 계약이다."
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "line": 919,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| NX `.prt` 최초 열기 프리즈 소멸 · condition-only DOE · RBF 커널 반경 | [#212](https://github.com/NumeRealWorks/DashOpti_GUI/issues/212)·[#213](https://github.com/NumeRealWorks/DashOpti_GUI/issues/213) | 실 NX 설치 |"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 113,
+    "patterns": [
+      "version"
+    ],
+    "text": "| B1b | W10-f DoD 재작성 — 완료 기준 복원 | | Medium | 신규 | 저비용 · 기준:[215-2-sync-pumping-to-async-conversion-checklist](215-2-sync-pumping-to-async-conversion-checklist.md) | — |"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 137,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| C3b | 산출물 대장·소비 추적 UI | | Low | 신규 | 주11 | — |"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 141,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| C4c | 항목 대장·목록 UI | | Low | 신규 | 주11 | — |"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 173,
+    "patterns": [
+      "대장"
+    ],
+    "text": "11. **목록 UI 4분할** — B7d(실행) · C2d(Set) · C3b(산출물) · C4c(항목) 이 전부 후행·신규다. 통합 후보. 설계는 문서 8(산출물 대장 · 폐기됨 2026-09-19) · 문서 6(Set Registry · 폐기됨 2026-09-19)."
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 302,
+    "patterns": [
+      "파일 분할"
+    ],
+    "text": "- 비고: DOE-D7. 내부 순서 — 증분 기록이 선행, 재시작 복구가 그 기록을 소비. 파일 분할 단위는 C2c(Set 매니페스트 분할)와 같은 축(DOE-D7 공통축)이라 설계를 공유"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 307,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 비고: 주11 — Set(C2d)·산출물(C3b)·항목(C4c) 목록 UI 와 통합 후보, 설계는 문서 8(산출물 대장 · 폐기됨 2026-09-19). 대장 정착 후행이라 Low"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 371,
+    "patterns": [
+      "version"
+    ],
+    "text": "- 본문: 폐기된 W10-f 의 완료 기준을 [215-2-sync-pumping-to-async-conversion-checklist](215-2-sync-pumping-to-async-conversion-checklist.md) 기준으로 다시 세워, \"펌핑 제거가 끝났다\" 를 판정 가능하게 한다."
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 480,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 제목: 실행 산출물의 유래 추적 — 스탬프와 대장"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 481,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 본문: 산출물 파일에 \"어느 Set·어느 조합·어느 실행에서 나왔나\" 가 남지 않아 추적이 파일명 추정에 의존한다. 조합 스탬프와 산출물 대장을 세운다."
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 490,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 제목: 산출물 대장과 소비 추적 화면"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 491,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 본문: 산출물 대장을 세우고 어떤 산출물이 어디에 소비됐는지 화면에서 추적할 수 있게 한다."
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 492,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 비고: 선행 — 스탬프(#368 재발행) 정착. 주11 통합 후보. 설계 문서 8(산출물 대장 · 폐기됨 2026-09-19)"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 510,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 제목: 항목 대장·목록 화면"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "line": 511,
+    "patterns": [
+      "대장"
+    ],
+    "text": "- 본문: 산출물 항목의 대장과 목록 화면을 만든다."
+  },
+  {
+    "path": "206-1-w6-w10-thread-execution-design.md",
+    "line": 109,
+    "patterns": [
+      "최초"
+    ],
+    "text": "   │   3. NX 데몬 최초 기동 = 최대 120초 프리즈"
+  },
+  {
+    "path": "206-1-w6-w10-thread-execution-design.md",
+    "line": 122,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   2. nxCad->enqueueLoadPrt(...)   ← 즉시 반환, 대기 없음"
+  },
+  {
+    "path": "206-1-w6-w10-thread-execution-design.md",
+    "line": 255,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   2. job->start() — 즉시 반환, 메인 스레드는 이벤트 루프 상주 (\"start 나중\")"
+  },
+  {
+    "path": "206-1-w6-w10-thread-execution-design.md",
+    "line": 321,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "외부 축(ProcessJob)은 스레드를 안 만들어 즉시 가능하지만, 워커 축(WorkerJob)은 \"지금 사고를 안 내는 유일한 이유가 모든 코드가 한 스레드라 자동 직렬화되기 때문\"이므로, 두 번째 스레드 등장 전에 공유 상태를 정리해야 한다. **없으면 프리즈가 레이스로 바뀐다.** 5건(상세는 [203-2-worker-preconditions-analysis](203-2-worker-preconditions-analysis.md), 서브태스크 e의 게이트):"
+  },
+  {
+    "path": "206-1-w6-w10-thread-execution-design.md",
+    "line": 432,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   │   W10 :  입력 스냅샷 → Job 생성 → 시그널 connect → job->start() → 즉시 반환"
+  },
+  {
+    "path": "199-1-jsonrpc2-protocol-introduction-example-cadnx.md",
+    "line": 88,
+    "patterns": [
+      "version"
+    ],
+    "text": "| daemon ready 감지 (`isReadyLine`) | `ready` | Notification | exe → GUI (기동 직후 1회, `version` 포함) |"
+  },
+  {
+    "path": "199-1-jsonrpc2-protocol-introduction-example-cadnx.md",
+    "line": 175,
+    "patterns": [
+      "version"
+    ],
+    "text": "   │   exe → {\"jsonrpc\":\"2.0\",\"method\":\"ready\",\"params\":{\"version\":\"1.0\",\"nxBase\":\"C:\\\\SIEMENS\\\\NX2506\"}}"
+  },
+  {
+    "path": "199-1-jsonrpc2-protocol-introduction-example-cadnx.md",
+    "line": 231,
+    "patterns": [
+      "version"
+    ],
+    "text": "    notify(\"ready\", {\"version\": \"1.0\"})"
+  },
+  {
+    "path": "199-1-jsonrpc2-protocol-introduction-example-cadnx.md",
+    "line": 300,
+    "patterns": [
+      "version"
+    ],
+    "text": "| ready 감지 휴리스틱 | `ready` Notification + `version` | 기동 타임아웃(120s) 규약은 동일 유지 |"
+  },
+  {
+    "path": "Project-Store-Design-Entity-Model-Options.md",
+    "line": 14,
+    "patterns": [
+      "대장"
+    ],
+    "text": "> 제약 1건: `ModelBuilder_{Set}.json` 은 외부 도구(DeepOpt·MCU)가 `status` 를 **되쓰는 양방향 IPC 채널**이라, C안 6.2 의 \"Definition 파일 = 정의만\" 이 그 2개 모듈에서 성립하지 않는다 (9.2 2단계 참조). 도구 개정 권한은 확인됐으므로 차단이 아니라 **순서 제약**이다 (근거는 대장 3.3)"
+  },
+  {
+    "path": "Project-Store-Design-Entity-Model-Options.md",
+    "line": 478,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "   │   엔티티 목록 · ID 발급/참조 규칙 · 정의↔실행 분리 · 무효화 전파 · 마이그레이션 매핑표"
+  },
+  {
+    "path": "Project-Store-Design-Entity-Model-Options.md",
+    "line": 532,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 1 | ID 발급 방식 — 랜덤 short id vs 내용 해시 vs 순번 | 마이그레이션 재현성. 내용 해시면 같은 프로젝트를 두 번 변환해도 동일 ID (권장) |"
+  },
+  {
+    "path": "Project-Store-Design-Entity-Model-Options.md",
+    "line": 534,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 3 | 기존 프로젝트 마이그레이션 시점 — 열 때 자동 vs 명시적 메뉴 | 사용자 놀람 방지 vs 편의 |"
+  },
+  {
+    "path": "Project-Store-Design-Entity-Model-Options.md",
+    "line": 561,
+    "patterns": [
+      "파일 분할"
+    ],
+    "text": "`completeBaseName()` 을 쓰는 유일한 지점(`DashResponseInitializer.cpp:336`)은 `.odb`/`.rst` 결과파일 분할 필터로 XML 과 무관하다."
+  },
+  {
+    "path": "201-1-qprocess-antipattern-catalog.md",
+    "line": 16,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "QProcess 의 본래 계약: `start()` 는 즉시 반환하고, 이후 진행은 전부 시그널로 통지된다 — `started` / `errorOccurred(FailedToStart)` / `readyReadStandardOutput` / `finished(exitCode, exitStatus)`. 메인 스레드가 할 일은 connect 후 이벤트 루프로 복귀하는 것뿐이다."
+  },
+  {
+    "path": "201-1-qprocess-antipattern-catalog.md",
+    "line": 88,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**올바른 형태**: `start()` 후 즉시 반환 → `daemonReady` 시그널 수신 시 큐 flush (이미 `handleDaemonLine:256-260` 에 그 경로가 있다 — busy-wait 는 이를 기다려주지 않고 앞질러 가는 것). 미기동 상태의 `sendCommand` 는 이미 큐잉되므로(`trySendNext:209`), 기동을 비동기화해도 명령 유실이 없다. 상세 설계: 기반 문서 7절 서브태스크 c."
+  },
+  {
+    "path": "201-1-qprocess-antipattern-catalog.md",
+    "line": 105,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**올바른 형태**: terminate/kill 은 발사 후 즉시 반환하고, 정리(`deleteLater`·상태 갱신)는 `finished` 슬롯에서. 사용자에게 약속하는 것은 \"취소 = UI 즉시 해방\"이다 (기반 문서 4-1절 P4 정책). 소멸 경로에서는 `kill()` + OS 에 회수 위임(또는 detach)으로 충분 — 앱 종료를 프로세스 사망 확인으로 볼모 잡지 않는다."
+  },
+  {
+    "path": "201-1-qprocess-antipattern-catalog.md",
+    "line": 196,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| `bool DashExtensionProcess::startDaemon()` | 반환 시점에 ready 여부 확정 | `DashManager::enqueueLaunch` (`:156-162` — 반환 직후 `isDaemonReady()` 재확인 후 즉시 실패 처리) · `DashSolverNxCad::tryStartIfConfigured` (`:115-119`) · `DashModelRunner::startDaemon` (`:240-246`) · `DashModelBuilderMCU` (`:120`) |"
+  },
+  {
+    "path": "201-1-qprocess-antipattern-catalog.md",
+    "line": 200,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "이 계약을 유지하는 한 구현부의 `waitFor*` 는 제거 불가능하다. 전환은 API 재설계와 동행해야 한다: `startDaemon()` → `void` (결과는 `daemonReady`/`daemonStopped` 시그널) + 상태 pull `isDaemonReady()` 병행 (기반 문서 4절 계약 \"구독\" 규칙 2). 호출자의 즉시 분기는 \"미기동 시 큐잉 + ready 시 flush\"로 대체 — 큐 인프라는 이미 존재한다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Analysis-Launcher.md",
+    "line": 75,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "카테고리 문자열 `\"Analysis Launcher\"` 로 분기하고(`DashMainWindow.cpp:1077`), 트리 행 표시 텍스트가 Set 이름 · `UserRole+2` 가 variant 다. Set 클릭 → `handleAnalysisLauncherSelection:1214` → `launcher->setSetName(표시명):1228` → `…ForVariant:1236` → `setProjectDirectory:1244` → variant 위젯 `setModel` 이고, 남는 상태는 `m_setName`·`m_variant`·`m_doeJsonPath`·`m_cachedSamples` 다. `setSetName`(`model/DashAnalysisLauncher.cpp:164`)과 `setProjectDirectory`(`:126`)는 **둘 다** `m_doeJsonPath` 를 재계산하고 `loadCachedSamplesFromFile()` + `loadSettings()` 를 부른다(이름이 같으면 즉시 반환 `:166`)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Analysis-Launcher.md",
+    "line": 361,
+    "patterns": [
+      "D14"
+    ],
+    "text": "`MorphFromDoeSamples` 는 동기 호출이라 반환 시점에 이미 전 샘플이 처리돼 있는데, `msleep(1000)` 은 그 뒤에 있고 주석은 \"Give some time for morphing to start\" 다. → D14"
+  },
+  {
+    "path": "Code-Map-User-Flow-Analysis-Launcher.md",
+    "line": 469,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| `DashReferenceFileWidget::applySmartSelectionRules` (`:920-932` · 13) | 플래그를 세웠다 즉시 내리는 빈 스텁 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Analysis-Launcher.md",
+    "line": 572,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D14** | 실행 모델 | `msleep(1000)` 이 동기 호출 뒤에 있다 | 3-6-4 | `MorphFromDoeSamples` 반환 시점에 전 샘플이 끝나 있는데 `:1568` 이 \"Give some time for morphing to start\" 주석과 함께 1초를 잔다 → 케이스 수와 무관한 고정 지연 |"
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 56,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **이벤트 기반** | 완료를 **어떻게** 통지받나 | 기다리지 않고 \"끝나면 알려줘\"를 등록한 뒤 즉시 반환 — 통지는 이벤트 루프가 배달 |"
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 89,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "\"등록 → 즉시 반환 → 나중에 통지\"의 3박자다. 핵심은 **호출자가 기다리지 않는다**는 것 — 진동벨을 받아 들고 자리로 돌아가면, 벨(통지)은 주방(작업)이 아니라 내 손(내 이벤트 루프)에서 울린다."
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 99,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "proc->start(exePath, args);                 // 즉시 반환 — 여기서 안 기다림"
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 111,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| `DirectConnection` | emit 지점에서 **즉시** (동기 함수 호출) | **emit한** 스레드 | sender·receiver가 같은 스레드 |"
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 137,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **같으면 → Direct**: 아무 데도 안 옮기고 **그 자리서 즉시** 함수처럼 실행."
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 139,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "두 가지 오해 주의: ⑴ \"**항상** 수신자 스레드로 옮겨간다\"가 아니다 — **다를 때만** 옮긴다(같으면 제자리 즉시 실행). ⑵ 객체가 물리적으로 이동하는 게 아니라 **슬롯 실행이 수신자 스레드에서 일어나는** 것이다(객체를 실제로 옮기는 건 `moveToThread`가 하는 별개 일). 판정은 connect 시점이 아니라 **매 emit 시점**이라, 같은 연결도 emit 스레드에 따라 그때그때 Direct/Queued로 갈린다."
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 188,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**1줄 규칙: 콜백 본문에서는 아무 일도 하지 말고, 즉시 시그널 문맥으로 변환한다.**"
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 345,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "마샬링(스레드 넘어 호출 전달 + 인자 복사)은 **Qt 자동**(시그널 / QueuedConnection / QFutureWatcher). 단 **① 외부 C 콜백을 그 세계로 들이는 트램폴린**과 **② 두 스레드가 공유하는 상태 보호**는 자동이 아니라 **수동** — 그래서 문서가 \"콜백은 즉시 시그널로 변환\"(경계 어댑터)과 \"선결 5건\"을 마샬링과 **나란히** 강조한다."
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 360,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **동기 vs 비동기** — 호출이 완료까지 기다렸다 결과를 들고 반환하나 / 요청만 걸고 즉시 반환하고 결과는 나중에 받나."
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 380,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    - **경계 어댑터** — 콜백 본문에서 아무것도 하지 않고 `invokeMethod(Qt::QueuedConnection)`로 즉시 시그널 세계로 넘기는 한 줄 패턴(4-3절)."
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "line": 382,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "    - **`DirectConnection`** — emit 지점에서 슬롯을 즉시 함수 호출(같은 스레드 기본값) — 사실상 동기."
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "line": 112,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`activeContextChanged` 람다(`DashMainWindow.cpp:423-431`)가 `refreshFromFile`(`Widget:367`)을 부르고, 이 슬롯은 `mModel` 이 null 이거나(`:369-371` — 모듈 진입 전) 파일이 없으면(`:372-374`) 즉시 반환한 뒤 `refreshFromLoadedAnalysis`(`Model:114`)로 간다. 진입 시점에도 같은 슬롯을 한 번 더 부르므로(`Widget:313-316`) deck 을 먼저 열든 나중에 열든 결과가 같다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "line": 287,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "`DV-Condition` 절은 **매번 통째로 다시 쓰인다** — 체크를 다 해제하고 누르면 절이 빈 객체가 된다. → D7 이것이 gen1\\~gen4 마이그레이션의 실행 기제이기도 하다: 옛 엔트리도 한 번 sync 되면 그 자리에서 gen4 형태로 백필된다(`PM:75-83`)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "line": 322,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "바인딩 우선순위 자체는 4세대 마이그레이션을 감당하도록 설계돼 있다(`Model:434-447` 주석 · `:488-508` 구현)."
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "line": 354,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **리졸버는 경계를 못 넘는다** | `types::Set` 이 모듈 내부로 되돌아가는 `std::function` 을 들어, 액터가 라벨을 즉시 실체화해 `DashRwSetData` 값으로 바꾼다(`materializeSet:119`, `doGetData:151-161`) | FECondition payload 의 소속 Set·mesh 리졸버도 같은 자리에서 실행(`:156-161`). Set 을 반환하는 `callFunction` 은 거부(`:260-263`) |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "line": 426,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| DV 범위 | DV JSON `meta.min/max` | `DvModel::m_variables` | DV JSON (편집 즉시) |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "line": 449,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| **D7** | 진입·수명 | 첫 진입에서 체크 상태가 복원되지 않는다 | 3-6·3-8 | `loadFromJson` 호출처 둘(`:53`·`:82`)이 행을 만드는 `refreshFromLoadedAnalysis` 보다 먼저 돈다 → **최초 진입에서 FE 탭 체크가 전부 해제돼 보인다.** DV-Condition 탭에는 변수가 그대로라 어긋난 상태이고, 그대로 [Set Design Variable] 을 누르면 절 전량 재기록(`PM:133-140`)이 `DV-Condition` 을 빈 객체로 덮는다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 44,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`DashOptimizer` 는 Set 마다 1개씩 생성되어 `DashProject::m_optimizers` 에 담긴다. 생성 4경로(`DashProject.cpp:89` 신규 기본 Set1 · `:793` 사용자 추가 · `:1202` configs 스캔 복원 · `:1392` 모듈 폴더 스캔 복원)가 전부 `addOptimizer:417` 로 수렴하고, 거기서 `setProjectDirectory`(`DashOptimizer.cpp:126`) 끝의 `loadAllData()` 가 즉시 돌아 **위젯이 열리기 전에 이미 1회 파싱**된다."
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 53,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "2. 학습 결과  ModelBuilder 폴더 콤보 → 응답별 대리모델 콤보 (선택 즉시 지표 칸 교체)"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 168,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**목적함수** — 수식은 `objectiveEdit::textChanged`(`:410`) → `onObjectiveFunctionChanged:546` → `updateObjectiveFunction(콤보텍스트, 수식)` 으로 즉시 모델에 닿는다. Minimize/Maximize 콤보는 `:185` 에서 별칭만 잡히고 수신 슬롯이 없다. → D7"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 274,
+    "patterns": [
+      "D14"
+    ],
+    "text": "**헤더 분류가 문자열 규칙 3단이다**(`PM:130-144`) — `item == \"objective\"` 또는 `item.startsWith(\"constraint\")` 면 목적·구속 표, `item.startsWith(\"r\")` **그리고** 두 번째 글자가 숫자면 응답 표, `item == \"id\"` 면 버림, 그 외 전부 설계변수 표. → D14"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 298,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`performMorphing` 이 deck 생성 후 뽑는 `_input_geometry.vtu`(`Optimizer:1516-1528`)를 호출부가 즉시 지운다. → D17"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 331,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "  ├─ m_isPopulating 이면 즉시 반환                   :1210"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 431,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 목적 수식 | `objectiveEdit` | `.expression` | 편집 즉시 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 432,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 구속 전량 | `constraintTable` (셀 + 셀 위젯 2종) | `m_constraints` | 편집·추가·삭제 즉시 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 433,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 대리모델 선택 | 행별 `QComboBox` | `m_surrogateModels[i].selectedModel` | 선택 즉시 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 437,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| ModelBuilder 폴더 | `m_modelBuilderFolderCombo` | `m_activeModelBuilderFolder` | 선택 즉시 → D21 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 457,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **D2** | 진입·수명 | Set 삭제 후에도 위젯이 이전 Set 의 표를 유지한다 | 3-1 · 3-9 | `DashMainWindow.cpp:805` 가 `setModel(nullptr)` 을 걸지만 `setEnabled(true)` 와 표 내용은 그대로고, `:807` 의 `disconnect` 로 갱신 경로만 끊긴다 → 삭제된 Set 의 값이 화면에 남고 그 상태의 [Run Optimizer] 는 모델 없이 즉시 반환된다(`:492`) |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 469,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D14** | 구조·결합 | 검증 표 헤더 분류가 문자열 규칙이다 | 3-7 | `PM:130-144` 의 3단 규칙이 `startsWith(\"r\")` + 두 번째 글자 숫자를 응답으로 본다 → `r2_thickness` 같은 설계변수 이름이 **응답으로 잘못 분류된다.** 분류를 유지하는 유일한 상태가 인덱스 리스트 3벌이라 오분류가 프리뷰의 DV 열 선택까지 간다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "line": 482,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **U3** | 미구현 | 자동 회귀 보호가 없다 | 4절 | `tests/` 전체에 Optimizer 참조 0건. 존재하는 것은 async 트랜스포트 계층 테스트 3종뿐이다 → 설정 JSON 왕복, 헤더 분류(D14), 프리뷰 분기(D15\\~D19) 전부 자동 검증 밖이다 |"
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 1,
+    "patterns": [
+      "대장"
+    ],
+    "text": "# 키 단위 쓰기·읽기 왕복 대장 — 저장 구조 현황"
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 6,
+    "patterns": [
+      "대장"
+    ],
+    "text": "> * [Project-Store-Survey-Inputs-Payloads-Runtime](Project-Store-Survey-Inputs-Payloads-Runtime.md) — 이 대장의 **여집합**. 입력 셋(Morphing/CAD) · 페이로드 내부 형식 · 실행 상태가 파일에 닿는 경로"
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 14,
+    "patterns": [
+      "대장"
+    ],
+    "text": "GUI 가 프로젝트에 **무엇을 저장하고 그중 무엇을 다시 읽는지**를 키 단위로 전수 조사한 대장이다. 묻는 것은 하나 — 쓰는 키 하나하나에 그 값을 다시 읽는 코드가 있는가."
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 18,
+    "patterns": [
+      "대장"
+    ],
+    "text": "싣는 것 — 읽는 법(0절) · 저장물 인벤토리(1절) · 모듈별 키 전수(2절) · 왕복 대장(3절) · 다중 라이터(4절) · I/O 시점(5절) · 귀속·성격 분류(6절)."
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 28,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**`MOR-D5` 류 코드**는 별도 결함 대장의 번호다. \"이 실측이 그 결함의 파일 측 근거\" 라는 표시로만 인용하고 내용은 다시 설명하지 않는다 — 번호를 몰라도 본문은 완결된다."
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 104,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| `Morphing.radius` (RBF 커널 반경) | PM `:369` · **위젯 `:654` 스핀박스 편집 즉시** | `DashGeometryParameter:157` · `MorphingDoeExecutor:299` · `Opt:1379` · `MR:2164` | 왕복 (라이터 2벌) |"
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 156,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "**4세대 식별자 폴백** — 로더(`Condition:435-447` 주석)가 gen1(이름) → gen2(uuid) → gen3(+entry_ptr) → gen4(+param) 를 모두 받고 라이터는 항상 gen4 를 쓴다. 읽는 쪽이 네 벌의 스키마를 아는, **마이그레이션이 명시적으로 설계된 코드베이스 유일 자리**다."
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 289,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**`SaveProject()` 는 `return true` 한 줄이다**(`controller/DashProjectManager.cpp:164-167`). 모든 쓰기가 이미 즉시 반영이라 무해하지만 \"저장했다\" 는 기대와 어긋난다. **`SaveProjectAs()`(`:169-210`) 는 숨김 `.dproj` 만 재귀 복사한다** — 사용자 루트의 산출 디렉토리와 [Add File] 원본이 전부 빠지고, config 안의 절대경로는 옛 경로를 가리킨 채 복사된다."
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "line": 293,
+    "patterns": [
+      "대장"
+    ],
+    "text": "## 3. 왕복 대장"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 41,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "1. 모듈 진입   Set 클릭 → variant 판별로 위젯 전환 → 민감도 데몬 기동(즉시 반환)"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 81,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "  → 민감도 패널 결선 + setPlotEnabled(false) → startDaemon() (즉시 반환)"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 121,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| Value 스핀박스 입력 | 시그널 결선 없음 — 즉시 반영되는 곳 없음 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 134,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "   ├─ M:saveInputDesignVariableValues:1201   ← JSON 을 즉시 쓰는 유일한 지점"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 151,
+    "patterns": [
+      "D14"
+    ],
+    "text": "특징 3종 — **Part 콤보는 모핑 대상을 정하지 않는다**(모핑은 JSON 재추출 `actualPartName`, 사용자의 `targetPart` 는 마지막 `_input_geometry.vtu` 추출 전용) → D12 · **핸들 객체가 Morphing 모듈과 공용**(`SetBoxHandles` 가 싱글턴 `m_handleGeometry` 를 제자리 교체) → D13 · **핸들 적재 실패가 조용히 통과**(렌더러 없으면 데이터 채우기 전 반환 `:2570-2578`, `loadHandlesFromVtp` 최종 가드는 \"비어 있지 않은가\" 하나) → D14. NodeSet 여부는 콤보 아이템 `Qt::UserRole` 로만 판정하는데 값을 세우는 곳이 `W:loadSetsIntoPartCombo:1965` 뿐이라 텍스트만 세우는 경로(`updateReferenceFileAndPart` 의 `setCurrentText`)에서는 비어 있다 → D20."
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 167,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**B. ConditionParameter** (`W:458-517`) — ND 면 즉시 거부, 아니면 템플릿(`configsDir/{inputFileName}`)을 `M:generateDatFile:1574` 로 치환해 `modelRunnerDir/Predict_NN_*.{ext}` 를 만들고 디스크 재스캔으로 행을 찾아 JSON 을 쓴다. 치환은 `\"${이름}\"` 텍스트 전역 치환 · `QMap` 사전순 순회 · `QString::number` 기본 정밀도(유효숫자 6자리) → D18."
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 339,
+    "patterns": [
+      "D14"
+    ],
+    "text": "| **D14** | 실행 모델 | 핸들 적재 실패가 조용히 통과 | 3-4 | 렌더러 없으면 데이터 채우기 전 반환, 가드는 \"비어 있지 않은가\" 하나 → 직전 Set 핸들로 모핑이 돈다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 356,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| **D31** | 데이터 정본 | 민감도 캐시 키가 모델 내용 변경을 감지하지 못한다 | 3-8 | 키는 명령 + 경로 2\\~3개뿐이고 비우는 곳은 `startDaemon` 최초 기동과 `setSetName` 둘뿐 → 같은 경로에서 재학습하면 낡은 결과가 나온다 |"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "line": 363,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| **D38** | 진입·수명 | Set 불일치 방어가 초기 진입에서 돌지 않는다 | 3-9 | `onSurrogateCheckBoxChanged` 의 \"체크 행 Set ≠ 현재 Set 이면 파일 표·DV 맵을 비운다\" 방어에 `&& !currentSetName.isEmpty()`(`W:857`) 예외가 붙어 있다 → `getSetName()` 이 아직 비어 있는 최초 진입에서는 다른 Set 의 모델을 체크해도 이전 표가 남고, 그 상태의 Generate 가 섞인 입력을 만든다 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 9,
+    "patterns": [
+      "parameterizationId",
+      "최초"
+    ],
+    "text": "| 2026-10-08 | [#368](https://github.com/NumeRealWorks/DashOpti_GUI/issues/368) 출처 기록과 공통 판독 계약 | 기존 개정 수록 | 조합 ID의 생성·전파·비교와 입력 고정 규칙을 포함하고, Runner·Optimizer 처리까지 함께 다룸 | `parameterizationId`와 최초 입력 영구 고정을 폐기. 개별 `setId`와 실제 입력 선택·deck 정보를 산출물에 기록. 현재 입력 참조와 생성 당시 출처를 분리 | 완료 지점을 Builder의 `model_info.json` 생성으로 한정. 공통 기록·판독 계약을 제공하고 소비 측 T23은 #685로 이관. 버전·최신성은 #650에서 별도 설계 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 11,
+    "patterns": [
+      "파일 분할"
+    ],
+    "text": "| 2026-10-08 | [#443](https://github.com/NumeRealWorks/DashOpti_GUI/issues/443) Set 입력 참조 | 개정 반영 | UUID 발급·별도 원장 구축을 목표로 기록 파일 분할과 NodeSet 선택 저장까지 포함 | 완료된 #520의 `setId` 발급·영속·역조회를 기반으로 개명·동명 재생성에 안전한 입력 참조 전환에 집중 | 남은 구현은 #368 → #685. #444와 #369를 하위에서 분리. 별도 Set 원장, 폴더명 ID 전환, 최신성 판정을 완료 조건에서 제외 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 12,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 2026-10-08 | [#473](https://github.com/NumeRealWorks/DashOpti_GUI/issues/473) 결과 항목 조작 | 개정 반영 | 산출물 항목에 식별자를 부여하고 표 행을 연결한다는 넓은 목표 | 표 연결·덮어쓰기 방지·삭제 정합의 구체적인 오류 수정 묶음으로 한정 | #474·#475·#477 유지. #443·#368·#685를 선행으로 두지 않음. 별도 대장·버전 추적·최신성 경고·목록 전용 UI 제외 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 15,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 2026-10-08 | [#477](https://github.com/NumeRealWorks/DashOpti_GUI/issues/477) 삭제와 파일 해석 | 개정 반영 | 접두사 매칭 삭제를 식별자 삭제로 바꾸고 생성·스캔 경로를 맞춤 | 선택 항목에 속한 파일만 삭제. 입력·프리뷰 파일의 용도를 구분하고 생성 직후와 재열기 후에 같은 항목을 해석 | #473 하위 유지. #474와 식별 기준, #475와 충돌 방지 접점 공유. 기존 모듈·산출물 기록을 우선 활용하며 전역 대장 도입 제외 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 16,
+    "patterns": [
+      "파일 분할"
+    ],
+    "text": "| 2026-10-08 | [#444](https://github.com/NumeRealWorks/DashOpti_GUI/issues/444) Set 기록 분리 | 개정 반영 | #443 하위에서 변경 빈도별 파일 분할을 전제로 추진 | 상태 갱신 비용을 확인하고 기존 구조로 해결 가능한지 먼저 판단. 필요한 경우에만 파일 분리하고 저장·읽기·화면 갱신 개선을 검증 | GitHub 하위 관계를 #443에서 #441로 이동. Set ID 도입과 분리하며 모든 Set JSON의 일괄 분할을 요구하지 않음 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 17,
+    "patterns": [
+      "파일 분할"
+    ],
+    "text": "| 2026-10-08 | [#441](https://github.com/NumeRealWorks/DashOpti_GUI/issues/441) 상태 기록과 재시작 복구 | 개정 반영 | #444와 파일 분할 설계를 공유하는 연관 관계 | #444가 저장 경계를 정리하고 #441이 그 기록을 사용하는 증분 갱신·재시작 복구를 담당 | #438 하위 유지, #444를 하위에 편입. 저장 포맷 중복 설계를 피하고 상태 기록 개선 후 재시작 복구 순서로 진행 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 21,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "#368·#685의 공통 정책은 기존 선택 UI에서 현재 Set이 참조하는 상류 입력 Set을 다른 `setId`의 Set으로 변경할 수 있게 하는 것이다. 현재 Set 자체의 `setId`는 유지하며, 입력 참조 변경만으로 산출물의 출처를 수정하지 않는다. 재실행으로 산출물을 덮어쓸 때에는 실제 사용한 입력 출처도 함께 갱신한다. 이전 산출물과 출처의 이력 보존은 요구하지 않는다. 별도로, 필수 출처가 없는 구버전 산출물은 재생성을 요구하며, 이름·경로 추론이나 자동 마이그레이션으로 출처를 채우지 않는다. 기존 Set ID 발급·복원은 유지한다."
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 23,
+    "patterns": [
+      "대장"
+    ],
+    "text": "이번 범위 정리는 [#471](https://github.com/NumeRealWorks/DashOpti_GUI/issues/471)의 독립 산출물·소비 이력 대장 취소 결정을 따른다. 출처 추적의 상위 목표는 [#470](https://github.com/NumeRealWorks/DashOpti_GUI/issues/470)에서 관리한다. 기존 이슈의 열린 상태와 종료 상태는 변경하지 않았다."
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 51,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| [#476](https://github.com/NumeRealWorks/DashOpti_GUI/issues/476) 항목 대장·목록 화면 | 이슈는 `NOT_PLANNED`, 보드는 `Done`. 본문에는 대장 구축과 “#471은 대장 전용으로 축소”가 남음 | 본문 상단에 취소 사유와 #474·#475·#477의 결함 수정 범위를 명시. 보드를 `Won't do`로 정리하는 안 검토 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 52,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| [#442](https://github.com/NumeRealWorks/DashOpti_GUI/issues/442) 실행 이력 목록 | 이슈는 `NOT_PLANNED`, 보드 상태는 비어 있음. 폐기된 대장 설계를 선행으로 설명 | 취소 설명을 본문에도 반영하고 보드를 `Won't do`로 정리하는 안 검토 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 57,
+    "patterns": [
+      "대장"
+    ],
+    "text": "방향은 **별도 대장에 정보를 모아 중복 관리하는 설계에서, 각 Set과 산출물의 기록을 원본으로 삼고 프로젝트 객체가 조회·집계하는 설계로 전환**하는 것이다. 아래의 “현재 방향”은 이미 개정한 이슈들의 방향을 바탕으로 담당 객체와 구버전 산출물 처리 정책을 명확히 한 것이며, 오른쪽 항목은 후속 구현 전에 팀이 정할 사항이다."
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 61,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 원본과 책임 | Set 설정은 현재 입력 참조, 산출물은 생성 당시 출처를 보유. 별도 산출물·소비 이력 대장은 취소. 프로젝트 객체가 Set·의존관계를 조회하고 개별 Set의 최신성 판정을 호출·집계하며, VM은 표시·동작 전달 담당 | 공유 판독 계약과 프로젝트 객체의 조회·집계 API. 개별 Set의 판정 책임을 유지하면서 연결할 방법 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 63,
+    "patterns": [
+      "최초"
+    ],
+    "text": "| 입력 참조 변경과 재실행 | 조합 ID와 최초 입력 영구 고정을 폐기. DOE Sampler·Analysis Launcher·Model Builder·Model Runner·Optimizer에서 상류 입력 Set의 참조를 다른 `setId`로 변경할 수 있음(대상 관계는 아래 표). 현재 Set 자체의 ID는 유지. 참조 변경만으로 산출물의 출처를 수정하지 않으며, 재실행으로 산출물을 덮어쓸 때 실제 입력 출처도 함께 갱신. 이전 산출물과 출처의 이력 보존은 요구하지 않음 | #615의 자동 선택 정책과 #646의 결과 교체 시점. 재실행 결과와 출처가 함께 갱신되도록 할 경계. 출처 정보가 없는 구버전 산출물의 재생성 정책과는 구분 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 64,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 호환과 보장 범위 | 새 출처 정보가 없는 구버전 산출물은 재생성이 필요하며, 이름·경로 추론이나 자동 마이그레이션으로 출처를 채우지 않음. 기존 Set ID 발급·복원은 유지. 출처 추적만으로 같은 Set의 재실행 여부나 최신성까지 보장하지 않음 | 구버전 산출물의 재생성 안내와 적용 시점, 구버전 포맷 판독 호환의 범위. 최신성이 필요한 사용 경로와 #650의 도입 순서 |"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "line": 69,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**별도 대장을 구축하는 것으로 이슈들이 발행되었는데, 이 내용을 폐기하고, 개별 Set과 산출물이 원본 기록을 소유하며 프로젝트 객체가 조회·집계를 맡도록 책임을 바꾼다.**"
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 57,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**범위 경계**: 본 선결 조건은 **워커 축(서브태스크 e — WorkerJob·직렬 풀)의 게이트**다. 외부 프로세스 축(서브태스크 a~c — ProcessJob·폴링 제거·데몬 비동기화)은 스레드를 만들지 않으므로 본 문서 완료를 기다릴 필요 없이 즉시 착수 가능 (기반 문서 5-3절 개정 5 재확인)."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 68,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| D4 | 전역 cout rdbuf 스왑 제거 | 영구 로그 유실·dangling rdbuf 크래시 | 높음 | 스왑 삭제 — 전역 1회 억제로 대체 | **소 (즉시 가능)** |"
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 112,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| A. 메인스레드 선-초기화 — `main()` 에서 `Mgr()`·`Instance()` 명시 1회 호출 | 한 줄, 즉시 적용, 이후 모든 호출은 읽기 전용 | \"새 싱글톤 추가 시 등록 누락\" 휴먼 에러 여지 | — | **채택 (1차)** |"
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 161,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "2. **UAF 크래시** — 메인의 `m_morphingKernel = CreateWendlandC2Kernel(...)` 재할당(`:330`)이 워커가 `Morph()` 실행 중 참조하는 이전 커널을 파괴 (`unique_ptr` 대입 = 이전 객체 즉시 delete)."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 188,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`DashAnalysisModelContext` 캐시에는 내부 동기화가 전혀 없고, `getOrLoad`가 수 초짜리 파싱을 락 밖에서 수행한 뒤 `emplace` + raw 포인터 반환으로 캐시에 넣는다. 워커가 등장하면 세 가지가 깨진다: 두 스레드가 같은 경로를 **이중 파싱**하고, 경합 시 늦은 쪽의 `emplace`가 키 중복으로 요소를 생성했다 즉시 파괴하는 바람에 **이미 파괴된 컨텍스트를 가리키는 dangling 포인터가 반환**되며(단일 스레드에서는 경합이 없어 안 터지지만 코드 형태로는 이미 심어진 지뢰), 배치가 `setFeConditionValue`로 캐시를 변이하는 동안 메인 위젯이 같은 인스턴스의 파트 트리를 순회하는 **읽기-변이 레이스**가 UB를 낸다. 로드 경합은 코드로, 심층 접근은 소유권 규약(RW 직렬 풀 전담)으로 나눠 처방해야 한다."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 208,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "2. **dangling 컨텍스트 반환 (신규 발견 — 현재도 잠재)** — 위 경합에서 늦은 쪽의 `emplace` 는 키 중복으로 삽입 실패하는데, `std::map::emplace` 는 실패 시에도 인자로부터 요소를 **일단 생성했다가 즉시 파괴**할 수 있다 (표준 허용 동작). 이때 `std::move(ctx)` 로 소유권이 임시 요소로 넘어가 파괴되고, 그 전에 떠 둔 `raw` (`:40`) 는 **파괴된 컨텍스트를 가리킨 채 반환**된다. 단일 스레드에서는 경합 자체가 없어 발현하지 않지만, 코드 형태로는 이미 심어져 있는 지뢰다."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 232,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- [ ] `try_emplace` 즉시 적용 (안전핀)"
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 237,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "## 5. D4 — 전역 std::cout rdbuf 스왑 제거 (즉시 착수 권장)"
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 241,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "`.dat` 파싱 동안 로그를 죽이려고 `std::cout`/`std::cerr`의 rdbuf를 지역 널스트림으로 갈아끼웠다가 파싱 후 복원하는데, 이 스왑이 **프로세스 전역 상태**를 건드린다는 것이 문제다. `reader.Update()`가 예외를 던지면(이 블록은 애초에 try-catch로 감싸여 throw를 상정한 코드다) 복원 두 줄을 건너뛰고 catch로 점프하고, 스택 해제로 지역 널스트림이 파괴되면서 `std::cout`은 **파괴된 streambuf를 가리킨 채** 남아 이후 프로세스 어디서든 cout 출력이 UB가 된다 — 워커와 무관하게 **지금도 단일 스레드에서 발현 가능한 잠재 버그**다. 워커가 붙으면 save/restore 인터리빙으로 **전 프로세스 로그가 영구 유실**되고 타 스레드의 정당한 출력까지 삼킨다. 다른 4건과 의존성이 없고 규모가 가장 작아 즉시 착수를 권장한다."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 273,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "D4 는 다른 4건과 의존성이 없고 규모가 가장 작으며 **이미 잠재 버그**이므로, 워커 계획과 무관하게 즉시 착수를 권장한다."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 304,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "가드 장치: 렌더러·인터랙션 조작 함수 진입부에 메인스레드 assert (`updateActor`, `Redraw`, `GetRenderWindow` 등 `DashManager` 렌더 계열) — 규약 위반을 디버그 빌드에서 즉시 노출."
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 317,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "D4 (독립, 즉시)     ─┐"
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "line": 324,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **즉시 착수 가능 (워커 무관 순수 이득)**: D4 전체, D3 의 `try_emplace` 안전핀, D1 의 선-초기화 1줄 — 셋 다 현재 동작을 바꾸지 않으면서 잠재 버그를 닫는다."
+  },
+  {
+    "path": "205-1-w6-w10-ticket-summary.md",
+    "line": 38,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| P4  | 협조적 취소                             | (워커) 취소 = 즉시 Cancelled + UI 즉시 해방, DLL 실행 도중엔 중단 불가 → 늦은 결과 폐기. \"UI 해방\"이지 \"CPU 해방\"이 아님 |"
+  },
+  {
+    "path": "205-1-w6-w10-ticket-summary.md",
+    "line": 88,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "└─ m_current.start()                                                  (즉시 반환 — UI 생존)"
+  },
+  {
+    "path": "205-1-w6-w10-ticket-summary.md",
+    "line": 218,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "[버그]  cancel() → 플래그 set + 즉시 Cancelled 방송"
+  },
+  {
+    "path": "215-1-w10-f-design-decision-review-snapshot.md",
+    "line": 322,
+    "patterns": [
+      "version"
+    ],
+    "text": "- [ ] 전환 정책 일반형 점검표 [215-2-sync-pumping-to-async-conversion-checklist](215-2-sync-pumping-to-async-conversion-checklist.md) 와 네 티켓 본문 대조 — 소유자 없는 꼭지(재시작 시 고아 상태 해석 · 큐 도입 시 4정책)의 처분 지정"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 6,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "> * [Project-Store-Design-Alpha-Minimal](Project-Store-Design-Alpha-Minimal.md) — 이 설계의 **첫 배포 단위를 다시 자른 착수안**. 0.3 이 기각한 안 α 위에서 매니페스트만 최소로 도입하고 의존성 단위를 인스턴스로 접는다(execution 은 개체가 아니라 덮어쓰기). 본체와 갈리는 결정 셋 — 레이아웃(β→α) · `upstream.references` 배열화 · `$schema` 번호 축(α=1 · β=2). **9절의 마이그레이션 미수행이 α 에서는 승격으로 바뀐다** — 파일 이동이 0 이라 구프로젝트를 거부하지 않고 글로빙을 열기 경로에서 승격 경로로 한 번 옮긴다. 현황 1·5 가 닫히고 2·3·4(전부 실행 귀속)가 남으며(α 는 현황을 앞의 5건으로 자른다), 축 7개 중 C 하나만 통째로 사정권이다. α→β 전환에 **값 발급이 `exec_` 뿐이고 그 대상이 0건**이라는 것이 α 를 먼저 두는 근거다"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 8,
+    "patterns": [
+      "대장"
+    ],
+    "text": "> * [Project-Store-Survey-Inputs-Payloads-Runtime](Project-Store-Survey-Inputs-Payloads-Runtime.md) — 대장의 여집합. 산출물 포맷 6종 · XML 컨테이너 · 실행 상태 쓰기 경로"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 51,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 4 | **산출물 대장이 없다.** 산출물 포인터는 `AnalysisLauncher.DOE Table.input/output` 과 `DataPreprocessor.DOE Table.output` **2곳뿐**이고 나머지는 디스크 스캔(`*.dat` · `*.inp` 글로빙)으로 찾는다 | 스캔 필터와 생성 시 경로가 어긋난다. 자산 · 부산물 · 실패를 구분하지 못한다 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 70,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| 마이그레이션       | 불요                                        | 기존 자산 모두 폐기                              |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 84,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "**파일 — 순수 이동은 하나뿐이다.** 이것이 9절이 마이그레이션을 미수행으로 정한 근거다 — 옮길 것이 `handles.vtp` 하나인데 이관 코드를 짤 이유가 없다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 106,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 1 | 프로젝트 매니페스트가 없다 | **닫힌다 — 매니페스트가 아니라 고정 파일명 + 자기신고로.** 이름이 의미를 담지 않게 되어 모듈·variant 판정이 전부 `definition.json` 내용에서 나온다. `project.json` 은 Reference 대장으로 남고 인스턴스를 색인하지 않는다 (7.2) |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 109,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 4 | 산출물 대장이 없다 | **닫힌다 — 요청 단위로.** `artifacts[]` 는 실행이 요청한 산출만 담고 GUI 가 경로를 조립하는 자리에서 기록한다. 자산·부산물 구분은 여집합 규칙이 한다 (7.4). 부산물의 개별 추적과 정리 UI 는 범위 밖이다 (9절) |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 115,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "**대가 넷.** 기존 프로젝트를 열 수 없고(9절 마이그레이션 미수행), 상대경로가 약 16자 늘며(10절 1번 — Windows `MAX_PATH` 잔여 예산 약 190자), 숨김 경계가 사라지면서 **폴더명이 ID 라 사람이 읽지 못하고**(3.1 · 0.3 근거 3), 도구를 GUI 와 함께 릴리스해야 한다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 122,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 축 A\\~G                     | 매니페스트 부재로 귀속된 결함 69건의 7분류. 본 문서와 관계된 것은 **B**(파일명·경로가 스키마 노릇) · **E**(산출물 대장 부재) · **G**(설정 JSON 의 쓰기 주체·시점 규약 부재) 셋이다 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 180,
+    "patterns": [
+      "대장"
+    ],
+    "text": "      project.json                        PM  Reference 대장 — references[] (인스턴스는 색인하지 않는다)"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 295,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**요청 단위 대장이 이 모호성을 판정 문제에서 빼낸다.** `kind` 는 스캔 결과를 분류한 값이 아니라 **요청 시점에 GUI 가 붙이는 라벨**이고, Abaqus restart `.prt` 같은 부산물은 애초에 대장에 들어오지 않는다. 구분은 여집합 규칙이 한다 (7.4)."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 349,
+    "patterns": [
+      "대장"
+    ],
+    "text": "          + execution 엣지 → 대상 실행 디렉토리의 존재 + 그 실행 대장 항목의 파일 존재 조회"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 444,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "> 아래 키 이름 · 중첩 · ID 접두사는 **계약이 아니다.** 다만 마이그레이션을 하지 않기로 했으므로(9절) 첫 배포 후에는 바꿀 수 없다 — 배포 전에 확정한다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 450,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| `$schema` | **1** 부터. 마이그레이션이 없어 현행 형식과 이어지지 않으므로 새로 센다 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 525,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**PM 은 Reference 대장이고 인스턴스를 색인하지 않는다.** PM 에 남을 자격은 하나다 — **인스턴스가 소유할 수 없는 것.** Reference 는 인스턴스 여럿이 공유하므로(6.1) 그 기준을 통과하고, 인스턴스의 신원은 인스턴스 자신이 담을 수 있으므로 통과하지 못한다. 신원의 정본은 `definition.json`(7.3)이고 열거는 열기 시 `*/definition.json` 스캔이다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 638,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| `artifacts[]` | **요청 단위 대장** — 아래. 현재 인덱스는 2곳뿐이고 나머지는 디스크 스캔이다(0.2-4). 정의 파일에 역기입되던 `*_datapath` 계열은 현재 `dev` 에 **없으므로**, 이 필드는 이주가 아니라 **신설**이다 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 645,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**대장에는 실행이 요청한 산출만 들어간다.** GUI 가 경로를 조립하는 그 자리에서 한 줄씩 붙고, 종결 시 디렉토리를 훑지 않는다. 도구가 이름을 정하는 것은 들어오지 않는다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 647,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 구분 | 예 | 대장 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 652,
+    "patterns": [
+      "대장"
+    ],
+    "text": "**여집합 규칙 — 대장에 있으면 자산, 실행 디렉토리 안인데 대장에 없으면 부산물.** 이것이 축 E 가 요구한 구분이고, 부산물을 개별 추적하지 않고도 성립한다. 규약 9 가 실행 디렉토리를 그 실행의 배타적 쓰기 범위로 만들어 놓았으므로 여집합이 정의된다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 664,
+    "patterns": [
+      "대장"
+    ],
+    "text": "부분 정리(용량이 큰 `.odb` 만 지우고 `.csv` · `logs/` 는 남기기)도 같은 조회로 항목마다 답이 나온다. 정리 여부를 파일에 새기지 않으므로 사용자가 탐색기로 지워도 대장이 어긋나지 않는다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 691,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 프로젝트 생성 | **쓰기** (Reference 대장 신규 · 빈 배열) | — | — | — |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 700,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 실행 완료 | — | — | **쓰기** (종결 상태만 — 대장은 요청 시점에 이미 찼다) | — |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 717,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "현행 `SaveProject()` 는 `return true` 한 줄이고 모든 쓰기가 이미 즉시 반영이다 — 메뉴가 있는데 아무 일도 하지 않는다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 719,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**즉시 저장을 계약으로 명문화한다.** `SaveProject` 는 flush + PM 재작성으로 재정의한다. 명시적 저장(편집을 메모리에 두고 Save 에서 일괄 기록)은 **기각**한다 — 실행 산출물이 이미 디스크에 있어서 \"저장 안 함\" 이 성립하지 않기 때문이다. 벌크는 솔버와 외부 도구가 만들고 GUI 가 되돌릴 수 없으므로, 명시적 저장을 택하면 Set 메타만 트랜잭션이 되고 실행 칸은 아니라서 Save 의 의미가 칸마다 갈린다. **되돌리기가 필요하면 답은 저장이 아니라 실행 누적이다** — 정의는 최신 하나면 충분하고 산출은 이력이 남는다."
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 822,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 1 | **다중 인스턴스** | 같은 프로젝트를 두 창에서 여는 경우. 즉시 저장이 계약(8.1)이면 두 프로세스가 같은 파일을 쓰므로 **규약 1이 성립하지 않는다.** 잠금 파일 · 단일 인스턴스 가드가 현행 레포에 0건이다 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 825,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| 4 | **실행 취소** — 후순위 | 어휘에 `Cancelled` 가 있는데 8절 표에 취소 행이 없다. 부분 산출 디렉토리를 남기나. 대장 쪽은 정해졌다 — 요청한 것은 이미 적혀 있고 파일이 없으면 `Cancelled` 와 조합해 파생된다(7.4) |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 843,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| **PM 의 범위** | **Reference 대장만.** 인스턴스를 색인하지 않고 열기 시 `*/definition.json` 스캔으로 열거한다 — PM 에 남을 자격은 \"인스턴스가 소유할 수 없는 것\" 하나다. 신원(`id` · `module` · `variant` · `label` · `created`)의 정본은 SM 이고, 그 라이터는 **인스턴스 스토어 1곳**이다 — 트리의 rename 과 위젯의 편집이 같은 문을 통과한다 (7.2 · 7.3) |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 851,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| **산출물 대장** | **요청 단위.** `artifacts[]` 는 실행이 요청한 산출만 담고 GUI 가 경로를 조립하는 자리에서 기록한다 — 종결 시 디렉토리를 훑지 않으므로 배선이 0 이다. 대장 밖은 부산물이고 개별 추적하지 않는다(**여집합 규칙**). `purged` 필드는 두지 않고 정리·실패·취소 구별은 `cases[].state` × 파일 존재 조회로 파생한다 (7.4) |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 864,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| **저장 동작** | 즉시 저장을 계약으로 명문화. 명시적 저장 모델은 기각 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 869,
+    "patterns": [
+      "마이그레이션"
+    ],
+    "text": "| **마이그레이션** | **미수행.** 궁극 지향점 우선 — 기존 프로젝트를 열 수 없다는 것을 비용으로 수용한다 |"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "line": 873,
+    "patterns": [
+      "대장"
+    ],
+    "text": "| **벌크 관리의 우선순위** | **범위 밖.** 부산물의 개별 추적 · 정리 UI · 부분 정리 조작 · 취소 시 산출물 처분 · MCU 예측 결과 보존 — 재사용 · 편집 · 복사 · 실패 처리에 드는 **고도화**다. **칸과 요청 단위 대장은 지금 만들고 그 위의 관리 기능은 나중에 붙인다.** 요청 단위 대장 자체는 범위 안이다 — 디스크 스캔을 없애는 자리(축 E 8건 · 읽기 배선 15번)라 뒤로 밀면 그 결함이 함께 밀린다 |"
+  },
+  {
+    "path": "202-1-view-qt-designer-vs-code-cleanup.md",
+    "line": 113,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "계층별 판정 (A = 즉시 이득, B = 골격만, C = 불가):"
+  },
+  {
+    "path": "202-1-view-qt-designer-vs-code-cleanup.md",
+    "line": 278,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "**정규화 효과: 색 정의 60종 → UI 크롬 \\~15종** (QSS 5토큰 + 특화 4 + 파생 \\~6) **+ 플롯 11종 보존.** exact-dup 스타일 문자열 3쌍(QHeaderView 섹션: `DashAnalyzerUtils.cpp:257` ≡ `DashResultsAnalyzerWidget.cpp:180` 등)도 상수 공유로 즉시 흡수."
+  },
+  {
+    "path": "202-1-view-qt-designer-vs-code-cleanup.md",
+    "line": 390,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- `DashAnalysisLauncherWidget.cpp:821-907` — 주석 처리된 `updateDvTable()` 통째 \\~87줄 + 헤더 선언(`.h:51`). 호출처 없음 → 즉시 삭제."
+  },
+  {
+    "path": "202-1-view-qt-designer-vs-code-cleanup.md",
+    "line": 420,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "- **view .cpp 47,485줄 대비 약 9\\~10% 순삭제.** A+B+C(≈1,600줄)는 무위험\\~저위험 구간이라 즉시 착수 가능."
+  },
+  {
+    "path": "215-2-sync-pumping-to-async-conversion-checklist.md",
+    "line": 57,
+    "patterns": [
+      "최초"
+    ],
+    "text": "비동기에서는 성공 · 실패 · 취소 · 기동 실패 · 타임아웃이 서로 다른 경로로 도착한다. 마감을 선언하는 지점이 한 곳이 아니면 소비자마다 갈래별 번역이 중복되고, 기제가 특정 갈래의 통지를 아예 생략하는 경우(기동 실패에 완료 통지가 없는 등)에는 그 갈래가 조용히 사라진다. 실행 엔진이 모든 갈래를 하나의 종결 통지로 번역하고, 최초 종결이 이기는 잠금(terminal lock)으로 취소 뒤 도착하는 늦은 완료를 삼키게 한다."
+  },
+  {
+    "path": "215-2-sync-pumping-to-async-conversion-checklist.md",
+    "line": 162,
+    "patterns": [
+      "즉시"
+    ],
+    "text": "| 취소 관측 시점 | 다음 반복 — 지연 = 반복 주기 | 즉시 접수 |"
+  }
+]

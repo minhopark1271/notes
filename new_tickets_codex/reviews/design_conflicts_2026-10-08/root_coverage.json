@@ -1,0 +1,107 @@
+[
+  {
+    "path": "192-1-architecture-analysis-mvc-mvvm.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "197-1-gui-restructure-mvvm-qml.md",
+    "review_depth": "full",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "198-1-improvement-roadmap.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "200-1-release-phasing-plan.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "200-3-prioritized-backlog.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "204-1-entity-ownership-hierarchy.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "239-1-census-and-typed-state-boundaries.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "246-1-singleton-inventory-and-dashmanager-decomposition.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Backlog-Reclassification-And-Status.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Trial-Release-Work-Breakdown-and-Axes.md",
+    "review_depth": "full",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "full",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "minhopark-Index.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Project-Board-Intake-And-Operations.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "dashopti_project_unit_v1.drawio",
+    "review_depth": "diagram_labels",
+    "notes": "XML 도형 레이블 점검. 현재 코드 설명·다중응답 확장 구상·자체 오류 주석이 섞여 있으며 확정 계약으로 간주하지 않음. PNG는 같은 도면의 중복 표현으로 제외."
+  },
+  {
+    "path": "dashopti_project_data_flow_v1.drawio",
+    "review_depth": "diagram_labels",
+    "notes": "XML 도형 레이블 점검. 현재 코드 설명·다중응답 확장 구상·자체 오류 주석이 섞여 있으며 확정 계약으로 간주하지 않음. PNG는 같은 도면의 중복 표현으로 제외."
+  }
+]

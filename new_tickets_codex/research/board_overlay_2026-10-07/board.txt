@@ -1,0 +1,76 @@
+번호  이슈 | 반복 | 상태 | 우선순위
+
+53  #246 [W20] God-object 해체 — DataProcessor·DashManager·DashProjectManager | W4 10/05–10/11 | Backlog | High
+      #431 모델 교체·세트 전환 시 위젯 정리 규칙 문서화 | | Backlog | High
+      #432 모델 계층이 프로젝트 관리자를 되부르는 의존 제거 | | Backlog | High
+      #433 데이터 처리 클래스 분해 | W3 09/28–10/04 | In progress | High
+      #434 전역 관리 객체 해체 | W3 09/28–10/04 | In progress | High
+
+54  #427 DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리 | W4 10/05–10/11 | Backlog | High
+      #430 핸들 데이터 전용 타입 DashHandleData 신설 — VTP 읽기 5곳·쓰기 2곳 일원화 | W4 10/05–10/11 | In progress | Medium
+      #318 공유 VTK 씬에 모듈 소유권 도입 — 덮어쓰기 12곳 정리, 인수는 파괴가 아니라 숨김 | W4 10/05–10/11 | Backlog | High
+      #316 Optimizer Preview 의 전체 actor 일괄 삭제 — 핸들 5종 복구 불가, 비파괴 오버레이로 전환 | W4 10/05–10/11 | Backlog |
+      #319 레이어 체계 밖 actor 의 수명·상태 결함 4건 — FE actor 숨김 방치 · 무조건 카메라 리셋 · clearAllLayers 누락 · 등록/해제 경로 불일치 | W4 10/05–10/11 | Backlog | High
+      #281 단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b) | W4 10/05–10/11 | In progress | High
+
+55  #446 창·레이아웃 크기 관리를 Qt 표준으로 전환 | W4 10/05–10/11 | Backlog | High
+      #447 배율 다른 모니터로 이동 시 프리즈·복구 불가 차단 | | Backlog | High
+      #448 창 위치·크기·도크 배치의 저장·복원 도입 | | Backlog | High
+      #449 명령형 크기 지정 제거 — 레이아웃에 크기 결정권 반환 | | Backlog | Medium
+      #450 테두리 없는 창과 중첩 메인 윈도우 구조 재검토 | | Backlog | Low
+
+56  #451 GUI 스레드 동기 실행과 이벤트 펌핑 제거 | W4 10/05–10/11 | Backlog | Medium
+      #454 Data Preprocessor — 동기 실행 워커 이관과 펌핑 16곳 제거 | | Backlog | High
+      #455 모듈 외 잔여 view 펌핑 10곳 분류·제거 | | Backlog | Medium
+      #456 Analysis Launcher 정규 경로(.inp·ANSYS) — [Start] 동기 실행 워커 이관 | | Backlog | Low
+      #457 Optimizer — 펌핑 2곳 제거와 요청 식별자 왕복 (OPT-D19) | | Backlog | Medium
+      #512 Geometry Parameterization(Morphing) — setResults 펌핑 제거와 결정 시그널 유실 차단 | W2 09/21–09/27 | Backlog |
+      #513 Model Runner — 폴더 선택 동기 스캔 워커 이관 | | Backlog |
+
+57  #473 실행 산출물 항목의 식별자 결합 | W4 10/05–10/11 | Backlog | Medium
+      #474 표 행과 항목의 결합을 식별자 키로 전환 | W2 09/21–09/27 | Backlog | High
+      #475 산출물 채번의 세션 영속화 | W2 09/21–09/27 | Backlog | High
+      #477 접두사 매칭 삭제를 식별자 삭제로 — 생성·스캔 경로 정합 | W2 09/21–09/27 | Backlog | High
+
+58  #438 배치 계산의 취소·진행 표시·재시작 복구를 완결 | W4 10/05–10/11 | Backlog | High
+      #439 배치 취소가 대기 큐까지 비우게 완결 | | Backlog | High
+      #440 실행 케이스마다 현재 상태가 표에 보이게 | | Backlog | High
+      #441 배치 상태 기록의 증분화와 재시작 시 복구 | | Backlog | Medium
+      #442 실행 이력 목록 관리 | | | Low  (not planned)
+
+59  #443 Set 에 식별자를 부여하고 원장으로 관리 | W4 10/05–10/11 | In progress | High
+      #444 Set 기록 파일을 변경 빈도 단위로 분할 | | Backlog | Medium
+
+60  #460 실행 진행 표시·취소·중복 실행 가드의 표준화 | W4 10/05–10/11 | Backlog | Medium
+      #461 실행 중 재클릭·재진입 차단 | | Backlog | Medium
+      #462 진행 표시 표준 1종 정의 | | Backlog | Medium
+      #463 모듈별 진행바·취소 버튼 확산 | | Backlog | Medium
+      #464 기존 진행 표시 결함 정리 — 스피너 비대칭 | | Backlog | Low
+
+61  #465 외부 프로세스 안전핀 일괄 — 무음 실패·타임아웃·인코딩·널 가드 | W4 10/05–10/11 | Backlog | Medium
+      #466 프로세스 무음 실패의 통지 규칙 수립 | | Backlog | High
+      #467 데몬 기동·응답 타임아웃 도입 | | Backlog | Medium
+      #468 외부 프로세스 호출부 널 가드 일괄 | | Backlog | High
+      #469 프로세스 인자·출력 인코딩 UTF-8 통일 | | Backlog | Medium
+
+62  #470 실행 산출물의 유래 추적 — 스탬프와 대장 | W4 10/05–10/11 | Backlog | Medium
+      #471 산출물 대장과 소비 기록 | | Backlog | High
+      #368 G9 산출물에 조합 식별자를 기록하고 각 단계가 입력을 검증 (T27·T21·T22·T23) | | Backlog | High
+
+63  #514 표 셀 위젯이 캡처한 행 번호가 삭제 후 어긋난다 — 전수조사 잔여 5건과 행 해석 규칙 통일 (#503 계열) | W4 10/05–10/11 | Backlog | High
+64  #543 비동기 작업 중 UI 차단·진행 표시의 UI/UX 정리 | W4 10/05–10/11 | Backlog | Medium
+65  #551 프로젝트 전환 시 나머지 모듈 위젯 7곳도 해제된 모델을 역참조한다 — #549 전수조사 잔여 | W4 10/05–10/11 | Backlog |
+66  #499 morphing: mesh-ops 버전 범프 수용 — 신규 handle 생성기 API 와 고립 handle 옵션 | W4 10/05–10/11 | Backlog | High
+68  #635 결과 XML 작성기가 Motion 컴포넌트의 entity_name 을 질의에 싣지 않아 전체 모델을 읽는다 | W4 10/05–10/11 | In progress |
+
+69  #649 DOE Sampler·Analysis Launcher 재구성 후속 — Set 정책·입력 포맷·화면 갱신 | W4 10/05–10/11 | Backlog |
+      #643 Analysis Launcher: Preprocess XML을 Set 단위로 쓰고 중복 정보를 없앤다 (HDF5 전환 검토) | W5 10/12–10/18 | Backlog |
+      #645 Project Assets: Add File로 덮어쓴 파일이 Condition 화면에 반영되지 않고 복사 실패 시 기존 등록이 사라진다 | W4 10/05–10/11 | Backlog |
+      #646 Analysis Launcher: 재실행 뒤 Preprocess 목록 미갱신, Re-run 실패 시 기존 결과 삭제, Skip 안내 없음 | W4 10/05–10/11 | Backlog |
+      #615 DOE Sampler: Add Set을 복원하되 Resample만 번호를 붙여 추가한다 | W4 10/05–10/11 | Backlog |
+      #647 Ansys Motion: dfsxml 실행이 LGE 압축기 예제에 하드코딩되어 있고 run마다 dfmm·dfg를 만들지 않는다 | W4 10/05–10/11 | Backlog |
+      #648 fe-safe: Set이 파일 하나에 묶인 뒤 입력 ODB 위치를 찾지 못한다 | W4 10/05–10/11 | Backlog |
+      #639 Analysis Launcher: Target Part 로딩 중 Start를 누르면 빈 target이 저장되고 로드 실패 시 저장값이 지워짐 | W4 10/05–10/11 | Backlog |
+      #650 Module Tree: 참조 Set 핀과 상류 버전 불일치 경고를 Analysis Launcher 외 모듈로 확장한다 | W5 10/12–10/18 | Backlog |
+
+70  #664 Motion 미리보기가 응답 키 없이 조회해 래퍼 불일치·배열 선택 실패로 끝난다 | W4 10/05–10/11 | In progress |

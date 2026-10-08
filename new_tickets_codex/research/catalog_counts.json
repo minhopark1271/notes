@@ -1,0 +1,29 @@
+{
+  "tasks": 123,
+  "status": {
+    "in_flight": 4,
+    "after_dependency": 28,
+    "ready": 71,
+    "needs_runtime_check": 6,
+    "deferred": 7,
+    "needs_decision": 7
+  },
+  "priority": {
+    "P2": 72,
+    "P1": 40,
+    "P3": 11
+  },
+  "board_issues": 207,
+  "open_issues": 112,
+  "dispositions": {
+    "historical": 42,
+    "resolved": 47,
+    "superseded": 6,
+    "mapped": 92,
+    "partial": 19,
+    "withdrawn": 1
+  },
+  "aliases": {
+    "AST-002": "AL-09"
+  }
+}

@@ -1,0 +1,318 @@
+[
+  {
+    "issue": 427,
+    "title": "DOE 배치·Generate·프리뷰 실행을 화면 편집 상태에서 격리",
+    "source_line": 9,
+    "task_ids": [],
+    "supporting_task_ids": [
+      "GEO-002",
+      "GEO-007",
+      "VIS-001",
+      "VIS-002",
+      "VIS-003",
+      "VIS-004"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "정확성",
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "실행 snapshot과 편집/표시 상태의 격리 완결을 추적하는 부모로 유지하거나, 각 자식의 새 작업으로 이관한 근거를 남겨 추적을 종료한다. 부모 자체를 새 구현 PR로 추가 집계하지 않는다.",
+    "caveat": "Claude MOR-19는 원복 코드가 이미 없다는 판정과 잔여 자식 이관을 제안한다. 최신 PR655 본문은 원복 코드 삭제를 아직 부모 몫으로 남겨 서로 서술이 다르므로 통합 기준에서 잔여 확인 후 처분한다. renderer 축은 별도 미완료이고 PR655도 OPEN이므로 부모 목표 전체 완료를 단정하지 않는다. baseline crosswalk의 task들은 부모의 자식 범위이며 모두 직접 구현 범위라는 뜻이 아니다.",
+    "confidence": "높음",
+    "evidence": [
+      "최신 W4 issues.json #427 완료 기준: #430, #316/#319→#318 및 #281 격리 몫",
+      "Claude FINAL MOR-19",
+      "W4 open-prs.json PR655 Part of #427/원복 잔여 설명"
+    ]
+  },
+  {
+    "issue": 430,
+    "title": "핸들 데이터 전용 타입 DashHandleData 신설 — VTP 읽기 5곳·쓰기 2곳 일원화",
+    "source_line": 10,
+    "task_ids": [
+      "GEO-002"
+    ],
+    "supporting_task_ids": [
+      "GEO-001"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "정확성",
+      "저장계약",
+      "식별계약",
+      "수명안정"
+    ],
+    "proposed_scope": "GEO-002를 신규 구현 예정에서 PR655의 구현 검토·통합·회귀 확인으로 변환한다. 실제 선행은 PR654/GEO-001이며, entry 상태가 렌더·피킹·편집·Done 저장의 정본인지 확인한다.",
+    "caveat": "옛 DashHandleData 타입/VTP 5-read·2-write 통합은 적용하지 않는다. PR655는 polydata를 projection 캐시로 남기는 수준을 넘어 m_handleGeometry·DashHandleImport·GizmoGroup 등을 삭제하고 DashHandleDefinition/DisplacementPolicy를 정본으로 둔다. GEO-002 문구도 최신 구현에 맞게 갱신 필요. PR655에 흡수된 VIS-007(구 #322)은 supporting_task로 추가 구현하지 않는다. #654/#655의 version 1 형식 차이는 #654 단독 릴리스가 없다는 전제를 확인해야 한다.",
+    "confidence": "높음",
+    "evidence": [
+      "최신 W4 #430 2026-10-05 댓글: 구현 PR655",
+      "PR655 범위 변경/Closes #430·#322/영속 호환 제한",
+      "Claude FINAL MOR-15·MOR-23",
+      "Codex GEO-001·002"
+    ]
+  },
+  {
+    "issue": 318,
+    "title": "공유 VTK 씬에 모듈 소유권 도입 — 덮어쓰기 12곳 정리, 인수는 파괴가 아니라 숨김",
+    "source_line": 11,
+    "task_ids": [
+      "VIS-003",
+      "VIS-004"
+    ],
+    "supporting_task_ids": [
+      "VIS-001",
+      "VIS-002",
+      "VIS-005"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "현재 행을 (1) 모듈·문서별 scene 등록/인수/해제 계약과 문서 보존(VIS-003), (2) split view·ghost·범례 복원(VIS-004)으로 나눈다. 독립 결함 복구는 먼저 하고 소유권 확산은 소비자군별 검증으로 완성한다.",
+    "caveat": "VIS-001/#316과 VIS-002/#319는 별도 자식·파일럿이며 같은 구현을 여기서 다시 집계하지 않는다. VIS-005/#320은 같은 기반의 후속 표시 토글 작업이지 #318에 자동 포함할 직접 범위가 아니다. 최신 PR655가 핸들 렌더 내부를 바꾸어도 공유 씬/문서 소유권 요구가 자동 해결되지는 않는다. 원문의 12곳·5종 actor 등 수치는 최신 코드 실측값으로 재인용하지 않는다.",
+    "confidence": "높음",
+    "evidence": [
+      "최신 W4 #318 renderer 1개/문서형 보존/작업물 폐기 정책",
+      "Claude FINAL REN-05~10",
+      "Codex VIS-003·004"
+    ]
+  },
+  {
+    "issue": 316,
+    "title": "Optimizer Preview 의 전체 actor 일괄 삭제 — 핸들 5종 복구 불가, 비파괴 오버레이로 전환",
+    "source_line": 12,
+    "task_ids": [
+      "VIS-001"
+    ],
+    "supporting_task_ids": [
+      "OPT-02",
+      "VIS-003"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "Optimizer preview만 overlay로 등록·교체·해제하며 기존 FE 문서/핸들의 표시, camera, registry 표시 커서를 유지한다. 다음 Load·요청 무효화에서 자기 preview만 제거한다.",
+    "caveat": "OPT-02의 요청 ID/취소/늦은 완료는 같은 사용자 흐름이지만 별도 실행 계약이다. VIS-003의 일반 모듈 인수 시 숨김 정책을 preview에 적용해 기존 actor를 숨기지 않는다. PR655 이후 핸들 actor 구성은 바뀌므로 옛 5종 복구불가 목록을 고정 acceptance로 삼지 않는다.",
+    "confidence": "높음",
+    "evidence": [
+      "최신 W4 #316 Goal/비파괴 overlay 확정",
+      "Codex VIS-001 및 OPT-02 notes",
+      "Claude FINAL OPT-01·02"
+    ]
+  },
+  {
+    "issue": 319,
+    "title": "레이어 체계 밖 actor 의 수명·상태 결함 4건 — FE actor 숨김 방치 · 무조건 카메라 리셋 · clearAllLayers 누락 · 등록/해제 경로 불일치",
+    "source_line": 13,
+    "task_ids": [
+      "VIS-002"
+    ],
+    "supporting_task_ids": [
+      "VIS-003",
+      "VIS-004"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "수명안정"
+    ],
+    "proposed_scope": "FE actor 숨김 후 복원, Runner preview의 FE 겹침 방지, Geometry actor 등록/해제의 단일 창구, 불필요한 camera reset 제거를 한 일관된 결함 수정으로 잡는다.",
+    "caveat": "#318을 기다려야 하는 후행이 아니라 현재 API로 먼저 가능한 선행·파일럿이다. clearAllLayers에 문서 actor 전체 삭제를 추가하는 처방은 문서 보존 계약에 어긋난다. split view 전체 복구는 VIS-004의 별도 목적이므로 함께 중복 집계하지 않는다.",
+    "confidence": "높음",
+    "evidence": [
+      "최신 W4 #319 4건/2026-09-21 선행 정정",
+      "Codex VIS-002",
+      "Claude FINAL REN-01~04"
+    ]
+  },
+  {
+    "issue": 281,
+    "title": "단건 모핑 워커화 — QC·Optimizer·ModelRunner 진입점 이관 + 값 경계·전용 세션 (구 W10-f-2b)",
+    "source_line": 14,
+    "task_ids": [
+      "OPT-02",
+      "GEO-007"
+    ],
+    "supporting_task_ids": [
+      "GEO-006",
+      "RUN-07",
+      "AST-003",
+      "GEO-001",
+      "GEO-002"
+    ],
+    "relation": "재판정",
+    "core_axes": [
+      "정확성",
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "옛 모핑 워커화 Phase를 그대로 변환하지 않고 완료된 값 경계/서비스 이관을 제거한다. 실제 잔여가 확인되는 Optimizer 요청·펌핑/취소는 OPT-02, 모핑 교차 모듈·프로젝트 전환 검증은 GEO-007로 받는다. 범위 이관 근거를 남긴 뒤 기존 광역 이슈 종료 여부를 판단한다.",
+    "caveat": "기존 crosswalk의 GEO-006은 QC 결과창의 별도 #512 결함이라 단순 #281 직접 대체가 아니다. Runner 요청 귀속 RUN-07, RW 실제 clone/edit/export GUI 이탈 AST-003도 연결된 독립 잔여다. Claude MOR-18은 본체 완료·잔여 OPT 이관을 제안하지만 MOR-16 계측·MOR-04 dead code 등 부수 요구는 기존 Codex 카드와 1:1 대응하지 않으므로 필요 여부를 따로 확인한다. 최신 PR654/655는 이 이슈 전부를 닫는 PR가 아니다.",
+    "confidence": "중간",
+    "evidence": [
+      "Codex OPT-02·GEO-007 및 #281 partial 처분",
+      "Claude FINAL MOR-18·MOR-16·MOR-04",
+      "최신 W4 #281 오래된 좌표 폐기·service 전환 댓글",
+      "PR654/655의 핸들 소비/렌더 범위"
+    ]
+  },
+  {
+    "issue": 446,
+    "title": "창·레이아웃 크기 관리를 Qt 표준으로 전환",
+    "source_line": 16,
+    "task_ids": [],
+    "supporting_task_ids": [
+      "UI-01",
+      "UI-02",
+      "UI-03"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "수명안정",
+      "저장계약",
+      "주변개선"
+    ],
+    "proposed_scope": "배율·창 복구(UI-01), 배치 저장/복원(UI-02), 레이아웃 크기 소유(UI-03)를 추적하는 묶음으로 쓴다. 부모와 #447~450을 각각 별도 구현량으로 더하지 않는다.",
+    "caveat": "Claude UIC-25 역시 고유 작업 없는 부모로 처리한다. #450의 native-frame/중첩 MainWindow 선택은 Codex UI-01의 조건부 검토에 일부만 들어 있으므로 UI-01~03 매핑만으로 #450 전체 구현이 확정되었다고 보지 않는다.",
+    "confidence": "높음",
+    "evidence": [
+      "최신 W4 #446 서브 #447~450",
+      "Codex UI-01~03",
+      "Claude FINAL UIC-25"
+    ]
+  },
+  {
+    "issue": 447,
+    "title": "배율 다른 모니터로 이동 시 프리즈·복구 불가 차단",
+    "source_line": 17,
+    "task_ids": [
+      "UI-01"
+    ],
+    "supporting_task_ids": [
+      "UI-02",
+      "UI-03"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "수명안정"
+    ],
+    "proposed_scope": "혼합 DPI 실기 재현→정지 지배 구간 확인→화면 밖 복구 불가/재진입 차단으로 변환한다. runtime 검증 항목으로 두고 검증된 원인에 필요한 안전 조치만 적용한다.",
+    "caveat": "원 이슈의 Round 정책 처방은 현 Qt 정책을 확인한 뒤 적용해야 한다. Claude UIC-02는 Qt6 전환 뒤 옛 rounding 가정 대신 DPI awareness와 프로파일 실측을 강조한다. UI-02의 기동 시 off-screen 복원, UI-03의 상시 크기 재분배 제거는 접점이며 #447과 동일 범위가 아니다. 최신 W4 입력의 하위 행은 별도 iteration이 없다는 이유로 자동 미선정 처리하지 않는다.",
+    "confidence": "높음",
+    "evidence": [
+      "sources/issues/447.md 실기 재현 선행",
+      "Codex UI-01 needs_runtime_check",
+      "Claude FINAL UIC-01·UIC-02"
+    ]
+  },
+  {
+    "issue": 448,
+    "title": "창 위치·크기·도크 배치의 저장·복원 도입",
+    "source_line": 18,
+    "task_ids": [
+      "UI-02"
+    ],
+    "supporting_task_ids": [
+      "UI-01",
+      "UI-03",
+      "UI-04"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "저장계약",
+      "주변개선"
+    ],
+    "proposed_scope": "창 geometry와 outer/inner dock state를 version 있는 설정 키로 저장·복원하고, 모니터 제거/해상도 변경/손상 상태 시 안전한 초기 배치로 복구한다.",
+    "caveat": "UI-04 전체 최근 프로젝트 메뉴 기능은 이 이슈 범위가 아니다. 설정 키 namespace 부분만 접점이다. 강제 resize가 복원값을 덮는다면 UI-03의 해당 부분을 먼저 또는 같은 PR에 적용한다. Claude UIC-05가 명시한 이 순서는 Codex UI-02의 독립 완료 가능성 검토에 유용하다.",
+    "confidence": "높음",
+    "evidence": [
+      "sources/issues/448.md Qt 전용 영속화",
+      "Codex UI-02, UI-04 키 정책",
+      "Claude FINAL UIC-05 선행 UIC-03·PRJ-14"
+    ]
+  },
+  {
+    "issue": 449,
+    "title": "명령형 크기 지정 제거 — 레이아웃에 크기 결정권 반환",
+    "source_line": 19,
+    "task_ids": [
+      "UI-03"
+    ],
+    "supporting_task_ids": [
+      "UI-01",
+      "UI-02"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "수명안정",
+      "주변개선"
+    ],
+    "proposed_scope": "MainWindow dock 재분배·ViewOptions 강제 flush·동적 표 크기라는 확인된 소비 지점부터 레이아웃/sizePolicy로 돌린다. 앱 shell과 동적 표 개선을 필요하면 별 PR로 나눈다.",
+    "caveat": "원 이슈의 25건 카탈로그 전체가 Codex UI-03 한 카드와 정확히 같지는 않다. Claude는 UI Scale 유지/제거·stylesheet px 정책·DPI cache 등 결정/후속을 더 분리한다. 모든 setFixedSize·px가 결함은 아니며 UI Scale 제거를 자동 확정하지 않는다. 현재 사용자 흐름에 해당하는 잔여를 목록화한 후 나머지를 후순위로 두는 부분 변환이다.",
+    "confidence": "중간",
+    "evidence": [
+      "sources/issues/449.md 카탈로그 적용",
+      "Codex UI-03 scope/notes",
+      "Claude FINAL UIC-03·UIC-06·UIC-12~15·UIC-26"
+    ]
+  },
+  {
+    "issue": 450,
+    "title": "테두리 없는 창과 중첩 메인 윈도우 구조 재검토",
+    "source_line": 20,
+    "task_ids": [
+      "UI-01"
+    ],
+    "supporting_task_ids": [
+      "UI-02",
+      "UI-03"
+    ],
+    "relation": "재판정",
+    "core_axes": [
+      "수명안정",
+      "주변개선"
+    ],
+    "proposed_scope": "UI-01 실측과 UI-03 개선 후에도 남는 문제를 근거로 (1) frame OS 위임 경로 선택, (2) 중첩 QMainWindow 유지/단일화 여부를 각각 결정한다. 선택된 경우에만 구체 구현 작업으로 확장한다.",
+    "caveat": "UI-01은 재현·제한된 안전조치와 필요성 판단을 포함하지만 Win32 nativeEvent 구현이나 nested MainWindow 해체 전체를 확정 범위로 담고 있지는 않다. 따라서 UI-01 완료=#450 전체 완료가 아니다. Claude UIC-08/09/11의 결정·조건부 구현 분리는 참고할 수 있으나 그 구체 Win32 방안을 이미 승인된 해법으로 가져오지 않는다.",
+    "confidence": "중간",
+    "evidence": [
+      "sources/issues/450.md 택일 여부 결정·최후순위/보류 가능",
+      "Codex UI-01 notes 전체 교체는 필요성 입증 후",
+      "Claude FINAL UIC-08·UIC-09·UIC-11"
+    ]
+  },
+  {
+    "issue": 499,
+    "title": "morphing: mesh-ops 버전 범프 수용 — 신규 handle 생성기 API 와 고립 handle 옵션",
+    "source_line": 63,
+    "task_ids": [
+      "GEO-004",
+      "GEO-005"
+    ],
+    "supporting_task_ids": [
+      "GEO-001",
+      "GEO-002"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "정확성",
+      "저장계약",
+      "주변개선"
+    ],
+    "proposed_scope": "이미 끝난 baseline 범프·isolated handles 통로와 PR654의 sampling/section 상태기 몫을 제외한다. 남은 것은 Box FFD 생성·면 DV·저장/DOE 흐름(GEO-004), 단면 추출기 section_frames 직접 소비와 사내 MarchingPlaneBound 제거(GEO-005)다.",
+    "caveat": "PR655는 old shell box GUI 경로를 삭제하고 Box JSON entry만 남긴다고 보고하므로 GEO-004는 단순 어댑터 이관이 아니라 새 생성 UI 연결이다. #577의 신규 FFD 방향은 유지하되 실제 UI 세부·baseline 편집 범위는 결정해야 한다. Claude MOR-05는 기능 채택까지 DEC로 재평가하지만 최신 #577 요구가 철회됐다는 증거는 아니므로 신규 FFD 요구 자체를 취소/미승인으로 단정하지 않는다. GEO-005도 PR655 이후 실제 section producer 좌표를 다시 확인해야 하며 기존 중심점→격자 변경을 반복 구현하지 않는다.",
+    "confidence": "중간",
+    "evidence": [
+      "Codex GEO-004·005",
+      "최신 W4 PR654 포함하지 않은 것 BoxHandles FFD",
+      "최신 W4 PR655 Hexa-grid 삭제·Box baseline 미지원",
+      "sources/issues/577.md 2026-10-05 신규 FFD 결정",
+      "Claude FINAL MOR-05·MOR-06"
+    ]
+  }
+]

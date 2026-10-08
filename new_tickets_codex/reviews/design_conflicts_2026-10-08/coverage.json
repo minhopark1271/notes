@@ -1,0 +1,518 @@
+[
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "review_depth": "targeted",
+    "notes": "Store 8종 상태, Manifest 안내 및 폐기 기록을 확인. Index 전반의 내용 최신성은 root 담당.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Code-Map-Data-Ownership.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Builder.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Code-Map-User-Flow-Model-Runner.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Code-Map-User-Flow-Results-Analyzer.md",
+    "review_depth": "targeted",
+    "notes": "성격·측정 기준·산출물/설정 정본·소비/복원/소유권 부분. 최신 정책과 반대되는 현 구현 진단을 설계 충돌로 세지 않음. Ownership 말미는 미확정 제안.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "full",
+    "notes": "85행 전문: 개정 완료/기존 개정 수록과 추가 팀 논의 계획을 구분. 10/08 현 정책 기준.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Model-Builder-XML-DeepOpt-Pipeline.md",
+    "review_depth": "targeted",
+    "notes": "2026-10-02 서로 다른 커밋의 조사임을 확인. XML model_info 위치·생략 조건·학습 시작 시 JSON 전사·DeepOpt 첫 root 자식 판독 대조; 독립된 새 설계 충돌 없음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Preprocessor-XML-Generation-And-Provenance.md",
+    "review_depth": "targeted",
+    "notes": "2026-10-02 서로 다른 커밋의 조사임을 확인. XML model_info 위치·생략 조건·학습 시작 시 JSON 전사·DeepOpt 첫 root 자식 판독 대조; 독립된 새 설계 충돌 없음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Manifest-0-Work-Order.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Manifest-1-Context-Registry-And-Model-Identity.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Manifest-2-Active-Cursor-Data-Coupling.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Manifest-3-Module-Deck-Ownership.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Manifest-4-Ticket-Slicing.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Manifest-Set-Identity-And-Decision-Revisions.md",
+    "review_depth": "targeted",
+    "notes": "마스터 결정표 및 연결되는 SI/D14~D28, 최초 핀/폴백/NodeSet/Set 정본/G9·이행 의존 절 교차 검토. 구현 완료 여부는 검증하지 않음.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Alpha-Minimal.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Definition-Version-Minimal.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Dependency-State-Display.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Edge-Complete-Minimal.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Entity-Model-Options.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Layer-Cut.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Rationale.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Design-Wiring-Project-To-Launcher.md",
+    "review_depth": "targeted",
+    "notes": "문서 상태·상호 대안 관계·식별/정본/버전/이행/대장 관련 규범 검색 및 해당 절 대조. 전체 구현 배선·계산의 타당성 재검증은 아님.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Survey-Inputs-Payloads-Runtime.md",
+    "review_depth": "targeted",
+    "notes": "측정 커밋·검증 한계·파일/키/실행/상류 흐름 관련 조사 절. 현재 정책이 아닌 특정 커밋의 실측으로 분류.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Survey-Key-IO-Ledger.md",
+    "review_depth": "targeted",
+    "notes": "측정 커밋·검증 한계·파일/키/실행/상류 흐름 관련 조사 절. 현재 정책이 아닌 특정 커밋의 실측으로 분류.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "Project-Store-Survey-Reference-Entry-Upstream-Flows.md",
+    "review_depth": "targeted",
+    "notes": "측정 커밋·검증 한계·파일/키/실행/상류 흐름 관련 조사 절. 현재 정책이 아닌 특정 커밋의 실측으로 분류.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "review_depth": "targeted",
+    "notes": "Store 8종 상태, Manifest 안내 및 폐기 기록을 확인. Index 전반의 내용 최신성은 root 담당.",
+    "reviewer": "downstream"
+  },
+  {
+    "path": "193-1-async-execution-models.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "교육/온보딩 지위와 Job·취소·스레드 개념 절. 신규 구현 지시가 아님.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "194-1-async-execution-patterns.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "Job 취소 P1~P5, worker 선결, DLL 3등급, coroutine 보류 및 단계별 적용. EXDC-06의 역사 근거.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "199-1-jsonrpc2-protocol-introduction-example-cadnx.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "머리말·메서드/에러·Before/After·최소 구현. 명시적 개선 제안 예제라 현 NX 프로토콜과 활성 설계 충돌로 세지 않음.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "201-1-qprocess-antipattern-catalog.md",
+    "review_depth": "문서 지위·목차·취소/종료/소유권 관련 키워드 훑기",
+    "notes": "P1~P8·정상 대조군·소멸자 대기 예외·분석 시점. 옛 지점 수치/처방을 현재 완료 기준으로 재사용하지 않음.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "203-1-worker-precondition-concepts-qa.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "학습용 Q&A와 8절 재검증, rdbuf 이미 제거 정정. D4 신규 제거 작업을 생성하지 않음.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "203-2-worker-preconditions-analysis.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "재검증 우선순위·D1~D5 소유권/DeepCopy/접근 규약. 7월 처방을 현재 actor/서비스와 동시 적용하는 의무로 보지 않음.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "205-1-w6-w10-ticket-summary.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "요약표·취소 P4·풀 구조·안전 4개념·#211 폐기. 계획 시점 기록을 205-2/215-1/운영 이력과 대조.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "205-2-w6-w10-change-log-and-remaining-design.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "브랜치 기준, ProcessJob/WorkerJob 취소·소유·종료 예산, #277/#279/#280 계획, 장부/Track B 및 #269 방향 변경. EXDC-06.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "205-5-w6-w10-async-minimal-example.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "개정 2/3, ProcessRunner 병합, DaemonCommandJob 폐기, WorkerJob 취소/수명, 부록 지위. 보존 코드 스케치를 현재 요구로 세지 않음.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "206-1-w6-w10-thread-execution-design.md",
+    "review_depth": "문서 지위·목차·취소/종료/소유권 관련 키워드 훑기",
+    "notes": "머리말 기준시점, W6/W10 전환, 스레드/소유권/창 수명 도식. 대체된 세 갈래 예시는 역사; 교육용 Qt 문장 사실검증은 이번 설계 충돌 범위 아님.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "215-1-w10-f-design-decision-review-snapshot.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "폐기 안내 및 280/281/282/279 결정·철회·최종본 아님. 명시 스냅샷은 active conflict 제외.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "215-2-sync-pumping-to-async-conversion-checklist.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "2~13절 재요청/자원/취소/종료/상태 writer/교착, Q&A 3~16. 레인 일반화 강제 여부와 EXE-02 drain 완료조건 비교.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "264-2-batch-stage-ledger-concepts.md",
+    "review_depth": "문서 지위·목차·취소/종료/소유권 관련 키워드 훑기",
+    "notes": "브랜치·commit 고정, 장부 경계/수명 및 264~269 역할. 실행중 인메모리 stage 장부와 #471 영속 산출물/소비이력 대장은 다른 개념; 같은 단어만으로 충돌 지적하지 않음.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "269-1-jobrunner-case-decomposition-design.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "기계적 분해, 상태 통지 보존, 철회 동작 6건, 후속 계약 수선. EXDC-07.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "525-1-rc-hotfix-plan-and-dev-root-fix.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "rc/dev 차이, 부트스트랩·볼륨 소유권 분리·backmerge drop 규칙. 동시에 적용할 영구 설계 충돌 아님.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "Code-Map-User-Flow-Analysis-Launcher.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "머리말, 단계별 입력/샘플링/실행/상태·종료/Direct, 상태 JSON writer 및 D 진단. 고정시점 조사이므로 새 목록과의 현황 차이를 정책 충돌로 세지 않음.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "Code-Map-User-Flow-Data-Preprocessor.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "머리말, Load/Preview/Process/저장·상태 출처·진단, 고정 커밋. 변경 예정 Set XML과 현재 요청별 XML은 as-is/to-be 차이.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "Preprocessor-XML-Generation-And-Provenance.md",
+    "review_depth": "관련 정책·완료 조건·문서 지위 절 대조",
+    "notes": "일반 DOE 생성 전 과정·메타 출처·shape/순서·제약·고정커밋. 현재 메타 추론 동작과 향후 #368 금지 정책은 as-is/to-be라 독립 충돌 아님.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "전문 검토",
+    "notes": "반영 이력/아직 반영하지 않은 추가 계획/팀 설계 논의를 분리. AL-07 실패 시 직전 결과 보존은 영구 이력 대장과 달라 21/63행의 이력 보존 불요와 충돌 아님. #646 교체 시점은 팀 결정 대상으로 유지.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "new_tickets_claude/05-final/FINAL.md",
+    "review_depth": "EXE·LCH·PRE 실행/포맷 카드 집중 대조",
+    "notes": "EXE-01/02/03/07/14/22, LCH-07/08/09/29/32, PRE-28/29 중심. PRE-30/32는 해당 카드의 참조 문맥만 확인. RW Stage2는 명시 선택지/조건부라 별도 활성 충돌 아님(geometry와 조율).",
+    "reviewer": "execution"
+  },
+  {
+    "path": "new_tickets_codex/03_TASK_CATALOG.json",
+    "review_depth": "Execution 및 ASY 관련 카드 대조",
+    "notes": "AL-03/05/06/07/09/12, DIR-01, RES-03/04/08~13, ASY-01/02. 10월 5일 기준을 최신 설계로 소급하지 않고 착수 재사용시 조정 대상으로 기록.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "Project-Board-Intake-And-Operations.md",
+    "review_depth": "W6/W10 폐기 안내·이관 표",
+    "notes": "EXDC-06의 권위 근거로만 사용. 전체 보드 운영 범위는 root 담당.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "review_depth": "결정 표·불개입 적용 범위",
+    "notes": "EXDC-05. CAD 개별 cleanup 충돌은 geometry, 원장/조합 결정 전반은 downstream 담당.",
+    "reviewer": "execution"
+  },
+  {
+    "path": "Handle-Data-View-Separation.md",
+    "review_depth": "focused_deep",
+    "notes": "3~137,220~443의 소유·영속·스레드 계약과 실행 체크리스트 대조. 구 코드 좌표를 현 코드 사실로 재검증하지 않음. GDC-01. 261~262 GUI 전용 데이터 규칙과 443 데이터 타입 허용 체크리스트는 같은 구 설계 안에서도 설명 보완 대상이나 독립 현행 충돌로 세지 않음.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "281-1-morphing-entry-points-and-isolation-design-options.md",
+    "review_depth": "focused_deep",
+    "notes": "머리글·진입점·4안·389~413 착수 권고 및 이슈 개정 대조. A안 재도입 제외. GDC-X02.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "rw-document-gate.md",
+    "review_depth": "full",
+    "notes": "제안 지위, Must-Know, 소비자 API, 세대/clone, 원복 제거, 배치 예제, CAD 제외 대조. planned를 구현 증거로 승격하지 않음. GDC-X01.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "review_depth": "full",
+    "notes": "D29~33 유보/철회, 09-18 제품 방침, 불개입 3범주와 Claude CAD08/09·횡단결정 비교. GDC-04.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, 흐름 목차, 3-6 예정단계, 3-8 복원, 파일정리 및 D15~17 전문. 정적 결함 존재와 제품 우선정책 구분.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-Morphing.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, polydata 정본·VTP·복원/QC·결함 목록. 현황 지도이므로 신형 archive와 다르다는 것만으로 활성 설계 충돌로 세지 않음.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, RW 동기/스레드 경계, DOE 주입·원복 및 테스트 부재 진단. 불변 문서 도입 전 현황을 현재 규범으로 해석하지 않음.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, 모핑 preview·VTP·RW 원복·렌더 접점 및 결함 목록. 원복·live interaction 진단과 새 상태기 완료 범위를 분리.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "202-1-view-qt-designer-vs-code-cleanup.md",
+    "review_depth": "focused_deep",
+    "notes": "머리글/비교 프레임과350~498 구조통합·최종 권고·체크리스트. Designer와OS 프레임 정책을 구분. 통합금지 Geometry/CAD와플롯별회귀 범위 확인. GDC-X03.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "new_tickets_claude/05-final/FINAL.md",
+    "review_depth": "targeted",
+    "notes": "MOR05/09/15/17/18/19, CAD08/09/12, OPT01, REN01~10, EXE14, UIC08/09/11을 관련 원문과 대조. 전체 목록 재검토 아님.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "new_tickets_claude/05-final/decisions.md",
+    "review_depth": "targeted",
+    "notes": "① CAD 사장 정책 재결정, ③ JSON helper, ④ PR655, ⑨ #577 편입 대조. 스탬프/원장 내용은 root/downstream 소관.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "new_tickets_codex/03_TASK_CATALOG.json",
+    "review_depth": "targeted",
+    "notes": "GEO/VIS/AST/CON/CAD/UI 카드 범위·완료·상태 대조. 원본 정본 수정하지 않음.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "new_tickets_codex/sources/issues/577.md",
+    "review_depth": "full",
+    "notes": "2026-10-05 확정 개정과 접힌 구 Cylinder/Hexahedron 복원 요구 구분. 원격 최신 상태 확인 안함.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "new_tickets_codex/sources/issues/281.md",
+    "review_depth": "targeted",
+    "notes": "61~74 현행 서비스로 전제 변경과637~663 폐기·승계 문맥. 구 본문은 이력으로만 읽음.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "full",
+    "notes": "10-08 개정 반영/기존개정수록과25~44 팀논의 계획 구분. setId·pin·대장 개정은 root/downstream가 소유하며 geometry findings에서 중복 발행하지 않음.",
+    "reviewer": "geometry"
+  },
+  {
+    "path": "192-1-architecture-analysis-mvc-mvvm.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "195-1-backlog-code-evidence.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "196-1-ci-todo.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "197-1-gui-restructure-mvvm-qml.md",
+    "review_depth": "full",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "198-1-improvement-roadmap.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "200-1-release-phasing-plan.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "200-3-prioritized-backlog.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "204-1-entity-ownership-hierarchy.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "239-1-census-and-typed-state-boundaries.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "246-1-singleton-inventory-and-dashmanager-decomposition.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Backlog-Issue-Publication-Plan.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Backlog-Reclassification-And-Status.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Cross-Module-Defect-Axis-Candidates.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Cross-Module-Defect-Index.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Cross-Module-Defect-Menifest-Axis.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Trial-Release-Work-Breakdown-and-Axes.md",
+    "review_depth": "full",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "full",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "minhopark-Index.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "Project-Board-Intake-And-Operations.md",
+    "review_depth": "headings_and_targeted_sections",
+    "notes": "지위·기준일·개정/철회·구조/착수 규칙 중심 검토. 과거 현황 수치 자체를 현행 설계 충돌로 세지 않음.",
+    "reviewer": "root"
+  },
+  {
+    "path": "dashopti_project_unit_v1.drawio",
+    "review_depth": "diagram_labels",
+    "notes": "XML 도형 레이블 점검. 현재 코드 설명·다중응답 확장 구상·자체 오류 주석이 섞여 있으며 확정 계약으로 간주하지 않음. PNG는 같은 도면의 중복 표현으로 제외.",
+    "reviewer": "root"
+  },
+  {
+    "path": "dashopti_project_data_flow_v1.drawio",
+    "review_depth": "diagram_labels",
+    "notes": "XML 도형 레이블 점검. 현재 코드 설명·다중응답 확장 구상·자체 오류 주석이 섞여 있으며 확정 계약으로 간주하지 않음. PNG는 같은 도면의 중복 표현으로 제외.",
+    "reviewer": "root"
+  }
+]

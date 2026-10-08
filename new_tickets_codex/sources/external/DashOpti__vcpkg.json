@@ -1,0 +1,73 @@
+{
+  "name": "dashopti",
+  "version-string": "1.0.0",
+  "$comment": {
+    "scope": "내부 패키지와, 포트에서 유도할 수 없는 것만 선언한다. 나머지 외부 의존성은 각 포트의 vcpkg.json 이 선언하므로 전이 해석으로 들어온다.",
+    "features": "각 패키지의 features 는 Super build 정책이다. 포트 빌드는 BUILD_TESTING 과 VCPKG_MANIFEST_FEATURES 가 비어 test/ 트리에 들어가지 않지만, Super build 는 BUILD_TESTING=ON 으로 소스를 짓는다. repos.json 의 같은 패키지 features 와 일치해야 한다.",
+    "gtest": "포트들의 default-features 경유로도 들어와 현재 해석에는 영향이 없지만, 명시 선언을 유지하는 의도. default-features 는 상류 소스 매니페스트에서 복사되는 값이라 조용히 바뀔 수 있고, 테스트 의존성이 빠지면 빌드가 깨지는 대신 테스트가 조용히 줄어든다.",
+    "downstream-only": "qtsvg · qttools · qtactiveqt · eigen3 · jsoncpp · qcoro 는 이 저장소가 쓰지 않고 소비자 저장소만 쓴다. 바이너리 캐시는 이 매니페스트가 선언한 집합만 채우므로, 소비자가 쓰는 상류 포트는 여기 선언한다.",
+    "qcoro": "GUI 의 Qt 코루틴 어댑터. default-features 를 끈다 — 기본 feature 가 DBus · Network · Qml · Quick(Qt private 헤더 요구) · WebSockets 모듈을 끌어오는데 소비자는 Core 만 쓴다. 소비자 매니페스트도 같은 feature 집합(default-features:false, features 없음)으로 선언해야 같은 아카이브를 맞는다.",
+    "overrides": "포트 매니페스트의 overrides 는 vcpkg 가 무시한다. 최상위에서만 유효하므로 여기서 유지한다."
+  },
+  "dependencies": [
+    {
+      "name": "gtest"
+    },
+    {
+      "name": "core-lib",
+      "features": [
+        "test"
+      ]
+    },
+    {
+      "name": "reader-writer",
+      "features": [
+        "test"
+      ]
+    },
+    {
+      "name": "mesh-ops"
+    },
+    {
+      "name": "cae-launcher"
+    },
+    {
+      "name": "doe",
+      "features": [
+        "test"
+      ]
+    },
+    {
+      "name": "preprocessor",
+      "features": [
+        "test"
+      ]
+    },
+    {
+      "name": "qtsvg"
+    },
+    {
+      "name": "qttools"
+    },
+    {
+      "name": "qtactiveqt"
+    },
+    {
+      "name": "eigen3"
+    },
+    {
+      "name": "qcoro",
+      "default-features": false
+    },
+    {
+      "name": "jsoncpp"
+    }
+  ],
+  "overrides": [
+    {
+      "name": "opencascade",
+      "version": "7.9.3",
+      "port-version": 1
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+$ rg -n "globalPos|external/|MSVC|CRT|VCRUNTIME|DASH_VERSION|DASH_LICENSE|clang-tidy|DASH_TEST_LEVEL" CMakeLists.txt cmake scripts .githooks docs triplets tests/CMakeLists.txt
+exit=2
+CMakeLists.txt:3:# CMP0091: MSVC 런타임 라이브러리를 CMAKE_<LANG>_FLAGS_<CONFIG> 문자열이 아니라
+CMakeLists.txt:4:# MSVC_RUNTIME_LIBRARY 타깃 속성으로 정한다. vcpkg toolchain 이 triplet 의 CRT 를 적용하는
+CMakeLists.txt:5:# 통로이기도 하다. 이걸 NEW 로 두지 않으면 아래 CMAKE_MSVC_RUNTIME_LIBRARY 가 조용히 무시된다.
+CMakeLists.txt:10:# MSVC 재배포 런타임. 없으면 CRT 가 설치되지 않은 PC 에서 앱이 실행되지 않는다.
+CMakeLists.txt:13:#       VS 18 의 redist 레이아웃(x64/Microsoft.VC145.CRT)을 몰라 Microsoft.VC143.CRT 를
+CMakeLists.txt:14:#       찾다 MSVC_REDIST_DIR-NOTFOUND 로 끝나기 때문이다. CMake 가 v145 를 알게 되면
+CMakeLists.txt:16:set(DASH_MSVC_RUNTIME_DLLS)
+CMakeLists.txt:17:if(MSVC)
+CMakeLists.txt:22:            "${_dash_vc_root}/Redist/MSVC/${_dash_msvc_ver}/x64/Microsoft.VC*.CRT"
+CMakeLists.txt:23:            "${_dash_vc_root}/Redist/MSVC/${_dash_msvc_ver}/x64/Microsoft.VC*.OpenMP")
+CMakeLists.txt:26:        list(APPEND DASH_MSVC_RUNTIME_DLLS ${_dash_crt_dlls})
+CMakeLists.txt:28:    if(DASH_MSVC_RUNTIME_DLLS)
+CMakeLists.txt:29:        list(LENGTH DASH_MSVC_RUNTIME_DLLS _dash_crt_count)
+CMakeLists.txt:30:        message(STATUS "MSVC runtime redistributables: ${_dash_crt_count} DLL(s)")
+CMakeLists.txt:33:                "MSVC 재배포 런타임을 찾지 못했다 (${_dash_vc_root}/Redist/MSVC/${_dash_msvc_ver}). "
+CMakeLists.txt:34:                "bin/ 에 CRT 가 들어가지 않으므로 비개발자용 패키지는 대상 PC 에 "
+CMakeLists.txt:39:# 동적 CRT(/MD, /MDd) 고정 — cae-launcher 의 하드 요구사항이다. 코루틴 프레임이 라이브러리
+CMakeLists.txt:41:# 프로젝트가 같은 툴체인·CRT·config 로 빌드되어야 한다
+CMakeLists.txt:43:# vcpkg 의 x64-windows / x64-windows-dashopti triplet 도 VCPKG_CRT_LINKAGE dynamic 으로 같은 값이다.
+CMakeLists.txt:47:set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+CMakeLists.txt:63:add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+CMakeLists.txt:64:add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+CMakeLists.txt:106:set(DASH_VERSION              "2026 R1"    CACHE STRING "Application version string")
+CMakeLists.txt:107:set(DASH_LICENSE_EXPIRY_DATE  "2026-08-31" CACHE STRING "License expiry date (YYYY-MM-DD)")
+CMakeLists.txt:156:    DASH_VERSION="${DASH_VERSION}"
+CMakeLists.txt:157:    DASH_LICENSE_EXPIRY_DATE="${DASH_LICENSE_EXPIRY_DATE}"
+CMakeLists.txt:166:    if(MSVC)
+CMakeLists.txt:175:if (MSVC)
+CMakeLists.txt:288:    if(DASH_MSVC_RUNTIME_DLLS)
+CMakeLists.txt:291:                ${DASH_MSVC_RUNTIME_DLLS}
+CMakeLists.txt:293:                COMMENT "Copying MSVC runtime redistributables to the DashUiPreview package")
+CMakeLists.txt:366:# DashGizmo: 사전빌드 static .lib (external/DashGizmo) 대신 저장소 안의 소스를 앱과 같은
+CMakeLists.txt:463:    if(DASH_MSVC_RUNTIME_DLLS)
+CMakeLists.txt:466:                ${DASH_MSVC_RUNTIME_DLLS}
+CMakeLists.txt:468:                COMMENT "Copying MSVC runtime redistributables")
+CMakeLists.txt:573:        ENVIRONMENT "QT_QPA_PLATFORM=offscreen;DASH_TEST_LEVEL=2"
+tests/CMakeLists.txt:28:    "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
+tests/CMakeLists.txt:29:    "$<$<CXX_COMPILER_ID:MSVC>:/Zc:char8_t->"
+tests/CMakeLists.txt:30:    "$<$<CXX_COMPILER_ID:MSVC>:/std:c++latest>")
+docs/test-execution.md:14:| `tests/TestLevel.h` | 레벨 게이트. `DASH_TEST_LEVEL` 을 읽어 각 서브테스트의 `QSKIP` 여부를 정한다 |
+docs/test-execution.md:53:`-Level` 과 `-Filter` 는 **직교한다.** `-Level` 은 실행 파일 *안의* 서브테스트를 거르고(`DASH_TEST_LEVEL` → `TestLevel.h`), `-Filter` 는 ctest 가 어떤 실행 *파일*을 돌릴지 고른다. 함께 주면 둘 다 적용된다.
+docs/test-execution.md:78:빌드 트리의 생성기가 **Visual Studio(msbuild)** 다. msbuild 가 생성된 프로젝트 파일에서 툴체인을 스스로 잡으므로, MSVC 개발자 환경(`vcvars64.bat`)을 미리 잡을 필요가 없다. Ninja 생성기였다면 필요했을 것이다.
+docs/test-execution.md:88:5. `DASH_TEST_LEVEL=<레벨> ctest --output-on-failure` — 실패하면 **차단**한다.
+docs/test-execution.md:165:$env:DASH_TEST_LEVEL = '1'
+docs/test-execution.md:167:$env:DASH_TEST_LEVEL = ''
+docs/test-execution.md:170:`DASH_TEST_LEVEL` 이 없거나 1~3 밖의 값이면 **전부 실행**한다. 기존 동작이 기본이다.
+triplets/x64-windows-dashopti.cmake:2:set(VCPKG_CRT_LINKAGE dynamic)
+docs/test-levels.md:117:4. `DASH_TEST_LEVEL=1` 로 돌려 의도한 레인에 들어갔는지 확인한다.
+docs/test-levels.md:131:- `DASH_TEST_LEVEL` 이 없거나 1~3 밖의 값이면 **전부 실행**한다. 기존 동작이 기본이다.
+docs/test-levels.md:163:- 레벨은 `enum class DashTestLevel::Level { Commit = 1, Push = 2, Ci = 3 }` 이다. 이름은 **그 테스트가 어느 레인부터 도는지**를 가리킨다 — 레벨은 누적이라 `Commit` 테스트는 push·CI 에서도 돈다. 숫자는 `DASH_TEST_LEVEL` 값과 그대로 대응하므로 바꾸지 않는다 (훅·스크립트가 숫자로 준다).
+docs/test-levels.md:164:- `DASH_TEST_LEVEL` 을 읽어 요청 레벨을 돌려준다. 없거나 범위 밖이면 3.
+docs/development-environment-setup.md:38:3. MSVC 툴셋 `14.51.36231` 을 추가한다. 값의 정본은 `triplets/x64-windows-dashopti.cmake` 다.
+docs/development-environment-setup.md:41:버전을 고정하는 이유는 하나다. MSVC 버전이 vcpkg ABI 해시의 입력이라서, 버전이 달라지면 바이너리 캐시가 전부 miss 된다. 자세한 것은 [build-environment.md](scratchpad/build-environment.md) 를 본다.
+docs/development-environment-setup.md:119:스크립트는 2절의 선행 조건을 확인한다. VS(MSVC 툴셋, Ninja, cmake 포함), git 자격증명, vcpkg 클론, gsutil 버전, gcloud access token 이다. 그리고 로컬 설정을 한다. git 훅 경로를 `.githooks` 로 맞추고, `CMakeUserPresets.json` 이 없으면 template 에서 만들고, clang-format 이 없으면 pip 로 설치한다. `sh` 와 git 의 `user.name`, `user.email` 은 없으면 안내 줄만 나온다. Ninja 와 cmake 는 VS 설치 안에서 직접 찾으므로 스크립트로 빌드할 때는 PATH 에 넣지 않아도 된다. build-environment.md 의 Ninja PATH 요구는 손으로 실행할 때 기준이다.
+docs/index.md:10:- [Coding Convention](coding-convention.md) — 서식(clang-format), 네이밍(Qt 스타일, clang-tidy), 인코딩, git 훅 설정
+docs/vcpkg-migration-scope.md:28:**`external/` 의 사전빌드 모듈과 vcpkg 는 `spdlog.dll` / `fmt.dll` 을 공유할 수 없다.**
+docs/vcpkg-migration-scope.md:35:`external/DashOptiPreprocessor-1.2.2/bin/DashOptiPreprocessor.dll` 과
+docs/vcpkg-migration-scope.md:109:| `globalPos()` → `globalPosition().toPoint()` | ~10 | 8 | 기계적 (deprecated, 안 고쳐도 컴파일됨) |
+docs/vcpkg-migration-scope.md:152:| DLL 복사 블록 정리 (VTK glob, OCCT 3rdparty 6종, `external/additional`) | 삭제 위주 |
+docs/vcpkg-migration-scope.md:177:| `eigen3` → 3.4.0 `overrides` 핀 | GUI 가 eigen 을 vcpkg 에서 받는 **Phase 2 에서만** 문제다. baseline 은 5.0.1. Phase 0 에서는 넣지 않았다 — `overrides` 는 전이 의존의 ABI 해시를 바꿔 바이너리 캐시를 무효화하고, `--only-binarycaching` 을 쓰는 읽기 전용 개발자에게 하드 실패가 된다. 지금은 `external/eigen-3.4.0` 을 직접 include 하고 vcpkg eigen 은 `include/eigen3/Eigen` 에 깔려 서로 가리지 않는다 |
+docs/vcpkg-migration-scope.md:224:- `external/reader-writer/bin/_bundled-extras` 419개 DLL 소멸
+docs/vcpkg-migration-scope.md:227:- `external/additional` 오버라이드 해킹 삭제
+docs/unified-logger.md:227:검증: Dev 빌드에서 실행 인자 `--log-crash-test=av|terminate|qfatal`로 실행하면 Logger 시작 직후 레코드 6줄을 남기고 해당 방식으로 죽는다(`runCrashSelfTestIfRequested`). 세 경로 모두 직전 레코드와 FATAL 한 줄이 파일에 남고 `# Stopped` 푸터가 없는 것을 2026-09-08에 확인했다(당시는 큐 flush 방식). 잠금 성공·실패 두 경로는 `test_dash_logger`의 `fatalIsSynchronousAndLockSafe`가 검증한다. 미처리 C++ 예외는 MSVC에서 SEH 필터(0xE06D7363)와 set_terminate가 순서대로 둘 다 호출되어 FATAL이 두 줄 남는다. C++ `try/catch`는 access violation을 잡지 못하므로(`/EHa` 없음) 검증 대상은 핸들러 자체다.
+docs/vcpkg-migration-code-changes.md:46:`external/DashOptiMorphing-0.0.4` (`DashMR`) → vcpkg `mesh-ops` (`dash::mesh`).
+docs/vcpkg-migration-code-changes.md:49:RBF morphing 공개 API(`#5`)를 포함한다. **`external/mesh-ops` 스냅샷에는 morphing 이 없다** —
+docs/vcpkg-migration-code-changes.md:114:`external/DashOptiPreprocessor-1.2.2` (`DashPR`) + `external/preprocessor` 스냅샷 → vcpkg
+docs/vcpkg-migration-code-changes.md:125:로 내려가 **설치되지 않는다** — 즉 `external/preprocessor` 스냅샷이 의존하는
+docs/vcpkg-migration-code-changes.md:188:`external/Qt-5.15.16` → vcpkg `qtbase` 6.x, `external/vtk-9.4` → vcpkg `vtk 9.3.0-pv5.12.0`.
+docs/vcpkg-migration-code-changes.md:199:| `globalPos()` → `globalPosition().toPoint()` | 14 | ~8 | 기계적 (deprecated, 컴파일은 통과) |
+docs/vcpkg-migration-code-changes.md:234:사본 자체는 `external/additional/` 에서 온다 — CMakeLists 의 "Override additional" POST_BUILD
+docs/vcpkg-migration-code-changes.md:237:**§1 · §2 가 완료되면 v11 을 import 하는 주체가 없어진다.** 그 시점에 `external/additional`
+docs/vcpkg-migration-code-changes.md:274:`DOE_DOE.dll` → `spdlog.dll` → `fmt.dll`(v12) 를 끌어오고, `external/` 의 legacy Preprocessor ·
+docs/vcpkg-migration-code-changes.md:294:| DLL 복사 `foreach` 루프 전부 + `external/additional` 오버라이드 | 삭제 |
+docs/vcpkg-migration-code-changes.md:297:| `target_include_directories` 의 `external/preprocessor/include` · `external/reader-writer/include` | 삭제 — 임포트 타깃이 대신한다 |
+docs/vcpkg-migration-code-changes.md:298:| `external/eigen-3.4.0` 직접 include | vcpkg `eigen3` 로 전환 시 3.4.0 핀 필요 (baseline 5.0.1) |
+docs/vcpkg-migration-code-changes.md:309:- `external/reader-writer/bin/_bundled-extras` 419개 DLL, OCCT 3rdparty 6종 복사 블록이 소멸한다.
+docs/vcpkg-migration-code-changes.md:311:## 5. legacy 삭제 — `external/DashOptiMorphing-0.0.4` · `DashOptiPreprocessor-1.2.2`
+docs/vcpkg-migration-code-changes.md:348:`vtkSmartPointer` 를 넘기므로 앱은 같은 VTK 를 링크해야 하고, `external/vtk-9.4` 와 병존할 수
+docs/coding-convention.md:19:> **결정**: clang-tidy 로 네이밍 컨벤션을 검사하는 것은 **저장소 소스 전반이 네이밍 컨벤션에 일관되게
+docs/coding-convention.md:27:규칙 자체는 `.clang-tidy` 에 기계가독 형태로 남아 있어서 Visual Studio 와 VS Code 가 편집 중에 그대로 쓴다.
+docs/coding-convention.md:91:## 네이밍 (clang-tidy `readability-identifier-naming`)
+docs/coding-convention.md:95:**기계적으로 검사하지 않는다. 리뷰에서 본다.** clang-tidy 검사는 저장소 소스가 이 규칙에 일관되게
+docs/coding-convention.md:101:규칙 자체는 `.clang-tidy` 에 기계가독 형태로 있고 Visual Studio 와 VS Code 가 편집 중에 그대로 쓰므로,
+docs/coding-convention.md:133:- 자동 수정(`clang-tidy -fix`)은 쓰지 않는다. 한 파일에서 이름을 바꾸면 다른 파일의 호출자가 깨진다.
+docs/coding-convention.md:282:clang-tidy 는 설치하지 않아도 된다. 네이밍 검사가 보류 상태라 훅도 빌드도 그것을 부르지 않는다. IDE 에서
+docs/coding-convention.md:283:편집 중에 네이밍 힌트를 받고 싶으면 따로 설치하면 되고, 그때 `.clang-tidy` 를 규칙으로 읽는다.
+docs/coding-convention.md:287:멤버에서 접미 규칙이 뒤집혀 있었다. 설정이 의도대로 동작하는지는 아래로 확인한다(clang-tidy 가 없으면
+docs/coding-convention.md:291:python tests/hooks/test-clang-tidy-config.py
+docs/coding-convention.md:294:`.clang-tidy` 가 표현하지 못해 **리뷰에서만 잡히는 규칙이 둘** 있다.
+docs/coding-convention.md:296:- `k` 접두. `kCap` 은 문법적으로 올바른 camelBack 이라 어떤 Case 규칙에도 안 걸리고, clang-tidy 에는
+scripts/build-app.ps1:46:           (Test-Path (Join-Path $Install.installationPath "VC\Tools\MSVC\$msvcToolset")) -and
+scripts/build-app.ps1:58:    Write-Host "[FAIL] VS $vsPinnedVersion (MSVC $msvcToolset·Ninja·cmake 포함) 설치를 찾지 못했다 -- 먼저 .\scripts\setup-environment.ps1 을 실행해 무엇이 빠졌는지 확인하라"
+scripts/run_tests.ps1:109:# -Level and -Filter are orthogonal: -Level gates sub-tests inside each executable (DASH_TEST_LEVEL,
+scripts/run_tests.ps1:111:if ($null -ne $Level) { $env:DASH_TEST_LEVEL = $Level }
+docs/scratchpad/build-environment.md:18:- MSVC 툴셋은 **`14.51.36231`** 이어야 한다. `triplets/x64-windows-dashopti.cmake` 가
+docs/scratchpad/build-environment.md:34:- **`external/` 은 더 이상 의존성 공급에 쓰이지 않는다.** 트리가 남아 있어도 무해하지만 —
+docs/scratchpad/build-environment.md:35:  `find_package` 가 `HINTS` 없이 호출되고 `CMAKE_PREFIX_PATH` 에 `external/` 이 올라가지 않는다 —
+docs/scratchpad/build-environment.md:54:| 1 | MSVC 툴셋 | `14.51.36231` (VS 2026, `v145`) | `triplets/x64-windows-dashopti.cmake` |
+docs/scratchpad/build-environment.md:111:설치된 툴셋 목록은 `%VSINSTALLDIR%VC\Tools\MSVC\` 에서 확인한다.
+docs/scratchpad/build-environment.md:208:### 2.7 낡은 `external/` 트리 의심
+docs/scratchpad/build-environment.md:210:`external/core-lib` 이나 `external/cae-launcher` 가 남아 있어도 vcpkg 사본이 선택된다. 확인:
+docs/scratchpad/build-environment.md:216:`vcpkg_installed` 아래를 가리켜야 한다. `external/` 을 가리킨다면 `find_package` 에 `HINTS` 가
+docs/scratchpad/build-environment.md:327:`bin/` 의 `spdlog.dll` · `fmt.dll` 은 `external/additional/` 사본이다. `CMakeLists.txt` 의
+docs/scratchpad/build-environment.md:329:`external/DashOptiPreprocessor-1.2.2/bin` 사본은 배포 결과에 남지 않는다.
+scripts/hooks/run-test-level.sh:40:if ! DASH_TEST_LEVEL="$level" "$ctest" --test-dir "$root/$build_dir" -C "$config" --output-on-failure; then
+scripts/setup-environment.ps1:79:# --- 1. Visual Studio + MSVC 툴셋 + Ninja + cmake ---
+scripts/setup-environment.ps1:80:# -all 로 모든 설치를 나열해 18.9.2 이면서 isComplete 이고 MSVC 툴셋·Ninja·cmake 를 다 갖춘 것만
+scripts/setup-environment.ps1:90:           (Test-Path (Join-Path $Install.installationPath "VC\Tools\MSVC\$msvcToolset")) -and
+scripts/setup-environment.ps1:107:        # MSVC 버전이 vcpkg triplet_abi 해시 입력이라, 18.10 이상이면 GCS 캐시가 전량 miss 되고
+scripts/setup-environment.ps1:113:        if (-not (Test-Path (Join-Path $pinnedAny.installationPath "VC\Tools\MSVC\$msvcToolset"))) { $missing += "MSVC 툴셋 $msvcToolset" }
+scripts/setup-environment.ps1:119:    Write-Step OK "VS $vsPinnedVersion + MSVC $msvcToolset" $vsInstall
+rg: cmake: No such file or directory (os error 2)

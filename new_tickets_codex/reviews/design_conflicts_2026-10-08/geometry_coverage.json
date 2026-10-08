@@ -1,0 +1,77 @@
+[
+  {
+    "path": "Handle-Data-View-Separation.md",
+    "review_depth": "focused_deep",
+    "notes": "3~137,220~443의 소유·영속·스레드 계약과 실행 체크리스트 대조. 구 코드 좌표를 현 코드 사실로 재검증하지 않음. GDC-01. 261~262 GUI 전용 데이터 규칙과 443 데이터 타입 허용 체크리스트는 같은 구 설계 안에서도 설명 보완 대상이나 독립 현행 충돌로 세지 않음."
+  },
+  {
+    "path": "281-1-morphing-entry-points-and-isolation-design-options.md",
+    "review_depth": "focused_deep",
+    "notes": "머리글·진입점·4안·389~413 착수 권고 및 이슈 개정 대조. A안 재도입 제외. GDC-X02."
+  },
+  {
+    "path": "rw-document-gate.md",
+    "review_depth": "full",
+    "notes": "제안 지위, Must-Know, 소비자 API, 세대/clone, 원복 제거, 배치 예제, CAD 제외 대조. planned를 구현 증거로 승격하지 않음. GDC-X01."
+  },
+  {
+    "path": "Project-Manifest-CAD-Path-Disposition.md",
+    "review_depth": "full",
+    "notes": "D29~33 유보/철회, 09-18 제품 방침, 불개입 3범주와 Claude CAD08/09·횡단결정 비교. GDC-04."
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-CAD.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, 흐름 목차, 3-6 예정단계, 3-8 복원, 파일정리 및 D15~17 전문. 정적 결함 존재와 제품 우선정책 구분."
+  },
+  {
+    "path": "Code-Map-User-Flow-Geometry-Parameterization-Morphing.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, polydata 정본·VTP·복원/QC·결함 목록. 현황 지도이므로 신형 archive와 다르다는 것만으로 활성 설계 충돌로 세지 않음."
+  },
+  {
+    "path": "Code-Map-User-Flow-Condition-Parameterization.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, RW 동기/스레드 경계, DOE 주입·원복 및 테스트 부재 진단. 불변 문서 도입 전 현황을 현재 규범으로 해석하지 않음."
+  },
+  {
+    "path": "Code-Map-User-Flow-Optimizer.md",
+    "review_depth": "targeted",
+    "notes": "성격/좌표, 모핑 preview·VTP·RW 원복·렌더 접점 및 결함 목록. 원복·live interaction 진단과 새 상태기 완료 범위를 분리."
+  },
+  {
+    "path": "202-1-view-qt-designer-vs-code-cleanup.md",
+    "review_depth": "focused_deep",
+    "notes": "머리글/비교 프레임과350~498 구조통합·최종 권고·체크리스트. Designer와OS 프레임 정책을 구분. 통합금지 Geometry/CAD와플롯별회귀 범위 확인. GDC-X03."
+  },
+  {
+    "path": "new_tickets_claude/05-final/FINAL.md",
+    "review_depth": "targeted",
+    "notes": "MOR05/09/15/17/18/19, CAD08/09/12, OPT01, REN01~10, EXE14, UIC08/09/11을 관련 원문과 대조. 전체 목록 재검토 아님."
+  },
+  {
+    "path": "new_tickets_claude/05-final/decisions.md",
+    "review_depth": "targeted",
+    "notes": "① CAD 사장 정책 재결정, ③ JSON helper, ④ PR655, ⑨ #577 편입 대조. 스탬프/원장 내용은 root/downstream 소관."
+  },
+  {
+    "path": "new_tickets_codex/03_TASK_CATALOG.json",
+    "review_depth": "targeted",
+    "notes": "GEO/VIS/AST/CON/CAD/UI 카드 범위·완료·상태 대조. 원본 정본 수정하지 않음."
+  },
+  {
+    "path": "new_tickets_codex/sources/issues/577.md",
+    "review_depth": "full",
+    "notes": "2026-10-05 확정 개정과 접힌 구 Cylinder/Hexahedron 복원 요구 구분. 원격 최신 상태 확인 안함."
+  },
+  {
+    "path": "new_tickets_codex/sources/issues/281.md",
+    "review_depth": "targeted",
+    "notes": "61~74 현행 서비스로 전제 변경과637~663 폐기·승계 문맥. 구 본문은 이력으로만 읽음."
+  },
+  {
+    "path": "Issue-Revision-History.md",
+    "review_depth": "full",
+    "notes": "10-08 개정 반영/기존개정수록과25~44 팀논의 계획 구분. setId·pin·대장 개정은 root/downstream가 소유하며 geometry findings에서 중복 발행하지 않음."
+  }
+]

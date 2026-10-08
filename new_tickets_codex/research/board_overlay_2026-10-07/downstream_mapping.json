@@ -1,0 +1,430 @@
+[
+  {
+    "issue": 246,
+    "task_ids": [
+      "PRJ-01",
+      "PRJ-09",
+      "PRJ-10",
+      "IO-07",
+      "IO-08",
+      "IO-09",
+      "RES-10",
+      "RES-11"
+    ],
+    "supporting_task_ids": [
+      "GEO-001",
+      "VIS-003"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "W20 자체를 새 거대 PR로 만들지 않고 수명/프로젝트 의존/서비스 소유/결과 처리 분해의 잔여 자식 작업을 집계한다. 완료된 KPI 분리나 이미 분해된 클래스는 새로 구현하지 않는다.",
+    "caveat": "baseline의 PRJ-01/09/10 세 개는 부모 전체와 동일 범위가 아니다. #433 자식의 잔여는 RES-10/11 및 관련 결과별 결함 작업에 분산되어 있다. RES-10 관련 PR656은 최신 스냅샷 MERGED이므로 병합분과 실제 잔여를 구분해야 한다. 부모와 자식의 작업량을 중복 합산하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 431,
+    "task_ids": [
+      "PRJ-01"
+    ],
+    "supporting_task_ids": [
+      "RUN-07",
+      "OPT-02"
+    ],
+    "relation": "통합",
+    "core_axes": [
+      "수명안정"
+    ],
+    "proposed_scope": "setModel(nullptr)/clear·연결 해제·모델 삭제 순서·늦은 완료 폐기를 공통 프로젝트 전환 계약과 실제 적용으로 묶는다.",
+    "caveat": "#431 원문은 문서/리뷰 게이트 중심이지만 PRJ-01은 #551 등의 실제 수선까지 포함한다. 요청별 ID·Set 세대 처리는 RUN-07/OPT-02가 담당하며 PRJ-01 하나로 모두 끝난다고 보지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 432,
+    "task_ids": [
+      "PRJ-09",
+      "IO-07",
+      "IO-08",
+      "IO-09"
+    ],
+    "supporting_task_ids": [
+      "PRJ-06"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "수명안정",
+      "저장계약"
+    ],
+    "proposed_scope": "DashProject 네 IO 경계의 첫 주입 후 파라미터, DOE/Launcher, 학습/예측/최적화 모델의 전역 ProjectManager 역접근을 소비자군별로 이행한다.",
+    "caveat": "PRJ-06은 저장 성공/Save As의 관련 기능 결함이며 #432의 의존 주입 자체와 동일 작업이 아니다. Claude PRJ-34 공통 베이스 결정은 다른 구현 전략이며 Codex의 작은 계면 주입에 자동 강제 선행으로 추가하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 434,
+    "task_ids": [
+      "PRJ-10"
+    ],
+    "supporting_task_ids": [
+      "PRJ-09",
+      "IO-07",
+      "IO-08",
+      "IO-09",
+      "VIS-003",
+      "GEO-001"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "현재 DashManager가 보유하는 프로세스·설정 소유와 실제 소비자 접근을 명시적으로 이관한다. renderer/interaction과 morphing 데이터 소유는 해당 모듈 접점으로 분리한다.",
+    "caveat": "PRJ-10은 #434 전체 4단계 중 프로세스·설정 중심이다. VIS-003의 씬 소유권이 모든 renderer/interaction 의존 주입과 같지는 않으므로 전체 전역 접근 제거 완료로 환산할 수 없다. 전면 해체는 최신 남은 접근 목록을 기준으로 판정한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 473,
+    "task_ids": [
+      "RUN-03",
+      "UI-06"
+    ],
+    "supporting_task_ids": [],
+    "relation": "부모",
+    "core_axes": [
+      "손실방지",
+      "식별계약"
+    ],
+    "proposed_scope": "채번·케이스 저장/복원·정확한 파일 삭제는 RUN-03, 셀 위젯 행 해석은 UI-06으로 묶고 이 부모는 진행 집계만 남긴다.",
+    "caveat": "baseline이 UI-06만 가리키는 것은 자식 #475/#477를 빠뜨린다. #476 대장 조회 화면은 철회된 범위로 되살리지 않는다. DOE 표시 텍스트→케이스 키의 잔여는 #474에서 따로 명시해야 한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 474,
+    "task_ids": [
+      "RUN-03",
+      "UI-06"
+    ],
+    "supporting_task_ids": [],
+    "relation": "부분",
+    "core_axes": [
+      "정확성",
+      "식별계약"
+    ],
+    "proposed_scope": "Runner 케이스 도메인 키와 MCU Builder/Runner 표의 삭제 후 현재 항목 해석을 구분해 적용한다.",
+    "caveat": "UI-06은 widget→현재 row 해석이고 모든 표를 영속 ID 모델로 바꾸는 작업은 아니다. 원문의 DOE-D8 표시 텍스트 파싱 제거에 직접 대응하는 명시적 Codex 카드가 없어 전체 동일범위로 처리하지 않는다. Runner preview row는 이미 미사용 인자여서 다른 케이스 preview라는 옛 증상을 그대로 재발행하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 475,
+    "task_ids": [
+      "RUN-03"
+    ],
+    "supporting_task_ids": [],
+    "relation": "통합",
+    "core_axes": [
+      "손실방지",
+      "저장계약"
+    ],
+    "proposed_scope": "예측 케이스의 영속 ID·다음 번호 또는 충돌 회피를 생성/재진입/삭제와 같은 저장 레코드 안에서 해결한다.",
+    "caveat": "RUN-03은 #475보다 넓으며 #477 및 DV·경로 복원 결함도 함께 다룬다. 서로 다른 이슈가 같은 한 작업을 가리키므로 PR 수를 중복 세지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 477,
+    "task_ids": [
+      "RUN-03"
+    ],
+    "supporting_task_ids": [],
+    "relation": "통합",
+    "core_axes": [
+      "손실방지",
+      "식별계약"
+    ],
+    "proposed_scope": "접두사 glob 삭제를 케이스별 소유 파일 목록으로 바꾸고 생성 VTU와 재조회 dat/inp의 경로·DV 정합을 복원한다.",
+    "caveat": "범위는 실제 케이스 파일 소유와 재조회이다. #471의 전체 파이프라인 산출물 대장이 없어도 수정 가능하며 대장 설계를 하드 선행시키지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 443,
+    "task_ids": [
+      "PRJ-04",
+      "PRJ-02"
+    ],
+    "supporting_task_ids": [
+      "RUN-05",
+      "OPT-01"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "손실방지",
+      "식별계약"
+    ],
+    "proposed_scope": "기존 setId 발급은 재구현하지 않고 Set 정본/복원과 허용된 Set의 산출물 동반 개명을 나누어 평가한다.",
+    "caveat": "PRJ-02는 개명/롤백으로 Claude PRJ-18에 대응한다. Claude PRJ-16 삭제 시 산출물 제거와 PRJ-17 생성 시 고아 폴더 거부는 별도 요구이며 기존 Codex 카드에 명시적 완료 조건이 없다. PRJ-04의 원장 도입은 Claude의 현재 config 기반 보존 전략과 동일하지 않아 설계 선택을 확인해야 한다.",
+    "confidence": "중간"
+  },
+  {
+    "issue": 470,
+    "task_ids": [
+      "PRJ-03",
+      "PRJ-05",
+      "IO-10",
+      "IO-11"
+    ],
+    "supporting_task_ids": [
+      "PRJ-11"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "정확성",
+      "식별계약"
+    ],
+    "proposed_scope": "유래 추적 부모를 조합 스탬프(#368), 산출물 세대, 과거 생산/소비 대장(#471)의 서로 다른 목적별 집계로 바꾼다.",
+    "caveat": "Claude는 PER-09 부모 CLOSE와 PER-11 대장 CLOSE를 제안하고 Codex는 대장 구현을 유지한다. 부모와 자식 중복 집계 금지. 대장 세 작업이 Claude에서는 제거 대상이므로 의존 수/작업 수를 단순 비교하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 471,
+    "task_ids": [
+      "PRJ-05",
+      "IO-10",
+      "IO-11"
+    ],
+    "supporting_task_ids": [
+      "PRJ-11"
+    ],
+    "relation": "재판정",
+    "core_axes": [
+      "식별계약"
+    ],
+    "proposed_scope": "Codex 변환은 파일 대장 기반과 AL→Builder 첫 연결, Builder 모델 생산/소비, DOE/예측/최적화/Analyzer 확산이다. 시행 전에 과거 run별 소비 이력 요구를 유지할지 명시적으로 재판정한다.",
+    "caveat": "Claude FINAL PER-11은 대장 불요 CLOSE 제안이다. 조합 핀/현재 tableId 참조 스캔으로 알 수 있는 현재 관계와 과거 실행별 소비 이력은 동일 정보가 아니므로 자동으로 동등 대체됐다고 보지 않는다. 대장을 제외하더라도 #650의 산출물 세대 경고(PRJ-11)는 독립 목적이므로 함께 제외하지 않는다. 이번 overlay는 원 이슈를 닫거나 Codex 정본을 변경하지 않는다.",
+    "confidence": "중간"
+  },
+  {
+    "issue": 368,
+    "task_ids": [
+      "PRJ-03"
+    ],
+    "supporting_task_ids": [
+      "BLD-01",
+      "RUN-05",
+      "OPT-01",
+      "PRJ-11"
+    ],
+    "relation": "재판정",
+    "core_axes": [
+      "정확성",
+      "식별계약"
+    ],
+    "proposed_scope": "PRJ-03의 조합 스탬프 생산→snapshot 전파→Preprocess/Builder/Runner/Optimizer 핀·검증이라는 기능 범위는 유지하되, 폐기된 PR530 병합 대신 현재 dev에 필요한 공통부와 홉별 변경을 재이식·통합 검증하는 작업으로 읽는다.",
+    "caveat": "2026-10-07 relevant-prs.json에서 PR530 CLOSED, mergedAt=null. 기존 카탈로그 in_flight/병합 추적 설명은 오래됨. Claude PER-06/07＋DOE-16/PRE-32/BLD-20/RUN-34/OPT-26은 재이식 분할이다. BLD-01/RUN-05/OPT-01은 #650 세대 경고 후속이므로 #368의 직접 구현과 중복 집계하지 않는다. DOE 기록-only, MCU 예외, templateDecks 철회, kSnapshotKeys 전파를 보존한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 514,
+    "task_ids": [
+      "UI-06"
+    ],
+    "supporting_task_ids": [
+      "RUN-03"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "정확성",
+      "식별계약"
+    ],
+    "proposed_scope": "살아 있는 MCU Builder/Runner Browse 캡처를 현재 행으로 해석하고 공용 헬퍼 및 Runner preview의 죽은 row 인자를 정리한다.",
+    "caveat": "삭제된 ReferenceFileWidget과 PR652에서 제거된 Direct 입력표의 구 결함은 재생성하지 않는다. 최신 PR652 MERGED. RUN-03의 영속 케이스 ID는 연관되지만 다른 변경 범위다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 551,
+    "task_ids": [
+      "PRJ-01"
+    ],
+    "supporting_task_ids": [
+      "RUN-07",
+      "OPT-02"
+    ],
+    "relation": "통합",
+    "core_axes": [
+      "수명안정"
+    ],
+    "proposed_scope": "프로젝트 모델 삭제 전 위젯 연결/포인터/외부 sender 콜백을 정리해 새 프로젝트 진입 시 해제 모델 접근을 막는다.",
+    "caveat": "#551의 나머지 7곳 수정은 PRJ-01의 공통 수명 계약 안에 흡수된다. #549로 이미 끝난 Runner QPointer 교체를 다시 세지 않는다. 비동기 결과의 Set 귀속은 지원 카드 범위다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 649,
+    "task_ids": [
+      "DOE-01",
+      "DOE-02",
+      "AL-01",
+      "AL-07",
+      "AL-08",
+      "AL-09",
+      "AL-10",
+      "AST-001",
+      "CON-001",
+      "RES-12",
+      "RES-13",
+      "DIR-01",
+      "PRJ-11",
+      "BLD-01",
+      "RUN-05",
+      "OPT-01",
+      "ANA-03",
+      "DOE-03"
+    ],
+    "supporting_task_ids": [
+      "PRJ-03"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "손실방지",
+      "정확성",
+      "실행계약",
+      "식별계약"
+    ],
+    "proposed_scope": "재구성 후속 부모는 각 자식의 실제 변경과 완료 상태를 모으는 집계로 유지한다. 입력정책/특수 solver, 재실행, 자산교체, XML, Set/세대 경고를 별도 작업군으로 읽는다.",
+    "caveat": "추적 부모 자체 PR를 만들지 않는다. baseline 목록에 빠진 #647의 AL-10을 포함한다. PR651·652 MERGED이므로 AL-09/DIR-01의 병합 대기는 검증/잔여 판정으로 바뀐다. 자식 작업 수와 부모 롤업을 중복 집계하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 643,
+    "task_ids": [
+      "RES-12",
+      "RES-13"
+    ],
+    "supporting_task_ids": [
+      "PRJ-11",
+      "BLD-01",
+      "ANA-03"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "저장계약",
+      "식별계약"
+    ],
+    "proposed_scope": "Set 단위 결과 작성과 생산자/Builder·Analyzer 소비자 포맷 이행을 RES-12로 묶고, 증분 정책·XML/HDF5/USD 선택의 측정과 결정을 RES-13으로 구분한다.",
+    "caveat": "HDF5/USD 채택은 확정 요구가 아니다. 1차도 서로 다른 uuid/tableId를 섞지 않는 최소 교체 규칙은 먼저 필요하다. PRJ-11의 포맷 중립 generation 계약을 쓰며 PR530 전체 병합이나 최종 포맷 선택이 모든 stale 경고의 하드 선행은 아니다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 645,
+    "task_ids": [
+      "AST-001",
+      "CON-001"
+    ],
+    "supporting_task_ids": [],
+    "relation": "분할",
+    "core_axes": [
+      "손실방지",
+      "정확성"
+    ],
+    "proposed_scope": "파일/동반 폴더 교체를 실패 복구 가능하게 만든 뒤 성공 통지를 통해 Condition 문서·DV 바인딩을 갱신한다.",
+    "caveat": "PR651의 특수 포맷 병합은 이 덮어쓰기 실패 안전성과 Condition 내용 갱신까지 완료했다는 증거가 아니다. 기존 조사에서 직접 삭제가 확인된 것은 file/context/tree이며 원장 유실이라는 원문 표현은 런타임 확인 없이 확정하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 646,
+    "task_ids": [
+      "AL-07",
+      "AL-08"
+    ],
+    "supporting_task_ids": [],
+    "relation": "분할",
+    "core_axes": [
+      "손실방지",
+      "정확성"
+    ],
+    "proposed_scope": "재실행 실패/취소 시 이전 결과 보존과 완료 뒤 Preprocess 입력·선택 목록 갱신을 별도로 완결한다. Skip 안내는 실제 정책에 맞춰 AL-07에 포함한다.",
+    "caveat": "안내 문구만 수정하면 데이터 손실·옛 결과 재사용 문제가 남는다. 기존 Skip 설명은 일부 있으므로 설명 PR를 별도로 늘리지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 615,
+    "task_ids": [
+      "DOE-01",
+      "DOE-02"
+    ],
+    "supporting_task_ids": [],
+    "relation": "분할",
+    "core_axes": [
+      "정확성",
+      "실행계약"
+    ],
+    "proposed_scope": "ResampleN 추가/채번/기본 참조와 이전 케이스 active 반영을 구분한다.",
+    "caveat": "DOE-02는 복수 Launcher Set의 active가 다를 때 어느 것을 샘플 유효성 기준으로 쓸지 결정 필요. DOE-01 Set 번호와 RUN-03 예측 산출물 번호는 전혀 다른 채번이다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 647,
+    "task_ids": [
+      "AL-10"
+    ],
+    "supporting_task_ids": [],
+    "relation": "직접",
+    "core_axes": [
+      "정확성",
+      "실행계약"
+    ],
+    "proposed_scope": "GUI의 특정 LGE 모델 하드코딩을 제거하고 모델별 규칙을 외부 AnsysMotion 처리와 조율하여 run별 입력 묶음 생성/실패를 완결한다.",
+    "caveat": "외부 DashOptiMBD 저장소 변경·실제 Motion 파일 검증이 필요할 수 있다. GUI 경로만 옮기거나 .dfsxml 입력을 허용하는 PR651 병합만으로 완료가 아니다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 648,
+    "task_ids": [
+      "AL-09"
+    ],
+    "supporting_task_ids": [],
+    "relation": "재판정",
+    "core_axes": [
+      "정확성",
+      "실행계약"
+    ],
+    "proposed_scope": "선택 Source Set의 같은 DoeSet/runKey ODB 연결·복사와 누락/미완료/삭제/복사 실패를 병합된 구현에서 확인하고 남은 결함만 수정한다.",
+    "caveat": "2026-10-07 relevant-prs.json PR651 MERGED, mergedAt=2026-10-07T04:56:46Z. 따라서 새 동일 구현이나 병합 대기 작업이 아니라 병합 완료 후 #648 범위 검증으로 변환한다. 이슈 OPEN은 구현 미병합을 뜻하지 않으며 실제 solver 회귀 통과 자료는 이 스냅샷에 없다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 639,
+    "task_ids": [
+      "AL-01"
+    ],
+    "supporting_task_ids": [],
+    "relation": "직접",
+    "core_axes": [
+      "손실방지",
+      "실행계약"
+    ],
+    "proposed_scope": "Target Part loading/ready/failed를 Start 게이트와 연결하고 실패/빈 후보에서 저장된 target pin을 보존한다.",
+    "caveat": "일반 진행 표시 작업으로 축소하면 빈 target 저장 결함이 남는다. 이미 있는 Set generation 가드는 보존하며 독립적으로 검증한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 650,
+    "task_ids": [
+      "PRJ-11",
+      "BLD-01",
+      "RUN-05",
+      "OPT-01",
+      "ANA-03",
+      "DOE-03"
+    ],
+    "supporting_task_ids": [
+      "PRJ-03"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "정확성",
+      "식별계약"
+    ],
+    "proposed_scope": "조합 id와 다른 산출물 generation 계약, 모듈별 upstream 참조 저장/복원, 공통 검사와 트리 경고 적용으로 나눈다.",
+    "caveat": "PRJ-03은 관련 조합 핀 기반이지 #650 전 범위와 동일하지 않다. Claude PRJ-23은 Geometry/Condition→DOE 세대 결정으로 Codex PRJ-11의 AL 결과 generation 첫 적용과 부분 대응이다. 과거 소비 대장(#471)을 제외해도 현재 stale 경고 요구는 남는다.",
+    "confidence": "높음"
+  }
+]

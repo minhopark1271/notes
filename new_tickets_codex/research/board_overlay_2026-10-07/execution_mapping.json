@@ -1,0 +1,482 @@
+[
+  {
+    "issue": 433,
+    "task_ids": [
+      "RES-04",
+      "RES-05",
+      "RES-11"
+    ],
+    "supporting_task_ids": [
+      "RES-03",
+      "RES-09",
+      "RES-10"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "정확성",
+      "실행계약"
+    ],
+    "proposed_scope": "이미 끝난 클래스 분해를 반복하지 않고 Motion component/Kind, Modal 선택 및 실파일 회귀의 남은 완료 조건을 추적한다. 응답 키와 worker 이관은 각각의 후속 작업으로 연결한다.",
+    "caveat": "PR656 병합으로 RES-10의 modalNames/직렬화/TimeSteps 공통화는 새 구현 후보에서 제외한다. PR662의 State 통일도 완료이며 RES-04 전체를 잔여로 세지 않는다. PR663/665/658 통합과 실파일 검증을 구별한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 451,
+    "task_ids": [],
+    "supporting_task_ids": [
+      "RES-08",
+      "RES-09",
+      "ASY-05",
+      "UI-03",
+      "AL-12",
+      "OPT-02",
+      "OPT-07",
+      "GEO-006",
+      "RUN-06"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "Load/Process/FEM/레이아웃/모핑 결정 신호/폴더 스캔 등 자식의 구체 경로별 완료를 롤업한다.",
+    "caveat": "별도 구현량 없음. ASY-01 훅 재설계는 관련 공통 작업이지만 이 부모의 직접 변환이나 모든 worker 이관의 필수 선행이 아니다. 옛 펌핑 개수와 이미 비동기인 경로를 목표로 쓰지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 454,
+    "task_ids": [
+      "RES-08",
+      "RES-09"
+    ],
+    "supporting_task_ids": [
+      "ASY-02"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "결과 Load·Preview와 일반 배치 Process·XML 생성을 각각 작업 소유 입력/reader, GUI 결과 적용, 취소·전환·오류 복구 단위로 나눈다.",
+    "caveat": "KPI 경로는 원 이슈 제외 범위를 유지한다. 16곳 제거 자체가 완료 조건은 아니며 renderer 접근과 비취소 SDK 경계를 보존한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 455,
+    "task_ids": [
+      "ASY-05",
+      "UI-03"
+    ],
+    "supporting_task_ids": [
+      "GEO-006"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "수명안정",
+      "실행계약",
+      "주변개선"
+    ],
+    "proposed_scope": "TopOpt FEM 파싱의 worker/창 수명과 앱·오버레이 레이아웃의 강제 이벤트 flush 제거로 구분한다.",
+    "caveat": "GEO 결정 신호 유실은 #512/GEO-006 소유로 중복 발행하지 않는다. UI-03 전체 동적 표 개선이 #455와 동일한 범위는 아니다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 456,
+    "task_ids": [
+      "AL-12"
+    ],
+    "supporting_task_ids": [],
+    "relation": "재판정",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "AL-12의 동기 dat fallback·파일 준비 중 GUI 점유가 실제 남은 부분만 확인하여 worker 이관 후보로 유지한다.",
+    "caveat": "모핑/export 전체 동기라는 옛 전제는 폐기한다. Claude FINAL LCH-20은 #456을 해소로 판정하므로 AL-12를 확정 신규 작업으로 세기 전에 해당 fallback의 현재 호출 경로·점유를 재대조해야 한다.",
+    "confidence": "중간"
+  },
+  {
+    "issue": 457,
+    "task_ids": [
+      "OPT-02",
+      "OPT-07"
+    ],
+    "supporting_task_ids": [
+      "CAD-001"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "수명안정",
+      "식별계약",
+      "실행계약"
+    ],
+    "proposed_scope": "Optimizer 모핑 preview의 요청 귀속·펌핑 제거와 NX 응답 태그 소비자 전환을 분리한다.",
+    "caveat": "모핑 본체 worker는 이미 존재한다. OPT-07 NX 소비자는 CAD-001 공통 태그 계약 결정 후의 deferred 범위이며 OPT-02 전체를 기다리게 하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 512,
+    "task_ids": [
+      "GEO-006"
+    ],
+    "supporting_task_ids": [],
+    "relation": "직접",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "setResults의 이벤트 펌핑과 QC 결정 finished 신호 대기 순서를 정리하여 빠른 결정·닫기에서 결과/취소 신호가 유실되지 않게 한다.",
+    "caveat": "계산 worker를 새로 만들거나 모핑 상태기 전체를 이 이슈에 귀속하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 513,
+    "task_ids": [
+      "RUN-06"
+    ],
+    "supporting_task_ids": [
+      "AST-003"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "Model Runner 폴더 메타데이터 스캔을 요청별 snapshot 작업으로 옮기고 재선택·닫기 때 오래된 결과 적용을 차단한다.",
+    "caveat": "AST-003의 공통 RW 적재와 다른 경로이며 별도 전체 워커 기반 신설은 필요하지 않다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 438,
+    "task_ids": [],
+    "supporting_task_ids": [
+      "AL-03",
+      "AL-04",
+      "AL-05",
+      "AL-06",
+      "DIR-01"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "손실방지",
+      "수명안정",
+      "저장계약",
+      "실행계약"
+    ],
+    "proposed_scope": "배치 제출 terminal·대기 큐 취소·상태 기록·재시작 복구의 자식 완료를 롤업한다.",
+    "caveat": "부모 별도 구현량 없음. DIR-01은 PR652 병합 뒤 잔여 검증만, AL-05 파일 분할은 #444 현행 결정과 충돌하므로 조건부, AL-06은 복구 정책 결정 필요. 실행 이력 목록 #442는 부활시키지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 439,
+    "task_ids": [
+      "AL-04"
+    ],
+    "supporting_task_ids": [
+      "AL-03"
+    ],
+    "relation": "직접",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "Stop이 현재 Motion 실행뿐 아니라 pending 큐의 후속 제출도 막고 모든 추적 케이스를 terminal로 정리하게 한다.",
+    "caveat": "제출 실패 terminal은 AL-03과 맞추되 별도 러너 전면 통합이나 영속 이력 기능을 넣지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 440,
+    "task_ids": [],
+    "supporting_task_ids": [
+      "DIR-01"
+    ],
+    "relation": "재판정",
+    "core_axes": [
+      "실행계약"
+    ],
+    "proposed_scope": "정규 Launcher 상태 연결과 새 Direct Output Cases 상태를 확인하여 이슈 완료/잔여 결함을 판정한다.",
+    "caveat": "정규 경로는 기존 연결이 있고 옛 Direct Set 경로는 PR652 병합으로 대체되었다. DIR-01 전체를 다시 구현하는 변환은 부적절하며 현재 UI 검증 전 완료를 단정하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 441,
+    "task_ids": [
+      "AL-05",
+      "AL-06"
+    ],
+    "supporting_task_ids": [
+      "AL-07",
+      "IO-03"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "손실방지",
+      "저장계약",
+      "실행계약"
+    ],
+    "proposed_scope": "단일 상태 writer·변경 행 갱신과 재시작 시 Interrupted 판정·명시적 재시도를 분리한다.",
+    "caveat": "AL-05의 물리 파일 분할 전제는 Claude LCH-32의 분할하지 않음과 충돌한다. 기존 파일 내 쓰기 중복/표 재구축 억제와 복구가 가능한지 먼저 계약을 조정하며 새 journal을 자동 요구하지 않는다. 원자적 IO는 IO-03, 결과 보존은 AL-07 소유.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 442,
+    "task_ids": [],
+    "supporting_task_ids": [],
+    "relation": "제외",
+    "core_axes": [],
+    "proposed_scope": "CLOSED/NOT_PLANNED인 실행 이력 목록은 이력으로만 보존한다.",
+    "caveat": "재시작 상태 복구(AL-06)를 이유로 별도 실행 이력 UI/관리 기능을 되살리지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 444,
+    "task_ids": [
+      "AL-05"
+    ],
+    "supporting_task_ids": [],
+    "relation": "재판정",
+    "core_axes": [
+      "저장계약"
+    ],
+    "proposed_scope": "파일 분할 구현을 바로 발행하지 않고 기존 AL-05에서 단일 writer·행 갱신과 물리 파일 분할을 분리하여 처분을 다시 정한다.",
+    "caveat": "명시적 문서 충돌: Codex AL-05는 설정/상태 분리, Claude FINAL LCH-32는 분할하지 않음. 후자는 단일 writer·재구축 억제로 비용을 줄이고 로드 실측 없이는 분할하지 않는 결정이다. 이 행의 task_ids는 수정 대상이지 신규 구현 승인 표시가 아니다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 460,
+    "task_ids": [],
+    "supporting_task_ids": [
+      "ASY-02",
+      "BLD-02",
+      "OPT-03",
+      "RUN-02",
+      "RES-08",
+      "RES-09",
+      "AL-12",
+      "CAD-002"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "공통 상태→진행/입력차단 규약과 각 모듈의 실제 busy·terminal·취소 지원 적용을 롤업한다.",
+    "caveat": "부모 별도 구현량 없음. RUN-02의 ND/1D 동시선택 등 모듈 고유 기능은 부분 관련일 뿐 이 부모의 직접 전체 변환이 아니다. 공통 규약이 작은 종료/버튼 결함의 강제 선행은 아니다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 461,
+    "task_ids": [
+      "BLD-02",
+      "OPT-03"
+    ],
+    "supporting_task_ids": [
+      "ASY-02",
+      "AL-03"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "손실방지",
+      "실행계약"
+    ],
+    "proposed_scope": "Builder 시작 거절/실제 job 종료와 Optimizer 중복 설정 제출을 버튼 상태·terminal에 연결한다.",
+    "caveat": "ASY-02는 규약/Analyzer 첫 적용의 보조 근거다. Load 재클릭·모듈 진입 계약은 명시적 제외이며 전체 모듈 실행 가드가 이 두 카드로 모두 커버된다고 보지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 462,
+    "task_ids": [
+      "ASY-02"
+    ],
+    "supporting_task_ids": [],
+    "relation": "부분",
+    "core_axes": [
+      "실행계약"
+    ],
+    "proposed_scope": "ASY-02 안에서 상태·유한/무한 진행·반려·취소 가능 표시 규약을 정하는 부분으로 흡수한다.",
+    "caveat": "원 이슈는 규약 정의다. ASY-02의 Analyzer 첫 구현과 창 이동/리사이즈 개선까지 동일 이슈의 원 요구였다고 확장하지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 463,
+    "task_ids": [
+      "ASY-02",
+      "RES-08",
+      "RES-09",
+      "AL-12",
+      "BLD-02",
+      "OPT-03",
+      "CAD-002"
+    ],
+    "supporting_task_ids": [
+      "RUN-02",
+      "RUN-07",
+      "OPT-02"
+    ],
+    "relation": "분할",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "Analyzer 공통 UI 적용과 Preprocess/Launcher/Builder/Optimizer/CAD의 작업별 진행·취소·가드를 해당 카드 안에서 적용한다.",
+    "caveat": "확산만 별도 중복 발행하지 않는다. 각 카드의 일부 범위이며 전체 모듈 일괄 완료 대응은 아니다. 취소 불가 SDK에는 취소 버튼을 약속하지 않으며 AL-12는 #456 재판정 후 채택한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 464,
+    "task_ids": [
+      "CAD-002"
+    ],
+    "supporting_task_ids": [
+      "ASY-02"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "실행계약",
+      "주변개선"
+    ],
+    "proposed_scope": "CAD preview 시작 표시와 STEP 표시 실패의 종료 누락 등 실제 남은 진행 표시 비대칭을 좁혀 수정한다.",
+    "caveat": "Codex의 성공 stop 부재 진단과 달리 Claude CAD-07은 stepFileLoaded 성공 stop을 이미 해결로 판정한다. 성공 경로 신규 구현은 재확인 전 제외하고 preview 시작/실패 반환 경로에 집중한다.",
+    "confidence": "중간"
+  },
+  {
+    "issue": 465,
+    "task_ids": [],
+    "supporting_task_ids": [
+      "UI-05",
+      "ASY-03",
+      "ASY-04",
+      "BLD-02",
+      "OPT-03",
+      "ANA-07"
+    ],
+    "relation": "부모",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "통지 규칙/실제 무음 실패, 명령 응답 timeout, nullable·인코딩 경계의 자식 작업을 롤업한다.",
+    "caveat": "별도 일괄 안전핀 PR 없음. 기동 timeout 부재나 모든 포인터 가드 필요라는 옛 진단을 유지하지 않는다. 실제 모듈 오류는 개별 terminal 카드에 배분한다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 466,
+    "task_ids": [
+      "UI-05"
+    ],
+    "supporting_task_ids": [
+      "BLD-02",
+      "OPT-03",
+      "ANA-07",
+      "AL-03"
+    ],
+    "relation": "통합",
+    "core_axes": [
+      "실행계약",
+      "주변개선"
+    ],
+    "proposed_scope": "#482와 공유하는 실패 통지 규약을 UI-05에 통합하고 실제 실패 연결 누락은 모듈 카드의 적용 근거로 연결한다.",
+    "caveat": "원 이슈는 규칙만이고 개별 수정은 제외한다. 따라서 BLD/OPT/ANA/AL 카드는 보조 적용처이며 전부 #466의 주된 변환으로 중복 계산하지 않는다. UI-05의 영어 표기/일반 확인 대화상자 전체도 #466보다 넓다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 467,
+    "task_ids": [
+      "ASY-03"
+    ],
+    "supporting_task_ids": [],
+    "relation": "부분",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "이미 존재하는 ready/stop timeout을 유지하고 명령 제출 후 무응답 시한·늦은 응답 격리·한 번의 terminal 처리를 추가한다.",
+    "caveat": "기동 timeout을 신규로 만드는 작업은 제외한다. 시한과 timeout 뒤 데몬 재사용/대기 큐 정책은 명령 종류별 결정이 필요하다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 468,
+    "task_ids": [
+      "ASY-04"
+    ],
+    "supporting_task_ids": [
+      "PRJ-09",
+      "PRJ-10"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "수명안정",
+      "실행계약"
+    ],
+    "proposed_scope": "실제로 null 가능한 process/session 경계만 실패를 명시적으로 전달하도록 보강한다.",
+    "caveat": "항상 존재하는 singleton에 기계적으로 가드를 더하지 않는다. 소유권/의존 주입은 PRJ 카드의 별도 범위이며 ASY-04의 인코딩 절반은 #469 소유다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 469,
+    "task_ids": [
+      "ASY-04"
+    ],
+    "supporting_task_ids": [],
+    "relation": "부분",
+    "core_axes": [
+      "정확성",
+      "실행계약"
+    ],
+    "proposed_scope": "한글·공백 경로와 분할된 멀티바이트 출력을 보존하도록 외부 exe별 실제 인코딩 계약과 경계 어댑터를 정리한다.",
+    "caveat": "이미 UTF-8인 ProcessJob/ExtensionProcess 경로를 반복 수정하지 않는다. 외부 SDK가 다른 인코딩이면 전역 UTF-8 치환 대신 해당 경계에서 명시적으로 처리한다. #468과 같은 카드의 다른 부분이다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 543,
+    "task_ids": [
+      "ASY-02"
+    ],
+    "supporting_task_ids": [
+      "UI-03"
+    ],
+    "relation": "통합",
+    "core_axes": [
+      "수명안정",
+      "실행계약",
+      "주변개선"
+    ],
+    "proposed_scope": "기존 비동기 작업의 내용 입력 차단·작업 문구·진행 표시·반려/종료 복구를 표준화하고 창 이동/리사이즈를 유지한다.",
+    "caveat": "#462 및 #460 공통 UI 부분과 한 번만 구현한다. 비동기 실행기 자체 신설이나 리소스별 scheduler·협력취소 API 구현을 이 UI 항목의 선행으로 부풀리지 않는다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 635,
+    "task_ids": [
+      "RES-04"
+    ],
+    "supporting_task_ids": [
+      "RES-11",
+      "RES-03"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "정확성"
+    ],
+    "proposed_scope": "RES-04 중 writer component 항의 entity_name 보존과 명시적 Motion Kind 전달을 PR663 범위로 마무리한다.",
+    "caveat": "RES-04의 State 해석 부분은 PR662 완료이므로 새로 세지 않는다. PR663은 OPEN이고 PR658과 writer/Kind 접점 조정 및 실제 dfr BODY 선택 검증이 남는다. RES-03 전체가 이 좁은 수정의 절대 선행은 아니다.",
+    "confidence": "높음"
+  },
+  {
+    "issue": 664,
+    "task_ids": [
+      "RES-03"
+    ],
+    "supporting_task_ids": [
+      "RES-04",
+      "RES-11"
+    ],
+    "relation": "부분",
+    "core_axes": [
+      "정확성"
+    ],
+    "proposed_scope": "카탈로그 이후 신설된 이슈를 RES-03의 Motion Preview 응답 leaf/operator/field_output_name 및 배열 선택 후보 누락 부분에 새로 대응한다.",
+    "caveat": "RES-03 전체 응답 질의 공통화와 동일하지 않다. PR665는 PR663 위의 OPEN 스택이며 PR658 putResponseTerm 통합 후 호출을 맞출 필요가 있다. #634/PR662 완료를 재작업하지 않고 실제 dfr Preview 검증을 남긴다.",
+    "confidence": "높음"
+  }
+]

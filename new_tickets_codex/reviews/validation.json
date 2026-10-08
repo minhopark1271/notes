@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "task_count": 123,
+  "board_issue_count": 207,
+  "open_issue_count": 112,
+  "checks": [
+    "required fields and non-empty scope/acceptance/validation/evidence",
+    "unique task IDs and valid tags/status/priority",
+    "dependency targets and cycle detection",
+    "207 board issue one-to-one row coverage",
+    "open-issue task or explicit disposition coverage",
+    "source issue files present",
+    "local document links and task anchors",
+    "four open PRs counted once after AST-002 alias merge"
+  ],
+  "errors": [],
+  "warnings": [],
+  "not_tested": "Application build/GUI/solver runtime; validation is document structure and traceability only."
+}

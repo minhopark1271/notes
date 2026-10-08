@@ -1,0 +1,3091 @@
+diff --git a/controller/DashDirectLaunchRunner.cpp b/controller/DashDirectLaunchRunner.cpp
+new file mode 100644
+index 00000000..95f8d68d
+--- /dev/null
++++ b/controller/DashDirectLaunchRunner.cpp
+@@ -0,0 +1,215 @@
++#include "controller/DashDirectLaunchRunner.h"
++#include "controller/DashDirectLaunchStaging.h"
++
++#include "model/DashAnalysisLaunchExecutor.h"
++#include "model/DashJobRunner.h"
++#include "utils/log/DashLog.h"
++
++#include <QDir>
++#include <QFile>
++#include <QFileInfo>
++#include <QMap>
++
++namespace {
++bool copyFileOver(const QString& sourcePath, const QString& destPath)
++{
++    QFile::remove(destPath);
++    if (QFile::copy(sourcePath, destPath)) {
++        return true;
++    }
++    DASH_LOG_WARN(Analysis) << "Direct Launch: could not copy" << sourcePath << "to" << destPath;
++    return false;
++}
++
++// Stops at the first file that fails to copy
++bool copyTreeOver(const QString& sourceDir, const QString& destDir)
++{
++    QDir().mkpath(destDir);
++    const QDir source(sourceDir);
++    for (const QFileInfo& entry :
++         source.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden)) {
++        const QString destPath = QDir(destDir).filePath(entry.fileName());
++        const bool copied = entry.isDir() ? copyTreeOver(entry.absoluteFilePath(), destPath)
++                                          : copyFileOver(entry.absoluteFilePath(), destPath);
++        if (!copied) {
++            return false;
++        }
++    }
++    return true;
++}
++
++bool isTerminalStatus(const QString& status)
++{
++    // startsWith: a refusal reports "Failed: <stage> (<reason>)" and ends the run just as plainly
++    return status == QLatin1String("Done") || status.startsWith(QLatin1String("Failed"))
++           || status == QLatin1String("Cancelled");
++}
++}  // namespace
++
++DashDirectLaunchRunner::DashDirectLaunchRunner(QObject* parent)
++    : QObject(parent)
++    , m_jobRunner(new DashJobRunner(this))
++{
++    connect(m_jobRunner, &DashJobRunner::jobStarted, this, [this] {
++        m_submittedRunSerial = m_activeRunSerial;
++    });
++    // There is one case per run, so any key the runner reports is that case's: a .wbpj run
++    // is keyed by its .prt basename, not by the input file. Reports with no case open (a late
++    // Journal result after Stop) belong to an ended run and are dropped.
++    connect(m_jobRunner,
++            &DashJobRunner::caseStatusUpdated,
++            this,
++            [this](const QString& /*key*/, const QString& status, const QString& analysisType) {
++                onCaseStatusUpdated(status, analysisType);
++            });
++    connect(m_jobRunner,
++            &DashJobRunner::caseLogUpdated,
++            this,
++            [this](const QString& /*key*/, const QString& log, const QString& /*analysisType*/) {
++                if (m_activeRunSerial == 0) {
++                    return;
++                }
++                Case& c = m_cases.first();
++                c.log = log;
++                emit caseLogUpdated(c.key, log);
++            });
++}
++
++QString DashDirectLaunchRunner::stagingProblem(const QString& inputPath, const QString& outputRoot)
++{
++    if (!DashDirectLaunchStaging::inputInsideRunDir(inputPath, outputRoot)) {
++        return QString();
++    }
++    return tr("The input file is inside the output folder.");
++}
++
++QString DashDirectLaunchRunner::run(const QString& inputPath,
++                                    const QString& outputRoot,
++                                    const QString& targetPart)
++{
++    if (isRunning()) {
++        DASH_LOG_WARN(Analysis) << "Direct Launch already running, ignoring duplicate request";
++        return tr("A Direct Launch is already running.");
++    }
++    const QString problem = stagingProblem(inputPath, outputRoot);
++    if (!problem.isEmpty()) {
++        DASH_LOG_WARN(Analysis) << QString("Direct Launch: %1 is inside its run folder under %2")
++                                       .arg(inputPath, outputRoot);
++        return problem;
++    }
++
++    const QFileInfo input(inputPath);
++    const QString key = input.completeBaseName();
++    const QString runDir = DashDirectLaunchStaging::runDirOf(inputPath, outputRoot);
++    const bool wbpj = input.suffix().compare(QLatin1String("wbpj"), Qt::CaseInsensitive) == 0;
++    const QString filesDirName = key + QStringLiteral("_files");
++    const bool runDirExisted = QDir(runDir).exists();
++    QDir().mkpath(runDir);
++    const QString copiedPath = QDir(runDir).filePath(input.fileName());
++    const bool staged = copyFileOver(inputPath, copiedPath)
++                        && (!wbpj
++                            || copyTreeOver(input.dir().filePath(filesDirName),
++                                            QDir(runDir).filePath(filesDirName)));
++    if (!staged) {
++        DASH_LOG_WARN(Analysis) << QString("Direct Launch: staging %1 into %2 failed, not launched")
++                                       .arg(inputPath, runDir);
++        // Only a folder this call created goes; a reused one keeps what it held
++        if (!runDirExisted) {
++            QDir(runDir).removeRecursively();
++        }
++        return tr("Could not copy %1 into %2.")
++            .arg(QDir::toNativeSeparators(inputPath), QDir::toNativeSeparators(runDir));
++    }
++
++    QMap<QString, QString> targetFiles;
++    m_resultDir = runDir;
++    if (wbpj) {
++        // The .prt inside the copy, so the Journal writes beside it, under the run folder
++        const QFileInfo prt(QDir(runDir).filePath(targetPart));
++        targetFiles.insert(copiedPath, prt.absoluteFilePath());
++        m_resultDir = QDir(prt.absolutePath()).filePath(prt.completeBaseName());
++    }
++
++    m_outputRoot = outputRoot;
++    const int serial = ++m_runSerial;
++    m_cases = { Case{ key, inputPath, runDir, QStringLiteral("Enqueued"), QString(), {}, serial } };
++    m_resultsBeforeRun.clear();
++    for (const QString& file : resultCandidates()) {
++        const QFileInfo info(file);
++        if (info.exists()) {
++            m_resultsBeforeRun.insert(file, info.lastModified());
++        }
++    }
++    m_activeRunSerial = serial;
++    emit started();
++    emit caseStatusUpdated(key, m_cases.first().status);
++
++    DASH_LOG_INFO(Analysis) << QString("Direct Launch: %1 -> %2").arg(inputPath, runDir);
++    m_jobRunner->applyLauncherCPUCoreCount();
++    m_jobRunner->runDirectJobs({ copiedPath }, targetFiles);
++
++    // Nothing was submitted (solver not configured, launcher refused, no .prt target): no
++    // status will ever come for the case.
++    if (m_submittedRunSerial != serial) {
++        onCaseStatusUpdated(QStringLiteral("Failed"), QString());
++    }
++    return QString();
++}
++
++void DashDirectLaunchRunner::cancel()
++{
++    m_jobRunner->cancelAllRuns();
++    // A .wbpj case in its NX CAD or Journal stage holds no task to abort and reports nothing,
++    // so the run ends here as the Analysis Launcher's does. A case already ended stays as is.
++    onCaseStatusUpdated(QStringLiteral("Cancelled"), QString());
++}
++
++QStringList DashDirectLaunchRunner::resultCandidates() const
++{
++    const Case& c = m_cases.first();
++    const QString suffix = QFileInfo(c.inputPath).suffix().toLower();
++    // Abaqus names its .odb after the job name, the run key; motion-launcher writes <key>.dfr
++    if (suffix == QLatin1String("inp")) {
++        return { QDir(m_resultDir).filePath(c.key + QStringLiteral(".odb")) };
++    }
++    if (suffix == QLatin1String("dfsxml")) {
++        return { QDir(m_resultDir).filePath(c.key + QStringLiteral(".dfr")) };
++    }
++    // MAPDL names its .rst after the deck's jobname; a Journal project may hold several systems
++    QStringList files;
++    for (const QString& file :
++         DashJobRunner::rstResultFiles(m_resultDir, suffix == QLatin1String("wbpj"))) {
++        files.append(QDir(m_resultDir).filePath(file));
++    }
++    return files;
++}
++
++void DashDirectLaunchRunner::onCaseStatusUpdated(const QString& status, const QString& analysisType)
++{
++    if (m_activeRunSerial == 0) {
++        return;
++    }
++    Case& c = m_cases.first();
++    const QString oldStatus = c.status;
++    c.status = status;
++    if (status == QLatin1String("Done")) {
++        // The run folder is reused by every run of the file: keep only what this one wrote
++        for (const QString& file : resultCandidates()) {
++            const QFileInfo info(file);
++            const auto before = m_resultsBeforeRun.constFind(file);
++            if (info.exists()
++                && (before == m_resultsBeforeRun.constEnd()
++                    || info.lastModified() != before.value())) {
++                c.resultFiles.append(file);
++            }
++        }
++    }
++    DashAnalysisLaunchExecutor::logCaseStatus(c.key, status, analysisType, oldStatus);
++    emit caseStatusUpdated(c.key, status);
++
++    if (!isTerminalStatus(status)) {
++        return;
++    }
++    m_activeRunSerial = 0;
++    emit finished();
++}
+diff --git a/controller/DashDirectLaunchRunner.h b/controller/DashDirectLaunchRunner.h
+new file mode 100644
+index 00000000..879c474b
+--- /dev/null
++++ b/controller/DashDirectLaunchRunner.h
+@@ -0,0 +1,91 @@
++#pragma once
++
++#include <QDateTime>
++#include <QHash>
++#include <QList>
++#include <QObject>
++#include <QString>
++#include <QStringList>
++
++class DashJobRunner;
++
++/**
++ * @class DashDirectLaunchRunner
++ * @brief Owner of a Direct Launch run (Tool menu): one input file run as is, no DOE.
++ *
++ * `DashManager` owns it, so a run outlives the dialog that started it. The case list lives in
++ * memory only; nothing is written to any json. Status flow follows the Analysis Launcher
++ * (DashAnalysisLaunchExecutor) without its case-state persistence.
++ */
++class DashDirectLaunchRunner : public QObject
++{
++    Q_OBJECT
++
++public:
++    struct Case
++    {
++        QString key;  // the input file's completeBaseName
++        QString inputPath;  // the file the user picked
++        QString runDir;  // <outputRoot>/<key>, holding the copy that is launched
++        QString status;
++        QString log;
++        QStringList resultFiles;  // absolute paths this run wrote, set at Done
++        int runSerial = 0;  // the run() call that opened the case
++    };
++
++    explicit DashDirectLaunchRunner(QObject* parent = nullptr);
++
++    QList<Case> cases() const
++    {
++        return m_cases;
++    }
++    bool isRunning() const
++    {
++        return m_activeRunSerial != 0;
++    }
++    QString outputRoot() const
++    {
++        return m_outputRoot;
++    }
++
++    // Copies inputPath into <outputRoot>/<completeBaseName>/ (a .wbpj also takes its sibling
++    // <completeBaseName>_files folder) and launches the copy, so the solver writes into that
++    // run folder. targetPart is the .prt path relative to the .wbpj's directory, empty for
++    // other inputs. Returns an empty string once launched, else why it was refused: a run is
++    // in progress (Stop cancels the shared NX CAD / Journal daemons), stagingProblem() has an
++    // answer, or a copy failed (a run folder created by this call is removed again).
++    QString run(const QString& inputPath, const QString& outputRoot, const QString& targetPart);
++    // Why inputPath cannot be staged under outputRoot, checked before anything is copied or
++    // deleted; empty when it can. The input must not live inside its own run folder.
++    static QString stagingProblem(const QString& inputPath, const QString& outputRoot);
++    void cancel();
++
++signals:
++    void started();
++    void caseStatusUpdated(const QString& key, const QString& status);
++    void caseLogUpdated(const QString& key, const QString& log);
++    // The case reached Done, Failed* or Cancelled; emitted once per run.
++    void finished();
++
++private:
++    void onCaseStatusUpdated(const QString& status, const QString& analysisType);
++    // Absolute paths of the files the case's solver writes as its result, existing or not
++    QStringList resultCandidates() const;
++
++    DashJobRunner* m_jobRunner = nullptr;
++    QList<Case> m_cases;
++    QString m_outputRoot;
++    // Where the solver writes: the run folder, or <prt dir>/<prt base> under it for a .wbpj
++    QString m_resultDir;
++    // The result candidates present before the launch, with their modification times
++    QHash<QString, QDateTime> m_resultsBeforeRun;
++    // One serial per launched run(). DashJobRunner reports carry only a key, so every report is
++    // the open case's; with no case open (after Done, Failed* or Cancelled, before the next run)
++    // they belong to an ended run and are dropped.
++    int m_runSerial = 0;
++    // The serial of the run whose case is open; 0 when none
++    int m_activeRunSerial = 0;
++    // The run DashJobRunner::jobStarted last fired for; runDirectJobs emits it only when a task
++    // was submitted
++    int m_submittedRunSerial = 0;
++};
+diff --git a/controller/DashDirectLaunchStaging.h b/controller/DashDirectLaunchStaging.h
+new file mode 100644
+index 00000000..410b73a0
+--- /dev/null
++++ b/controller/DashDirectLaunchStaging.h
+@@ -0,0 +1,26 @@
++#pragma once
++
++#include <QDir>
++#include <QFileInfo>
++#include <QString>
++
++// Where a Direct Launch run is staged (#604): the input is copied into
++// <outputRoot>/<input completeBaseName>/ and launched from there. Pure functions, Qt Core only.
++namespace DashDirectLaunchStaging {
++
++inline QString runDirOf(const QString& inputPath, const QString& outputRoot)
++{
++    return QDir(outputRoot).filePath(QFileInfo(inputPath).completeBaseName());
++}
++
++// True when the input already lives inside its run folder, where staging would copy it over
++// itself and a Re-run would delete it. Compared on canonical paths; the run folder may not exist
++// yet, so its path is built on the canonical output root rather than canonicalized itself.
++inline bool inputInsideRunDir(const QString& inputPath, const QString& outputRoot)
++{
++    const QString canonicalRoot = QFileInfo(outputRoot).canonicalFilePath();
++    const QString runDirPrefix = runDirOf(inputPath, canonicalRoot) + QLatin1Char('/');
++    return QFileInfo(inputPath).canonicalFilePath().startsWith(runDirPrefix, Qt::CaseInsensitive);
++}
++
++}  // namespace DashDirectLaunchStaging
+diff --git a/controller/DashManager.cpp b/controller/DashManager.cpp
+index a0ec1107..464d09d2 100644
+--- a/controller/DashManager.cpp
++++ b/controller/DashManager.cpp
+@@ -41,6 +41,9 @@
+ #include "controller/DashRenderingManager.h"
+ #include "controller/DashSolverNxCad.h"
+ #include "controller/DashTopOptPostprocessRunner.h"
++#include "controller/DashDirectLaunchRunner.h"
++#include "model/DashAnalysisLaunchExecutor.h"
++#include "model/DashAnalysisLauncher.h"
+ #include "model/DashDesignVariableModel.h"  // for shared DV model
+ #include "model/DashGeometryParameterCAD.h"
+ #include "model/DashProject.h"
+@@ -99,6 +102,7 @@ DashManager::DashManager()
+     daemonLifecycle_ = new DashDaemonLifecycle(this);
+ 
+     m_topOptPostprocessRunner = new DashTopOptPostprocessRunner(this);
++    m_directLaunchRunner = new DashDirectLaunchRunner(this);
+ }
+ 
+ DashManager::~DashManager()
+@@ -122,6 +126,21 @@ DashManager::~DashManager()
+     }
+ }
+ 
++bool DashManager::isLauncherAnalysisRunning() const
++{
++    for (const DashAnalysisLauncher* launcher : PrjMgr()->GetProject()->getAnalysisLaunchers()) {
++        if (launcher->launchExecutor()->isRunning()) {
++            return true;
++        }
++    }
++    return false;
++}
++
++bool DashManager::isAnyAnalysisRunning() const
++{
++    return m_directLaunchRunner->isRunning() || isLauncherAnalysisRunning();
++}
++
+ void DashManager::tryStartNxCadDaemon()
+ {
+     if (m_solverNxCad) {
+diff --git a/controller/DashManager.h b/controller/DashManager.h
+index ed49950b..1210c838 100644
+--- a/controller/DashManager.h
++++ b/controller/DashManager.h
+@@ -31,6 +31,7 @@ class DashSolverNxCad;
+ class DashExtensionProcess;
+ class DashDaemonLifecycle;
+ class DashTopOptPostprocessRunner;
++class DashDirectLaunchRunner;
+ class DashAnalysisModelContext;
+ class DashHandleVisualizer;
+ 
+@@ -93,6 +94,8 @@ class DashManager : public QObject
+     DashDaemonLifecycle* daemonLifecycle_ = nullptr;
+     // 창 무관 소유 체인 — 다이얼로그를 닫아도 후처리는 계속 돈다.
+     DashTopOptPostprocessRunner* m_topOptPostprocessRunner = nullptr;
++    // Same window-independent ownership: a Direct Launch run outlives its dialog.
++    DashDirectLaunchRunner* m_directLaunchRunner = nullptr;
+     QJsonObject m_lastNxCadParameterJson;
+ 
+     // Current Actors
+@@ -156,6 +159,16 @@ class DashManager : public QObject
+     {
+         return m_topOptPostprocessRunner;
+     }
++    DashDirectLaunchRunner* directLaunchRunner() const
++    {
++        return m_directLaunchRunner;
++    }
++    // DashJobRunner::cancelAllRuns stops the NX CAD / Journal daemons every runner shares, so a
++    // Direct Launch run and an Analysis Launcher run must not overlap. True while any Analysis
++    // Launcher Set of the project is running.
++    bool isLauncherAnalysisRunning() const;
++    // The Direct Launch run or any Analysis Launcher Set run
++    bool isAnyAnalysisRunning() const;
+ 
+     void tryStartNxCadDaemon();
+ 
+diff --git a/model/DashAnalysisLauncher.cpp b/model/DashAnalysisLauncher.cpp
+index 725a0551..e0c780e2 100644
+--- a/model/DashAnalysisLauncher.cpp
++++ b/model/DashAnalysisLauncher.cpp
+@@ -511,6 +511,49 @@ void DashAnalysisLauncher::selectTargetFile(int index)
+     loadTargetFile();
+ }
+ 
++void DashAnalysisLauncher::loadSingleResultFile(const QString& absPath)
++{
++    if (rejectIfReaderBusy("load the result file")) {
++        return;
++    }
++    clearLoadedContext();
++
++    beginProcessing(tr("Reading result file..."));
++    const auto endIndicator = qScopeGuard([this] { endProcessing(); });
++    QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
++
++    const QFileInfo fileInfo(absPath);
++    const QString fileName = fileInfo.fileName();
++    // loadResultKeys reads only the dataset items whose type equals the type it is given
++    QString type = DashTargetFiles::analysisTypeOf(fileName);
++    if (fileInfo.suffix().compare("rst", Qt::CaseInsensitive) == 0) {
++        // The probe reader is discarded on leaving this scope; loadResultKeys makes its own (#573)
++        ReaderWork probeWork(readerSession_, ReaderWork::OnExit::Discard);
++        if (initializePreprocessor("rst")) {
++            try {
++                reader()->SetInputFilePathes({ std::filesystem::path(absPath.toStdWString()) });
++                if (const auto analysis =
++                        DashResultKeys::analysisTypeOf(reader()->GetAnalysisInfo())) {
++                    type = *analysis;
++                }
++            } catch (const std::exception& e) {
++                DASH_LOG_WARN(DataProcessor) << "GetAnalysisInfo failed for" << fileName << ":"
++                                             << e.what() << ", using default type:" << type;
++            }
++        }
++    }
++
++    DatasetItem item;
++    item.itemNum = "1";
++    item.type = type;
++    item.path = fileName;
++    item.patternFileName = fileName;
++    item.filePath = QDir::toNativeSeparators(absPath);
++    m_inputs.dataset = { item };
++    DASH_LOG_DEBUG(DataProcessor) << "Loading single result file" << absPath << "as" << type;
++    loadResultKeys(type, QString());
++}
++
+ void DashAnalysisLauncher::emitTargetFiles()
+ {
+     QStringList labels;
+diff --git a/model/DashAnalysisLauncher.h b/model/DashAnalysisLauncher.h
+index 56f60ea1..6485693e 100644
+--- a/model/DashAnalysisLauncher.h
++++ b/model/DashAnalysisLauncher.h
+@@ -124,6 +124,12 @@ class DashAnalysisLauncher : public QObject
+     // saves the choice in the launcher json. The lists and the batch read only its files (#640)
+     void selectTargetFile(int index);
+ 
++    // ── Direct Launch Result Preview (#604) ──────────────────────────────────────────
++    // Loads one result file (.rst / .dfr / .odb) as the whole dataset and fills the component ·
++    // load step · name lists from it, as the Preprocess tab does from its target file. Nothing
++    // is written to any json, so a detached instance with no Set can use it.
++    void loadSingleResultFile(const QString& absPath);
++
+     // 배치 — 요청마다 결과 XML 을 만든다. 신호: 파일마다 processFinished, 끝에 allProcessFinished
+     // 또는 infoMessage(샘플 누락) / errorOccurred(파일 미생성). KPI 행이 섞이면 WithKPI 가 KPI
+     // 함수를 먼저 돌리고 나머지를 processResults 로 넘긴다
+diff --git a/model/DashDoeSampler.cpp b/model/DashDoeSampler.cpp
+index 0b0ddc35..b35cc232 100644
+--- a/model/DashDoeSampler.cpp
++++ b/model/DashDoeSampler.cpp
+@@ -2,8 +2,6 @@
+ #include "DashDesignVariableModel.h"
+ #include "DashDoeConfigManager.h"
+ #include "DashDoeSelection.h"
+-#include "DashJobRunner.h"
+-#include "DashAnalysisLaunchExecutor.h"
+ #include "DashProject.h"
+ #include "model/analyzer/DashPlotSpecBuilder.h"
+ #include "controller/DashManager.h"  // Use global solver paths
+@@ -145,14 +143,6 @@ DashDoeSampler::DashDoeSampler(QObject* parent)
+     , m_selectedMethod("Optimal Latin Hyper Cube")
+ {
+     m_configManager = new DashDoeConfigManager();
+-    m_jobRunner = new DashJobRunner(this);
+-
+-    connect(m_jobRunner, &DashJobRunner::jobStarted, this, &DashDoeSampler::analysisStarted);
+-    connect(m_jobRunner, &DashJobRunner::jobFinished, this, &DashDoeSampler::analysisFinished);
+-    connect(m_jobRunner, &DashJobRunner::jobFailed, this, &DashDoeSampler::analysisFailed);
+-    connect(
+-        m_jobRunner, &DashJobRunner::caseStatusUpdated, this, &DashDoeSampler::onCaseStatusUpdated);
+-    connect(m_jobRunner, &DashJobRunner::csvFileGenerated, this, &DashDoeSampler::csvFileGenerated);
+ 
+     connect(&m_analysisWatcher,
+             &QFutureWatcher<bool>::finished,
+@@ -187,13 +177,6 @@ void DashDoeSampler::setSamplingMode(const QString& mode)
+     m_samplingMode = mode;
+ }
+ 
+-void DashDoeSampler::applyLauncherCPUCoreCount()
+-{
+-    if (m_jobRunner) {
+-        m_jobRunner->applyLauncherCPUCoreCount();
+-    }
+-}
+-
+ DashDoeSampler::~DashDoeSampler()
+ {
+     delete m_configManager;
+@@ -253,11 +236,6 @@ void DashDoeSampler::setProjectDirectory(const QString& path)
+     if (m_configManager) {
+         m_configManager->setDoeJsonPath(m_doeJsonPath);
+     }
+-    if (m_jobRunner) {
+-        m_jobRunner->setDoeJsonPath(m_doeJsonPath);
+-        m_jobRunner->setSetName(setName);
+-        m_jobRunner->setDesignVariableModel(m_designVariableModel);
+-    }
+ 
+     loadSettings();
+ }
+@@ -292,10 +270,6 @@ void DashDoeSampler::setSetName(const QString& name)
+     if (m_configManager) {
+         m_configManager->setDoeJsonPath(m_doeJsonPath);
+     }
+-    if (m_jobRunner) {
+-        m_jobRunner->setDoeJsonPath(m_doeJsonPath);
+-        m_jobRunner->setSetName(setName);
+-    }
+ 
+     loadSettings();
+ }
+@@ -1380,72 +1354,6 @@ QStringList DashDoeSampler::getSamplingScaleOptions() const
+     return { "Low", "Mid", "High" };
+ }
+ 
+-bool DashDoeSampler::writeCaseDat(const QString& caseDir,
+-                                  const QString& fileName,
+-                                  const QString& templateContent,
+-                                  const QStringList& headers,
+-                                  const QJsonArray& values)
+-{
+-    if (m_jobRunner) {
+-        return m_jobRunner->writeCaseDat(caseDir, fileName, templateContent, headers, values);
+-    }
+-    return false;
+-}
+-
+-void DashDoeSampler::onCaseStatusUpdated(const QString& key,
+-                                         const QString& status,
+-                                         const QString& analysisType)
+-{
+-    // Direct Launcher only: its cases live in no DOE Table, so nothing is recorded.
+-    DashAnalysisLaunchExecutor::logCaseStatus(key, status, analysisType, QString());
+-
+-    if (m_isLauncherRunTracking && m_expectedRunKeys.contains(key)) {
+-        // startsWith: a morphing refusal reports "Failed: <stage> (<reason>)" and ends
+-        // the run just as plainly. Matched exactly, such a run never completes and the
+-        // Start button stays disabled until Stop is pressed.
+-        if (status == "Done" || status.startsWith("Failed") || status == "Cancelled") {
+-            m_completedRunKeys.insert(key);
+-            if (m_completedRunKeys.size() >= m_expectedRunKeys.size()) {
+-                m_isLauncherRunTracking = false;
+-                m_expectedRunKeys.clear();
+-                m_completedRunKeys.clear();
+-                emit analysisFinished();
+-            }
+-        }
+-    }
+-}
+-
+-void DashDoeSampler::runDirectLauncherAsync(const QStringList& filePaths,
+-                                            const QMap<QString, QString>& targetFiles)
+-{
+-    if (filePaths.isEmpty()) {
+-        DASH_LOG_ERROR(Analysis) << "No input files provided for Direct Launcher";
+-        return;
+-    }
+-
+-    if (!m_jobRunner) {
+-        DASH_LOG_ERROR(Analysis) << "JobRunner is not available";
+-        return;
+-    }
+-
+-    m_expectedRunKeys.clear();
+-    m_completedRunKeys.clear();
+-    for (const QString& filePath : filePaths) {
+-        QFileInfo fi(filePath);
+-        const QString key = fi.completeBaseName();
+-        if (!key.isEmpty()) {
+-            m_expectedRunKeys.insert(key);
+-        }
+-    }
+-    m_isLauncherRunTracking = !m_expectedRunKeys.isEmpty();
+-
+-    DASH_LOG_INFO(Analysis)
+-        << "=== Direct Launcher: Starting analysis with user-provided files ===";
+-    emit analysisStarted();
+-
+-    m_jobRunner->runDirectJobs(filePaths, targetFiles);
+-}
+-
+ void DashDoeSampler::requestPlot(const QString& command, const QJsonObject& settings)
+ {
+     QString configPath = m_doeJsonPath;
+@@ -1461,19 +1369,6 @@ void DashDoeSampler::requestPlot(const QString& command, const QJsonObject& sett
+     emit plotSpecReady(command, spec);
+ }
+ 
+-void DashDoeSampler::cancelAllRuns()
+-{
+-    if (m_jobRunner) {
+-        m_jobRunner->cancelAllRuns();
+-        m_isLauncherRunTracking = false;
+-        m_expectedRunKeys.clear();
+-        m_completedRunKeys.clear();
+-        emit analysisFailed("Cancelled by user");
+-    } else {
+-        DASH_LOG_WARN(Analysis) << "JobRunner is not available. Cannot cancel runs.";
+-    }
+-}
+-
+ bool DashDoeSampler::isDfsxmlWithMorphing(const QString& templatePath, const QJsonArray& sources)
+ {
+     QFileInfo fileInfo(templatePath);
+diff --git a/model/DashDoeSampler.h b/model/DashDoeSampler.h
+index 2b029297..dd5f6930 100644
+--- a/model/DashDoeSampler.h
++++ b/model/DashDoeSampler.h
+@@ -6,7 +6,6 @@
+ #include <QVariantMap>
+ #include <QFutureWatcher>
+ #include <QMap>
+-#include <QSet>
+ #include <QJsonArray>
+ #include <QJsonObject>
+ 
+@@ -19,7 +18,6 @@ class JsonWrapper;
+ class DashDesignVariableModel;
+ class DashAnalysisModelContext;
+ class DashDoeConfigManager;
+-class DashJobRunner;
+ 
+ class DashDoeSampler : public QObject
+ {
+@@ -148,15 +146,8 @@ public slots:
+         const QString& referenceSetJsonPath,
+         int numSamples,
+         const QMap<QString, QPair<double, double>>& searchRangeOverrides = {});
+-    // Direct Launcher: run analysis directly with user-provided files. The DOE run moved to the
+-    // Analysis Launcher (DashAnalysisLaunchExecutor, #601); this JobRunner serves Direct only.
+-    // targetFiles maps wbpj path -> prt path for .wbpj entries
+-    void runDirectLauncherAsync(const QStringList& filePaths,
+-                                const QMap<QString, QString>& targetFiles = {});
+-    void applyLauncherCPUCoreCount();
+ 
+     void requestPlot(const QString& command, const QJsonObject& settings);
+-    void cancelAllRuns();
+ 
+     // Load settings from JSON file (called automatically in setProjectDirectory, but can be called
+     // manually)
+@@ -178,9 +169,6 @@ public slots:
+ 
+ private slots:
+     void onAnalysisCompleted();
+-    void onCaseStatusUpdated(const QString& key,
+-                             const QString& status,
+-                             const QString& analysisType);
+ 
+ private:
+     void saveSettings();
+@@ -203,13 +191,6 @@ private slots:
+     // Job Execution Helpers
+     bool isDfsxmlWithMorphing(const QString& templatePath, const QJsonArray& sources);
+ 
+-    // Legacy/Helper functions
+-    bool writeCaseDat(const QString& caseDir,
+-                      const QString& fileName,
+-                      const QString& templateContent,
+-                      const QStringList& headers,
+-                      const QJsonArray& values);
+-
+     QString m_doeJsonPath;
+     QString m_configDirPath;
+     QString m_setName;
+@@ -234,7 +215,6 @@ private slots:
+ 
+     // Helper components
+     DashDoeConfigManager* m_configManager = nullptr;
+-    DashJobRunner* m_jobRunner = nullptr;
+ 
+     // Probabilistic-only Min/Max overrides for doe sampling
+     bool m_hasProbabilisticMinMaxOverrides = false;
+@@ -242,9 +222,4 @@ private slots:
+     QVector<double> m_probabilisticMaxOverrides;
+     int m_probabilisticSigmaLevel = 1;
+     QString m_samplingMode = "General";
+-
+-    // Direct Launcher run completion tracking
+-    bool m_isLauncherRunTracking = false;
+-    QSet<QString> m_expectedRunKeys;
+-    QSet<QString> m_completedRunKeys;
+ };
+\ No newline at end of file
+diff --git a/model/DashJobRunner.h b/model/DashJobRunner.h
+index af3ed119..9d8f4ff8 100644
+--- a/model/DashJobRunner.h
++++ b/model/DashJobRunner.h
+@@ -70,10 +70,15 @@ class DashJobRunner : public QObject
+                              QJsonArray cachedSamples,
+                              QString targetPartName = QString(),
+                              QStringList runKeysToSkip = {});
+-    // Direct Launcher: run analysis with user-provided files (.dat/.inp/.dfsxml/.wbpj)
++    // Direct Launch (DashDirectLaunchRunner, Tool menu): run analysis with user-provided files
++    // (.dat/.inp/.dfsxml/.wbpj) as they are, recording no case state in any json.
+     // targetFiles maps wbpj path -> prt path for .wbpj entries
+     void runDirectJobs(const QStringList& filePaths,
+                        const QMap<QString, QString>& targetFiles = {});
++    // The .rst files under runDir (its subdirectories too when recursive), relative to it with
++    // '/' separators: final files before the numbered split files of the same name ("file.rst"
++    // before "file0.rst" / "file_000.rst"), each part in name order.
++    static QStringList rstResultFiles(const QString& runDir, bool recursive);
+     // tokens: values 와 인덱스 병렬인 bare key. 빈 항목은 치환하지 않는다.
+     bool writeCaseDat(const QString& caseDir,
+                       const QString& fileName,
+@@ -190,10 +195,6 @@ class DashJobRunner : public QObject
+                          const QString& status,
+                          const QString& analysisType,
+                          const QStringList& resultFiles = {});
+-    // The .rst files under runDir (its subdirectories too when recursive), relative to it with
+-    // '/' separators: final files before the numbered split files of the same name ("file.rst"
+-    // before "file0.rst" / "file_000.rst"), each part in name order.
+-    static QStringList rstResultFiles(const QString& runDir, bool recursive);
+     // The run dir is reused by every Start of a case, so a scan at Done also finds the results
+     // of earlier launches. snapshotResultFiles keeps the .rst listing (with modification times)
+     // right before the case is submitted; producedResultFiles answers, at Done, the files that
+diff --git a/model/DashJobRunnerAnsysMotion.cpp b/model/DashJobRunnerAnsysMotion.cpp
+index 5440cb11..7bfd5804 100644
+--- a/model/DashJobRunnerAnsysMotion.cpp
++++ b/model/DashJobRunnerAnsysMotion.cpp
+@@ -362,13 +362,7 @@ bool DashJobRunner::runMotionLauncher(const QString& ansysPath,
+ 
+ void DashJobRunner::startNextMotionLauncher()
+ {
+-    // Safety check
+-    if (m_doeJsonPathSnapshot.isEmpty()) {
+-        DASH_LOG_ERROR(Analysis)
+-            << "DOE JSON path snapshot is empty. Cannot start motion-launcher.";
+-        return;
+-    }
+-
++    // No DOE json is needed here: a Direct Launch run has none.
+     if (m_motionLauncherQueue.isEmpty()) {
+         DASH_LOG_INFO(Analysis) << "=== All motion-launcher tasks completed ===";
+         return;
+@@ -424,8 +418,8 @@ void DashJobRunner::monitorMotionLauncherOutput(QProcess* process,
+         if (message.contains("SUCCESS", Qt::CaseInsensitive)
+             || message.contains("COMPLETED", Qt::CaseInsensitive)) {
+             if (QFile::exists(resultFilePath)) {
+-                // Case state lives in the Analysis Launcher json (#601); a Direct run has
+-                // none and is left alone as before.
++                // Case state lives in the Analysis Launcher json (#601); a Direct Launch run
++                // has none and gets its Done from the process exit instead.
+                 const QJsonObject cases = DashAnalysisLauncherConfig::readCases(
+                     m_launcherConfigPathSnapshot, m_setNameSnapshot);
+                 if (cases.contains(runKey)) {
+diff --git a/model/DashProject.cpp b/model/DashProject.cpp
+index 28befbe0..b433f5b6 100644
+--- a/model/DashProject.cpp
++++ b/model/DashProject.cpp
+@@ -507,8 +507,6 @@ void DashProject::addDoeSampler(DashDoeSampler* model, const QString& name)
+     QString variant = model->getVariant();
+     if (variant == "Resample") {
+         newItem->setData("doe_sampler_resample", Qt::UserRole);
+-    } else if (variant == "Direct") {
+-        newItem->setData("doe_sampler_direct", Qt::UserRole);
+     } else {
+         newItem->setData("doe_sampler_init", Qt::UserRole);
+     }
+@@ -991,7 +989,7 @@ QString DashProject::detectRunnerVariant(const QString& jsonPath, const QString&
+     return QStringLiteral("Sim");
+ }
+ 
+-// Detect whether a DoeSampler JSON represents "Init", "Resample", or "Direct".
++// Detect whether a DoeSampler JSON represents "Init" or "Resample".
+ // JSON content alone cannot distinguish them, so we rely on the variant key
+ // written at creation time, with set name suffix as fallback.
+ QString DashProject::detectDoeSamplerVariant(const QString& jsonPath, const QString& setName)
+@@ -1009,9 +1007,6 @@ QString DashProject::detectDoeSamplerVariant(const QString& jsonPath, const QStr
+     if (setName == "Resample" || setName.endsWith("-Resample")) {
+         return QStringLiteral("Resample");
+     }
+-    if (setName == "Direct" || setName.endsWith("-Direct")) {
+-        return QStringLiteral("Direct");
+-    }
+     return QStringLiteral("Init");
+ }
+ 
+diff --git a/model/preprocessor/DashResultChoiceFlatten.h b/model/preprocessor/DashResultChoiceFlatten.h
+new file mode 100644
+index 00000000..e8530d3d
+--- /dev/null
++++ b/model/preprocessor/DashResultChoiceFlatten.h
+@@ -0,0 +1,96 @@
++#pragma once
++
++#include <QList>
++#include <QMap>
++#include <QString>
++#include <QStringList>
++
++#include <algorithm>
++
++// The load step and name trees of a loaded result file flattened to single-level choices, each
++// string exactly what DashAnalysisLauncher::onSelectionChanged / requestVtkPreview accept, for
++// pickers that are a combo box rather than a tree (Direct Launch Result Preview, #604). Pure
++// functions, Qt Core only.
++namespace DashResultChoiceFlatten {
++
++// Steps, substeps, modes and states sort by their numeric last token, as the Launcher's tree does
++inline void sortByNumericLastToken(QStringList& labels)
++{
++    std::sort(labels.begin(), labels.end(), [](const QString& a, const QString& b) {
++        return a.section(' ', -1).toInt() < b.section(' ', -1).toInt();
++    });
++}
++
++// ExtractedKeys::loadSteps flattened to leaves. "Modes" and "States" contribute their children
++// as is ("Mode 1", "State 1"); any other step contributes "Step N / Substep M" per substep, or
++// the bare "Step N" when it has none (accepted for Abaqus only, as the tree's top-level pick is).
++inline QStringList loadStepLeaves(const QMap<QString, QList<QString>>& loadSteps)
++{
++    QStringList stepKeys = loadSteps.keys();
++    sortByNumericLastToken(stepKeys);
++    QStringList leaves;
++    for (const QString& stepKey : stepKeys) {
++        QStringList children = loadSteps.value(stepKey);
++        sortByNumericLastToken(children);
++        if (stepKey == QLatin1String("Modes") || stepKey == QLatin1String("States")) {
++            leaves.append(children);
++            continue;
++        }
++        if (children.isEmpty()) {
++            leaves.append(stepKey);
++            continue;
++        }
++        for (const QString& child : children) {
++            leaves.append(stepKey + QStringLiteral(" / ") + child);
++        }
++    }
++    return leaves;
++}
++
++// namesUpdated's map flattened to leaves. A main name with no sub names, or only "_", is a leaf
++// itself; otherwise each sub name gives "Main / sub", where "_" (the magnitude) collapses to the
++// main name.
++inline QStringList nameLeaves(const QMap<QString, QStringList>& names)
++{
++    QStringList leaves;
++    for (auto it = names.constBegin(); it != names.constEnd(); ++it) {
++        const QString& mainName = it.key();
++        const QStringList& subNames = it.value();
++        if (subNames.isEmpty()
++            || (subNames.size() == 1 && subNames.first() == QLatin1String("_"))) {
++            leaves.append(mainName);
++            continue;
++        }
++        for (const QString& subName : subNames) {
++            leaves.append(subName == QLatin1String("_")
++                              ? mainName
++                              : mainName + QStringLiteral(" / ") + subName);
++        }
++    }
++    return leaves;
++}
++
++// Spaces and slashes to underscores, so a step or name reads as one token
++inline QString makeSafe(const QString& text)
++{
++    QString safe = text;
++    safe.replace(QStringLiteral(" / "), QStringLiteral("_"));
++    safe.replace(QLatin1Char('/'), QLatin1Char('_'));
++    safe.replace(QLatin1Char(' '), QLatin1Char('_'));
++    return safe;
++}
++
++// The scalar name the central view shows for a preview: makeSafe(step) + "_" + makeSafe(name),
++// with a "Magnitude" sub name (any case, e.g. Mode Shape's "magnitude") shown as its main name
++inline QString previewScalarName(const QString& loadStep, const QString& name)
++{
++    QString displayName = name;
++    const int separator = name.indexOf(QStringLiteral(" / "));
++    if (separator >= 0
++        && name.mid(separator + 3).compare(QLatin1String("Magnitude"), Qt::CaseInsensitive) == 0) {
++        displayName = name.left(separator);
++    }
++    return makeSafe(loadStep) + QLatin1Char('_') + makeSafe(displayName);
++}
++
++}  // namespace DashResultChoiceFlatten
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+index b1c9b26a..62e799d8 100644
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -249,6 +249,22 @@ target_link_libraries(test_target_files PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${
+ 
+ add_test(NAME test_target_files COMMAND test_target_files)
+ 
++# Direct Launch Result Preview choices (#604): load step / name trees flattened to the strings the
++# reader accepts. Header only, Qt Core only.
++add_executable(test_result_choice_flatten TestResultChoiceFlatten.cpp)
++target_include_directories(test_result_choice_flatten PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
++target_link_libraries(test_result_choice_flatten PRIVATE dashlog_core Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test)
++
++add_test(NAME test_result_choice_flatten COMMAND test_result_choice_flatten)
++
++# Direct Launch staging (#604): the run folder of an input and the refusal of an input already
++# inside it. Header only, Qt Core only.
++add_executable(test_direct_launch_staging TestDirectLaunchStaging.cpp)
++target_include_directories(test_direct_launch_staging PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
++target_link_libraries(test_direct_launch_staging PRIVATE dashlog_core Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test)
++
++add_test(NAME test_direct_launch_staging COMMAND test_direct_launch_staging)
++
+ # preprocessor 리더 교체 규칙 (#573): 정리 → 파괴 → 생성 순서, 실패 시 빈 슬롯, 실패 뒤 재시도. 헤더
+ # 전용 템플릿이라 링크할 소스가 없다.
+ add_executable(test_reader_slot TestReaderSlot.cpp)
+@@ -380,7 +396,7 @@ target_link_libraries(test_demo_script_player PRIVATE Qt${QT_VERSION_MAJOR}::Cor
+ add_test(NAME test_demo_script_player COMMAND test_demo_script_player)
+ 
+ # Windows: Qt DLL 이 PATH 에 없으면 로더가 0xc0000135 로 죽어 테스트가 실행조차 안 된다.
+-set_tests_properties(test_line_assembler test_job_state test_async_job test_process_runtime test_daemon_lifecycle test_gadget_codec test_dash_logger test_dash_log_model test_xml_parser test_reference_model_ledger test_set_reference_model test_reference_set_name test_upstream_staleness test_doe_selection test_dataset_index test_doe_table_file test_analysis_launcher_config test_launcher_runs test_target_files test_reader_slot test_reader_session test_result_keys test_result_query test_set_identity test_set_legacy_migration test_file_resource_registry test_data_loader_cache test_analyzer_utils_cache test_demo_script_loader test_demo_script_player PROPERTIES
++set_tests_properties(test_line_assembler test_job_state test_async_job test_process_runtime test_daemon_lifecycle test_gadget_codec test_dash_logger test_dash_log_model test_xml_parser test_reference_model_ledger test_set_reference_model test_reference_set_name test_upstream_staleness test_doe_selection test_dataset_index test_doe_table_file test_analysis_launcher_config test_launcher_runs test_target_files test_result_choice_flatten test_direct_launch_staging test_reader_slot test_reader_session test_result_keys test_result_query test_set_identity test_set_legacy_migration test_file_resource_registry test_data_loader_cache test_analyzer_utils_cache test_demo_script_loader test_demo_script_player PROPERTIES
+     # QT_LOGGING_TO_CONSOLE: Windows QTest는 stdout이 콘솔이 아니면(ctest가 파이프로 받을 때) PASS/FAIL 출력을
+     # OutputDebugString으로 보낸다. 이 변수를 켜야 ctest -V(run_tests.ps1 기본)에서 서브테스트 결과가 보인다.
+     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt${QT_VERSION_MAJOR}::Core>;QT_LOGGING_TO_CONSOLE=set:1")
+diff --git a/tests/TestDirectLaunchStaging.cpp b/tests/TestDirectLaunchStaging.cpp
+new file mode 100644
+index 00000000..564d20a1
+--- /dev/null
++++ b/tests/TestDirectLaunchStaging.cpp
+@@ -0,0 +1,99 @@
++// Unit tests for controller/DashDirectLaunchStaging (#604): where a Direct Launch run is staged and
++// the refusal of an input that already lives inside its own run folder. Level: all Level 1 — a
++// temporary folder only, no processes or event loop.
++
++#include <QDir>
++#include <QFile>
++#include <QTemporaryDir>
++#include <QtTest/QtTest>
++#include "TestLevel.h"
++#include "controller/DashDirectLaunchStaging.h"
++
++namespace {
++
++// All Level 1 — nothing to list for Push / Ci (docs/test-levels.md section 7).
++const DashTestLevel::Table testLevels{};
++
++// Creates an empty file at root/relativePath, with its folders, and returns its path
++QString touch(const QString& root, const QString& relativePath)
++{
++    const QString path = QDir(root).filePath(relativePath);
++    QDir().mkpath(QFileInfo(path).absolutePath());
++    QFile file(path);
++    // Opening for writing creates the file; it stays empty
++    [[maybe_unused]] const bool created = file.open(QIODevice::WriteOnly);
++    return path;
++}
++
++}  // namespace
++
++class TestDirectLaunchStaging : public QObject
++{
++    Q_OBJECT
++
++private slots:
++    void init();
++
++    void runDirIsTheCompleteBaseNameUnderTheOutputRoot();
++    void acceptsAnInputOutsideARunFolderNotCreatedYet();
++    void catchesAnInputInsideItsRunFolder();
++    void comparesCanonicalPaths();
++    void ignoresASiblingFolderSharingThePrefix();
++};
++
++void TestDirectLaunchStaging::init()
++{
++    const QString reason = DashTestLevel::skipReasonIfAny(
++        testLevels, QString::fromLatin1(QTest::currentTestFunction()));
++    if (!reason.isEmpty()) {
++        QSKIP(qPrintable(reason));
++    }
++}
++
++void TestDirectLaunchStaging::runDirIsTheCompleteBaseNameUnderTheOutputRoot()
++{
++    QCOMPARE(DashDirectLaunchStaging::runDirOf("C:/project/decks/model.v2.inp", "C:/project/out"),
++             QString("C:/project/out/model.v2"));
++}
++
++void TestDirectLaunchStaging::acceptsAnInputOutsideARunFolderNotCreatedYet()
++{
++    QTemporaryDir dir;
++    const QString input = touch(dir.path(), "model.inp");
++    // <root>/model does not exist yet, as on a file's first run
++    QVERIFY(!DashDirectLaunchStaging::inputInsideRunDir(input, dir.path()));
++}
++
++void TestDirectLaunchStaging::catchesAnInputInsideItsRunFolder()
++{
++    QTemporaryDir dir;
++    const QString input = touch(dir.path(), "out/model/model.inp");
++    QVERIFY(DashDirectLaunchStaging::inputInsideRunDir(input, QDir(dir.path()).filePath("out")));
++    // Deeper inside the run folder counts as well
++    const QString nested = touch(dir.path(), "out/model/sub/model.inp");
++    QVERIFY(DashDirectLaunchStaging::inputInsideRunDir(nested, QDir(dir.path()).filePath("out")));
++}
++
++void TestDirectLaunchStaging::comparesCanonicalPaths()
++{
++    QTemporaryDir dir;
++    const QString input = touch(dir.path(), "out/model/model.inp");
++    touch(dir.path(), "out/other/keep.txt");
++    // The same output root spelled through a detour
++    const QString outputRoot = QDir(dir.path()).filePath("out/other/..");
++    QVERIFY(DashDirectLaunchStaging::inputInsideRunDir(input, outputRoot));
++    const QString detouredInput = QDir(dir.path()).filePath("out/other/../model/model.inp");
++    QVERIFY(DashDirectLaunchStaging::inputInsideRunDir(detouredInput,
++                                                       QDir(dir.path()).filePath("out")));
++}
++
++void TestDirectLaunchStaging::ignoresASiblingFolderSharingThePrefix()
++{
++    QTemporaryDir dir;
++    // The run folder of model.inp is <root>/model, not <root>/modelB
++    const QString input = touch(dir.path(), "modelB/model.inp");
++    QVERIFY(!DashDirectLaunchStaging::inputInsideRunDir(input, dir.path()));
++}
++
++QTEST_GUILESS_MAIN(TestDirectLaunchStaging)
++#include "TestDirectLaunchStaging.moc"
+diff --git a/tests/TestResultChoiceFlatten.cpp b/tests/TestResultChoiceFlatten.cpp
+new file mode 100644
+index 00000000..f45fde18
+--- /dev/null
++++ b/tests/TestResultChoiceFlatten.cpp
+@@ -0,0 +1,109 @@
++// Unit tests for model/preprocessor/DashResultChoiceFlatten (#604): the load step and name trees
++// flattened to the strings the Direct Launch Result Preview combos pass to the reader. Level: all
++// Level 1 — no files, processes or event loop.
++
++#include <QtTest/QtTest>
++#include "TestLevel.h"
++#include "model/preprocessor/DashResultChoiceFlatten.h"
++
++namespace {
++
++// All Level 1 — nothing to list for Push / Ci (docs/test-levels.md section 7).
++const DashTestLevel::Table testLevels{};
++
++}  // namespace
++
++class TestResultChoiceFlatten : public QObject
++{
++    Q_OBJECT
++
++private slots:
++    void init();
++
++    void joinsStepsAndSubstepsInNumericOrder();
++    void keepsABareStepWithoutSubsteps();
++    void takesModesAndStatesAsIs();
++    void collapsesTheMagnitudeToTheMainName();
++    void keepsModeShapeSubNames();
++    void buildsThePreviewScalarName();
++};
++
++void TestResultChoiceFlatten::init()
++{
++    const QString reason = DashTestLevel::skipReasonIfAny(
++        testLevels, QString::fromLatin1(QTest::currentTestFunction()));
++    if (!reason.isEmpty()) {
++        QSKIP(qPrintable(reason));
++    }
++}
++
++void TestResultChoiceFlatten::joinsStepsAndSubstepsInNumericOrder()
++{
++    QMap<QString, QList<QString>> loadSteps;
++    loadSteps["Step 10"] = { "Substep 1" };
++    loadSteps["Step 2"] = { "Substep 10", "Substep 2" };
++
++    QCOMPARE(DashResultChoiceFlatten::loadStepLeaves(loadSteps),
++             QStringList({ "Step 2 / Substep 2", "Step 2 / Substep 10", "Step 10 / Substep 1" }));
++}
++
++void TestResultChoiceFlatten::keepsABareStepWithoutSubsteps()
++{
++    QMap<QString, QList<QString>> loadSteps;
++    loadSteps["Step 1"] = {};
++
++    QCOMPARE(DashResultChoiceFlatten::loadStepLeaves(loadSteps), QStringList({ "Step 1" }));
++}
++
++void TestResultChoiceFlatten::takesModesAndStatesAsIs()
++{
++    QMap<QString, QList<QString>> modal;
++    modal["Modes"] = { "Mode 10", "Mode 2", "Mode 1" };
++    QCOMPARE(DashResultChoiceFlatten::loadStepLeaves(modal),
++             QStringList({ "Mode 1", "Mode 2", "Mode 10" }));
++
++    QMap<QString, QList<QString>> motion;
++    motion["States"] = { "State 2", "State 1" };
++    QCOMPARE(DashResultChoiceFlatten::loadStepLeaves(motion),
++             QStringList({ "State 1", "State 2" }));
++}
++
++void TestResultChoiceFlatten::collapsesTheMagnitudeToTheMainName()
++{
++    QMap<QString, QStringList> names;
++    names["Displacement"] = { "X", "Y", "_" };
++    names["Stress"] = { "_" };
++    names["Natural Frequency"] = {};
++
++    QCOMPARE(DashResultChoiceFlatten::nameLeaves(names),
++             QStringList({ "Displacement / X",
++                           "Displacement / Y",
++                           "Displacement",
++                           "Natural Frequency",
++                           "Stress" }));
++}
++
++void TestResultChoiceFlatten::keepsModeShapeSubNames()
++{
++    // modeShapeLeaf reads the lowercase sub name, so it must arrive intact
++    QMap<QString, QStringList> names;
++    names["Mode Shape"] = { "x", "magnitude" };
++
++    QCOMPARE(DashResultChoiceFlatten::nameLeaves(names),
++             QStringList({ "Mode Shape / x", "Mode Shape / magnitude" }));
++}
++
++void TestResultChoiceFlatten::buildsThePreviewScalarName()
++{
++    QCOMPARE(DashResultChoiceFlatten::previewScalarName("Step 1 / Substep 2", "Stress / XX"),
++             QString("Step_1_Substep_2_Stress_XX"));
++    QCOMPARE(DashResultChoiceFlatten::previewScalarName("Mode 3", "Mode Shape / magnitude"),
++             QString("Mode_3_Mode_Shape"));
++    QCOMPARE(DashResultChoiceFlatten::previewScalarName("Step 1 / Substep 1", "Displacement"),
++             QString("Step_1_Substep_1_Displacement"));
++    QCOMPARE(DashResultChoiceFlatten::previewScalarName(QString(), "Function Expression / f1"),
++             QString("_Function_Expression_f1"));
++}
++
++QTEST_GUILESS_MAIN(TestResultChoiceFlatten)
++#include "TestResultChoiceFlatten.moc"
+diff --git a/ui/DashDoeSamplerDirectWidget.ui b/ui/DashDoeSamplerDirectWidget.ui
+deleted file mode 100644
+index 100f40e6..00000000
+--- a/ui/DashDoeSamplerDirectWidget.ui
++++ /dev/null
+@@ -1,144 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<ui version="4.0">
+- <class>DashDoeSamplerDirectWidget</class>
+- <widget class="QWidget" name="DashDoeSamplerDirectWidget">
+-  <property name="geometry">
+-   <rect>
+-    <x>0</x>
+-    <y>0</y>
+-    <width>700</width>
+-    <height>800</height>
+-   </rect>
+-  </property>
+-
+-  <layout class="QVBoxLayout" name="directLauncherLayout">
+-   <item>
+-    <widget class="QSplitter" name="m_directLauncherSplitter">
+-     <property name="orientation"><enum>Qt::Vertical</enum></property>
+-
+-     <widget class="QWidget" name="inputCasesWidget">
+-      <layout class="QVBoxLayout" name="inputCasesLayout">
+-       <property name="leftMargin"><number>0</number></property>
+-       <property name="topMargin"><number>0</number></property>
+-       <property name="rightMargin"><number>0</number></property>
+-       <property name="bottomMargin"><number>0</number></property>
+-       <item>
+-        <widget class="DashSectionLabel" name="inputCasesLabel">
+-         <property name="text"><string>Input Cases</string></property>
+-        </widget>
+-       </item>
+-       <item>
+-        <widget class="QTableWidget" name="m_inputCasesTable">
+-         <property name="columnCount"><number>2</number></property>
+-         <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+-         <property name="selectionMode"><enum>QAbstractItemView::SingleSelection</enum></property>
+-         <attribute name="verticalHeaderVisible"><bool>false</bool></attribute>
+-         <column><property name="text"><string>File Name</string></property></column>
+-         <column><property name="text"><string>Solver State</string></property></column>
+-        </widget>
+-       </item>
+-       <item>
+-        <layout class="QHBoxLayout" name="inputCasesButtonLayout">
+-         <item>
+-          <spacer name="inputCasesButtonStretch">
+-           <property name="orientation"><enum>Qt::Horizontal</enum></property>
+-           <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+-          </spacer>
+-         </item>
+-         <item>
+-          <widget class="DashSubButton" name="m_inputCasesMaterialButton">
+-           <property name="text"><string>Material</string></property>
+-           <property name="visible"><bool>false</bool></property>
+-           <!-- No iconKey: no material-semantic icon exists in the resources. -->
+-          </widget>
+-         </item>
+-         <item>
+-          <widget class="DashSubButton" name="m_inputCasesAddButton">
+-           <property name="text"><string>Add Input File</string></property>
+-           <property name="iconKey" stdset="0">
+-            <string notr="true">:/style/svg_14px/sub_add.svg</string>
+-           </property>
+-          </widget>
+-         </item>
+-         <item>
+-          <widget class="DashMainButton" name="m_inputCasesRemoveButton">
+-           <property name="text"><string>Delete</string></property>
+-           <property name="variant" stdset="0">
+-            <number>3</number>
+-           </property>
+-          </widget>
+-         </item>
+-        </layout>
+-       </item>
+-      </layout>
+-     </widget>
+-
+-     <widget class="DashDoeCasesWidget" name="m_directOutputCasesWidget"/>
+-
+-    </widget>
+-   </item>
+-   <item>
+-    <layout class="QHBoxLayout" name="directControlsLayout">
+-     <item>
+-      <spacer name="directControlsStretch">
+-       <property name="orientation"><enum>Qt::Horizontal</enum></property>
+-       <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+-      </spacer>
+-     </item>
+-     <item><widget class="QLabel" name="directCpuCoresLabel"><property name="text"><string>CPU cores</string></property></widget></item>
+-     <item>
+-      <widget class="QSpinBox" name="m_directCpuCoresSpinBox">
+-       <property name="minimum"><number>1</number></property>
+-       <property name="maximum"><number>1024</number></property>
+-       <property name="value"><number>1</number></property>
+-      </widget>
+-     </item>
+-    </layout>
+-   </item>
+-   <item>
+-    <layout class="QHBoxLayout" name="directButtonLayout">
+-     <property name="leftMargin"><number>0</number></property>
+-     <property name="topMargin"><number>0</number></property>
+-     <property name="rightMargin"><number>0</number></property>
+-     <property name="bottomMargin"><number>0</number></property>
+-     <property name="spacing"><number>10</number></property>
+-     <item><widget class="DashMainButton" name="m_directStartButton"><property name="text"><string>Start</string></property></widget></item>
+-     <item>
+-      <widget class="DashMainButton" name="m_directStopButton">
+-       <property name="text"><string>Stop</string></property>
+-       <property name="variant" stdset="0">
+-        <number>3</number>
+-       </property>
+-      </widget>
+-     </item>
+-    </layout>
+-   </item>
+-  </layout>
+- </widget>
+-
+- <customwidgets>
+-  <customwidget>
+-   <class>DashSectionLabel</class>
+-   <extends>QLabel</extends>
+-   <header>view/common/DashSectionLabel.h</header>
+-  </customwidget>
+-  <customwidget>
+-   <class>DashMainButton</class>
+-   <extends>QPushButton</extends>
+-   <header>view/common/DashMainButton.h</header>
+-  </customwidget>
+-  <customwidget>
+-   <class>DashSubButton</class>
+-   <extends>QPushButton</extends>
+-   <header>view/common/DashSubButton.h</header>
+-  </customwidget>
+-  <customwidget>
+-   <class>DashDoeCasesWidget</class>
+-   <extends>QWidget</extends>
+-   <header>view/DashDoeCasesWidget.h</header>
+-  </customwidget>
+- </customwidgets>
+-
+- <resources/>
+- <connections/>
+-</ui>
+diff --git a/ui/dialog/DashDirectLaunchDialog.ui b/ui/dialog/DashDirectLaunchDialog.ui
+new file mode 100644
+index 00000000..be0b8347
+--- /dev/null
++++ b/ui/dialog/DashDirectLaunchDialog.ui
+@@ -0,0 +1,319 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<ui version="4.0">
++ <class>DashDirectLaunchDialog</class>
++ <widget class="QDialog" name="DashDirectLaunchDialog">
++  <property name="geometry">
++   <rect>
++    <x>0</x>
++    <y>0</y>
++    <width>760</width>
++    <height>520</height>
++   </rect>
++  </property>
++  <property name="windowTitle"><string>Direct Launch</string></property>
++  <property name="styleSheet">
++   <string notr="true">#stepRail {
++  background-color: #eaeef3;
++  border: 1px solid #d6dde6;
++  border-radius: 6px;
++}
++#stepRail QToolButton {
++  background: transparent;
++  border: none;
++  border-left: 3px solid transparent;
++  padding: 9px 8px;
++  font-size: 11px;
++  font-weight: 700;
++  color: #4b5563;
++  text-align: left;
++}
++#stepRail QToolButton:hover { background-color: #dfe5ec; }
++#stepRail QToolButton:checked {
++  background-color: #ffffff;
++  border-left: 3px solid #34BCFF;
++  color: #0B2A5B;
++}</string>
++  </property>
++
++  <layout class="QVBoxLayout" name="mainVerticalLayout">
++   <property name="spacing"><number>0</number></property>
++   <property name="leftMargin"><number>0</number></property>
++   <property name="topMargin"><number>0</number></property>
++   <property name="rightMargin"><number>0</number></property>
++   <property name="bottomMargin"><number>0</number></property>
++
++   <item>
++    <widget class="QWidget" name="contentWidget">
++     <layout class="QHBoxLayout" name="bodyLayout">
++      <property name="spacing"><number>8</number></property>
++      <property name="leftMargin"><number>12</number></property>
++      <property name="topMargin"><number>12</number></property>
++      <property name="rightMargin"><number>12</number></property>
++      <property name="bottomMargin"><number>12</number></property>
++
++      <item>
++       <widget class="QWidget" name="stepRail" native="true">
++        <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
++        <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
++        <layout class="QVBoxLayout" name="stepRailLayout">
++         <property name="spacing"><number>0</number></property>
++         <property name="leftMargin"><number>0</number></property>
++         <property name="topMargin"><number>6</number></property>
++         <property name="rightMargin"><number>0</number></property>
++         <property name="bottomMargin"><number>6</number></property>
++         <item>
++          <widget class="QToolButton" name="stepLauncher">
++           <property name="sizePolicy">
++            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
++             <horstretch>0</horstretch>
++             <verstretch>0</verstretch>
++            </sizepolicy>
++           </property>
++           <property name="text"><string>Launcher</string></property>
++           <property name="checkable"><bool>true</bool></property>
++           <property name="checked"><bool>true</bool></property>
++           <attribute name="buttonGroup"><string notr="true">stepGroup</string></attribute>
++          </widget>
++         </item>
++         <item>
++          <widget class="QToolButton" name="stepPreview">
++           <property name="sizePolicy">
++            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
++             <horstretch>0</horstretch>
++             <verstretch>0</verstretch>
++            </sizepolicy>
++           </property>
++           <property name="text"><string>Result Preview</string></property>
++           <property name="checkable"><bool>true</bool></property>
++           <attribute name="buttonGroup"><string notr="true">stepGroup</string></attribute>
++          </widget>
++         </item>
++         <item>
++          <spacer name="stepRailStretch">
++           <property name="orientation"><enum>Qt::Vertical</enum></property>
++           <property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property>
++          </spacer>
++         </item>
++        </layout>
++       </widget>
++      </item>
++
++      <item>
++       <widget class="QStackedWidget" name="stack">
++        <property name="currentIndex"><number>0</number></property>
++
++        <!-- Page 0: Launcher -->
++        <widget class="QWidget" name="pageLauncher">
++         <layout class="QVBoxLayout" name="launcherLayout">
++          <property name="spacing"><number>10</number></property>
++          <property name="leftMargin"><number>4</number></property>
++          <property name="topMargin"><number>0</number></property>
++          <property name="rightMargin"><number>0</number></property>
++          <property name="bottomMargin"><number>0</number></property>
++          <item>
++           <layout class="QGridLayout" name="launcherFormLayout">
++            <property name="horizontalSpacing"><number>8</number></property>
++            <property name="verticalSpacing"><number>8</number></property>
++            <item row="0" column="0">
++             <widget class="QLabel" name="inputLabel"><property name="text"><string>Input file</string></property></widget>
++            </item>
++            <item row="0" column="1">
++             <widget class="QLineEdit" name="inputLineEdit">
++              <property name="readOnly"><bool>true</bool></property>
++              <property name="placeholderText"><string>Pick a .inp, .dat, .dfsxml or .wbpj file in the project folder</string></property>
++             </widget>
++            </item>
++            <item row="0" column="2">
++             <widget class="DashSubButton" name="inputBrowseButton"><property name="text"><string>...</string></property></widget>
++            </item>
++            <item row="1" column="0">
++             <widget class="QLabel" name="targetPartLabel"><property name="text"><string>Target Part</string></property></widget>
++            </item>
++            <item row="1" column="1" colspan="2">
++             <widget class="QComboBox" name="targetPartCombo"/>
++            </item>
++            <item row="2" column="0">
++             <widget class="QLabel" name="outputLabel"><property name="text"><string>Output folder</string></property></widget>
++            </item>
++            <item row="2" column="1">
++             <widget class="QLineEdit" name="outputLineEdit">
++              <property name="readOnly"><bool>true</bool></property>
++             </widget>
++            </item>
++            <item row="2" column="2">
++             <widget class="DashSubButton" name="outputSetButton"><property name="text"><string>Set</string></property></widget>
++            </item>
++           </layout>
++          </item>
++          <item>
++           <widget class="DashSectionLabel" name="casesSectionLabel">
++            <property name="text"><string>Output Cases</string></property>
++           </widget>
++          </item>
++          <item>
++           <widget class="QTableWidget" name="casesTable">
++            <property name="editTriggers"><set>QAbstractItemView::NoEditTriggers</set></property>
++            <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
++            <property name="selectionMode"><enum>QAbstractItemView::SingleSelection</enum></property>
++            <attribute name="horizontalHeaderStretchLastSection"><bool>true</bool></attribute>
++            <attribute name="verticalHeaderVisible"><bool>false</bool></attribute>
++            <column><property name="text"><string>Case</string></property></column>
++            <column><property name="text"><string>Status</string></property></column>
++            <column><property name="text"><string>Log</string></property></column>
++           </widget>
++          </item>
++          <item>
++           <layout class="QHBoxLayout" name="launcherButtonLayout">
++            <property name="spacing"><number>10</number></property>
++            <item><widget class="QLabel" name="cpuCoresLabel"><property name="text"><string>CPU cores</string></property></widget></item>
++            <item>
++             <widget class="QSpinBox" name="cpuCoresSpinBox">
++              <property name="minimum"><number>1</number></property>
++              <property name="maximum"><number>1024</number></property>
++              <property name="value"><number>1</number></property>
++             </widget>
++            </item>
++            <item>
++             <spacer name="launcherButtonStretch">
++              <property name="orientation"><enum>Qt::Horizontal</enum></property>
++              <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
++             </spacer>
++            </item>
++            <item><widget class="DashSubButton" name="casePreviewButton"><property name="text"><string>Preview</string></property></widget></item>
++            <item><widget class="DashMainButton" name="startButton"><property name="text"><string>Start</string></property></widget></item>
++            <item>
++             <widget class="DashMainButton" name="stopButton">
++              <property name="text"><string>Stop</string></property>
++              <property name="variant" stdset="0"><number>3</number></property>
++             </widget>
++            </item>
++           </layout>
++          </item>
++         </layout>
++        </widget>
++
++        <!-- Page 1: Result Preview -->
++        <widget class="QWidget" name="pagePreview">
++         <layout class="QVBoxLayout" name="previewLayout">
++          <property name="spacing"><number>10</number></property>
++          <property name="leftMargin"><number>4</number></property>
++          <property name="topMargin"><number>0</number></property>
++          <property name="rightMargin"><number>0</number></property>
++          <property name="bottomMargin"><number>0</number></property>
++          <item>
++           <layout class="QHBoxLayout" name="resultFileLayout">
++            <property name="spacing"><number>8</number></property>
++            <item><widget class="QLabel" name="resultFileLabel"><property name="text"><string>Result file</string></property></widget></item>
++            <item>
++             <widget class="QLineEdit" name="resultLineEdit">
++              <property name="readOnly"><bool>true</bool></property>
++              <property name="placeholderText"><string>Pick a .rst, .dfr or .odb file</string></property>
++             </widget>
++            </item>
++            <item><widget class="DashSubButton" name="resultBrowseButton"><property name="text"><string>...</string></property></widget></item>
++           </layout>
++          </item>
++          <item>
++           <layout class="QHBoxLayout" name="resultChoiceLayout">
++            <property name="spacing"><number>8</number></property>
++            <item><widget class="QLabel" name="componentLabel"><property name="text"><string>Component</string></property></widget></item>
++            <item>
++             <widget class="QComboBox" name="componentCombo">
++              <property name="sizePolicy">
++               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
++                <horstretch>1</horstretch>
++                <verstretch>0</verstretch>
++               </sizepolicy>
++              </property>
++             </widget>
++            </item>
++            <item><widget class="QLabel" name="stepLabel"><property name="text"><string>Step</string></property></widget></item>
++            <item>
++             <widget class="QComboBox" name="stepCombo">
++              <property name="sizePolicy">
++               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
++                <horstretch>1</horstretch>
++                <verstretch>0</verstretch>
++               </sizepolicy>
++              </property>
++             </widget>
++            </item>
++            <item><widget class="QLabel" name="nameLabel"><property name="text"><string>Name</string></property></widget></item>
++            <item>
++             <widget class="QComboBox" name="nameCombo">
++              <property name="sizePolicy">
++               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
++                <horstretch>1</horstretch>
++                <verstretch>0</verstretch>
++               </sizepolicy>
++              </property>
++             </widget>
++            </item>
++            <item><widget class="DashSubButton" name="previewButton"><property name="text"><string>Preview</string></property></widget></item>
++           </layout>
++          </item>
++          <item>
++           <spacer name="previewBottomStretch">
++            <property name="orientation"><enum>Qt::Vertical</enum></property>
++            <property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property>
++           </spacer>
++          </item>
++         </layout>
++        </widget>
++       </widget>
++      </item>
++     </layout>
++    </widget>
++   </item>
++
++   <item>
++    <widget class="QWidget" name="statusBarWidget">
++     <property name="minimumHeight"><number>30</number></property>
++     <property name="maximumHeight"><number>30</number></property>
++     <layout class="QHBoxLayout" name="statusBarLayout">
++      <property name="spacing"><number>5</number></property>
++      <property name="leftMargin"><number>12</number></property>
++      <property name="topMargin"><number>3</number></property>
++      <property name="rightMargin"><number>12</number></property>
++      <property name="bottomMargin"><number>3</number></property>
++      <item>
++       <widget class="QLabel" name="statusLabel">
++        <property name="text"><string></string></property>
++        <property name="alignment"><set>Qt::AlignLeft|Qt::AlignVCenter</set></property>
++       </widget>
++      </item>
++      <item>
++       <spacer name="statusBarStretch">
++        <property name="orientation"><enum>Qt::Horizontal</enum></property>
++        <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
++       </spacer>
++      </item>
++     </layout>
++    </widget>
++   </item>
++  </layout>
++ </widget>
++
++ <customwidgets>
++  <customwidget>
++   <class>DashSectionLabel</class>
++   <extends>QLabel</extends>
++   <header>view/common/DashSectionLabel.h</header>
++  </customwidget>
++  <customwidget>
++   <class>DashMainButton</class>
++   <extends>QPushButton</extends>
++   <header>view/common/DashMainButton.h</header>
++  </customwidget>
++  <customwidget>
++   <class>DashSubButton</class>
++   <extends>QPushButton</extends>
++   <header>view/common/DashSubButton.h</header>
++  </customwidget>
++ </customwidgets>
++ <buttongroups>
++  <buttongroup name="stepGroup"/>
++ </buttongroups>
++ <resources/>
++ <connections/>
++</ui>
+diff --git a/view/DashAnalysisLauncherWidgetLauncher.cpp b/view/DashAnalysisLauncherWidgetLauncher.cpp
+index 09fa4549..82a850f1 100644
+--- a/view/DashAnalysisLauncherWidgetLauncher.cpp
++++ b/view/DashAnalysisLauncherWidgetLauncher.cpp
+@@ -5,6 +5,7 @@
+ #include "ui_DashAnalysisLauncherWidget.h"
+ #include "controller/DashAnalysisModelContext.h"
+ #include "controller/DashAnalysisModelContextRegistry.h"
++#include "controller/DashDirectLaunchRunner.h"
+ #include "controller/DashIOController.h"
+ #include "controller/DashManager.h"
+ #include "controller/DashProjectManager.h"
+@@ -13,6 +14,7 @@
+ #include "model/DashDoeSelection.h"
+ #include "model/DashProject.h"
+ #include "view/DashDoeCasesWidget.h"
++#include "view/common/DashNotify.h"
+ #include "view/dialog/MaterialSetupDialog.h"
+ 
+ #include <QComboBox>
+@@ -134,6 +136,14 @@ void DashAnalysisLauncherWidget::setupLauncherTab()
+         if (!m_model) {
+             return;
+         }
++        // Stop on either side cancels the daemons both share, so the runs must not overlap
++        if (DashManager::Mgr()->directLaunchRunner()->isRunning()) {
++            DashNotify::warning(DashLog::Module::DataProcessor,
++                                this,
++                                tr("Analysis Launcher"),
++                                tr("A Direct Launch is still running."));
++            return;
++        }
+         DashAnalysisLaunchExecutor* executor = m_model->launchExecutor();
+ 
+         // Cases that already finished: run them again from scratch, or leave them as they are.
+@@ -184,6 +194,17 @@ void DashAnalysisLauncherWidget::setupLauncherTab()
+         m_model->launchExecutor()->cancelAllRuns();
+     });
+ 
++    // Start waits for a Direct Launch run to end (setLauncherIdle)
++    DashDirectLaunchRunner* directRunner = DashManager::Mgr()->directLaunchRunner();
++    const auto refreshIdle = [this] {
++        if (!m_model) {
++            return;
++        }
++        setLauncherIdle(!m_model->launchExecutor()->isRunning());
++    };
++    connect(directRunner, &DashDirectLaunchRunner::started, this, refreshIdle);
++    connect(directRunner, &DashDirectLaunchRunner::finished, this, refreshIdle);
++
+     connect(m_launcherMaterialButton, &QPushButton::clicked, this, [this] {
+         auto* dlg = new MaterialSetupDialog(this);
+         dlg->setAttribute(Qt::WA_DeleteOnClose);
+@@ -247,7 +268,8 @@ void DashAnalysisLauncherWidget::setLauncherIdle(bool idle)
+ {
+     const bool canStart =
+         !m_model->referenceFilePath().isEmpty() && QFile::exists(m_model->currentDoeTablePath());
+-    m_launcherStartButton->setEnabled(idle && canStart);
++    m_launcherStartButton->setEnabled(idle && canStart
++                                      && !DashManager::Mgr()->directLaunchRunner()->isRunning());
+     m_launcherStopButton->setEnabled(!idle);
+ }
+ 
+diff --git a/view/DashDoeSamplerDirectWidget.cpp b/view/DashDoeSamplerDirectWidget.cpp
+deleted file mode 100644
+index f7ea72e4..00000000
+--- a/view/DashDoeSamplerDirectWidget.cpp
++++ /dev/null
+@@ -1,367 +0,0 @@
+-#include "view/DashDoeSamplerDirectWidget.h"
+-#include "ui_DashDoeSamplerDirectWidget.h"
+-#include "view/common/DashWidgetHelpers.h"
+-#include "view/common/DashPalette.h"
+-#include "view/dialog/MaterialSetupDialog.h"
+-#include "view/DashDoeCasesWidget.h"
+-#include "model/DashDoeSampler.h"
+-#include "controller/DashManager.h"
+-#include <QMessageBox>
+-
+-#include <QHBoxLayout>
+-#include <QTableWidget>
+-#include <QHeaderView>
+-#include <QLineEdit>
+-#include <QPushButton>
+-#include <QSpinBox>
+-#include <QSplitter>
+-#include <QFileDialog>
+-#include <QFileInfo>
+-#include <QBrush>
+-#include <QColor>
+-
+-DashDoeSamplerDirectWidget::DashDoeSamplerDirectWidget(QWidget* parent)
+-    : QWidget(parent)
+-    , m_doeSampler(nullptr)
+-{
+-    setupUI();
+-    setupConnections();
+-}
+-
+-DashDoeSamplerDirectWidget::~DashDoeSamplerDirectWidget()
+-{
+-}
+-
+-void DashDoeSamplerDirectWidget::setModel(DashDoeSampler* model, const QString& projectPath)
+-{
+-    this->setEnabled(false);
+-    Q_UNUSED(projectPath);
+-
+-    if (m_doeSampler) {
+-        disconnect(m_doeSampler, &DashDoeSampler::analysisStarted, this, nullptr);
+-        disconnect(m_doeSampler, &DashDoeSampler::analysisFinished, this, nullptr);
+-        disconnect(m_doeSampler, &DashDoeSampler::analysisFailed, this, nullptr);
+-    }
+-
+-    m_doeSampler = model;
+-
+-    if (m_doeSampler) {
+-        // Start/Stop button state management
+-        connect(m_doeSampler, &DashDoeSampler::analysisStarted, this, [this]() {
+-            m_directStartButton->setEnabled(false);
+-            m_directStopButton->setEnabled(true);
+-        });
+-        auto onAnalysisDone = [this]() {
+-            m_directStartButton->setEnabled(true);
+-            m_directStopButton->setEnabled(false);
+-        };
+-        connect(m_doeSampler, &DashDoeSampler::analysisFinished, this, onAnalysisDone);
+-        connect(m_doeSampler,
+-                &DashDoeSampler::analysisFailed,
+-                this,
+-                [onAnalysisDone](const QString&) { onAnalysisDone(); });
+-    }
+-
+-    this->setEnabled(true);
+-}
+-
+-void DashDoeSamplerDirectWidget::setupUI()
+-{
+-    ui = new Ui::DashDoeSamplerDirectWidget();
+-    ui->setupUi(this);
+-
+-    // zero-churn aliasing: keep pre-existing member names/behavior for downstream code
+-    m_directLauncherSplitter = ui->m_directLauncherSplitter;
+-    m_inputCasesTable = ui->m_inputCasesTable;
+-    m_inputCasesAddButton = ui->m_inputCasesAddButton;
+-    m_inputCasesRemoveButton = ui->m_inputCasesRemoveButton;
+-    m_inputCasesMaterialButton = ui->m_inputCasesMaterialButton;
+-    m_directOutputCasesWidget = ui->m_directOutputCasesWidget;
+-    m_directCpuCoresSpinBox = ui->m_directCpuCoresSpinBox;
+-    m_directStartButton = ui->m_directStartButton;
+-    m_directStopButton = ui->m_directStopButton;
+-
+-    applyThinSplitterStyle(m_directLauncherSplitter);
+-
+-    m_inputCasesTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+-    m_inputCasesTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+-
+-    // Connect buttons
+-    connect(m_inputCasesAddButton,
+-            &QPushButton::clicked,
+-            this,
+-            &DashDoeSamplerDirectWidget::addInputCaseRow);
+-    connect(m_inputCasesRemoveButton,
+-            &QPushButton::clicked,
+-            this,
+-            &DashDoeSamplerDirectWidget::removeInputCaseRow);
+-    connect(
+-        m_inputCasesTable, &QTableWidget::currentCellChanged, this, [this](int row, int, int, int) {
+-            if (!m_inputCasesMaterialButton || row < 0) {
+-                m_inputCasesMaterialButton->setVisible(false);
+-                return;
+-            }
+-            auto* w = m_inputCasesTable->cellWidget(row, 0);
+-            auto* le = w ? w->findChild<QLineEdit*>() : nullptr;
+-            m_inputCasesMaterialButton->setVisible(
+-                le && QFileInfo(le->text()).suffix().toLower() == "stli");
+-        });
+-
+-    m_directLauncherSplitter->setSizes({ 200, 300 });
+-
+-    m_directStopButton->setEnabled(false);
+-}
+-
+-void DashDoeSamplerDirectWidget::setupConnections()
+-{
+-    // Direct Launcher: Start button - run analysis with user-provided .dat files
+-    connect(m_directStartButton, &QPushButton::clicked, this, [this] {
+-        if (!m_doeSampler) {
+-            return;
+-        }
+-
+-        if (m_directCpuCoresSpinBox) {
+-            DashManager::Mgr()->setCPUCoreCount(
+-                static_cast<unsigned int>(m_directCpuCoresSpinBox->value()));
+-        }
+-
+-        m_doeSampler->applyLauncherCPUCoreCount();
+-
+-        QStringList inputCaseFiles = getInputCaseFilePaths();
+-
+-        if (inputCaseFiles.isEmpty()) {
+-            QMessageBox::warning(this,
+-                                 "No Input Files",
+-                                 "Please add at least one .dat file in the Input Cases table.");
+-            return;
+-        }
+-
+-        m_doeSampler->runDirectLauncherAsync(inputCaseFiles, m_directTargetFiles);
+-    });
+-
+-    // Direct Launcher: Stop button
+-    connect(m_directStopButton, &QPushButton::clicked, this, [this] {
+-        if (!m_doeSampler) {
+-            return;
+-        }
+-        m_doeSampler->cancelAllRuns();
+-    });
+-
+-    // Direct Launcher: Material button
+-    connect(m_inputCasesMaterialButton, &QPushButton::clicked, this, [this] {
+-        auto* dlg = new MaterialSetupDialog(this);
+-        dlg->setAttribute(Qt::WA_DeleteOnClose);
+-        dlg->exec();
+-    });
+-}
+-
+-void DashDoeSamplerDirectWidget::addInputCaseRow()
+-{
+-    if (!m_inputCasesTable) {
+-        return;
+-    }
+-
+-    int row = m_inputCasesTable->rowCount();
+-    m_inputCasesTable->insertRow(row);
+-
+-    // Column 0: File name with browse button
+-    auto* fileWidget = new QWidget();
+-    auto* fileLayout = new QHBoxLayout(fileWidget);
+-    fileLayout->setContentsMargins(2, 2, 2, 2);
+-    fileLayout->setSpacing(2);
+-
+-    QLineEdit* fileEdit = new QLineEdit();
+-    fileEdit->setPlaceholderText("select a file");
+-    fileEdit->setReadOnly(true);
+-    fileLayout->addWidget(fileEdit, 1);
+-
+-    QPushButton* browseButton = new QPushButton("...");
+-    browseButton->setFixedWidth(30);
+-    connect(browseButton, &QPushButton::clicked, this, [this, row]() { browseInputCaseFile(row); });
+-    fileLayout->addWidget(browseButton);
+-
+-    m_inputCasesTable->setCellWidget(row, 0, fileWidget);
+-
+-    // Column 1: Solver State - check if solver is configured
+-    QTableWidgetItem* stateItem = new QTableWidgetItem();
+-    stateItem->setTextAlignment(Qt::AlignCenter);
+-    stateItem->setFlags(stateItem->flags() & ~Qt::ItemIsEditable);
+-
+-    // Check solver configuration
+-    QString solverState = "Not Set";
+-    QBrush textColor(QColor{ DashPalette::Error });
+-    if (auto* mgr = DashManager::Mgr()) {
+-        QString solverPath = mgr->getSolverPath("Ansys");
+-        if (!solverPath.isEmpty()) {
+-            solverState = "Set";
+-            textColor = QBrush(Qt::darkGreen);
+-        }
+-    }
+-    stateItem->setText(solverState);
+-    stateItem->setForeground(textColor);
+-    m_inputCasesTable->setItem(row, 1, stateItem);
+-}
+-
+-void DashDoeSamplerDirectWidget::removeInputCaseRow()
+-{
+-    if (!m_inputCasesTable) {
+-        return;
+-    }
+-
+-    int currentRow = m_inputCasesTable->currentRow();
+-    if (currentRow < 0) {
+-        return;
+-    }
+-
+-    // Get file name before removing
+-    QString fileName;
+-    auto* fileWidget = qobject_cast<QWidget*>(m_inputCasesTable->cellWidget(currentRow, 0));
+-    if (fileWidget) {
+-        auto* fileLayout = qobject_cast<QHBoxLayout*>(fileWidget->layout());
+-        if (fileLayout && fileLayout->count() > 0) {
+-            auto* fileEdit = qobject_cast<QLineEdit*>(fileLayout->itemAt(0)->widget());
+-            if (fileEdit) {
+-                fileName = fileEdit->text();
+-            }
+-        }
+-    }
+-
+-    // Clean up .wbpj target mapping if present
+-    if (!fileName.isEmpty()) {
+-        m_directTargetFiles.remove(fileName);
+-    }
+-
+-    m_inputCasesTable->removeRow(currentRow);
+-
+-    syncInputCasesToOutputCases();
+-}
+-
+-void DashDoeSamplerDirectWidget::browseInputCaseFile(int row)
+-{
+-    if (!m_inputCasesTable) {
+-        return;
+-    }
+-
+-    QStringList filePaths = QFileDialog::getOpenFileNames(
+-        this, "Select Input Files", "", "Input Files (*.dat *.inp *.dfsxml *.wbpj);;All Files (*)");
+-    if (filePaths.isEmpty()) {
+-        return;
+-    }
+-
+-    bool firstFile = true;
+-    int currentRow = row;
+-
+-    for (const QString& filePath : filePaths) {
+-        if (!firstFile) {
+-            addInputCaseRow();
+-            currentRow = m_inputCasesTable->rowCount() - 1;
+-        }
+-        firstFile = false;
+-
+-        auto* fileWidget = qobject_cast<QWidget*>(m_inputCasesTable->cellWidget(currentRow, 0));
+-        if (!fileWidget) {
+-            continue;
+-        }
+-        auto* fileLayout = qobject_cast<QHBoxLayout*>(fileWidget->layout());
+-        if (!fileLayout || fileLayout->count() == 0) {
+-            continue;
+-        }
+-        auto* fileEdit = qobject_cast<QLineEdit*>(fileLayout->itemAt(0)->widget());
+-        if (!fileEdit) {
+-            continue;
+-        }
+-
+-        fileEdit->setText(filePath);
+-
+-        // For .wbpj, immediately prompt for the required .prt target file
+-        const QString suffix = QFileInfo(filePath).suffix().toLower();
+-        if (suffix == "wbpj") {
+-            QString prtPath = QFileDialog::getOpenFileName(
+-                this,
+-                QString("Select .prt target for %1").arg(QFileInfo(filePath).fileName()),
+-                QFileInfo(filePath).absolutePath(),
+-                "NX Part Files (*.prt);;All Files (*)");
+-            if (prtPath.isEmpty()) {
+-                QMessageBox::warning(
+-                    this,
+-                    "Target Required",
+-                    ".wbpj workflow requires a .prt target file. The entry has been removed.");
+-                m_inputCasesTable->removeRow(currentRow);
+-                continue;
+-            }
+-            m_directTargetFiles[filePath] = prtPath;
+-        }
+-
+-        // Update Solver State based on file extension
+-        auto* stateItem = m_inputCasesTable->item(currentRow, 1);
+-        if (stateItem) {
+-            QString solverState = "Not Set";
+-            QBrush textColor(QColor{ DashPalette::Error });
+-            if (auto* mgr = DashManager::Mgr()) {
+-                bool configured = false;
+-                if (suffix == "inp") {
+-                    configured = !mgr->getSolverPath("Abaqus").isEmpty();
+-                } else if (suffix == "wbpj") {
+-                    configured = !mgr->getSolverPath("Ansys").isEmpty()
+-                                 && !mgr->getSolverPath("NX").isEmpty();
+-                } else {  // .dat, .dfsxml
+-                    configured = !mgr->getSolverPath("Ansys").isEmpty();
+-                }
+-                if (configured) {
+-                    solverState = "Set";
+-                    textColor = QBrush(Qt::darkGreen);
+-                }
+-            }
+-            stateItem->setText(solverState);
+-            stateItem->setForeground(textColor);
+-        }
+-    }
+-
+-    syncInputCasesToOutputCases();
+-}
+-
+-void DashDoeSamplerDirectWidget::syncInputCasesToOutputCases()
+-{
+-    if (!m_directOutputCasesWidget || !m_inputCasesTable) {
+-        return;
+-    }
+-
+-    // Get all file paths from input cases table
+-    QStringList inputFilePaths = getInputCaseFilePaths();
+-
+-    // Use public method to update Direct Launcher's output cases
+-    m_directOutputCasesWidget->setDirectLauncherCases(inputFilePaths);
+-}
+-
+-QStringList DashDoeSamplerDirectWidget::getInputCaseFilePaths() const
+-{
+-    QStringList filePaths;
+-
+-    if (!m_inputCasesTable) {
+-        return filePaths;
+-    }
+-
+-    for (int row = 0; row < m_inputCasesTable->rowCount(); ++row) {
+-        auto* fileWidget = qobject_cast<QWidget*>(m_inputCasesTable->cellWidget(row, 0));
+-        if (!fileWidget) {
+-            continue;
+-        }
+-
+-        auto* fileLayout = qobject_cast<QHBoxLayout*>(fileWidget->layout());
+-        if (!fileLayout || fileLayout->count() == 0) {
+-            continue;
+-        }
+-
+-        auto* fileEdit = qobject_cast<QLineEdit*>(fileLayout->itemAt(0)->widget());
+-        if (!fileEdit) {
+-            continue;
+-        }
+-
+-        QString filePath = fileEdit->text();
+-        if (!filePath.isEmpty()) {
+-            filePaths.append(filePath);
+-        }
+-    }
+-
+-    return filePaths;
+-}
+diff --git a/view/DashDoeSamplerDirectWidget.h b/view/DashDoeSamplerDirectWidget.h
+deleted file mode 100644
+index f6c372a1..00000000
+--- a/view/DashDoeSamplerDirectWidget.h
++++ /dev/null
+@@ -1,58 +0,0 @@
+-#pragma once
+-
+-#include <QWidget>
+-#include <QMap>
+-#include <QString>
+-#include <QStringList>
+-
+-class QSplitter;
+-class QTableWidget;
+-class QPushButton;
+-class QSpinBox;
+-class DashDoeSampler;
+-class DashDoeCasesWidget;
+-
+-namespace Ui {
+-class DashDoeSamplerDirectWidget;
+-}
+-
+-class DashDoeSamplerDirectWidget : public QWidget
+-{
+-    Q_OBJECT
+-public:
+-    explicit DashDoeSamplerDirectWidget(QWidget* parent = nullptr);
+-    ~DashDoeSamplerDirectWidget();
+-
+-    void setModel(DashDoeSampler* model, const QString& projectPath);
+-
+-private:
+-    // --- UI Setup ---
+-    void setupUI();
+-    void setupConnections();
+-
+-    // Direct Launcher methods
+-    void addInputCaseRow();
+-    void removeInputCaseRow();
+-    void browseInputCaseFile(int row);
+-    void syncInputCasesToOutputCases();
+-    QStringList getInputCaseFilePaths() const;
+-
+-    Ui::DashDoeSamplerDirectWidget* ui = nullptr;
+-
+-    // --- Data Members ---
+-    DashDoeSampler* m_doeSampler;
+-
+-    // --- Direct Launcher Tab Elements ---
+-    QSplitter* m_directLauncherSplitter = nullptr;
+-    QTableWidget* m_inputCasesTable = nullptr;
+-    QPushButton* m_inputCasesAddButton = nullptr;
+-    QPushButton* m_inputCasesRemoveButton = nullptr;
+-    QPushButton* m_inputCasesMaterialButton = nullptr;
+-    DashDoeCasesWidget* m_directOutputCasesWidget = nullptr;
+-    QSpinBox* m_directCpuCoresSpinBox = nullptr;
+-    QPushButton* m_directStartButton = nullptr;
+-    QPushButton* m_directStopButton = nullptr;
+-
+-    // Maps wbpj absolute path -> prt absolute path for .wbpj entries
+-    QMap<QString, QString> m_directTargetFiles;
+-};
+diff --git a/view/DashMainWindow.cpp b/view/DashMainWindow.cpp
+index 37cd349e..e2495ecf 100644
+--- a/view/DashMainWindow.cpp
++++ b/view/DashMainWindow.cpp
+@@ -100,7 +100,6 @@
+ #include "model/DashReferenceSetName.h"
+ #include "model/DashUpstreamStaleness.h"
+ #include "utils/log/DashLog.h"
+-#include "view/DashDoeSamplerDirectWidget.h"
+ #include "view/DashDoeSamplerResampleWidget.h"
+ #include "view/DashDoeSamplerWidget.h"
+ #include "view/DashAnalysisLauncherWidget.h"
+@@ -125,6 +124,7 @@
+ #include "view/dialog/ShortcutsDialog.h"
+ #include "view/dialog/SolverSettingsDialog.h"
+ #include "view/dialog/TopOptPostprocessDialog.h"
++#include "view/dialog/DashDirectLaunchDialog.h"
+ #include "view/log/DashLogDockWidget.h"
+ #include "view/overlay/DashMorphingBar.h"
+ #include "view/overlay/DashMorphingSettings.h"
+@@ -159,7 +159,6 @@ DashMainWindow::DashMainWindow(QWidget* parent)
+     , m_conditionParameterizationWidget(nullptr)
+     , m_doeSamplerWidget(nullptr)
+     , m_doeSamplerResampleWidget(nullptr)
+-    , m_doeSamplerDirectWidget(nullptr)
+     , m_analysisLauncherWidget(nullptr)
+     , m_modelBuilderWidget(nullptr)
+     , m_modelBuilderMCUWidget(nullptr)
+@@ -207,6 +206,7 @@ DashMainWindow::DashMainWindow(QWidget* parent)
+     QMenu* toolsMenu = m_titleBar->menuBar()->addMenu(tr("&Tools"));
+ 
+     QAction* topOptAction = new QAction(tr("&TopOpt Post-Process"), this);
++    QAction* directLaunchAction = new QAction(tr("Direct &Launch"), this);
+     // QAction* exportMeshAction = new QAction(tr("Export to &Mesh"), this);
+ #ifdef DASH_BUILD_DEV
+     QAction* exportCadAction = new QAction(tr("Export to &CAD"), this);
+@@ -215,6 +215,7 @@ DashMainWindow::DashMainWindow(QWidget* parent)
+ #endif
+ 
+     toolsMenu->addAction(topOptAction);
++    toolsMenu->addAction(directLaunchAction);
+     // toolsMenu->addAction(exportMeshAction);
+ #ifdef DASH_BUILD_DEV
+     toolsMenu->addAction(exportCadAction);
+@@ -222,6 +223,7 @@ DashMainWindow::DashMainWindow(QWidget* parent)
+ #endif
+ 
+     connect(topOptAction, &QAction::triggered, this, &DashMainWindow::onTopOptPostprocess);
++    connect(directLaunchAction, &QAction::triggered, this, &DashMainWindow::onDirectLaunch);
+ #ifdef DASH_BUILD_DEV
+     connect(exportCadAction, &QAction::triggered, this, &DashMainWindow::onExportToCad);
+     connect(
+@@ -559,9 +561,6 @@ void DashMainWindow::setupWidgets()
+     m_rightStackedWidget->addWidget(m_doeSamplerResampleWidget);
+ #endif
+ 
+-    m_doeSamplerDirectWidget = new DashDoeSamplerDirectWidget();
+-    m_rightStackedWidget->addWidget(m_doeSamplerDirectWidget);
+-
+     m_analysisLauncherWidget = new DashAnalysisLauncherWidget();
+     m_rightStackedWidget->addWidget(m_analysisLauncherWidget);
+     DASH_LOG_DEBUG(View) << "DashMainWindow: creating DashModelBuilderWidget";
+@@ -1055,10 +1054,6 @@ void DashMainWindow::unbindSetWidgets(const QString& categoryName, const QString
+                     if (m_doeSamplerResampleWidget) {
+                         m_doeSamplerResampleWidget->setModel(nullptr, QString());
+                     }
+-                } else if (variant == "Direct") {
+-                    if (m_doeSamplerDirectWidget) {
+-                        m_doeSamplerDirectWidget->setModel(nullptr, QString());
+-                    }
+                 } else {
+                     if (m_doeSamplerWidget) {
+                         m_doeSamplerWidget->setModel(nullptr, QString());
+@@ -1267,7 +1262,7 @@ void DashMainWindow::displayWidgetForNewSet(const QString& categoryName,
+             }
+         }
+     }
+-    // DOE Sampler category: route to the correct variant widget (Init/Resample/Direct)
++    // DOE Sampler category: route to the correct variant widget (Init/Resample)
+     if (categoryName == DashModuleName::DoeSampler) {
+         const auto& samplers = project->getDoeSamplers();
+         DashDoeSampler* sampler = nullptr;
+@@ -1572,8 +1567,8 @@ void DashMainWindow::handleDoeSamplerSelection(const QModelIndex& index)
+     handleDoeSamplerSelectionForVariant(sampler, variant);
+ }
+ 
+-// Routes a DoeSampler model to the correct one of the 3 variant widgets
+-// (Init/Resample/Direct). Shared by tree-selection and new-Set display.
++// Routes a DoeSampler model to the correct one of the 2 variant widgets
++// (Init/Resample). Shared by tree-selection and new-Set display.
+ void DashMainWindow::handleDoeSamplerSelectionForVariant(DashDoeSampler* sampler,
+                                                          const QString& variant)
+ {
+@@ -1595,11 +1590,6 @@ void DashMainWindow::handleDoeSamplerSelectionForVariant(DashDoeSampler* sampler
+             targetWidget = m_doeSamplerResampleWidget;
+             analyzerHost = m_doeSamplerResampleWidget;
+         }
+-    } else if (variant == "Direct" || variant == "direct") {
+-        if (m_doeSamplerDirectWidget) {
+-            m_doeSamplerDirectWidget->setModel(sampler, m_projectPath);
+-            targetWidget = m_doeSamplerDirectWidget;
+-        }
+     } else {
+         if (m_doeSamplerWidget) {
+             m_doeSamplerWidget->setModel(sampler, m_projectPath);
+@@ -1623,7 +1613,6 @@ void DashMainWindow::handleDoeSamplerSelectionForVariant(DashDoeSampler* sampler
+ 
+     // Model's plotWindowReady is now connected to AnalyzerWidget, not directly to MainWindow
+     // AnalyzerWidget processes it (adds scroll area) and emits analysisResultReady.
+-    // DashDoeSamplerDirectWidget has no analyzer, so analyzerHost stays null for it.
+     if (analyzerHost && analyzerHost->getAnalyzerWidget()) {
+         disconnect(analyzerHost->getAnalyzerWidget(),
+                    &DashResultsAnalyzerWidget::analysisResultReady,
+@@ -1703,35 +1692,11 @@ void DashMainWindow::handleAnalysisLauncherSelection(const QModelIndex& index)
+             connect(analysisLauncherModel,
+                     &DashAnalysisLauncher::fieldOutputReady,
+                     this,
+-                    [this, renderMgr](vtkSmartPointer<vtkUnstructuredGrid> grid) {
+-                        QString scalarName = "Result";
+-                        double minVal = 0.0, maxVal = 1.0;
+-                        if (grid->GetPointData() && grid->GetPointData()->GetScalars()) {
+-                            if (m_analysisLauncherWidget
+-                                && !m_analysisLauncherWidget->getPreviewDisplayName().isEmpty()) {
+-                                scalarName = m_analysisLauncherWidget->getPreviewDisplayName();
+-                                grid->GetPointData()->GetScalars()->SetName(
+-                                    scalarName.toUtf8().constData());
+-                            } else {
+-                                scalarName = grid->GetPointData()->GetScalars()->GetName();
+-                            }
+-                            double range[2];
+-                            grid->GetPointData()->GetScalars()->GetRange(range);
+-                            minVal = range[0];
+-                            maxVal = range[1];
+-                        }
+-                        if (!renderMgr->updateFieldOutput(grid, scalarName)) {
+-                            // 요청한 배열이 없으면 형상만 그려진다 — 값이 없다고 알린다 (#493)
+-                            DashNotify::warning(DashLog::Module::Rendering,
+-                                                this,
+-                                                tr("Preview"),
+-                                                tr("No '%1' values to display. The arrays in "
+-                                                   "the result are listed in the log.")
+-                                                    .arg(scalarName));
+-                        }
+-                        if (m_viewOptionsWidget) {
+-                            m_viewOptionsWidget->setColorBarRange(minVal, maxVal);
+-                        }
++                    [this](vtkSmartPointer<vtkUnstructuredGrid> grid) {
++                        showFieldOutput(grid,
++                                        m_analysisLauncherWidget
++                                            ? m_analysisLauncherWidget->getPreviewDisplayName()
++                                            : QString());
+                     });
+ 
+             // Model's plotWindowReady is now connected to AnalyzerWidget, not directly to
+@@ -4325,6 +4290,13 @@ void DashMainWindow::syncReferenceModelView()
+     refreshDoeTables();
+     // Add File lives in this dock, so it is there whenever a project is open.
+     m_modelingDock->setVisible(DashManager::PrjMgr()->IsProjectOpen());
++
++    // Every project transition ends here (New, Open, and a failed Open that closed the old
++    // project). A dialog never opened has nothing to reset.
++    if (!m_directLaunchDialog) {
++        return;
++    }
++    m_directLaunchDialog->resetForProject();
+ }
+ 
+ void DashMainWindow::onFileOpen()
+@@ -4827,6 +4799,87 @@ void DashMainWindow::onTopOptPostprocess()
+     dialog.exec();
+ }
+ 
++DashDirectLaunchDialog* DashMainWindow::ensureDirectLaunchDialog()
++{
++    if (m_directLaunchDialog) {
++        return m_directLaunchDialog;
++    }
++    m_directLaunchDialog = new DashDirectLaunchDialog(this);
++
++    // Result Preview draws in the central view, as the Analysis Launcher's Preview does
++    DashAnalysisLauncher* resultModel = m_directLaunchDialog->resultModel();
++    auto* renderMgr = DashManager::Mgr()->GetRenderingManager();
++    connect(
++        resultModel, &DashAnalysisLauncher::processingStarted, this, [this](const QString& msg) {
++            showLoadingIndicator(true);
++            showStatusMessage(msg, 0);
++        });
++    connect(resultModel, &DashAnalysisLauncher::processingFinished, this, [this]() {
++        showLoadingIndicator(false);
++        showStatusMessage(tr("Done."), 2000);
++    });
++    connect(resultModel,
++            &DashAnalysisLauncher::allGeometryReady,
++            renderMgr,
++            &DashRenderingManager::updateAllGeometry);
++    connect(resultModel,
++            &DashAnalysisLauncher::componentGeometryReady,
++            renderMgr,
++            &DashRenderingManager::updateComponentGeometry);
++    connect(resultModel,
++            &DashAnalysisLauncher::fieldOutputReady,
++            this,
++            [this](vtkSmartPointer<vtkUnstructuredGrid> grid) {
++                showFieldOutput(grid, m_directLaunchDialog->previewDisplayName());
++            });
++    return m_directLaunchDialog;
++}
++
++void DashMainWindow::showFieldOutput(vtkSmartPointer<vtkUnstructuredGrid> grid,
++                                     const QString& displayName)
++{
++    auto* renderMgr = DashManager::Mgr()->GetRenderingManager();
++    QString scalarName = "Result";
++    double minVal = 0.0, maxVal = 1.0;
++    // Point scalars, else cell scalars: the order updateFieldOutput looks the name up in
++    vtkDataArray* scalars = grid->GetPointData()->GetScalars();
++    if (!scalars) {
++        scalars = grid->GetCellData()->GetScalars();
++    }
++    if (scalars) {
++        if (!displayName.isEmpty()) {
++            scalarName = displayName;
++            scalars->SetName(scalarName.toUtf8().constData());
++        } else {
++            scalarName = scalars->GetName();
++        }
++        double range[2];
++        scalars->GetRange(range);
++        minVal = range[0];
++        maxVal = range[1];
++    }
++    if (!renderMgr->updateFieldOutput(grid, scalarName)) {
++        // Without the requested array only the geometry is drawn: say there are no values (#493)
++        DashNotify::warning(DashLog::Module::Rendering,
++                            this,
++                            tr("Preview"),
++                            tr("No '%1' values to display. The arrays in "
++                               "the result are listed in the log.")
++                                .arg(scalarName));
++    }
++    if (m_viewOptionsWidget) {
++        m_viewOptionsWidget->setColorBarRange(minVal, maxVal);
++    }
++}
++
++void DashMainWindow::onDirectLaunch()
++{
++    DashDirectLaunchDialog* dialog = ensureDirectLaunchDialog();
++    dialog->show();
++    dialog->raise();
++    dialog->activateWindow();
++}
++
+ void DashMainWindow::onExportToCad()
+ {
+     MeshExportDialog dialog(this);
+diff --git a/view/DashMainWindow.h b/view/DashMainWindow.h
+index 3523115d..7181b3dd 100644
+--- a/view/DashMainWindow.h
++++ b/view/DashMainWindow.h
+@@ -35,6 +35,8 @@ class DashOcctViewWidget;
+ class DashMorphingSettings;
+ class SolverSettingsDialog;
+ class TopOptPostprocessDialog;
++class DashDirectLaunchDialog;
++class vtkUnstructuredGrid;
+ class DashTitleBar;
+ class DashMorphingController;
+ class DashResultsAnalyzerWidget;
+@@ -53,7 +55,6 @@ class DashGeometryParameterWidget;
+ class DashGeometryParameterCADWidget;
+ class DashDoeSamplerWidget;
+ class DashDoeSamplerResampleWidget;
+-class DashDoeSamplerDirectWidget;
+ class DashConditionParameterizationWidget;
+ class DashModelBuilderWidget;
+ class DashModelBuilderMCUWidget;
+@@ -179,6 +180,7 @@ private slots:
+     void onSolver();
+     void onAppearance();
+     void onTopOptPostprocess();
++    void onDirectLaunch();
+     void onExportToCad();
+     void onSupport();
+     void onAbout();
+@@ -315,7 +317,6 @@ public slots:
+     DashGeometryParameterCADWidget* m_geometryParameterCADWidget;
+     DashDoeSamplerWidget* m_doeSamplerWidget;
+     DashDoeSamplerResampleWidget* m_doeSamplerResampleWidget;
+-    DashDoeSamplerDirectWidget* m_doeSamplerDirectWidget;
+ 
+     DashModelBuilderWidget* m_modelBuilderWidget;
+     DashModelBuilderMCUWidget* m_modelBuilderMCUWidget;
+@@ -324,6 +325,12 @@ public slots:
+     DashOptimizerWidget* m_optimizerWidget;
+     DashAnalysisLauncherWidget* m_analysisLauncherWidget;
+     DashConditionParameterizationWidget* m_conditionParameterizationWidget;
++    // Tools > Direct Launch: created on first use, hidden rather than closed (#604)
++    DashDirectLaunchDialog* m_directLaunchDialog = nullptr;
++    DashDirectLaunchDialog* ensureDirectLaunchDialog();
++    // Draws a previewed field in the central view and sets the color bar to its range. The
++    // scalars are renamed to displayName when it is given, else keep the reader's name.
++    void showFieldOutput(vtkSmartPointer<vtkUnstructuredGrid> grid, const QString& displayName);
+ #ifdef DASH_BUILD_DEV
+     DashAiChatWidget* m_aiChatWidget = nullptr;
+     DashAiPlayerDialog* m_aiPlayerDialog = nullptr;
+diff --git a/view/dialog/DashDirectLaunchDialog.cpp b/view/dialog/DashDirectLaunchDialog.cpp
+new file mode 100644
+index 00000000..2dfc1294
+--- /dev/null
++++ b/view/dialog/DashDirectLaunchDialog.cpp
+@@ -0,0 +1,497 @@
++#include "view/dialog/DashDirectLaunchDialog.h"
++#include "ui_DashDirectLaunchDialog.h"
++
++#include "controller/DashDirectLaunchRunner.h"
++#include "controller/DashDirectLaunchStaging.h"
++#include "controller/DashManager.h"
++#include "controller/DashProjectManager.h"
++#include "model/DashAnalysisLauncher.h"
++#include "model/preprocessor/DashResultChoiceFlatten.h"
++#include "utils/log/DashLog.h"
++#include "view/common/DashNotify.h"
++#include "view/common/DashWidgetHelpers.h"
++
++#include <QButtonGroup>
++#include <QComboBox>
++#include <QDir>
++#include <QDirIterator>
++#include <QFileDialog>
++#include <QFileInfo>
++#include <QHeaderView>
++#include <QLabel>
++#include <QLineEdit>
++#include <QMessageBox>
++#include <QPushButton>
++#include <QShowEvent>
++#include <QSignalBlocker>
++#include <QSpinBox>
++#include <QTableWidget>
++
++namespace {
++constexpr int kColCase = 0;
++constexpr int kColStatus = 1;
++constexpr int kColLog = 2;
++
++const QString kFunctionExpression = QStringLiteral("Function Expression");
++
++// Compared on canonical paths, so a path through a link or in another case still counts
++bool isInsideFolder(const QString& path, const QString& folder)
++{
++    const QString folderPrefix = QFileInfo(folder).canonicalFilePath() + QLatin1Char('/');
++    return QFileInfo(path).canonicalFilePath().startsWith(folderPrefix, Qt::CaseInsensitive);
++}
++
++bool isWbpj(const QString& path)
++{
++    return QFileInfo(path).suffix().compare(QLatin1String("wbpj"), Qt::CaseInsensitive) == 0;
++}
++
++// The bottom status line for the run's one case
++QString statusLineOf(const DashDirectLaunchRunner::Case& c)
++{
++    if (c.status == QLatin1String("Done") || c.status == QLatin1String("Cancelled")) {
++        return c.status;
++    }
++    if (c.status.startsWith(QLatin1String("Failed"))) {
++        return QStringLiteral("Failed");
++    }
++    return QStringLiteral("Running %1%2").arg(c.key, QChar(0x2026));
++}
++}  // namespace
++
++DashDirectLaunchDialog::DashDirectLaunchDialog(QWidget* parent)
++    : QDialog(parent)
++    , ui(new Ui::DashDirectLaunchDialog)
++    , m_runner(DashManager::Mgr()->directLaunchRunner())
++    , m_resultModel(new DashAnalysisLauncher(this))
++{
++    ui->setupUi(this);
++
++    // A tool window over the main window; closing or Esc only hides it and never stops a run.
++    // Hiding leaves the central scene as it is: no hide or close handler touches the renderer.
++    setWindowFlags(Qt::Tool);
++    setModal(false);
++    setSizeGripEnabled(true);
++
++    // zero-churn aliasing: keep member names independent of the .ui object names
++    m_inputLineEdit = ui->inputLineEdit;
++    m_targetPartLabel = ui->targetPartLabel;
++    m_targetPartCombo = ui->targetPartCombo;
++    m_outputLineEdit = ui->outputLineEdit;
++    m_casesTable = ui->casesTable;
++    m_cpuCoresSpinBox = ui->cpuCoresSpinBox;
++    m_casePreviewButton = ui->casePreviewButton;
++    m_startButton = ui->startButton;
++    m_stopButton = ui->stopButton;
++    m_statusLabel = ui->statusLabel;
++    m_resultLineEdit = ui->resultLineEdit;
++    m_componentCombo = ui->componentCombo;
++    m_stepCombo = ui->stepCombo;
++    m_nameCombo = ui->nameCombo;
++    m_previewButton = ui->previewButton;
++
++    ui->stepGroup->setId(ui->stepLauncher, PageLauncher);
++    ui->stepGroup->setId(ui->stepPreview, PagePreview);
++    connect(ui->stepGroup, &QButtonGroup::idClicked, this, &DashDirectLaunchDialog::onStepClicked);
++
++    m_targetPartLabel->setVisible(false);
++    m_targetPartCombo->setVisible(false);
++    m_outputLineEdit->setText(projectFolder());
++    m_cpuCoresSpinBox->setValue(static_cast<int>(DashManager::Mgr()->getCPUCoreCount()));
++    m_casesTable->setColumnWidth(kColCase, 160);
++    m_casesTable->setColumnWidth(kColStatus, 90);
++    m_casePreviewButton->setEnabled(false);
++    m_previewButton->setEnabled(false);
++
++    connect(
++        ui->inputBrowseButton, &QPushButton::clicked, this, &DashDirectLaunchDialog::onBrowseInput);
++    connect(ui->outputSetButton, &QPushButton::clicked, this, &DashDirectLaunchDialog::onSetOutput);
++    connect(m_targetPartCombo,
++            QOverload<int>::of(&QComboBox::currentIndexChanged),
++            this,
++            &DashDirectLaunchDialog::updateLauncherButtons);
++    connect(m_startButton, &QPushButton::clicked, this, &DashDirectLaunchDialog::onStartClicked);
++    connect(m_stopButton, &QPushButton::clicked, m_runner, &DashDirectLaunchRunner::cancel);
++
++    connect(m_runner,
++            &DashDirectLaunchRunner::started,
++            this,
++            &DashDirectLaunchDialog::refreshFromRunner);
++    connect(m_runner,
++            &DashDirectLaunchRunner::caseStatusUpdated,
++            this,
++            &DashDirectLaunchDialog::refreshFromRunner);
++    connect(m_runner,
++            &DashDirectLaunchRunner::caseLogUpdated,
++            this,
++            &DashDirectLaunchDialog::refreshFromRunner);
++    connect(m_runner,
++            &DashDirectLaunchRunner::finished,
++            this,
++            &DashDirectLaunchDialog::refreshFromRunner);
++
++    connect(
++        m_casePreviewButton, &QPushButton::clicked, this, &DashDirectLaunchDialog::openCasePreview);
++    connect(m_casesTable, &QTableWidget::cellDoubleClicked, this, [this] {
++        if (doneCaseResultFile().isEmpty()) {
++            return;
++        }
++        openCasePreview();
++    });
++
++    connect(ui->resultBrowseButton,
++            &QPushButton::clicked,
++            this,
++            &DashDirectLaunchDialog::onBrowseResult);
++    connect(m_componentCombo,
++            QOverload<int>::of(&QComboBox::currentIndexChanged),
++            this,
++            &DashDirectLaunchDialog::onComponentChanged);
++    connect(m_stepCombo,
++            QOverload<int>::of(&QComboBox::currentIndexChanged),
++            this,
++            &DashDirectLaunchDialog::requestNames);
++    connect(
++        m_previewButton, &QPushButton::clicked, this, &DashDirectLaunchDialog::onPreviewClicked);
++
++    connect(m_resultModel,
++            &DashAnalysisLauncher::keysExtracted,
++            this,
++            &DashDirectLaunchDialog::onKeysExtracted);
++    connect(m_resultModel,
++            &DashAnalysisLauncher::namesUpdated,
++            this,
++            &DashDirectLaunchDialog::onNamesUpdated);
++    connect(m_resultModel, &DashAnalysisLauncher::errorOccurred, this, [this](const QString& msg) {
++        DashNotify::warning(DashLog::Module::DataProcessor, this, tr("Result Preview"), msg);
++    });
++    connect(m_resultModel, &DashAnalysisLauncher::infoMessage, this, [this](const QString& msg) {
++        QMessageBox::information(this, tr("Result Preview"), msg);
++    });
++
++    setPage(PageLauncher);
++    refreshFromRunner();
++}
++
++DashDirectLaunchDialog::~DashDirectLaunchDialog()
++{
++    delete ui;
++}
++
++void DashDirectLaunchDialog::showEvent(QShowEvent* event)
++{
++    QDialog::showEvent(event);
++    // The run may have moved on, or a project been opened, while the dialog was hidden
++    if (m_outputLineEdit->text().isEmpty()) {
++        m_outputLineEdit->setText(projectFolder());
++    }
++    refreshFromRunner();
++}
++
++void DashDirectLaunchDialog::resetForProject()
++{
++    m_inputLineEdit->clear();
++    fillTargetParts();
++    // The new project's folder, or empty with no project open
++    m_outputLineEdit->setText(projectFolder());
++    m_resultLineEdit->clear();
++    {
++        const QSignalBlocker componentBlocker(m_componentCombo);
++        const QSignalBlocker stepBlocker(m_stepCombo);
++        m_componentCombo->clear();
++        m_stepCombo->clear();
++    }
++    m_nameCombo->clear();
++    m_previewButton->setEnabled(false);
++    refreshFromRunner();
++}
++
++void DashDirectLaunchDialog::setPage(int index)
++{
++    ui->stack->setCurrentIndex(index);
++    ui->stepGroup->button(index)->setChecked(true);
++}
++
++void DashDirectLaunchDialog::onStepClicked(int index)
++{
++    setPage(index);
++    if (index != PagePreview || !m_resultLineEdit->text().isEmpty()) {
++        return;
++    }
++    // First visit: start from the finished case's result, when there is one on disk
++    const QString resultFile = doneCaseResultFile();
++    if (resultFile.isEmpty() || !QFileInfo::exists(resultFile)) {
++        return;
++    }
++    loadResultFile(resultFile);
++}
++
++QString DashDirectLaunchDialog::doneCaseResultFile() const
++{
++    const QList<DashDirectLaunchRunner::Case> cases = m_runner->cases();
++    if (cases.isEmpty() || cases.first().status != QLatin1String("Done")
++        || cases.first().resultFiles.isEmpty()) {
++        return QString();
++    }
++    return cases.first().resultFiles.first();
++}
++
++void DashDirectLaunchDialog::openCasePreview()
++{
++    // Coming from a finished case always shows that case, whatever file was picked before
++    setPage(PagePreview);
++    loadResultFile(doneCaseResultFile());
++}
++
++QString DashDirectLaunchDialog::projectFolder() const
++{
++    return DashManager::PrjMgr()->GetProjectFolderPath();
++}
++
++void DashDirectLaunchDialog::onBrowseInput()
++{
++    const QString path =
++        QFileDialog::getOpenFileName(this,
++                                     tr("Select Input File"),
++                                     projectFolder(),
++                                     tr("Input Files (*.inp *.dat *.dfsxml *.wbpj)"));
++    if (path.isEmpty()) {
++        return;
++    }
++
++    const QFileInfo picked(path);
++    if (!isInsideFolder(path, projectFolder())) {
++        DashNotify::warning(DashLog::Module::View,
++                            this,
++                            tr("Direct Launch"),
++                            tr("Pick a file inside the project folder."));
++        return;
++    }
++    static const QStringList kInputSuffixes = { "inp", "dat", "dfsxml", "wbpj" };
++    if (!kInputSuffixes.contains(picked.suffix().toLower())) {
++        DashNotify::warning(DashLog::Module::View,
++                            this,
++                            tr("Direct Launch"),
++                            tr("Pick a .inp, .dat, .dfsxml or .wbpj file."));
++        return;
++    }
++
++    m_inputLineEdit->setText(picked.canonicalFilePath());
++    fillTargetParts();
++    updateLauncherButtons();
++}
++
++void DashDirectLaunchDialog::fillTargetParts()
++{
++    const QString input = m_inputLineEdit->text();
++    const bool wbpj = isWbpj(input);
++    m_targetPartLabel->setVisible(wbpj);
++    m_targetPartCombo->setVisible(wbpj);
++    m_targetPartCombo->clear();
++    if (!wbpj) {
++        return;
++    }
++
++    // The .prt files the runner copies with the project: under <base>_files, stored relative
++    // to the .wbpj's folder as DashDirectLaunchRunner::run expects
++    const QFileInfo wbpjInfo(input);
++    const QDir wbpjDir = wbpjInfo.absoluteDir();
++    QDirIterator it(wbpjDir.filePath(wbpjInfo.completeBaseName() + QStringLiteral("_files")),
++                    { QStringLiteral("*.prt") },
++                    QDir::Files,
++                    QDirIterator::Subdirectories);
++    while (it.hasNext()) {
++        m_targetPartCombo->addItem(wbpjDir.relativeFilePath(it.next()));
++    }
++}
++
++void DashDirectLaunchDialog::onSetOutput()
++{
++    const QString dir =
++        QFileDialog::getExistingDirectory(this, tr("Select Output Folder"), projectFolder());
++    if (dir.isEmpty()) {
++        return;
++    }
++    m_outputLineEdit->setText(dir);
++    updateLauncherButtons();
++}
++
++void DashDirectLaunchDialog::onStartClicked()
++{
++    // The project may have changed since the input was picked
++    if (!isInsideFolder(m_inputLineEdit->text(), projectFolder())) {
++        DashNotify::warning(DashLog::Module::View,
++                            this,
++                            tr("Direct Launch"),
++                            tr("The input file is not inside the open project folder."));
++        return;
++    }
++    // Stop on either side cancels the daemons both share, so the runs must not overlap
++    if (DashManager::Mgr()->isLauncherAnalysisRunning()) {
++        DashNotify::warning(DashLog::Module::View,
++                            this,
++                            tr("Direct Launch"),
++                            tr("An analysis is already running in Analysis Launcher."));
++        return;
++    }
++
++    const QString input = m_inputLineEdit->text();
++    const QString output = m_outputLineEdit->text();
++    // Checked before Re-run deletes the run folder, which would take the input with it
++    const QString problem = DashDirectLaunchRunner::stagingProblem(input, output);
++    if (!problem.isEmpty()) {
++        DashNotify::warning(DashLog::Module::View, this, tr("Direct Launch"), problem);
++        return;
++    }
++
++    QDir runDir(DashDirectLaunchStaging::runDirOf(input, output));
++    if (runDir.exists() && !runDir.isEmpty()) {
++        QMessageBox box(QMessageBox::Question,
++                        tr("Existing results"),
++                        tr("%1 already exists. Run again (the folder is deleted first)?")
++                            .arg(QDir::toNativeSeparators(runDir.absolutePath())),
++                        QMessageBox::NoButton,
++                        this);
++        QPushButton* rerunButton = box.addButton(tr("Re-run"), QMessageBox::DestructiveRole);
++        QPushButton* cancelButton = box.addButton(tr("Cancel"), QMessageBox::RejectRole);
++        box.setDefaultButton(cancelButton);
++        box.setEscapeButton(cancelButton);
++        box.exec();
++        if (box.clickedButton() != rerunButton) {
++            return;
++        }
++        DASH_LOG_INFO(View) << "Direct Launch: removing previous run folder"
++                            << runDir.absolutePath();
++        runDir.removeRecursively();
++    }
++
++    DashManager::Mgr()->setCPUCoreCount(static_cast<unsigned int>(m_cpuCoresSpinBox->value()));
++    const QString targetPart = isWbpj(input) ? m_targetPartCombo->currentText() : QString();
++    const QString error = m_runner->run(input, output, targetPart);
++    if (error.isEmpty()) {
++        return;
++    }
++    DashNotify::warning(DashLog::Module::View, this, tr("Direct Launch"), error);
++}
++
++void DashDirectLaunchDialog::refreshFromRunner()
++{
++    const QList<DashDirectLaunchRunner::Case> cases = m_runner->cases();
++    m_casesTable->setRowCount(static_cast<int>(cases.size()));
++    for (int row = 0; row < cases.size(); ++row) {
++        const DashDirectLaunchRunner::Case& c = cases.at(row);
++        m_casesTable->setItem(row, kColCase, new QTableWidgetItem(c.key));
++        auto* statusItem = new QTableWidgetItem(c.status);
++        statusItem->setIcon(getStatusIcon(c.status));
++        statusItem->setTextAlignment(Qt::AlignCenter);
++        m_casesTable->setItem(row, kColStatus, statusItem);
++        m_casesTable->setItem(row, kColLog, new QTableWidgetItem(c.log));
++    }
++
++    m_statusLabel->setText(cases.isEmpty() ? QString() : statusLineOf(cases.first()));
++    m_casePreviewButton->setEnabled(!doneCaseResultFile().isEmpty());
++    updateLauncherButtons();
++}
++
++void DashDirectLaunchDialog::updateLauncherButtons()
++{
++    const bool running = m_runner->isRunning();
++    const QString input = m_inputLineEdit->text();
++    const bool targetReady = !isWbpj(input) || m_targetPartCombo->currentIndex() >= 0;
++    // Re-read on show and on the runner's signals only; Start refuses a Launcher run begun since
++    m_startButton->setEnabled(DashManager::PrjMgr()->IsProjectOpen()
++                              && !DashManager::Mgr()->isAnyAnalysisRunning() && !input.isEmpty()
++                              && !m_outputLineEdit->text().isEmpty() && targetReady);
++    m_stopButton->setEnabled(running);
++}
++
++void DashDirectLaunchDialog::onBrowseResult()
++{
++    const QString path = QFileDialog::getOpenFileName(this,
++                                                      tr("Select Result File"),
++                                                      m_outputLineEdit->text(),
++                                                      tr("Result Files (*.rst *.dfr *.odb)"));
++    if (path.isEmpty()) {
++        return;
++    }
++    loadResultFile(path);
++}
++
++void DashDirectLaunchDialog::loadResultFile(const QString& path)
++{
++    m_resultLineEdit->setText(QDir::toNativeSeparators(path));
++    {
++        const QSignalBlocker componentBlocker(m_componentCombo);
++        const QSignalBlocker stepBlocker(m_stepCombo);
++        m_componentCombo->clear();
++        m_stepCombo->clear();
++    }
++    m_nameCombo->clear();
++    m_previewButton->setEnabled(false);
++    m_resultModel->loadSingleResultFile(QFileInfo(path).absoluteFilePath());
++}
++
++void DashDirectLaunchDialog::onKeysExtracted(const ExtractedKeys& keys)
++{
++    {
++        // Filled silently: each index change would read the catalog once more
++        const QSignalBlocker componentBlocker(m_componentCombo);
++        const QSignalBlocker stepBlocker(m_stepCombo);
++        m_componentCombo->clear();
++        m_componentCombo->addItems(keys.components);
++        m_stepCombo->clear();
++        for (const QString& step : DashResultChoiceFlatten::loadStepLeaves(keys.loadSteps)) {
++            m_stepCombo->addItem(step, step);
++        }
++    }
++    // A modal file reports its names before its keys as well as after; the later report wins
++    m_nameCombo->clear();
++    m_previewButton->setEnabled(false);
++    onComponentChanged();
++}
++
++void DashDirectLaunchDialog::onNamesUpdated(const QMap<QString, QStringList>& names)
++{
++    m_nameCombo->clear();
++    for (const QString& name : DashResultChoiceFlatten::nameLeaves(names)) {
++        m_nameCombo->addItem(name, name);
++    }
++    m_previewButton->setEnabled(m_nameCombo->count() > 0);
++}
++
++void DashDirectLaunchDialog::onComponentChanged()
++{
++    const QString component = m_componentCombo->currentText();
++    // Function expressions do not depend on the time step
++    const bool functionExpression = component == kFunctionExpression;
++    m_stepCombo->setEnabled(!functionExpression);
++    if (!functionExpression) {
++        m_resultModel->requestVtkGeometry(component);
++    }
++    requestNames();
++}
++
++void DashDirectLaunchDialog::requestNames()
++{
++    m_nameCombo->clear();
++    m_previewButton->setEnabled(false);
++    const QString component = m_componentCombo->currentText();
++    if (component == kFunctionExpression) {
++        m_resultModel->onSelectionChanged(component, QString());
++        return;
++    }
++    if (m_stepCombo->currentIndex() < 0) {
++        return;
++    }
++    m_resultModel->onSelectionChanged(component, m_stepCombo->currentData().toString());
++}
++
++void DashDirectLaunchDialog::onPreviewClicked()
++{
++    const QString component = m_componentCombo->currentText();
++    const QString step =
++        component == kFunctionExpression ? QString() : m_stepCombo->currentData().toString();
++    const QString name = m_nameCombo->currentData().toString();
++    m_previewDisplayName = DashResultChoiceFlatten::previewScalarName(step, name);
++    m_resultModel->requestVtkPreview(component, step, name);
++}
+diff --git a/view/dialog/DashDirectLaunchDialog.h b/view/dialog/DashDirectLaunchDialog.h
+new file mode 100644
+index 00000000..c5a2a11c
+--- /dev/null
++++ b/view/dialog/DashDirectLaunchDialog.h
+@@ -0,0 +1,109 @@
++#pragma once
++
++#include <QDialog>
++#include <QMap>
++#include <QString>
++#include <QStringList>
++
++class QComboBox;
++class QLabel;
++class QLineEdit;
++class QPushButton;
++class QShowEvent;
++class QSpinBox;
++class QTableWidget;
++class DashAnalysisLauncher;
++class DashDirectLaunchRunner;
++struct ExtractedKeys;
++
++namespace Ui {
++class DashDirectLaunchDialog;
++}
++
++/**
++ * @class DashDirectLaunchDialog
++ * @brief Tools > Direct Launch: runs one input file as is and previews its result (#604).
++ *
++ * Modeless and kept alive by DashMainWindow; closing only hides it. The run belongs to the
++ * app-lifetime DashDirectLaunchRunner, so the dialog subscribes to it and re-reads its state
++ * whenever it is shown again.
++ */
++class DashDirectLaunchDialog : public QDialog
++{
++    Q_OBJECT
++
++public:
++    explicit DashDirectLaunchDialog(QWidget* parent = nullptr);
++    ~DashDirectLaunchDialog() override;
++
++    // The Result Preview page's reader, a Set-less DashAnalysisLauncher of its own. DashMainWindow
++    // connects its geometry and field signals to the central view.
++    DashAnalysisLauncher* resultModel() const
++    {
++        return m_resultModel;
++    }
++    // The scalar name of the last Preview, makeSafe(step) + "_" + makeSafe(name)
++    QString previewDisplayName() const
++    {
++        return m_previewDisplayName;
++    }
++    // A project was opened or closed: the picked files and result choices belonged to the old
++    // one. The runner's case is not touched, so a run still in progress stays in the table.
++    void resetForProject();
++
++protected:
++    void showEvent(QShowEvent* event) override;
++
++private:
++    enum Page
++    {
++        PageLauncher = 0,
++        PagePreview = 1,
++    };
++
++    void setPage(int index);
++    void onStepClicked(int index);
++
++    // Launcher page
++    void onBrowseInput();
++    void onSetOutput();
++    void onStartClicked();
++    void fillTargetParts();
++    void refreshFromRunner();
++    void updateLauncherButtons();
++    QString projectFolder() const;
++    // The first result file of the runner's case when it is Done; empty otherwise
++    QString doneCaseResultFile() const;
++    void openCasePreview();
++
++    // Result Preview page
++    void onBrowseResult();
++    void loadResultFile(const QString& path);
++    void onKeysExtracted(const ExtractedKeys& keys);
++    void onNamesUpdated(const QMap<QString, QStringList>& names);
++    void onComponentChanged();
++    void requestNames();
++    void onPreviewClicked();
++
++    Ui::DashDirectLaunchDialog* ui = nullptr;
++    DashDirectLaunchRunner* m_runner = nullptr;
++
++    QLineEdit* m_inputLineEdit = nullptr;
++    QLabel* m_targetPartLabel = nullptr;
++    QComboBox* m_targetPartCombo = nullptr;
++    QLineEdit* m_outputLineEdit = nullptr;
++    QTableWidget* m_casesTable = nullptr;
++    QSpinBox* m_cpuCoresSpinBox = nullptr;
++    QPushButton* m_casePreviewButton = nullptr;
++    QPushButton* m_startButton = nullptr;
++    QPushButton* m_stopButton = nullptr;
++    QLabel* m_statusLabel = nullptr;
++
++    DashAnalysisLauncher* m_resultModel = nullptr;
++    QLineEdit* m_resultLineEdit = nullptr;
++    QComboBox* m_componentCombo = nullptr;
++    QComboBox* m_stepCombo = nullptr;
++    QComboBox* m_nameCombo = nullptr;
++    QPushButton* m_previewButton = nullptr;
++    QString m_previewDisplayName;
++};
