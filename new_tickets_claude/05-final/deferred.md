@@ -95,10 +95,10 @@
 
 | 출처 | 넘긴 모듈 | 내용 |
 |---|---|---|
-| `04-review/CON.md:20` | CON | ) \| Code-Map 본문도 원천이므로 claims 1행(범위밖 → DOE, 소유자) 또는 CON-06b 에 "setParent 2줄 삭제" 로 흡수. CAD 접점 표기 \| **보류: DOE 몫** — claims `CON-c27`(범위밖 → DOE) 1행만 추가. 코드 재확인(`DashManager.cpp:81` 부모 없이 `new`, dtor :104-124 가 만지지 않음 · CON :331 · CAD :310). 소유자를 누가 쥐는지가 `DashDesignVariableModel`(소속 DOE, DOE-10) 결정이라 `s |
+| `04-review/CND.md:20` | CON | ) \| Code-Map 본문도 원천이므로 claims 1행(범위밖 → DOE, 소유자) 또는 CON-06b 에 "setParent 2줄 삭제" 로 흡수. CAD 접점 표기 \| **보류: DOE 몫** — claims `CON-c27`(범위밖 → DOE) 1행만 추가. 코드 재확인(`DashManager.cpp:81` 부모 없이 `new`, dtor :104-124 가 만지지 않음 · CON :331 · CAD :310). 소유자를 누가 쥐는지가 `DashDesignVariableModel`(소속 DOE, DOE-10) 결정이라 `s |
 | `04-review/UIC.md:46` | UIC | \| `보류: DOE 몫` \| `DashDoeSamplerResampleWidget.cpp:300-309` 표 셀 2곳의 범위 검증 — 델리게이트 기제 (검토 #10, UIC-c41(b)) \| |
-| `03-items/CON.md:66` | CON |  순서 조정으로 흡수한다(항목 분할은 하지 않는다). `setParent(this)` 로 공용 DV 모델 소유권을 빼앗는 줄(:331, CON-c27)은 여기 넣지 않았다 — **보류: DOE 몫**(소유자 결정이 `DashDesignVariableModel` 소관). `saveSettings` 빈 슬롯과 미사용 `JsonKeys` 네임스페이스도 같은 파일에 있으나 원천 밖이라 언급만 한다. |
-| `03-items/CON.md:147` | CON | \| Code-Map CON 3-1 (공용 DV 모델 `setParent`) \| 범위밖 → DOE \| 검토 #12 — CON-c27. **보류: DOE 몫** (`DashDesignVariableModel` 소유자 결정). CAD 접점 \| |
+| `03-items/CND.md:66` | CON |  순서 조정으로 흡수한다(항목 분할은 하지 않는다). `setParent(this)` 로 공용 DV 모델 소유권을 빼앗는 줄(:331, CON-c27)은 여기 넣지 않았다 — **보류: DOE 몫**(소유자 결정이 `DashDesignVariableModel` 소관). `saveSettings` 빈 슬롯과 미사용 `JsonKeys` 네임스페이스도 같은 파일에 있으나 원천 밖이라 언급만 한다. |
+| `03-items/CND.md:147` | CON | \| Code-Map CON 3-1 (공용 DV 모델 `setParent`) \| 범위밖 → DOE \| 검토 #12 — CON-c27. **보류: DOE 몫** (`DashDesignVariableModel` 소유자 결정). CAD 접점 \| |
 | `03-items/UIC.md:300` | UIC | leWidgetItem::text()` 파싱이라 델리게이트 기제. DoeSamplerResampleWidget 2곳 → DOE · OptimizerWidget 1곳 → OPT (`보류: DOE · OPT 몫`) \| |
 
 ## → EXE (4행)

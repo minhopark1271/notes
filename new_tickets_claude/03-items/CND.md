@@ -1,6 +1,6 @@
 # CON 작업 목록 (Condition Parameterization)
 
-> 기준 dev @ b08a91b3. 원자 항목은 02-claims/CON.md — 28건 중 유효 19건(c01 c03 c04 c05 c07 c08 c09 c14 c15 c16 c18 c20 c21 c22 c23 c24 c25 c26 c28)을 개념별로 11개 항목으로 묶었다. 해소됨 5건(D2 D6 D10 D11 D12)·범위밖 4건(D13→ANA · U5 RW 몫→EXE · #645 복사 실패→PRJ · c27 DV 모델 소유권→DOE)은 항목 없음. CON-08 은 결번(DOE-10 병합, B2).
+> 기준 dev @ b08a91b3. 원자 항목은 02-claims/CND.md — 28건 중 유효 19건(c01 c03 c04 c05 c07 c08 c09 c14 c15 c16 c18 c20 c21 c22 c23 c24 c25 c26 c28)을 개념별로 11개 항목으로 묶었다. 해소됨 5건(D2 D6 D10 D11 D12)·범위밖 4건(D13→ANA · U5 RW 몫→EXE · #645 복사 실패→PRJ · c27 DV 모델 소유권→DOE)은 항목 없음. CON-08 은 결번(DOE-10 병합, B2).
 > 진행 중 PR 과의 접점: 열린 PR 6건(#658 #656 #655 #654 #652 #651) 중 CON 파일과 겹치는 것은 **4건** — #651 #652 #654 #655 가 전부 `view/DashMainWindow.cpp` 와 `tests/CMakeLists.txt` 를 고친다. #656 은 겹침 0, #658 은 `tests/rw/FakeRwModule.h` 뿐(CON-09 범위에서 제외됨). #530 은 머지하지 않으므로 충돌에서 뺀다(decisions ②). CON 고유 파일(위젯·모델·viewmodel·`.ui`)을 직접 고치는 열린 PR 은 없다.
 > #655 는 CON 항목의 **선행이 아니다** — MainWindow hunk 가 `handleSubItemSelection`(:1333)·`initializeMorphingController`(:2190)·`setupMorphingBar`(:2405) 에만 있어 CON-03(`addReferenceFile`·`copyFileIntoProject`)·CON-05(`handleConditionParameterizationSelection`)·CON-06(`unbindSetWidgets`) 과 함수가 겹치지 않는다. 단순 충돌만 등록(decisions ④).
 > Phase B1 흡수(범위밖 이관, CON-c22~c25): PRJ-c19 → CON-04 · PER-c24 → CON-11(신규) · EXE-c43 CON 몫 → CON-07(D9)·해소됨(D11) · UIC-c57 CON 몫 → CON-09.

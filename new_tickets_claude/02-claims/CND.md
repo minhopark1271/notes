@@ -1,6 +1,6 @@
 # CON 원자 항목
 
-> 원천: 결함 색인 CON 16건(01-sources/defects/CON.md · 설명은 wiki Code-Map-User-Flow-Condition-Parameterization.md 7절) + 접점 이슈 #645 · #551 의 CON 몫. 담당 이슈 없음.
+> 원천: 결함 색인 CON 16건(01-sources/defects/CND.md · 설명은 wiki Code-Map-User-Flow-Condition-Parameterization.md 7절) + 접점 이슈 #645 · #551 의 CON 몫. 담당 이슈 없음.
 > 재확인 기준: dev @ b08a91b3. 위키 좌표(ac6e4e6)는 신뢰하지 않고 현행 파일:함수로 다시 적었다.
 > 색인 이후 CON 영역을 바꾼 커밋 — f14c5831(#559 RW 문서 게이트·배치 격리) · d8be33a4(#564 load/get 분리) · 0693e50a(#565 조건 모델이 문서를 값으로) · 5b29c6f7(#617 Reference File↔Set 연동, #603 Done).
 > 판정 분포 — 28행: 유효 19 · 해소됨 5 · 범위밖 4 (검토 #14 정정 · C' 추가분 c26~c28 포함).
