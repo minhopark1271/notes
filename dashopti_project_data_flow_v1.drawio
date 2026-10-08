@@ -1,0 +1,371 @@
+<mxfile host="app.diagrams.net" scale="1" border="0">
+  <diagram name="페이지-1" id="lVqXJ2X93wKPWkOtOqNs">
+    <mxGraphModel dx="3119" dy="4413" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="5200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Project Assets&lt;br/&gt;&lt;span style=&quot;font-size: 11px; white-space: nowrap; background-color: rgb(255, 255, 255);&quot;&gt;등록·활성 선택&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="58" width="200" x="719.92" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-60" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.212;exitDx=0;exitDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="iCWKe73rloB3fLNisFpg-58">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-61" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="iCWKe73rloB3fLNisFpg-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;DOE Sampler&#xa;&#xa;샘플링 방법, 샘플 수, 옵션&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="719.92" y="1094" as="geometry" />
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Launcher (+Preprocessor)&lt;br&gt;&lt;br&gt;샘플별 입력 생성 -&amp;gt; CAE 일괄 실행&lt;br&gt;결과 전처리 -&amp;gt;&lt;br/&gt;Part-1_1_1_Stress.xml&lt;/div&gt;" vertex="1">
+          <mxGeometry height="278" width="200" x="719.92" y="1714" as="geometry" />
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Builder (1D)&#xa;&#xa;Part-1_1_1_Stress.xml 라벨·reduction 설정&#xa;대리모델 학습 -&amp;gt; model_info, .pt&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="200" x="719.92" y="2482" as="geometry" />
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Runner&#xa;&#xa;학습 모델 + DV 값 -&amp;gt; 예측&#xa;케이스 입력 .inp 생성 가능&lt;/div&gt;" vertex="1">
+          <mxGeometry height="278" width="200" x="719.92" y="2974" as="geometry" />
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Optimizer&#xa;&#xa;목적·제약·방법 설정&#xa;대리모델로 최적화 -&amp;gt; optimum&lt;/div&gt;" vertex="1">
+          <mxGeometry height="209" width="200" x="719.92" y="3316" as="geometry" />
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-46" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;사용자 모듈&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="200" x="719.92" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-29" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FAD0DE;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;A.inp - Proj/A.inp의 복사본 생성&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="791" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-38" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="iCWKe73rloB3fLNisFpg-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFE0B2;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing.json – 형상변수 및 Morphing 설정&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#E6EE9C;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;br/&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ConditionParameter_A_inp.json - 조건 변수 및 변경 대상&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;setId&quot;: &quot;a1b2c3d4e5f6&quot;,&#xa;  &quot;referenceModel&quot;: { &quot;uuid&quot;: &quot;deck-uuid&quot;, &quot;path&quot;: &quot;A.inp&quot; },&#xa;  &quot;variant&quot;: &quot;Morphing&quot;,&#xa;  &quot;Morphing&quot;: { &quot;part&quot;: &quot;Part-1&quot;, &quot;handles_vtp&quot;: &quot;GeometryParameter_Morphing.vtp&quot;, &quot;radius&quot;: 10.0, &quot;straight_sided&quot;: false },&#xa;  &quot;DV-Geometry&quot;: {&#xa;    &quot;param1&quot;: {&#xa;      &quot;boolean&quot;: true,&#xa;      &quot;source&quot;: &quot;Morphing|A.inp|Part-1&quot;,&#xa;      &quot;type&quot;: &quot;continuous&quot;,&#xa;      &quot;meta&quot;: { &quot;default&quot;: 0.0, &quot;design value&quot;: 0.0, &quot;min&quot;: -2.0, &quot;max&quot;: 2.0, &quot;handle id&quot;: 0 } } } }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="168" width="920" x="1720" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-35" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;setId&quot;: &quot;b2c3d4e5f607&quot;,&#xa;  &quot;referenceModel&quot;: { &quot;uuid&quot;: &quot;deck-uuid&quot;, &quot;path&quot;: &quot;A.inp&quot; },&#xa;  &quot;DV-Condition&quot;: {&#xa;    &quot;Pressure&quot;: {&#xa;      &quot;boolean&quot;: true,&#xa;      &quot;source&quot;: &quot;A.inp&quot;,&#xa;      &quot;type&quot;: &quot;continuous&quot;,&#xa;      &quot;uuid&quot;: &quot;condition-uuid&quot;,&#xa;      &quot;entry_ptr&quot;: &quot;/entries/0&quot;,&#xa;      &quot;param&quot;: &quot;magnitude&quot;,&#xa;      &quot;meta&quot;: { &quot;default&quot;: 1000.0, &quot;min&quot;: 0.0, &quot;max&quot;: 1000.0 }}}}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="178" width="920" x="1720" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-37" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;PolyData&#xa;├── Points                                # 핸들 좌표&#xa;├── PointData&#xa;│   ├── LocalNormal / HandleNormal        # 기준 방향 / 실제 Morphing 방향&#xa;│   ├── HandleType / GroupIds / PlaneIds  # 표면·평면 핸들 / 그룹 / 평면&#xa;│   ├── SelectionScalars / ActiveStatus   # 선택 / 활성 상태&#xa;│   ├── LowerRange / UpperRange / Bounds&#xa;│   └── LocalToGlobal                     # 좌표 변환&#xa;└── FieldData&#xa;    └── AllFixedVolumeIds                 # 고정할 볼륨 메시 점 인덱스&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="920" x="1720" y="724" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-39" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="iCWKe73rloB3fLNisFpg-37">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1569.92" y="810" as="sourcePoint" />
+            <mxPoint x="1649.92" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-40" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="iCWKe73rloB3fLNisFpg-35">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1569.92" y="810" as="sourcePoint" />
+            <mxPoint x="1649.92" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-43" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFE0B2;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;br/&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing.vtp - 핸들, 고정점 데이터&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="724" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-47" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.425;exitDx=0;exitDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="iCWKe73rloB3fLNisFpg-30">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="940" y="530" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-48" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="iCWKe73rloB3fLNisFpg-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-49" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.425;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="iCWKe73rloB3fLNisFpg-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-54" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="5XQGE1Q0sDRGbxL6DRzS-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-53" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FAD0DE;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;A.inp - 파트 목록(모핑 대상), 파트 메시(절점·요소), 절점 집합(고정 영역)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="544" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-56" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5XQGE1Q0sDRGbxL6DRzS-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-55" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FAD0DE;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;A.inp - 하중·경계조건 목록(이름·종류·대상), 편집 가능한 값(magnitude)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="904" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-64" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.212;entryDx=0;entryDy=0;" target="5XQGE1Q0sDRGbxL6DRzS-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-57" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFE0B2;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing.json - 활성 DV 의 type·meta·source, referenceModel, Morphing part&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="1094" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-57b" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#E6EE9C;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ConditionParameter_A_inp.json - 활성 DV 의 type·meta·source, referenceModel&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="1161" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-57b-e" edge="1" parent="1" source="v2d-57b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.771;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-58" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFF9C4;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;br/&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;DoeSampler_Init.json - 샘플링 설정, DOE Table&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="1094" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-59" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/DoeSampler_Init/&#xa;  doe_table.csv - 변수별 샘플값 표 ( 샘플 수 × DV 수 )&lt;/div&gt;" vertex="1">
+          <mxGeometry height="58" width="560" x="1040" y="1638" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-62" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;setId&quot;: &quot;c3d4e5f60718&quot;,&lt;br&gt;  &quot;variant&quot;: &quot;Init&quot;,&lt;br&gt;  &quot;DOE configuration&quot;: {&lt;br&gt;    &quot;Selected Design Variables&quot;: {&lt;br&gt;      &quot;geometry&quot;: { &quot;set&quot;: &quot;Morphing&quot; },&lt;br&gt;      &quot;conditions&quot;: [{ &quot;set&quot;: &quot;A_inp&quot; }] },&lt;br&gt;    &quot;Manual-configuration&quot;: {&lt;br&gt;      &quot;method&quot;: &quot;Monte Carlo&quot;,&lt;br&gt;      &quot;options&quot;: { &quot;Number of samples&quot;: 2 } } },&lt;br&gt;&lt;br&gt;  &quot;parameterization&quot;: {&lt;br&gt;    &quot;geometry&quot;: {&lt;br&gt;      &quot;set&quot;: &quot;a1b2c3d4e5f6&quot;, &quot;name&quot;: &quot;Morphing&quot;,&lt;br&gt;      &quot;deck&quot;: { &quot;uuid&quot;: &quot;deck-uuid&quot;, &quot;path&quot;: &quot;A.inp&quot; } },&lt;br&gt;    &quot;conditions&quot;: {&lt;br&gt;      &quot;b2c3d4e5f607&quot;: {&lt;br&gt;        &quot;name&quot;: &quot;A_inp&quot;,&lt;br&gt;        &quot;deck&quot;: { &quot;uuid&quot;: &quot;deck-uuid&quot;, &quot;path&quot;: &quot;A.inp&quot; } } } },&lt;br&gt;&lt;br&gt;  &quot;DOE Table&quot;: {&lt;br&gt;    &quot;tableId&quot;: &quot;table-uuid&quot;, &quot;generatedAt&quot;: &quot;2026-10-06T00:00:00Z&quot;,&lt;br&gt;    &quot;mode&quot;: &quot;General&quot;,&lt;br&gt;    &quot;headers&quot;: [&quot;Morphing.param1&quot;, &quot;A_inp.Pressure&quot;],&lt;br&gt;    &quot;columns&quot;: [&lt;br&gt;      { &quot;module&quot;: &quot;geometry&quot;, &quot;set&quot;: &quot;a1b2c3d4e5f6&quot;, &quot;name&quot;: &quot;Morphing&quot;, &quot;key&quot;: &quot;param1&quot; },&lt;br&gt;      { &quot;module&quot;: &quot;condition&quot;, &quot;set&quot;: &quot;b2c3d4e5f607&quot;, &quot;name&quot;: &quot;A_inp&quot;, &quot;key&quot;: &quot;Pressure&quot; } ],&lt;br&gt;    &quot;source&quot;: [&quot;Morphing|A.inp|Part-1&quot;, &quot;A.inp&quot;],&lt;br&gt;    &quot;min&quot;: [-2.0, 0.0], &quot;max&quot;: [2.0, 1000.0],&lt;br&gt;    &quot;samples&quot;: [&lt;br&gt;      { &quot;key&quot;: &quot;runs1&quot;, &quot;values&quot;: [-1.2, 300.0], &quot;slice&quot;: 1, &quot;active&quot;: true, &quot;iteration&quot;: 1 },&lt;br&gt;      { &quot;key&quot;: &quot;runs2&quot;, &quot;values&quot;: [0.8, 750.0], &quot;slice&quot;: 1, &quot;active&quot;: true, &quot;iteration&quot;: 1 } ],&lt;br&gt;    &quot;rawSamples&quot;: [&lt;br&gt;      { &quot;key&quot;: &quot;runs1&quot;, &quot;partName&quot;: &quot;Part-1&quot;, &quot;Morphing.param1&quot;: -1.2, &quot;A_inp.Pressure&quot;: 300.0 },&lt;br&gt;      { &quot;key&quot;: &quot;runs2&quot;, &quot;partName&quot;: &quot;Part-1&quot;, &quot;Morphing.param1&quot;: 0.8, &quot;A_inp.Pressure&quot;: 750.0 } ] } }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="528" width="920" x="1720" y="1094" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-63" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="iCWKe73rloB3fLNisFpg-62">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1530" y="910" as="sourcePoint" />
+            <mxPoint x="1650" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-65" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Morphing.param1,A_inp.Pressure&#xa;-1.2,300&#xa;0.8,750&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="920" x="1720" y="1638" as="geometry" />
+        </mxCell>
+        <mxCell id="iCWKe73rloB3fLNisFpg-66" edge="1" parent="1" source="iCWKe73rloB3fLNisFpg-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="iCWKe73rloB3fLNisFpg-65">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1530" y="1060" as="sourcePoint" />
+            <mxPoint x="1650" y="1310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cf-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFF9C4;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;DoeSampler_Init.json - DOE Table (samples·rawSamples), DOE configuration&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="560" x="40" y="1714" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-3" edge="1" parent="1" source="cf-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.108;" target="5XQGE1Q0sDRGbxL6DRzS-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FAD0DE;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;A.inp&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="1790" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf4b" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFE0B2;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing.json - DV meta&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing.vtp - 모핑 핸들&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="560" x="40" y="1857" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf4c" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#E6EE9C;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ConditionParameter_A_inp.json - 조건 주입 위치, DV meta&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="1941" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf4c-e" edge="1" parent="1" source="v2d-cf4c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.908;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf4b-e" edge="1" parent="1" source="v2d-cf4b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.637;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-5" edge="1" parent="1" source="cf-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.365;entryDx=0;entryDy=0;" target="5XQGE1Q0sDRGbxL6DRzS-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;AnalysisLauncher_A_inp.json - 참조 파일, DOE Table 스냅샷, 케이스 상태·결과 파일, 전처리 선택&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="1714" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-7" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.092;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;AnalysisLauncher_A_inp/Init/runs1/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;runs1.inp - DV 값을 주입한 케이스 입력 (Batch input)&lt;br&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&#x9;&lt;/span&gt;runs1.odb - 솔버 결과 (Batch output)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="560" x="1040" y="1990" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-9" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#D1C4E9;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;AnalysisLauncher_A_inp/Part-1_1_1_Stress.xml - 응답 데이터셋 &lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;({component}_{step}_{substep}_{name}.xml)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="560" x="1040" y="2166" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-11" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.9;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;setId&quot;: &quot;d4e5f6071829&quot;,&#xa;  &quot;referenceModel&quot;: { &quot;uuid&quot;: &quot;deck-uuid&quot;, &quot;path&quot;: &quot;A.inp&quot; },&#xa;  &quot;input_files&quot;: [ { &quot;name&quot;: &quot;A.inp&quot;, &quot;target_component&quot;: &quot;Part-1&quot;, &quot;path&quot;: &quot;A.inp&quot; } ],&#xa;  &quot;DOE configuration&quot;: { &quot;Init&quot;: { ... DoeSampler_Init.json 의 DOE configuration 그대로 } },&#xa;  &quot;DOE Table&quot;: { &quot;Init&quot;: { &quot;tableId&quot;: &quot;table-uuid&quot;, &quot;headers&quot;: [...], &quot;columns&quot;: [...],&#xa;                           &quot;samples&quot;: [...], &quot;rawSamples&quot;: [...], &quot;min&quot;: [...], &quot;max&quot;: [...],&#xa;                           &quot;mode&quot;: &quot;General&quot;, &quot;source&quot;: [...], &quot;priorSamples&quot;: [] } },&#xa;                                   # Start 시점의 DoeSampler_Init.json DOE Table 스냅샷&#xa;  &quot;Launcher Cases&quot;: {&#xa;    &quot;Init&quot;: {&#xa;      &quot;runs1&quot;: { &quot;active&quot;: true, &quot;status_A&quot;: &quot;Done&quot;, &quot;tableId&quot;: &quot;table-uuid&quot;,&#xa;                 &quot;resultFiles&quot;: [&quot;runs1.odb&quot;] },          # status_{참조 파일 basename}&#xa;      &quot;runs2&quot;: { &quot;active&quot;: true, &quot;status_A&quot;: &quot;Running&quot;, &quot;tableId&quot;: &quot;table-uuid&quot; } } },&#xa;  &quot;Preprocess&quot;: { &quot;targetFile&quot;: &quot;primary&quot; },              # Preprocess 탭: Target file 선택&#xa;  &quot;Output Response&quot;: [ { &quot;component&quot;: &quot;Part-1&quot;, &quot;loadStep&quot;: &quot;Step 1 / Substep 1&quot;, &quot;name&quot;: &quot;Stress&quot; } ] }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="260" width="920" x="1720" y="1714" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-13" edge="1" parent="1" source="cf-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/AnalysisLauncher_A_inp/&#xa;└── Init/                      # DOE Set: 신규 생성 Init / Resample&#xa;    ├── runs1/&#xa;    │   ├── runs1.vtu          # 모핑된 메시 (Morphing 경로 중간 산출물)&#xa;    │   ├── runs1.inp          # A.inp 에 Morphing.param1(모핑)·A_inp.Pressure 주입 → Batch input&#xa;    │   ├── runs1.odb          # 솔버 결과 → Batch output, Launcher Cases.resultFiles 에 기록&#xa;    │   └── (솔버 로그)&#xa;    └── runs2/ ...&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="920" x="1720" y="1990" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-15" edge="1" parent="1" source="cf-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Preprocess: active · Done · 현재 tableId 일치 케이스의 resultFiles를 읽음&#xa;요청 응답을 정상적으로 읽은 샘플만 기록; 응답마다 XML 1개 작성&#xa;&amp;lt;root&amp;gt;&#xa;├── dict&#xa;│   ├── dict_item key=&quot;0&quot;                       # 유효 샘플만 0부터 재번호&#xa;│   │   ├── Morphing.param1, A_inp.Pressure   tensor float32 [1]        # DV 값 (DOE headers 순서)&#xa;│   │   ├── node_location   tensor float32 [절점수, 3]             # 형상 (샘플당 1회)&#xa;│   │   ├── connectivity    tensor int32 [셀수, 패딩]&#xa;│   │   └── Stress          tensor float32 [절점수, 1]             # 응답 (Output Response 의 name)&#xa;│   └── dict_item key=&quot;1&quot; ...&#xa;└── dict_item key=&quot;model_info&quot;&#xa;    ├── parameter&#xa;    │   ├── Morphing.param1   { source: &quot;GeometryParameter_Morphing.json&quot;,  meta: { min: -2.0, max: 2.0 } }&#xa;    │   └── A_inp.Pressure { source: &quot;ConditionParameter_A_inp.json&quot;, meta: { min: 0.0, max: 1000.0 } }&#xa;    └── selected_response { component: &quot;Part-1&quot;, load_step: &quot;Step 1 / Substep 1&quot;,&#xa;                            name: &quot;Stress&quot;, file_name: &quot;runs1.odb&quot; }&#xa;tensor 본문 = 리틀엔디안 raw bytes 의 base64&lt;/div&gt;" vertex="1">
+          <mxGeometry height="300" width="920" x="1720" y="2166" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-17" edge="1" parent="1" source="cf-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#D1C4E9;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/AnalysisLauncher_A_inp/&lt;br/&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Part-1_1_1_Stress.xml - (샘플 0 의 키 → 라벨, model_info → parameter)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="2526" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-19" edge="1" parent="1" source="cf-18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;br/&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ModelBuilder_Set1.json - 데이터셋·라벨 (reduction·transformation), 모델 설정·상태&lt;/div&gt;" vertex="1">
+          <mxGeometry height="58" width="560" x="1040" y="2482" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-21" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.207;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-22" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#BBDEFB;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ModelBuilder_Set1/&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;model_info.json - parameter·selected_response (GUI 기록), errors (엔진 기록)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ModelBuilder_Set1/&lt;/span&gt;&lt;/span&gt;Stress/RF_*.pt - 학습 모델 (DeepOpt train-model-1d)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="560" x="1040" y="2708" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-23" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;setId&quot;: &quot;e5f60718293a&quot;,&#xa;  &quot;variant&quot;: &quot;Sim&quot;,&#xa;  &quot;Data Label&quot;: {&#xa;    &quot;Dataset&quot;: &quot;.../Proj/AnalysisLauncher_A_inp/Part-1_1_1_Stress.xml&quot;,       # 절대 경로&#xa;    &quot;Input&quot;:  { &quot;Morphing.param1&quot;: { &quot;reduction&quot;: &quot;None&quot; }, &quot;A_inp.Pressure&quot;: { &quot;reduction&quot;: &quot;None&quot; } },&#xa;    &quot;Output&quot;: { &quot;Stress&quot;: { &quot;reduction&quot;: &quot;Max&quot;, &quot;transformation&quot;: &quot;None&quot; } } },   # 절점 → 1 (1D)&#xa;  &quot;Configuration&quot;: {                              # 키 = 모델명. Done 인 기존 항목만 보존&#xa;    &quot;RF&quot;:  { &quot;response&quot;: &quot;Stress&quot;, &quot;run&quot;: true, &quot;trials&quot;: 20, &quot;loocv&quot;: false,&#xa;             &quot;status&quot;: &quot;Done&quot;, &quot;error&quot;: &quot;&quot; },&#xa;    &quot;MLP&quot;: { &quot;response&quot;: &quot;Stress&quot;, &quot;run&quot;: true, &quot;best_model_epoch&quot;: 3000, &quot;loocv&quot;: false,&#xa;             &quot;status&quot;: &quot;Done&quot;, &quot;error&quot;: &quot;&quot; } } }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="920" x="1720" y="2482" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-25" edge="1" parent="1" source="cf-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-24" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-26" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/ModelBuilder_Set1/&#xa;├── model_info.json&#xa;└── Stress/                        # sanitize 된 응답명&#xa;    ├── RF_*.pt                    # 1D 학습 모델 (엔진 산출)&#xa;    └── MLP_*.pt&#xa;&#xa;&#xa;model_info.json&#xa;{ &quot;parameter&quot;: {                   # GUI 가 Part-1_1_1_Stress.xml 의 model_info.parameter 를 옮겨 적음&#xa;    &quot;Morphing.param1&quot;:   { &quot;source&quot;: &quot;GeometryParameter_Morphing.json&quot;,  &quot;meta&quot;: { &quot;min&quot;: -2.0, &quot;max&quot;: 2.0 } },&#xa;    &quot;A_inp.Pressure&quot;: { &quot;source&quot;: &quot;ConditionParameter_A_inp.json&quot;, &quot;meta&quot;: { &quot;min&quot;: 0.0, &quot;max&quot;: 1000.0 } } },&#xa;  &quot;selected_response&quot;: { &quot;component&quot;: &quot;Part-1&quot;, &quot;load_step&quot;: &quot;Step 1 / Substep 1&quot;,&#xa;                         &quot;name&quot;: &quot;Stress&quot;, &quot;file_name&quot;: &quot;runs1.odb&quot; },&#xa;  &quot;errors&quot;: { &quot;Stress&quot;: { &quot;RF&quot;:  { &quot;R2&quot;: 0.97, &quot;MAPE [%]&quot;: 3.1 },        # 엔진 산출&#xa;                          &quot;MLP&quot;: { &quot;R2&quot;: 0.95, &quot;MAPE [%]&quot;: 4.0 } } } }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="250" width="920" x="1720" y="2708" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-27" edge="1" parent="1" source="cf-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-28" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#BBDEFB;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ModelBuilder_Set1/&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;model_info.json - parameter (DV 표), errors (모델 목록)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ModelBuilder_Set1/&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Stress/RF_*.pt - 대리 모델&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="560" x="40" y="2974" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-29" edge="1" parent="1" source="cf-28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.108;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-26" value="">
+          <mxGeometry relative="1" x="-0.1753" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFE0B2;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing.json&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing·.vtp&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="560" x="40" y="3050" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf30b" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#E6EE9C;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ConditionParameter_A_inp.json&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="3134" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf30c" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FAD0DE;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;A.inp - 입력 템플릿 원본&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="3201" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf30c-e" edge="1" parent="1" source="v2d-cf30c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.908;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf30b-e" edge="1" parent="1" source="v2d-cf30b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.667;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-31" edge="1" parent="1" source="cf-30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.396;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-26" value="">
+          <mxGeometry relative="1" x="-0.1487" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-32" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ModelRunner_Set1.json - 선택 모델, DV 값·범위, Prediction Cases&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="2974" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-33" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.092;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-32" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ModelRunner_Set1/Predict_01_Stress_RF.inp·vtu - 케이스 입력 (generate input)&lt;br&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ModelRunner_Set1/&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;*.csv - 예측 결과 (DeepOpt test-model-1d, 케이스마다 행 추가)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="560" x="1040" y="3180" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-35" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.863;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-34" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-36" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;setId&quot;: &quot;f60718293a4b&quot;,&#xa;  &quot;variant&quot;: &quot;Sim&quot;,&#xa;  &quot;Model upload&quot;: {&#xa;    &quot;Output Response&quot;: [ { &quot;set&quot;: &quot;.../Proj/.Proj.dproj/ModelBuilder_Set1&quot;, &quot;response&quot;: &quot;Stress&quot;, &quot;model&quot;: &quot;RF&quot; } ],&#xa;    &quot;Input Design Variables&quot;: { &quot;label&quot;: [&quot;Morphing.param1&quot;, &quot;A_inp.Pressure&quot;],&#xa;                                &quot;value&quot;: [0.5, 500.0], &quot;min&quot;: [-2.0, 0.0], &quot;max&quot;: [2.0, 1000.0] },&#xa;    &quot;Prediction Cases&quot;: [                                   # generate input 마다 행 추가&#xa;      { &quot;name&quot;: &quot;Predict_01_Stress_RF&quot;, &quot;file&quot;: &quot;.../Proj/ModelRunner_Set1/Predict_01_Stress_RF.vtu&quot;,&#xa;        &quot;active&quot;: true, &quot;values&quot;: [0.5, 500.0] },&#xa;      { &quot;name&quot;: &quot;Predict_02_Stress_RF (DV only)&quot;, &quot;file&quot;: &quot;&quot;, &quot;active&quot;: true, &quot;values&quot;: [-1.0, 200.0] } ] } }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="190" width="920" x="1720" y="2974" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-37" edge="1" parent="1" source="cf-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-36" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-38" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/ModelRunner_Set1/&#xa;├── Predict_01_Stress_RF.inp                 # A.inp 에 DV 값 주입 (DV 만 넘겨도 되지만 .inp 도 만듦)&#xa;├── Predict_01_Stress_RF.vtu                 # 모핑된 메시 → Prediction Cases.file&#xa;├── Predict_01_Stress_RF_input_geometry.vtu&#xa;└── *.csv                                    # 엔진 산출. Prediction Cases 마다 예측값 행. GUI 는 최신 파일을 CSV 뷰어로 연다&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="920" x="1720" y="3180" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-39" edge="1" parent="1" source="cf-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-38" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-40" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#BBDEFB;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;ModelBuilder_Set1/model_info.json - parameter (변수 표), errors (모델 목록)&lt;br&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ModelBuilder_Set1/&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Stress/RF_*.pt - 대리 모델&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="58" width="560" x="40" y="3316" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-41" edge="1" parent="1" source="cf-40" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.139;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-30" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-42" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FFE0B2;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing.json&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;GeometryParameter_Morphing·.vtp&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="560" x="40" y="3390" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf42b" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;fillColor=#FAD0DE;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;A.inp - Render Preview 시 형상 생성&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="40" y="3474" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-cf42b-e" edge="1" parent="1" source="v2d-cf42b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.878;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-30" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-43" edge="1" parent="1" source="cf-42" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.517;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="5XQGE1Q0sDRGbxL6DRzS-30" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-44" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/.Proj.dproj/configs/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Optimizer_Set1.json - 대리모델 심볼, 설계변수, 목적·제약식, 최적화 설정&lt;/div&gt;" vertex="1">
+          <mxGeometry height="51" width="560" x="1040" y="3316" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-45" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.122;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-44" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-46" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Optimizer_Set1/optimum.json&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Optimizer_Set1/&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;optimization_log/ - 최적해·수렴 이력 (DeepOpt run-optimization)&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;white-space: normal&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Optimizer_Set1/&lt;/span&gt;&lt;/span&gt;Preview_*.vtu·.inp - Render Preview 생성 파일&lt;br&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;Optimizer_Set1/Preview_*_input_geometry.vtu - 미리보기용 추출 메시&lt;/div&gt;" vertex="1">
+          <mxGeometry height="98" width="560" x="1040" y="3582" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-47" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="cf-46" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-48" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;setId&quot;: &quot;0718293a4b5c&quot;,&#xa;  &quot;Optimization&quot;: {&#xa;    &quot;trained_surrogate_model&quot;: [ { &quot;symbol&quot;: &quot;r1&quot;, &quot;response&quot;: &quot;Stress&quot;, &quot;model&quot;: &quot;RF&quot; } ],&#xa;    &quot;design_variables&quot;: [&#xa;      { &quot;symbol&quot;: &quot;v1&quot;, &quot;parameter&quot;: &quot;Morphing.param1&quot;,   &quot;value&quot;: 0.0,    &quot;min&quot;: -2.0, &quot;max&quot;: 2.0,&#xa;        &quot;mean&quot;: &quot;None&quot;, &quot;std&quot;: &quot;None&quot;, &quot;optimize&quot;: true },&#xa;      { &quot;symbol&quot;: &quot;v2&quot;, &quot;parameter&quot;: &quot;A_inp.Pressure&quot;, &quot;value&quot;: 1000.0, &quot;min&quot;: 0.0,  &quot;max&quot;: 1000.0,&#xa;        &quot;mean&quot;: &quot;None&quot;, &quot;std&quot;: &quot;None&quot;, &quot;optimize&quot;: true } ],&#xa;    &quot;optimization_settings&quot;: {&#xa;      &quot;methods&quot;: &quot;SQP&quot;,&#xa;      &quot;objective_function&quot;: { &quot;name&quot;: &quot;Obj&quot;, &quot;direction&quot;: &quot;minimize&quot;, &quot;type&quot;: &quot;deterministic&quot;,&#xa;                              &quot;expression&quot;: &quot;r1&quot; },&#xa;      &quot;use_constrained_function&quot;: true,&#xa;      &quot;constrained_functions&quot;: [ { &quot;name&quot;: &quot;G1&quot;, &quot;type&quot;: &quot;deterministic&quot;, &quot;expression&quot;: &quot;v2 &amp;gt;= 300&quot; } ],&#xa;      &quot;configs&quot;: { &quot;iteration&quot;: 10, &quot;tolerance&quot;: 0.000001 } } } }&lt;/div&gt;" vertex="1">
+          <mxGeometry height="250" width="920" x="1720" y="3316" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-49" edge="1" parent="1" source="cf-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-48" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-50" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Proj/Optimizer_Set1/&#xa;├── optimum.json                             # 엔진 산출. Validation·Results Analysis 탭이 읽음&#xa;│   { &quot;meta&quot;: { &quot;item&quot;: [&quot;id&quot;, &quot;v1&quot;, &quot;v2&quot;, &quot;objective&quot;, &quot;constraint1&quot;, &quot;r1&quot;] },&#xa;│     &quot;data&quot;: [ { &quot;name&quot;: &quot;Optimum&quot;,            &quot;value&quot;: [1, 0.42, 310.0, 152.3, -10.0, 152.3] },&#xa;│               { &quot;name&quot;: &quot;Optimum_trajectory&quot;, &quot;value&quot;: [2, 0.00, 1000.0, 230.1, -700.0, 230.1] },&#xa;│               { &quot;name&quot;: &quot;Neighbor&quot;, ... }, { &quot;name&quot;: &quot;MPP&quot;, ... } ] }&#xa;├── optimization_log/convergence_history.png&#xa;├── Preview_&amp;lt;선택열&amp;gt;_A_&amp;lt;시각&amp;gt;.vtu&#xa;├── Preview_&amp;lt;선택열&amp;gt;_A_&amp;lt;시각&amp;gt;.inp   # 참조가 .dat이면 .dat&#xa;└── Preview_&amp;lt;선택열&amp;gt;_A_&amp;lt;시각&amp;gt;_input_geometry.vtu&lt;/div&gt;" vertex="1">
+          <mxGeometry height="168" width="920" x="1720" y="3582" as="geometry" />
+        </mxCell>
+        <mxCell id="cf-51" edge="1" parent="1" source="cf-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;curved=1;" target="cf-50" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v2c-conventions" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=8;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;경로·Set 이름 규칙 (현재 코드 기준)&lt;br&gt;프로젝트 루트: Proj/  |  내부 폴더: Proj/.Proj.dproj/&lt;br&gt;참조 원본 예시: Proj/A.inp&lt;br&gt;referenceModel.path / input_files.path: 프로젝트 루트 기준 상대 경로&lt;br&gt;Geometry: Morphing / CAD  |  DOE: Init / Resample&lt;br&gt;A.inp의 Condition·Launcher Set: A_inp (파일명의 점을 밑줄로 변환)&lt;br&gt;Builder·Runner·Optimizer: Set1, Set2, …&lt;br&gt;본문은 Morphing + Init 예시. 식별자·해시·수치는 예시 값.&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;모듈 Set 식별 관계&lt;br&gt;각 &amp;lt;Module&amp;gt;_&amp;lt;Set&amp;gt;.json의 최상위 setId: 12자리 hex 식별자&lt;br&gt;GeometryParameter_Morphing.json: a1b2c3d4e5f6&lt;br&gt;ConditionParameter_A_inp.json: b2c3d4e5f607&lt;br&gt;DOE parameterization.geometry.set / conditions의 키 / columns[].set  → 해당 모듈 JSON의 setId&lt;br&gt;Selected Design Variables.set과 name은 Set 이름을 사용&lt;/div&gt;" vertex="1">
+          <mxGeometry height="240" width="520" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-legend-title" parent="1" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" value="파일 색상 범례:  파일  |  생산 모듈  →  소비 모듈.   무색 = 다른 모듈이 소비하지 않는 생산 파일" vertex="1">
+          <mxGeometry height="20" width="880" x="720" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-legend-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;fontSize=12;spacing=2;spacingLeft=6;fillColor=#FAD0DE;strokeColor=#666666;" value="A.inp (Proj/ 원본, configs/ 복사본)  |  Project Assets · Geometry  →  Geometry · Condition · Launcher · Runner · Optimizer" vertex="1">
+          <mxGeometry height="22" width="880" x="720" y="64" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-legend-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;fontSize=12;spacing=2;spacingLeft=6;fillColor=#FFE0B2;strokeColor=#666666;" value="GeometryParameter_Morphing.json · .vtp  |  Geometry  →  DOE Sampler · Launcher · Runner · Optimizer" vertex="1">
+          <mxGeometry height="22" width="880" x="720" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-legend-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;fontSize=12;spacing=2;spacingLeft=6;fillColor=#E6EE9C;strokeColor=#666666;" value="ConditionParameter_A_inp.json  |  Condition  →  DOE Sampler · Launcher · Runner" vertex="1">
+          <mxGeometry height="22" width="880" x="720" y="116" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-legend-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;fontSize=12;spacing=2;spacingLeft=6;fillColor=#FFF9C4;strokeColor=#666666;" value="DoeSampler_Init.json  |  DOE Sampler  →  Launcher" vertex="1">
+          <mxGeometry height="22" width="880" x="720" y="142" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-legend-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;fontSize=12;spacing=2;spacingLeft=6;fillColor=#D1C4E9;strokeColor=#666666;" value="Part-1_1_1_Stress.xml  |  Launcher  →  Builder" vertex="1">
+          <mxGeometry height="22" width="880" x="720" y="168" as="geometry" />
+        </mxCell>
+        <mxCell id="v2d-legend-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;fontSize=12;spacing=2;spacingLeft=6;fillColor=#BBDEFB;strokeColor=#666666;" value="ModelBuilder_Set1/model_info.json · Stress/RF_*.pt  |  Builder  →  Runner · Optimizer (.pt 는 엔진이 로드)" vertex="1">
+          <mxGeometry height="22" width="880" x="720" y="194" as="geometry" />
+        </mxCell>
+        <mxCell id="v2c-reference-ledger" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=8;fillColor=#FAD0DE;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;text-align: center;&quot;&gt;Proj/&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;&lt;span style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;A.inp (참조 원본)&lt;/span&gt;&lt;br/&gt;Proj/.Proj.dproj/configs/&lt;br&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;referenceModels.json - 참조 모델 등록·활성 모델 선택·프로젝트 복원에 사용&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="560" x="1040" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="v2c-ledger-schema" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=8;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;{ &quot;schemaVersion&quot;: 1,&lt;br&gt;  &quot;activeModel&quot;: &quot;deck-uuid&quot;,&lt;br&gt;  &quot;models&quot;: {&lt;br&gt;    &quot;deck-uuid&quot;: {&lt;br&gt;      &quot;path&quot;: &quot;A.inp&quot;,&lt;br&gt;      &quot;sha256&quot;: &quot;&amp;lt;파일 내용의 SHA-256&amp;gt;&quot;,&lt;br&gt;      &quot;size&quot;: 123456, &quot;mtimeMs&quot;: 1791331200000 } } }&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="920" x="1720" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="v2c-ledger-flow" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-1" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.362;" target="v2c-reference-ledger" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v2c-ledger-detail" edge="1" parent="1" source="v2c-reference-ledger" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="v2c-ledger-schema" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JrBWtiKJ5ogwo4tQ9b9L-1" edge="1" parent="1" source="5XQGE1Q0sDRGbxL6DRzS-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.9;exitDx=0;exitDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" target="iCWKe73rloB3fLNisFpg-29">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="890" y="650" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Geometry Parameterization&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="200" x="719.92" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="5XQGE1Q0sDRGbxL6DRzS-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;Condition Parameterization&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="200" x="719.92" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="JrBWtiKJ5ogwo4tQ9b9L-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;소비하는 데이터&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="200" x="199.99999999999994" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="JrBWtiKJ5ogwo4tQ9b9L-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;생산 / 갱신 파일&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="200" x="1220" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="JrBWtiKJ5ogwo4tQ9b9L-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=12;spacing=6;" value="&lt;div style=&quot;white-space: pre-wrap;&quot;&gt;파일 구조 예시&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="200" x="2080" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="lMDKISj4kEnD_V8ztW9P-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;fontSize=12;spacing=8;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;white-space-collapse: preserve;&quot;&gt;추가 검토의견 반영할 것&lt;br&gt;&lt;br&gt;[틀린 항목]&lt;br&gt;- Runner Prediction Cases.file 은 .inp/.dat 경로. v2d 는 .vtu 로 표기 (view/DashModelRunnerWidget.cpp:1843)&lt;br&gt;- MLP 는 .pt 파일이 아니라 폴더 생성. MLP_*.pt 표기 오류. RF 만 .pt, MLP·BNN·ND 는 {Model}_*/ 디렉터리 (model/DashModelBuilder.cpp:2022)&lt;br&gt;- Render Preview 파일명 실제는 Preview_{검증열}_{템플릿명}_{타임스탬프}. 해석 입력 파일 생성 후 .vtu 두 개는 삭제되어 .inp/.dat 만 잔존 (view/DashOptimizerWidget.cpp:1707)&lt;br&gt;&lt;br&gt;[부정확한 항목]&lt;br&gt;- Preprocess 필터 조건 누락. active·Done·tableId 일치 외에 resultFiles 비어 있지 않음 조건 필요. tableId 비교 대상은 라이브 DOE 테이블이 아닌 Launcher 자체 스냅샷 (model/preprocessor/DashLauncherRuns.cpp:65)&lt;br&gt;- configs/A.inp 복사본은 Geometry 외에 Launcher Start 도 생성. v2d 는 Geometry 만 생산자로 표기 (model/DashAnalysisLaunchExecutor.cpp:88)&lt;br&gt;- CSV 케이스마다 행 추가는 GUI 가 보장하지 않음. GUI 는 최신 CSV 열기만 수행. v2 는 미확정으로 표기, v2d 는 단언으로 변경됨&lt;br&gt;&lt;br&gt;[표현 결함]&lt;br&gt;- GeometryParameter_Morphing·.vtp 표기 (Runner·Optimizer 소비 박스 2곳). .json · .vtp 로 수정 필요&lt;br&gt;- Launcher 소비 박스 Proj/ A.inp 만 설명 없음&lt;br&gt;- 규칙 박스 17줄 대비 높이 240 으로 넘침 가능성 (렌더링 추정, 미확인)&lt;br&gt;- 모듈 간 세로 화살표가 v2c 부터 없음. 흐름이 색·세로 순서로만 표현됨&lt;br&gt;- 검증 기준 커밋 해시 없음. 규칙 박스 &quot;현재 코드 기준&quot; 에 v2 처럼 커밋 해시 추가 권장&lt;/span&gt;&lt;span style=&quot;white-space: pre-wrap;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="480" width="1280" x="1360" y="3840" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
