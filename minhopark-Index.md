@@ -67,6 +67,19 @@ DashOpti_GUI 코드 실측·설계 검토 문서 색인 — `Cross-Module-Defect
 | [Optimizer](Code-Map-User-Flow-Optimizer.md) | 탭 3면·파일 5개(4,881줄). **본체 로직이 GUI 안에 거의 없다** — 알고리즘은 외부 `DashOptiDeepOpt.exe` 가 돌리고 GUI 는 설정 직렬화·결과 역직렬화 왕복만 하며, 그 대신 경로·키 문자열 계약이 로직의 자리를 차지한다(결과 표 3단은 `optimum.json` 헤더 문자열 규칙으로 나뉜다). DV Fixed·Init. Value·방법·옵션 4종은 [Run Optimizer] 전까지 모델에조차 도달하지 않고, `saveSettings()` 가 모듈의 유일한 영속화 지점이다. **모핑이 도는 곳은 최적화 루프가 아니라 [Render Preview]** — `configs/*.dat`+`*.inp` 전량을 GUI 스레드에서 모핑한 뒤 마지막 1개만 렌더한다 | #281 |
 | [데이터 소유·소비 구조도 — RW 세션 · 모핑 핸들](Code-Map-Data-Ownership.md) | 다이어그램 중심. reader-writer 가 든 AST 와 그 소유자(`AbaqusModule` ← `DashRwActor::m_sessions`), GUI 가 옮겨 담은 `DashRwSession::State` 와 그 소유자(`DashAnalysisModelContext::m_rw` ← Registry), 그 데이터의 소비처 4군(렌더 · 모핑/DOE · 조건 DV 표 · 목록 UI)을 한 장에 잇는다. 말미에 모핑 데이터(핸들 polydata 배열 11종 · 고정점 3곳 · VTP/JSON 저장물)의 소유 절. 마지막 절은 **제안(미확정)** — 모핑 데이터의 현재 ↔ 목표 구조 비교와 변경 항목 6건·순서 4단계. 좌표는 GUI `dev` @ `0e6b499` · RW `dev` @ `a051251` | — |
 
+## 작업 계획
+
+| 페이지 | 요약 | 관련 Issue |
+|---|---|---|
+| [작업 분류](Task-Classification.md) | 비즈니스 측 필요성, 개발 단기·장기 필요성에 따른 작업 목록과 사용자 영향 | — |
+| [다중 응답·다중 모델 파이프라인 계획 (원안)](Multi-Response-Multi-Model-Pipeline-Plan.md) | Launcher XML 1개에 응답 N개, Builder Set 에 모델 N개, `set + model_id` 참조로 통일하는 공통 규격 (D1\~D7) 과 모듈별 이슈 13건 초안. #740 하위 이슈 해상도 | 선행 #722 |
+| [v2 공통 계약 개정](Multi-Response-Multi-Model-Pipeline-Plan_v2.md) | 원안의 재검토 개정판. 조사로 바뀐 전제, 보강 4건 (모델 파일 경로 · `trained_type` · `substep` · 라벨 기준 입력 매핑), 독립 결함 이슈 1건. 수명주기·버전 체계 확장은 제외 | 선행 #722 |
+| [v3 설계·PR 분해안](Multi-Response-Multi-Model-Pipeline-Plan_v3.md) | Sim 1D 경로 한정 설계·PR 분해안. 최소 계약 (`schema_version 2`, 원자적 파일 교체, transformation 값 보존) 과 기능별 이슈 아래 PR 단위 분해. MCU·ND 는 제외 | — |
+| [v4 MCU·ND 전제 정정](Multi-Response-Multi-Model-Pipeline-Plan_v4.md) | v3 의 "MCU·ND 는 별개 경로" 전제를 코드 조사로 정정한 개정판. Sim 1D 계열만 새 형식으로 전환하고 ND·MCU 는 기존 계약 유지 | 선행 #722 |
+| [v5 Sim 1D·ND 통일](Multi-Response-Multi-Model-Pipeline-Plan_v5.md) | Sim 1D·ND 의 Configuration · 모델 ID · 상태·오차 · 산출물 경로 · 소비 측 참조를 함께 통일. 기존 Sim 데이터는 재생성 전제로 구형 추정·자동 변환·선택 복원 제외 | 선행 #722 |
+| [v6 모델 상태 파일 분리](Multi-Response-Multi-Model-Pipeline-Plan_v6.md) | 모델별 상태·오차를 manifest 객체가 아닌 `{Builder}/{id}/model.json` 상태 파일로 옮기고 형식 통일에 불필요한 견고성 규칙을 제거 | 선행 #722 |
+| ★ [v7 현행 설계안](Multi-Response-Multi-Model-Pipeline-Plan_v7.md) | 종료 보정·취소 신호·심볼 발급 등 상태 계약의 빈틈을 닫고, 소비 측 복제 필드와 양쪽 DV 재배열을 엔진 한 곳으로 통합. 6묶음 (독립 선행 · 공통 계약 · 데이터셋 · Builder · Runner · Optimizer) 이슈 초안 23건. 1D 수직 완성 뒤 ND 적용 | 선행 #722 |
+
 ## 리팩토링 · 배포 계획
 
 | 페이지 | 요약 | 관련 Issue |
