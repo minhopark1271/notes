@@ -1,5 +1,7 @@
 # 다중 응답·다중 모델 파이프라인 — 공통 규격 설계와 작업 계획 (v7)
 
+> 후속: [범위를 줄인 v8 계획](Multi-Response-Multi-Model-Pipeline-Plan_v8.md). 기존 이슈 대응을 분리한 현재 작업 범위는 v8을 따른다. 아래 v7은 비교용으로 보존한다.
+
 > 관련 Issue: 선행 #722. 접점 #724 · #650 · #684 · #726.
 > 상태: **코드 조사 기반 설계안** — 2026-10-12, GUI `a076fde7`, #722 (PR, `685-runner-optimizer-set-id`) 의 참조 구조, DeepOpt `a4222b6` 기준. 구현 착수 시 좌표를 재확인한다.
 > 이전 문서: [원안](Multi-Response-Multi-Model-Pipeline-Plan.md), [v2](Multi-Response-Multi-Model-Pipeline-Plan_v2.md), [v3](Multi-Response-Multi-Model-Pipeline-Plan_v3.md), [v4](Multi-Response-Multi-Model-Pipeline-Plan_v4.md), [v5](Multi-Response-Multi-Model-Pipeline-Plan_v5.md), [v6](Multi-Response-Multi-Model-Pipeline-Plan_v6.md).

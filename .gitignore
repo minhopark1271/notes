@@ -1,2 +1,4 @@
 .obsidian/
 .serena/
+.DS_Store
+__pycache__/
